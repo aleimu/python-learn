@@ -4072,14 +4072,14 @@ c:\> set https_proxy=<user>:<password>@<proxy_ip_address>:<port>
 
 172.18.32.134 就是  openproxy.huawei.com  8080
 
-set http_proxy=CHINA\lwx307086:qwer!4321@openproxy.huawei.com:8080
-set https_proxy=CHINA\lwx307086lwx307086:qwer!4321@openproxy.huawei.com:8080
+set http_proxy=CHINA\lwx307086:qweraa@openproxy.huawei.com:8080
+set https_proxy=CHINA\lwx307086lwx307086:aa@openproxy.huawei.com:8080
 
 set http_proxy=CHINA\lwx307086:qwer!4321@172.18.32.134:8080
-set https_proxy=CHINA\lwx307086lwx307086:qwer!4321@172.18.32.134:8080
+set https_proxy=CHINA\lwx307086lwx307086:aa@172.18.32.134:8080
 
-export http_proxy=CHINA\lwx307086:qwer!4321@172.18.32.134:8080
-export https_proxy=CHINA\lwx307086lwx307086:qwer!4321@172.18.32.134:8080
+export http_proxy=CHINA\lwx307086:aa@172.18.32.134:8080
+export https_proxy=CHINA\lwx307086lwx307086:aa@172.18.32.134:8080
 
 #cmd中的grep
 netstat -aon|findstr "8080"
@@ -4091,8 +4091,8 @@ netstat -aon|findstr "8080"
 tar xf pip-9.0.1.tar.gz
 python3 setup.py install
 
-export http_proxy='CHINA\lwx307086:qwer!4321'@172.18.32.134:8080
-export https_proxy='CHINA\lwx307086:qwer!4321'@172.18.32.134:8080
+export http_proxy='CHINA\lwx307086:aa'@172.18.32.134:8080
+export https_proxy='CHINA\lwx307086:aa'@172.18.32.134:8080
 
 root@api:/home/lgj/python/pip-9.0.1# pip install requests
 Requirement already satisfied: requests in /usr/local/lib/python3.4/dist-packages/requests-2.10.0-py3.4.egg
@@ -4154,7 +4154,7 @@ uninstall
 pip install xlrd --proxy CHINA\\lwx307086:'qwer!4321'@172.18.32.134:8080  #使用代理
 
 下载{
-root@api:/home/lgj/python# pip download xlrd --proxy CHINA\\lwx307086:'qwer!4321'@172.18.32.134:8080
+root@api:/home/lgj/python# pip download xlrd --proxy CHINA\\lwx307086:'aa'@172.18.32.134:8080
 Collecting xlrd
   Using cached xlrd-1.0.0-py3-none-any.whl
   Saved ./xlrd-1.0.0-py3-none-any.whl
@@ -4214,6 +4214,189 @@ setup(
 }
 
 
+PIL库的例子
+#http://www.cnblogs.com/youhui/articles/3772001.html#Python_Imaging_Library_.2BTi1lh2JLUYw-
+#http://wenku.baidu.com/view/35feb8bf1a37f111f1855b9d.html?from=search
+{
+# -*-coding:utf-8 -*-
+__author__ = 'Administrator'
+from PIL import Image
+from PIL import ImageFilter
+from PIL import ImageEnhance
+
+im = Image.open("C:/1.jpg")
+print im.size, im.format, im.mode, im.info
+# im.show() convert()可以用来转换色彩模式
+# 设置拷贝区域， box变量是四元组（左，上，右，下）
+box = (100, 100, 200, 200)
+# 复制抠图 将im表示的图片对象拷贝到region中，大小（400*400），region其实也是image对象了。抠图
+region = im.crop(box)
+region = region.transpose(Image.ROTATE_180)  # 旋转方向
+# 粘贴 母图.粘贴（子图，位置）
+im.paste(region, box)
+# 保存
+im.save('C:/2.jpg')
+# 分离三通道，红绿蓝
+r, g, b = im.split()
+# 保存查看之。直接调用show也可，但是windows不好用
+r.save('C:/r.jpg')
+# 调整图片大小
+out = im.resize((128, 128))
+# 图片逆时针旋转
+out = im.rotate(45)
+# 保存查看
+out.save('C:/out.jpg')
+# 各种翻转效果，镜面效果可以用transpose()预定义的旋转方式
+reset = im.transpose(Image.FLIP_LEFT_RIGHT)  # 左右镜像
+reset = im.transpose(Image.FLIP_TOP_BOTTOM)  # 上下镜像
+reset = im.transpose(Image.ROTATE_270)
+
+# 图像增强-滤镜filter
+out = im.filter(ImageFilter.DETAIL)
+out.save('C:/out3.jpg')
+# 对每个点都做20%的增强
+out = im.point(lambda i: i * 1.2)  # 注意这里用到一个匿名函数(那个可以把i的1.2倍返回的函数)
+# 如上上边的那个例子，我们可以将一个RGB模式的图分离成三个通道的层
+# 然后对一个通道进行加强或减弱操作，完成后我们又可以使用Merge将通道合并，从而改变图片的色调(冷暖色调的互换)等。
+#### 点操作 #####
+# img.point(function),这个function接受一个参数，且对图片中的每一个点执行这个函数，这个函数是一个匿名函数，在python之类的函数式编程语言中，可以使用
+# lambda表达式来完成，如
+# out = img.point(lambda i : i*1.2)#对每个点进行20%的加强
+# 如果图片是“I”或者“F”模式，那么这个lambda必须使用这样的形式
+# argument * scale + offset
+# e.g
+# out = img.point(lambda i: i*1.2 + 10)
+#############
+r = r.point(lambda i: i * 1.2)
+g = g.point(lambda i: i * 0.7)
+sexy = Image.merge('RGB', (r, g, b))
+sexy.save("C:/sexy.png")
+# 创建mask的语句：
+mask = r.point(lambda i: i < 100 and 255)
+# 该句可以用下句表示
+# imout = im.point(lambda i: expression and 255)
+# 如果expression为假则返回expression的值为0（因为and语句已经可以得出结果了），否则返回255。（mask参数用法：当为0时，保留当前值，255为使用paste进来的值，中间则用于transparency效果）
+# 更高级的图片加强，可以使用ImageEnhance模块，其中包含了大量的预定义的图片加强方式。一旦有一个Image对象，
+# 应用ImageEnhance对象就能快速地进行设置。 可以使用以下方法调整对比度、亮度、色平衡和锐利度。
+enh = ImageEnhance.Contrast(im)
+enh.enhance(1.3).show("30% more contrast")
+# 创建一个新的图片
+# Image.new(mode, size)
+# Image.new(mode, size, color)
+# 层叠图片
+# 层叠两个图片，img2和img2,alpha是一个介于[0,1]的浮点数，如果为0，效果为img1，如果为1.0，效果为img2。当然img1和img2的尺寸和模式必须相同。这个函数可以做出很漂亮的效果来，而图形的算术加减后边会说到。
+# Image.blend(img1, img2, alpha)
+# composite可以使用另外一个图片作为蒙板(mask)，所有的这三张图片必须具备相同的尺寸，mask图片的模式可以为“1”，“L”，“RGBA”(关于模式请参看前一篇)
+# Image.composite(img1, img2, mask)
+# 转换图形模式
+# 下面看一个比较牛的方法convert，这个方法可以将图片在不同的模式间进行转换，在将灰度图转换成二值图时，所有的非零值被设置为255(白色)。灰度图的转换方式采用的是这个算法：
+# L = R*299/1000 + G*587/1000 + B*114/1000
+
+# 透明通道的使用
+# putalpha(alpha)
+# 这个方法是一个神奇的方法，你可以将一个图片(与原图尺寸相同)写入到原图片的透明通道中，而不影响原图片的正常显示，可以用于信息隐藏哦。当然，前提是原
+# 始图片有透明通道。不过就算不是也没有多大关系，因为有PIL提供的convert功能，可以把一个图片先转换成RGBA模式，然后把要隐藏的信息文件转成“L”或者“1”模
+# 式，最后使用这个putalpha将其叠加。而在图片的使用方，只需要简单的抽取其中的透明通道就可以看到隐藏信息了，哈哈。
+
+def hideInfoInImage(im, info):
+    if im.mode != "RGBA":
+        im = im.convert("RGBA")
+    if info.mode != "L" and info.mode != "1":
+        info = info.convert("L")
+    im.putalpha(info)
+    return im
+
+
+# 测试之
+if __name__ == "__main__":
+    img = Image.open("green.png")
+    band = Image.open("antelope_inhalf.jpg")
+
+    img = hideInfoInImage(img, band)
+    img.show()                       # 可以看到，原图片没有显式变化
+    img.split()[3].show()            # 抽取出透明通道中的图片并显示
+
+
+}
+
+动态生成变量 eval 和 exec
+{
+#方法1
+#Python的变量名就是一个字典的key而已。要获取这个字典，直接用locals和globals
+>>> a=1
+>>> b=2
+>>> locals()['a%s'%b]=3
+>>> a2
+3
+
+>>> globals()['aa']=4
+>>> aa
+4
+#方法2
+>>> a=1
+>>> b=2
+>>> exec('ab=a+b')
+>>> ab
+3
+
+Python有时需要动态的创造Python代码，然后将其作为语句执行或作为表达式计算。
+exec用于执行存储在字符串中的Python代码。
+
+eval 的用途；可以把list,tuple,dict和string相互转化。
+可以把list,tuple,dict和string相互转化。
+
+语法： eval(source[, globals[, locals]]) -> value
+参数：
+　　　　source：一个Python表达式或函数compile()返回的代码对象
+　　　　globals：可选。必须是dictionary
+　　　　locals：可选。任意map对象
+		globals变量作用域，locals变量作用域
+		
+如果指定globals参数：
+g = {'b' : 10}
+eval('b*2', g)
+输出：20
+
+如果指定locals参数：
+g={'a':6,'b':8}
+l={'b':9,'c':10}
+eval("a+b+c",g,l)
+输出：25
+
+#################################################
+字符串转换成列表
+>>>a = "[[1,2], [3,4], [5,6], [7,8], [9,0]]"
+>>>type(a)
+<type 'str'>
+>>> b = eval(a)
+>>> print b
+[[1, 2], [3, 4], [5, 6], [7, 8], [9, 0]]
+>>> type(b)
+<type 'list'>
+#################################################
+字符串转换成字典
+>>> a = "{1: 'a', 2: 'b'}"
+>>> type(a)
+<type 'str'>
+>>> b = eval(a)
+>>> print b
+{1: 'a', 2: 'b'}
+>>> type(b)
+<type 'dict'>
+#################################################
+字符串转换成元组
+>>> a = "([1,2], [3,4], [5,6], [7,8], (9,0))"
+>>> type(a)
+<type 'str'>
+>>> b = eval(a)
+>>> print b
+([1, 2], [3, 4], [5, 6], [7, 8], (9, 0))
+>>> type(b)
+<type 'tuple'>
+
+
+# ast.literal_eval(node_or_string) 也是可以的，比eval安全
+}
 
 
 
