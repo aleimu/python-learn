@@ -1,4 +1,5 @@
 #http://www.cnblogs.com/linxiyue/p/3980003.html
+#主要摘自上文
 Python Requests库：HTTP for Humans
 Python标准库中用来处理HTTP的模块是urllib2，不过其中的API太零碎了，requests是更简单更人性化的第三方库。
 用pip下载：
