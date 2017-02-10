@@ -1,3 +1,5 @@
+import javax.security.auth.x500.X500Principal;
+
 //字符串和Int互转的方法，主要是java中的源码分析。
 public class str_int {
 //码表
@@ -36,14 +38,26 @@ public class str_int {
 	        };
 	    final static int [] sizeTable = { 9, 99, 999, 9999, 99999, 999999, 9999999,
             99999999, 999999999, Integer.MAX_VALUE };
-
-		// Requires positive x
+/*	    
+    class T {
+        T data;
+        public T (T data) {
+            this.data = data;
+        }
+    }
+	public  static void print(T ... args){
+		for (int i = 0; i < args.length; i++) {
+			System.out.println(args[i]);
+		}
+	}
+*/
+// Requires positive x
 	static int stringSize(int x) {
 		for (int i=0; ; i++)
 		if (x <= sizeTable[i])
 		return i+1;
 		}
-		
+	
 //将int转化为string
 	public static String toString(int i) {
 	    if (i == Integer.MIN_VALUE)
@@ -218,7 +232,165 @@ public class str_int {
 	    return -result;
 	}
 	}    
- 
+	
+/////////////////////////////////////////////////	
+    private static int getPlane(int ch) {
+        return (ch >>> 16);
+    }
+    public static final int MIN_CODE_POINT = 0x000000;
+    public static final int MAX_CODE_POINT = 0x10ffff;
+    private static final int FAST_PATH_MAX = 255;
+    
+	public static int digit(int codePoint, int radix) {//53 ,2
+        int digit = -1;
+
+        if (codePoint >= 0 && codePoint <= 255) {
+             //digit = CharacterDataLatin1.digit(codePoint, radix);
+        	 digit = digit2(codePoint, radix);
+        	 System.out.println("*****判定int是否在基数能表示的范围内，-1为不能表示*******");
+        	 System.out.println("codePoint:"+codePoint+","+"radix:"+radix);
+        	 System.out.println("digit:"+digit);
+        } else {
+            int plane = getPlane(codePoint);
+            System.out.println("plane:");
+            System.out.print(plane);
+            /*
+            switch(plane) {
+            case(0):
+                digit = CharacterData00.digit(codePoint, radix);
+                break;
+            case(1):
+                digit = CharacterData01.digit(codePoint, radix);
+                break;
+            case(2):
+                digit = CharacterData02.digit(codePoint, radix);
+                break;
+            case(3): // Undefined
+            case(4): // Undefined
+            case(5): // Undefined
+            case(6): // Undefined
+            case(7): // Undefined
+            case(8): // Undefined
+            case(9): // Undefined
+            case(10): // Undefined
+            case(11): // Undefined
+            case(12): // Undefined
+            case(13): // Undefined
+                digit = CharacterDataUndefined.digit(codePoint, radix);
+                break;
+            case(14): 
+                digit = CharacterData0E.digit(codePoint, radix);
+                break;
+            case(15): // Private Use
+            case(16): // Private Use
+                digit = CharacterDataPrivateUse.digit(codePoint, radix);
+                break;
+            default:
+                // the argument's plane is invalid, and thus is an invalid codepoint
+                // digit remains -1;
+                break;
+            }
+            */
+        }
+        return digit;
+    }
+	
+	
+    public static final int MIN_RADIX = 2;
+    public static final int MAX_RADIX = 36;
+    public static final char   MIN_VALUE = '\u0000';
+    
+    static int digit2(int ch, int radix) {//53 ,2
+        int value = -1;
+        if (radix >= 2 && radix <= 36) {
+            int val = getProperties(ch);
+            System.out.println("val:"+val);
+            int kind = val & 0x1F;
+            System.out.println("kind:"+kind);
+            if (kind == 9) {
+                value = ch + ((val & 0x3E0) >> 5) & 0x1F;
+                System.out.println("value:"+value);
+            }
+            else if ((val & 0xC00) == 0x00000C00) {
+                // Java supradecimal digit
+                value = (ch + ((val & 0x3E0) >> 5) & 0x1F) + 10;
+            }
+        }
+        return (value < radix) ? value : -1;
+    }
+    static final int A[] = new int[256];
+
+    static final String A_DATA =
+      "\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800"+
+      "\u100F\u4800\u100F\u4800\u100F\u5800\u400F\u5000\u400F\u5800\u400F\u6000\u400F"+
+      "\u5000\u400F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800"+
+      "\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F"+
+      "\u4800\u100F\u4800\u100F\u5000\u400F\u5000\u400F\u5000\u400F\u5800\u400F\u6000"+
+      "\u400C\u6800\030\u6800\030\u2800\030\u2800\u601A\u2800\030\u6800\030\u6800"+
+      "\030\uE800\025\uE800\026\u6800\030\u2800\031\u3800\030\u2800\024\u3800\030"+
+      "\u2000\030\u1800\u3609\u1800\u3609\u1800\u3609\u1800\u3609\u1800\u3609\u1800"+
+      "\u3609\u1800\u3609\u1800\u3609\u1800\u3609\u1800\u3609\u3800\030\u6800\030"+
+      "\uE800\031\u6800\031\uE800\031\u6800\030\u6800\030\202\u7FE1\202\u7FE1\202"+
+      "\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1"+
+      "\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202"+
+      "\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1\202\u7FE1"+
+      "\202\u7FE1\uE800\025\u6800\030\uE800\026\u6800\033\u6800\u5017\u6800\033\201"+
+      "\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2"+
+      "\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201"+
+      "\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2\201\u7FE2"+
+      "\201\u7FE2\201\u7FE2\201\u7FE2\uE800\025\u6800\031\uE800\026\u6800\031\u4800"+
+      "\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u5000\u100F"+
+      "\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800"+
+      "\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F"+
+      "\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800"+
+      "\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F\u4800\u100F"+
+      "\u3800\014\u6800\030\u2800\u601A\u2800\u601A\u2800\u601A\u2800\u601A\u6800"+
+      "\034\u6800\034\u6800\033\u6800\034\000\u7002\uE800\035\u6800\031\u6800\u1010"+
+      "\u6800\034\u6800\033\u2800\034\u2800\031\u1800\u060B\u1800\u060B\u6800\033"+
+      "\u07FD\u7002\u6800\034\u6800\030\u6800\033\u1800\u050B\000\u7002\uE800\036"+
+      "\u6800\u080B\u6800\u080B\u6800\u080B\u6800\030\202\u7001\202\u7001\202\u7001"+
+      "\202\u7001\202\u7001\202\u7001\202\u7001\202\u7001\202\u7001\202\u7001\202"+
+      "\u7001\202\u7001\202\u7001\202\u7001\202\u7001\202\u7001\202\u7001\202\u7001"+
+      "\202\u7001\202\u7001\202\u7001\202\u7001\202\u7001\u6800\031\202\u7001\202"+
+      "\u7001\202\u7001\202\u7001\202\u7001\202\u7001\202\u7001\u07FD\u7002\201\u7002"+
+      "\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002\201"+
+      "\u7002\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002"+
+      "\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002\u6800"+
+      "\031\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002\201\u7002"+
+      "\u061D\u7002";
+
+    // In all, the character property tables require 1024 bytes.
+
+      static {
+                  { // THIS CODE WAS AUTOMATICALLY CREATED BY GenerateCharacter:
+              char[] data = A_DATA.toCharArray();
+              for (int i = 0; i < data.length; i++) {
+				System.out.println(data[i]);
+			}
+              assert (data.length == (256 * 2));
+              int i = 0, j = 0;
+              while (i < (256 * 2)) {
+                  int entry = data[i++] << 16;
+                  A[j++] = entry | data[i++];
+              }
+          }
+                System.out.println("00000000000000000000");
+                for (int i = 0; i < A.length; i++) {
+                	System.out.println(A[i]);
+					
+				}  
+                System.out.println("00000000000000000000");
+      }
+    static int getProperties(int ch) {
+		char offset = (char)ch;
+		System.out.println("offset:"+offset);
+        int props = A[offset];
+        System.out.println("从A中索引得到的值:");
+        System.out.println("props:"+props);
+        System.out.println("(char)props:"+(char)props);
+        return props;
+    }
+    
     
 	public static void main(String[] args) {
 		System.out.println(toString(335345));
@@ -240,16 +412,21 @@ public class str_int {
         char[] a=new char[]{'A','a','b','c'};
         System.out.println(Character.codePointAt(a,0));//返回 char 数组的给定索引上的Unicode的数值
         System.out.println(Character.codePointAt(a,1));
-	}
+        System.out.println("----------------1");
+        System.out.println((int)'5');
+        System.out.println("----------------2");
+        digit((char)'5',10);
+        System.out.println("----------------3");
+        
+        
+        for (int i = 0; i < str_int.A.length; i++) {
+        	System.out.print((char)str_int.A[i] );	
+		}
+        System.out.println("----------------4");
+        System.out.println("\u4800");
+        
+	}	
 }
 
-#用Hashcat每秒计算1.4亿个密码，破解隔壁WIFI密码
-http://www.cnblogs.com/diligenceday/p/6359661.html
-#详解google Chrome浏览器（理论篇）
-http://www.cnblogs.com/wangjiming/archive/2017/01/31/6357306.html
-#python paramiko
-http://www.cnblogs.com/starof/p/4670433.html
-#micropython
-http://www.cnblogs.com/xiaowuyi/p/6306181.html
-#redis使用
-http://www.cnblogs.com/0zcl/p/6368938.html
+//Character 这个类水太深，暂时放着，搞不机敏
+
