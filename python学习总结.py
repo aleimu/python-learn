@@ -1,9 +1,13 @@
-# python_learn
-#第一天，尝试编写文件，贵在坚持！
 #我的博客园
 http://www.cnblogs.com/lgjbky/
 python常用函数 从零开始的程序员生活
-
+#不需要实现复杂的内存共享且需利用多cpu，用多进程；实现复杂的内存共享及IO密集型应用：多线程或协程；实现复杂的内存共享及CPU密集型应用：协程
+#很6的博客
+http://www.cnblogs.com/hongten/tag/python/default.html?page=2
+#面向对象
+http://www.cnblogs.com/wupeiqi/p/4493506.html
+http://www.cnblogs.com/wupeiqi/p/4766801.html
+http://www.cnblogs.com/huyuedong/p/5851082.html
 c:\python33添加到你的PATH 环境变量中，你可以在DOS 窗口中
 输入以下命令:set path=%path%;C:\python33
 id() 方法的返回值就是对象的内存地址。
@@ -324,6 +328,22 @@ def n():
 #如果在函数内部从未对该变量进行赋值操作，那么对于该函数来说，此变量是一个全局变量。
 #如果该变量用global语句声明为全局变量，那么无论是否对其进行了赋值操作，该变量都将作为全局变量。
 
+#为一个定义在函数外的变量赋值
+a=[1,2,3]
+def aa():
+      global a
+      a=[2,3,4]
+      #global a=[2,3,4] #这样是错误的！
+      print(a)
+print(a)
+aa()
+print(a)
+
+'''
+[1, 2, 3]
+[2, 3, 4]
+[2, 3, 4]
+'''
 
 #常见错误
 
@@ -2017,6 +2037,24 @@ Func2[a]
 print(a) 
 #结果为 [20, 2, 3]。 
 
+#为一个定义在函数外的变量赋值
+a=[1,2,3]
+def aa():
+      global a
+      a=[2,3,4]
+      #global a=[2,3,4] #这样是错误的！
+      print(a)
+print(a)
+aa()
+print(a)
+
+'''
+[1, 2, 3]
+[2, 3, 4]
+[2, 3, 4]
+'''
+
+
 #枚举
 enumerate(x) #x为列表或者元组，对于每次迭代，返回 index， value 元组，index为下标，而value为x内的下标为index的对应的数值
 
@@ -2334,7 +2372,7 @@ ord(str) : 转换ASCI字符为相应的数字。 ord('A') >>> 65
 #相关操作
 eval() : 执行一个表达式，或字符串作为运算。 eval('1+1') >>> 2
 exec() : 执行python语句。 exec('print("Python")') >>> Python
-filter(func, iterable) : 通过判断函数fun，筛选符合条件的元素。 filter(lambda x: x>3, [1,2,3,4,5,6]) >>> <filter object at 0x0000000003813828>
+filter(func, iterable) : 通过判断函数fun，筛选符合条件的元素。 filter(function or None, iterable) --> filter object   filter(lambda x: x>3, [1,2,3,4,5,6]) >>> #很有用的函数
 map(func, *iterable) : 将func用于每个iterable对象。 map(lambda a,b: a+b, [1,2,3,4], [5,6,7]) >>> [6,8,10]
 zip(*iterable) : 将iterable分组合并。返回一个zip对象。 list(zip([1,2,3],[4,5,6])) >>> [(1, 4), (2, 5), (3, 6)]
 type()：返回一个对象的类型。
@@ -2344,6 +2382,7 @@ help()：调用系统内置的帮助系统。
 isinstance()：判断一个对象是否为该类的一个实例。
 issubclass()：判断一个类是否为另一个类的子类。
 globals() : 返回当前全局变量的字典。
+locals() : 更新并返回包含当前作用域的局部变量的字典。
 next(iterator[, default]) : 接收一个迭代器，返回迭代器中的数值，如果设置了default，则当迭代器中的元素遍历后，输出default内容。
 reversed(sequence) ： 生成一个反转序列的迭代器并返回。 reversed('abc') >>> ['c','b','a']  ,list(reversed([1,2,3,4,5])),list(reversed((1,2,3,4,5)))
 } 
@@ -2387,7 +2426,8 @@ path3 = "c:/windows/temp/readme.txt"
 }
 #内置的装饰器有三个，分别是staticmethod、classmethod和property，作用分别是把类中定义的实例方法变成静态方法、类方法和类属性
 #装饰器 的作用就是为已经存在的函数或对象添加额外的功能。
-类中各种方法、各种变量和装饰器{
+类中各种方法、各种变量和 装饰器
+{
 
 1.静态方法，可以认为是一种全局方法，因为它不需要类实例化就能访问，和模块内的方法没什么区别，可以通过类和实例进行调用，它不能访问实例变量。当然，但能够通过类名访问类变量，如MyClass.val1。
 2.类方法，类似是个全局方法，它也能如静态方法那样被类调用，也能被实例调用，不同的是它通过实例来访问类变量，有类变量cls传入，并且有子类继承时，调用该类方法时，传入的类变量cls是子类，而非父类，如x.val1。
@@ -2545,7 +2585,7 @@ myfunc()
 # -*- coding:gbk -*-
 '''示例3: 使用语法糖@来装饰函数，相当于“myfunc = deco(myfunc)”
 但发现新函数只在第一次被调用，且原函数多调用了一次'''
- 
+#只有一个return时 
 def deco(func):
     print("before myfunc() called.")
     func()
@@ -2561,13 +2601,14 @@ myfunc()
 #使用内嵌包装函数来确保每次新函数都被调用
 '''示例4: 使用内嵌包装函数来确保每次新函数都被调用，
 内嵌包装函数的形参和返回值与原函数相同，装饰函数返回内嵌包装函数对象'''
- 
+#用两个return时  
 def deco(func):
     def _deco():
         print("before myfunc() called.")
-        func()
+        a=func()
         print("  after myfunc() called.")
-        # 不需要返回func，实际上应返回原函数的返回值
+        return a
+        # 不需要返回func，实际上应返回原函数的返回值 《=== 存疑
     return _deco
  
 @deco
@@ -2575,8 +2616,9 @@ def myfunc():
     print(" myfunc() called.")
     return 'ok'
  
-myfunc()
-myfunc()
+print(myfunc())
+print("=======")
+print(myfunc())
 #对带参数的函数进行装饰
 '''示例5: 对带参数的函数进行装饰，
 内嵌包装函数的形参和返回值与原函数相同，装饰函数返回内嵌包装函数对象'''
@@ -2594,8 +2636,9 @@ def myfunc(a, b):
     print(" myfunc(%s,%s) called." % (a, b))
     return a + b
  
-myfunc(1, 2)
-myfunc(3, 4)
+print(myfunc(1, 2))
+print("=====")
+print(myfunc(3, 4))
 #对参数数量不确定的函数进行装饰
 '''示例6: 对参数数量不确定的函数进行装饰，
 参数用(*args, **kwargs)，自动适应变参和命名参数'''
@@ -2618,14 +2661,16 @@ def myfunc2(a, b, c):
     print(" myfunc2(%s,%s,%s) called." % (a, b, c))
     return a+b+c
  
-myfunc(1, 2)
-myfunc(3, 4)
-myfunc2(1, 2, 3)
-myfunc2(3, 4, 5)
+print(myfunc(1, 2))
+print(myfunc(3, 4))
+print(myfunc2(1, 2, 3))
+print(myfunc2(3, 4, 5))
+
 
 
 }
 
+#总结 ： 在不改变原函数myfunc的情况下附加新功能，不管myfunc中有没有return语句，deco中都应该有两个return，第一个返回用来返回传入的myfunc的结果，第二个用来调用_deco，并返回_deco的结果。
 }
 
 去除空格{
@@ -2717,6 +2762,8 @@ print cur_file_dir()
 Python3基础学习笔记(精品)  百度文库
 
 socket{
+http://www.cnblogs.com/wupeiqi/articles/5040823.html
+
 注意点：
     1.基于python3.5.2版本的socket只能收发字节（python2.7可以发送字符串）；
     2.客户端退出不能影响服务端；
@@ -2954,6 +3001,8 @@ while True:
 
 }
 
+#http://www.cnblogs.com/huyuedong/p/5882510.html  很不错的博客
+#不需要实现复杂的内存共享且需利用多cpu，用多进程；实现复杂的内存共享及IO密集型应用：多线程或协程；实现复杂的内存共享及CPU密集型应用：协程
 #多核cpu执行多任务的原理：由于实际应用中，任务的数量往往远超过cpu的核数，所以操作系统实际上是把这些多任务轮流地调度到每个核心上执行。
 #对于操作系统来说，一个应用就是一个进程。比如打开一个浏览器，它是一个进程；打开一个记事本，它是一个进程。每个进程有它特定的进程号。他们共享系统的内存资源。进程是操作系统分配资源的最小单位。
 #而对于每一个进程而言，比如一个视频播放器，它必须同时播放视频和音频，就至少需要同时运行两个“子任务”，进程内的这些子任务就是通过线程来完成。线程是最小的执行单元。一个进程它可以包含多个线程，这些线程相互独立，同时又共享进程所拥有的资源。
@@ -3219,8 +3268,9 @@ Thread-5 finished!
 
 }
 
-多进程   {
+多进程  multiprocessing  {
 #参考  http://www.cnblogs.com/kaituorensheng/p/4445418.html
+http://www.cnblogs.com/liuyansheng/p/5959403.html
 
 #unix系统中:
 from multiprocessing import Process
@@ -4072,14 +4122,14 @@ c:\> set https_proxy=<user>:<password>@<proxy_ip_address>:<port>
 
 172.18.32.134 就是  openproxy.huawei.com  8080
 
-set http_proxy=CHINA\lwx307086:qweraa@openproxy.huawei.com:8080
-set https_proxy=CHINA\lwx307086lwx307086:aa@openproxy.huawei.com:8080
+set http_proxy=CHINA\lwx307086:qwer!4321@openproxy.huawei.com:8080
+set https_proxy=CHINA\lwx307086lwx307086:qwer!4321@openproxy.huawei.com:8080
 
 set http_proxy=CHINA\lwx307086:qwer!4321@172.18.32.134:8080
-set https_proxy=CHINA\lwx307086lwx307086:aa@172.18.32.134:8080
+set https_proxy=CHINA\lwx307086lwx307086:qwer!4321@172.18.32.134:8080
 
-export http_proxy=CHINA\lwx307086:aa@172.18.32.134:8080
-export https_proxy=CHINA\lwx307086lwx307086:aa@172.18.32.134:8080
+export http_proxy=CHINA\lwx307086:qwer!4321@172.18.32.134:8080
+export https_proxy=CHINA\lwx307086lwx307086:qwer!4321@172.18.32.134:8080
 
 #cmd中的grep
 netstat -aon|findstr "8080"
@@ -4091,8 +4141,8 @@ netstat -aon|findstr "8080"
 tar xf pip-9.0.1.tar.gz
 python3 setup.py install
 
-export http_proxy='CHINA\lwx307086:aa'@172.18.32.134:8080
-export https_proxy='CHINA\lwx307086:aa'@172.18.32.134:8080
+export http_proxy='CHINA\lwx307086:qwer!4321'@172.18.32.134:8080
+export https_proxy='CHINA\lwx307086:qwer!4321'@172.18.32.134:8080
 
 root@api:/home/lgj/python/pip-9.0.1# pip install requests
 Requirement already satisfied: requests in /usr/local/lib/python3.4/dist-packages/requests-2.10.0-py3.4.egg
@@ -4154,7 +4204,7 @@ uninstall
 pip install xlrd --proxy CHINA\\lwx307086:'qwer!4321'@172.18.32.134:8080  #使用代理
 
 下载{
-root@api:/home/lgj/python# pip download xlrd --proxy CHINA\\lwx307086:'aa'@172.18.32.134:8080
+root@api:/home/lgj/python# pip download xlrd --proxy CHINA\\lwx307086:'qwer!4321'@172.18.32.134:8080
 Collecting xlrd
   Using cached xlrd-1.0.0-py3-none-any.whl
   Saved ./xlrd-1.0.0-py3-none-any.whl
@@ -4212,7 +4262,6 @@ setup(
 #python setup.py py2exe
 
 }
-
 
 PIL库的例子
 #http://www.cnblogs.com/youhui/articles/3772001.html#Python_Imaging_Library_.2BTi1lh2JLUYw-
@@ -4398,6 +4447,48 @@ eval("a+b+c",g,l)
 # ast.literal_eval(node_or_string) 也是可以的，比eval安全
 }
 
+插入一个数，再排序
+{
 
+http://www.cnblogs.com/skydesign/archive/2011/09/02/2163592.html
+一个有趣的python排序模块：bisect
+插入一个数，再排序
+}
 
+闭包{
+
+#如果要实现两个功能，可以定义两个函数。
+def func_150(val):
+    passline = 90  #150
+    if val >= passline:
+        print ("pass")
+    else:
+        print ("failed")
+
+def func_100(val):
+    passline = 60  #150
+    if val >= passline:
+        print ("pass")
+    else:
+        print ("failed")
+
+func_100(69)#pass
+func_150(69)#failed
+
+#如果用闭包的话只需要定义一个函数
+def set_passline(passline):#passline
+    def cmp(val):
+        if val >= passline:
+            print ("pass")
+        else:
+            print ("failed")
+    return cmp  #返回值是一个函数
+
+f_100 = set_passline(60) #f_100就是cmp,f_100()就是cmp()，而且内置一个passline=60
+f_150 = set_passline(90)
+
+f_100(69)#pass
+f_150(69)#failed
+
+}
 
