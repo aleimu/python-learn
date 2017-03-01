@@ -1,0 +1,4494 @@
+#我的博客园
+http://www.cnblogs.com/lgjbky/
+python常用函数 从零开始的程序员生活
+#不需要实现复杂的内存共享且需利用多cpu，用多进程；实现复杂的内存共享及IO密集型应用：多线程或协程；实现复杂的内存共享及CPU密集型应用：协程
+#很6的博客
+http://www.cnblogs.com/hongten/tag/python/default.html?page=2
+#面向对象
+http://www.cnblogs.com/wupeiqi/p/4493506.html
+http://www.cnblogs.com/wupeiqi/p/4766801.html
+http://www.cnblogs.com/huyuedong/p/5851082.html
+c:\python33添加到你的PATH 环境变量中，你可以在DOS 窗口中
+输入以下命令:set path=%path%;C:\python33
+id() 方法的返回值就是对象的内存地址。
+在#! 行（首行）后插入至少一行特殊的注释行来定义源文件的编码。
+# -*- coding: encoding -*-
+sys.modules['模块名'] #查看模块的文件位置
+path=os.path.dirname(sys.executable) #在打包成exe后正常使用
+path=sys.path[0] #这样的方式会导致执行路径有问题	
+sys.prefix 	#查看python的安装位置
+
+import builtins
+dir(builtins)
+help(sequence)
+#sequence在python不是一种特定的类型，而是泛指一系列的类型。
+新学习内容{
+#获取当前脚本路径
+sys.path 会返回python脚本的  当前路径  和加载的库文件路径
+['C:\\Users\\lWX307086\\Desktop\\10月金秋', 'C:\\Python34\\Lib\\idlelib', 'C:\\Python34\\lib\\site-packages\\pip-8.1.2-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\xlwt-1.1.2-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\xlutils-2.0.0-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\pymysql-0.7.6-py3.4.egg', 'C:\\Windows\\system32\\python34.zip', 'C:\\Python34\\DLLs', 'C:\\Python34\\lib', 'C:\\Python34', 'C:\\Python34\\lib\\site-packages']
+>>> sys.argv[0] #返回当前脚本的路径+名字
+'C:\\Users\\lWX307086\\Desktop\\10月金秋\\Get_casename.py'
+>>> sys.argv #返回当前脚本的路径+名字
+['C:\\Users\\lWX307086\\Desktop\\10月金秋\\Get_casename.py']
+}
+#!/usr/bin/env python3
+http://www.cnblogs.com/lst1010/p/5911956.html  #简单客户连接
+元类用来处理类，并且类用来处理实例
+#取下标
+>>> seasons = ['Spring', 'Summer', 'Fall', 'Winter'] 
+>>> list(enumerate(seasons)) 
+    [(0, 'Spring'), (1, 'Summer'), (2, 'Fall'), (3, 'Winter')] 
+>>> list(enumerate(seasons, start=1)) 
+    [(1, 'Spring'), (2, 'Summer'), (3, 'Fall'), (4, 'Winter')] 
+#查看内置函数
+>>> import builtins
+>>> dir (builtins)
+['ArithmeticError', 'AssertionError', 'AttributeError', 'BaseException', 'BufferError', 'BytesWarning', 'DeprecationWarning', 'EOFError', 'Ellipsis', 'EnvironmentError', 'Exception', 'False', 'FloatingPointError', 'FutureWarning', 'GeneratorExit', 'IOError', 'ImportError', 'ImportWarning', 'IndentationError', 'IndexError', 'KeyError', 'KeyboardInterrupt', 'LookupError', 'MemoryError', 'NameError', 'None', 'NotImplemented', 'NotImplementedError', 'OSError', 'OverflowError', 'PendingDeprecationWarning', 'ReferenceError', 'RuntimeError', 'RuntimeWarning', 'StopIteration', 'SyntaxError', 'SyntaxWarning', 'SystemError', 'SystemExit', 'TabError', 'True', 'TypeError', 'UnboundLocalError', 'UnicodeDecodeError', 'UnicodeEncodeError', 'UnicodeError', 'UnicodeTranslateError', 'UnicodeWarning', 'UserWarning', 'ValueError', 'Warning', 'WindowsError', 'ZeroDivisionError', '__build_class__', '__debug__', '__doc__', '__import__', '__name__', '__package__', 'abs', 'all', 'any', 'ascii', 'bin', 'bool', 'bytearray', 'bytes', 'chr', 'classmethod', 'compile', 'complex', 'copyright', 'credits', 'delattr', 'dict', 'dir', 'divmod', 'enumerate', 'eval', 'exec', 'exit', 'filter', 'float', 'format', 'frozenset', 'getattr', 'globals', 'hasattr', 'hash', 'help', 'hex', 'id', 'input', 'int', 'isinstance', 'issubclass', 'iter', 'len', 'license', 'list', 'locals', 'map', 'max', 'memoryview', 'min', 'next', 'object', 'oct', 'open', 'ord', 'pow', 'print', 'property', 'quit', 'range', 'repr', 'reversed', 'round', 'set', 'setattr', 'slice', 'sorted', 'staticmethod', 'str', 'sum', 'super', 'tuple', 'type', 'vars', 'zip']
+
+#数学运算
+{
+abs(-5) # 取绝对值，也就是5
+round(2.6) # 四舍五入取整，也就是3.0
+pow(2, 3) # 相当于2**3，如果是pow(2, 3, 5)，相当于2**3 % 5
+cmp(2.3, 3.2) # 比较两个数的大小
+divmod(9,2) # 返回除法结果和余数
+max([1,5,2,9]) # 求最大值
+min([9,2,-4,2]) # 求最小值
+sum([2,-1,9,12]) # 求和
+}
+#类型转换
+{
+int("5") # 转换为整数 integer
+float(2) # 转换为浮点数 float
+long("23") # 转换为长整数 long integer
+str(2.3) # 转换为字符串 string
+complex(3, 9) # 返回复数 3 + 9i
+ord("A") # "A"字符对应的数值
+chr(65) # 数值65对应的字符
+unichr(65) # 数值65对应的unicode字符
+bool(0) # 转换为相应的真假值，在Python中，0相当于False
+bin(56) # 返回一个字符串，表示56的二进制数     相反操作>>> int('0b111000', base=2)
+hex(56) # 返回一个字符串，表示56的十六进制数
+oct(56) # 返回一个字符串，表示56的八进制数
+list((1,2,3)) # 转换为表 list
+tuple([2,3,4]) # 转换为定值表 tuple
+slice(5,2,-1) # 构建下标对象 slice
+dict(a=1,b="hello",c=[1,2,3]) # 构建词典 dictionary**粗体文本**
+}
+#序列操作
+{
+all([True, 1, "hello!"]) # 是否所有的元素都相当于True值
+any(["", 0, False, [], None]) # 是否有任意一个元素相当于True值
+sorted([1,5,3]) # 返回正序的序列，也就是[1,3,5]
+reversed([1,5,3]) # 返回反序的序列，也就是[3,5,1]
+}
+#类，对象，属性
+{
+# define class
+class Me(object):
+	def test(self):
+		print ("Hello!")
+	def new_test():
+		print ("New Hello!")
+
+me = Me()
+
+hasattr(me, "test") # 检查me对象是否有test属性
+getattr(me, "test") # 返回test属性
+setattr(me, "test", new_test) # 将test属性设置为new_test
+delattr(me, "test") # 删除test属性
+isinstance(me, Me) # me对象是否为Me类生成的对象 (一个instance)
+issubclass(Me, object) # Me类是否为object类的子类
+}
+#编译，执行
+{
+repr(me) # 返回对象的字符串表达
+compile("print('Hello')",'test.py','exec') # 编译字符串成为code对象
+eval("1 + 1") # 解释字符串表达式。参数也可以是compile()返回的code对象
+exec("print('Hello')") # 解释并执行字符串，print('Hello')。参数也可以是compile()返回的code对象
+}
+#其他
+{
+input("Please input:") # 等待输入
+globals() # 返回全局命名空间，比如全局变量名，全局函数名
+locals() # 返回局部命名空间
+}
+
+重定向{
+import sys
+print 'Dive in'                                          
+saveout = sys.stdout                                     
+fsock = open('out.log', 'w')                             
+sys.stdout = fsock                                       
+print 'This message will be logged instead of displayed' 
+sys.stdout = saveout                                     
+fsock.close()                                            
+
+ 
+这样会打印到IDE的“交互窗口”中（或终端，如果你从命令行运行这一脚本）。
+始终在重定向 stdout 之前保存它，这样你可以在后面将其设回正常。
+打开一个新文件用于写入。 
+将所有后续的输出重定向到我们刚打开的新文件上。
+这样只会将输出结果“打印”到日志文件中；在IDE窗口中或在屏幕上不会看到输出结果。
+在我们将 stdout 搞乱之前，让我们把它设回原来的方式。
+关闭日志文件。
+ 
+#重定向 stderr 完全以相同的方式进行，用 sys.stderr 代替 sys.stdout
+import sys
+fsock = open('error.log', 'w')               
+sys.stderr = fsock                           
+raise Exception, 'this error will be logged' 
+
+打开我们想用来存储调试信息的日志文件。
+将我们新打开的日志文件的文件对象赋给 stderr 重定向标准错误。
+引发一个异常。从屏幕输出上我们可以注意到这样没有在屏幕上打印出任何东西。所以正常跟踪信息已经写进 error.log。
+}
+bytes{
+创建一个bytes
+>>> by=b'abc'
+>>> type(by)
+<class 'bytes'>
+#str与bytes显示转换
+str.encode()和bytes(S,  encoding)把一个字符串转换为其raw  bytes形式，并且
+在此过程中根据一个str创建一个bytes。
+bytes.decode()和str(B,  encoding)把raw  bytes转换为其字符串形式，并且在此
+过程中根据一个bytes创建一个str。
+>>> a='aadadwdawdwa'
+>>> a.encode()
+b'aadadwdawdwa'
+>>> bytes('dawdawdawd',encoding='utf8')
+b'dawdawdawd'
+
+>>> str(b'dawdawdawd',encoding='utf8')
+'dawdawdawd'
+
+>>> ord('X')    
+88
+>>> chr(88)    
+'X'
+}
+code{
+#启动交互控制台, 类似启动Python 解释器
+>>> import code
+>>> console = code.InteractiveConsole()
+>>> console.interact()
+}
+open{fp = open("test.txt",w)     直接打开一个文件，如果文件不存在则创建文件
+关于open 模式：
+w     以写方式打开，
+a     以追加模式打开 (从 EOF 开始, 必要时创建新文件)
+r+     以读写模式打开
+w+     以读写模式打开 (参见 w )
+a+     以读写模式打开 (参见 a )
+rb     以二进制读模式打开
+wb     以二进制写模式打开 (参见 w )
+ab     以二进制追加模式打开 (参见 a )
+rb+    以二进制读写模式打开 (参见 r+ )
+wb+    以二进制读写模式打开 (参见 w+ )
+ab+    以二进制读写模式打开 (参见 a+ )
+
+fp.read([size])                     #size为读取的长度，以byte为单位
+
+fp.readline([size])                 #读一行，如果定义了size，有可能返回的只是一行的一部分
+
+fp.readlines([size])                #把文件每一行作为一个list的一个成员，并返回这个list。其实它的内部是通过循环调用readline()来实现的。如果提供size参数，size是表示读取内容的总长，也就是说可能只读到文件的一部分。
+
+fp.write(str)                      #把str写到文件中，write()并不会在str后加上一个换行符
+
+fp.writelines(seq)            #把seq的内容全部写到文件中(多行一次性写入)。这个函数也只是忠实地写入，不会在每行后面加上任何东西。
+
+fp.close()                        #关闭文件。python会在一个文件不用后自动关闭文件，不过这一功能没有保证，最好还是养成自己关闭的习惯。  如果一个文件在关闭后还对其进行操作会产生ValueError
+
+fp.flush()                                      #把缓冲区的内容写入硬盘
+
+fp.fileno()                                      #返回一个长整型的”文件标签“
+
+fp.isatty()                                      #文件是否是一个终端设备文件（unix系统中的）
+
+fp.tell()                                         #返回文件操作标记的当前位置，以文件的开头为原点
+
+fp.next()                                       #返回下一行，并将文件操作标记位移到下一行。把一个file用于for … in file这样的语句时，就是调用next()函数来实现遍历的。
+
+fp.seek(offset[,whence])              #将文件打操作标记移到offset的位置。这个offset一般是相对于文件的开头来计算的，一般为正数。但如果提供了whence参数就不一定了，whence可以为0表示从头开始计算，1表示以当前位置为原点计算。2表示以文件末尾为原点进行计算。需要注意，如果文件以a或a+的模式打开，每次进行写操作时，文件操作标记会自动返回到文件末尾。
+
+fp.truncate([size])                       #把文件裁成规定的大小，默认的是裁到当前文件操作标记的位置。如果size比文件的大小还要大，依据系统的不同可能是不改变文件，也可能是用0把文件补到相应的大小，也可能是以一些随机的内容加上去。
+
+}
+os.path{
+得到当前工作目录，即当前Python脚本工作的目录路径: os.getcwd()
+返回指定目录下的所有文件和目录名:os.listdir()
+函数用来删除一个文件:os.remove()
+删除多个目录：os.removedirs（r“c：\python”）
+检验给出的路径是否是一个文件：os.path.isfile()
+检验给出的路径是否是一个目录：os.path.isdir()
+判断是否是绝对路径：os.path.isabs()
+检验给出的路径是否真地存:os.path.exists()
+返回一个路径的目录名和文件名:os.path.split()     eg os.path.split('/home/swaroop/byte/code/poem.txt') 结果：('/home/swaroop/byte/code', 'poem.txt') 
+分离扩展名：os.path.splitext()
+获取路径名：os.path.dirname()
+获取文件名：os.path.basename()
+运行shell命令: os.system()
+读取和设置环境变量:os.getenv() 与os.putenv()
+给出当前平台使用的行终止符:os.linesep    Windows使用'\r\n'，Linux使用'\n'而Mac使用'\r'
+指示你正在使用的平台：os.name       对于Windows，它是'nt'，而对于Linux/Unix用户，它是'posix'
+重命名：os.rename（old， new）
+创建多级目录：os.makedirs（r“c：\python\test”）
+创建单个目录：os.mkdir（“test”）
+获取文件属性：os.stat（file）
+修改文件权限与时间戳：os.chmod（file）
+终止当前进程：os.exit（）
+获取文件大小：os.path.getsize（filename）
+
+目录操作：
+os.mkdir("file")                   创建目录
+复制文件：
+shutil.copyfile("oldfile","newfile")       oldfile和newfile都只能是文件
+shutil.copy("oldfile","newfile")            oldfile只能是文件夹，newfile可以是文件，也可以是目标目录
+复制文件夹：
+shutil.copytree("olddir","newdir")        olddir和newdir都只能是目录，且newdir必须不存在
+重命名文件（目录）
+os.rename("oldname","newname")       文件或目录都是使用这条命令
+移动文件（目录）
+shutil.move("oldpos","newpos")
+删除文件
+os.remove("file")
+删除目录
+os.rmdir("dir")只能删除空目录
+shutil.rmtree("dir")    空目录、有内容的目录都可以删
+转换目录
+os.chdir("path")   换路径
+}
+#异常：
+try{
+try:
+...   print a
+#... except Exception:
+#...   print 1
+... except NameError:
+...     print 1
+... except IndexError:
+...     print 2
+... except KeyError:
+...     print 3
+... finally:
+...     print 4 
+#Exception 是异常全捕获，可以捕获所有异常！
+try: 
+    input("a=") 
+except KeyboardInterrupt: 
+    print ("User Press Ctrl+C,Exit")
+except EOFError: 
+    print ("User Press Ctrl+D,Exit")
+#捕获用户输入异常	
+}
+作用域-LEGB {
+##LEGB 法则，具体如下：
+包含局部命名的使用域在最里面，首先被搜索；其次搜索的是中层的作用域，这
+里包含了同级的函数；最后搜索最外面的作用域，它包含内置命名。
+global 语句用以指明某个特定的变量为全局作用域，并重新绑定它。 nonlocal 语
+句用以指明某个特定的变量为封闭作用域，并重新绑定它。
+global s 指定当前作用域里面的s是全局的，不影响其他的作用域
+在函数中定义和修改全局变量，需要使用global关键字。
+但访问全局变量（不修改它的值），可以省略global关键字。
+当在函数中使用未确定的变量名时，Python 搜索 4 个作用域：
+本地作用域（L）
+之后是上一层嵌套结构中 def 或 lambda 的本地作用域（E）
+之后是全局作用域（G）
+最后是内置作用域（B）
+按这个查找原则，在第一处找到的地方停止。如果没有找到，Python 会报错的。
+
+#如果在函数内部对该变量进行了赋值操作，无论是在引用该变量之前还是在引用该变量之后，那么对于该函数来说，此变量是一个局部变量。>>>>>>>>>>局部变量!>>>>>>>>>>>>局部变量!>>>>>>>>>>局部变量!
+
+a=1
+print(a)
+def pp():
+      #a=2 #在函数内部对该变量进行了赋值操作，无论是在引用该变量之前还是在引用该变量之后，
+      #那么对于该函数来说，此变量是一个局部变量
+      print(a)
+      a=a+1 
+      print(a)
+      
+pp()
+#报错UnboundLocalError: local variable 'a' referenced before assignment
+
+如果在函数内部从未对该变量进行赋值操作，那么对于该函数来说，此变量是一个全局变量。
+在同一个源文件中，全局变量和局部变量同名时，在局部变量的作用范围内，全局变量不起作用,局部变量与全局变量同名时，在局部变量使用的函数范围内，需要先定义局部变量后使用，如下：
+global语句的作用是将某些变量声明为全局变量，当关键词global后面跟随多个变量名称时，各名称之间要用逗号分隔开来。
+a=1
+def m():
+	print a
+	a=2
+#上例中是错误示范，报错UnboundLocalError: local variable 'a' referenced before assignment
+def n():
+	a=2
+	print a
+上例为正确示范，但a=2还是局部变量，不会改变全局变量a=1的值
+函数中与全局变量重名的变量的作用域做一个更加全面的总结：
+#如果在函数内部对该变量进行了赋值操作，无论是在引用该变量之前还是在引用该变量之后，那么对于该函数来说，此变量是一个局部变量。
+#如果在函数内部从未对该变量进行赋值操作，那么对于该函数来说，此变量是一个全局变量。
+#如果该变量用global语句声明为全局变量，那么无论是否对其进行了赋值操作，该变量都将作为全局变量。
+
+#为一个定义在函数外的变量赋值
+a=[1,2,3]
+def aa():
+      global a
+      a=[2,3,4]
+      #global a=[2,3,4] #这样是错误的！
+      print(a)
+print(a)
+aa()
+print(a)
+
+'''
+[1, 2, 3]
+[2, 3, 4]
+[2, 3, 4]
+'''
+
+#常见错误
+
+#可选参数默认值的设置在Python中只会被执行一次，也就是定义该函数的时候。
+#错误地  将表达式/可变类型当默认值时
+>>> def foo(bar=[]):        # bar是可选参数，如果没有提供bar的值，则默认为[]， 
+....    bar.append("baz")    # 但是稍后我们会看到这行代码会出现问题。 
+....    return bar 
+
+1.>>> foo() 
+2.["baz"] 
+3.>>> foo() 
+4.["baz", "baz"] 
+5.>>> foo() 
+6.["baz", "baz", "baz"] 
+
+解决方法：
+>>> def foo(bar=None): 
+2....    if bar is None:    # or if not bar: 
+3....        bar = [] 
+4....    bar.append("baz") 
+5....    return bar 
+6.... 
+7.>>> foo() 
+8.["baz"] 
+9.>>> foo() 
+10.["baz"] 
+11.>>> foo() 
+12.["baz"] 
+#库
+https://github.com/vinta/awesome-python#third-party-apis
+}
+
+{类定义了__init__() 方法的话，类的实例化操作会自动为新创建的类实例调用
+__init__()方法。__init__() 方法可以有参数，参数通过
+__init__()传递到类的实例化操作上。
+}
+
+Python执行Linux系统命令，即在Python脚本中调用Shell命令，具体有以下四种方法：{
+#参考 http://www.cnblogs.com/HQMIS/archive/2013/02/03/2890892.html
+1、os.system
+//仅仅在一个子终端运行系统命令，而不能获取命令执行后的返回信息system(command) //直接打印结果出来，不容易获取结果：>>> os.system('ls')
+
+2、os.popen
+//该方法不但执行命令还返回执行后的信息对象
+popen(command [, mode='r' [, bufsize]]) 
+
+3、使用模块 subprocess
+>>> import subprocess
+>>> subprocess.call(["cmd", "arg1", "arg2"],shell=True)
+//获取返回和输出：
+>>> import subprocess
+>>> returnCode = subprocess.call('ls') #代替os.system('ls')
+client.py  service.py
+>>> 
+>>> returnCode
+0
+>>> returnCode = subprocess.check_output('ls') #代替os.popen
+>>> 
+>>> returnCode
+b'client.py\nservice.py\n'
+#subprocess.Popen使用
+#参考  http://www.cnblogs.com/zhoug2020/p/5079407.html  十分详细的解说
+subprocess.Popen(["cat","test.txt"]) #或者
+>>> a=subprocess.Popen('dwad',shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+>>> 
+>>> a.stdout.read()
+b''
+>>> a.stderr.read()
+b'/bin/sh: 1: dwad: not found\n'
+>>>
+#http://www.cnblogs.com/GODYCA/archive/2013/05/08/3066870.html
+>>> p1=subprocess.Popen('ps -ef|grep python',shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)  #stderr=subprocess.STDOUT 将子程序的标准错误汇合到标准输出也就是stdout=subprocess.PIPE
+>>> p1.stdout.read()
+b'root     136687 139361  0 14:09 pts/41   00:00:00 /bin/sh -c ps -ef|grep python\nroot     136692 136687  0 14:09 pts/41   00:00:00 grep python\nroot     139361 133063  0 Oct13 pts/41   00:00:00 python3.4\n'
+
+>>> a=subprocess.Popen('ls',shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+>>> a.communicate()
+(b'client.py\nservice.py\n', b'')
+
+
+4、使用模块 commands  #2.7版本
+>>> import commands>>> dir(commands)['__all__', '__builtins__', '__doc__', '__file__', '__name__', 'getoutput', 'getstatus','getstatusoutput', 'mk2arg', 'mkarg']>>> commands.getoutput("date")'Wed Jun 10 19:39:57 CST 2009'>>>>>> commands.getstatusoutput("date")(0, 'Wed Jun 10 19:40:41 CST 2009')
+a="curl  -v -X POST -H "Authorization:Basic c3Vic2NyaWJlcjpTc01pbmkxQA==" 'http://188.105.109.200:9763/appmgt/api/v1/?name=IOTAppTestq&quota_prod=0-0&quota_sand=0-0&redirect_url=http://www.baidu.com'"
+}
+#函数小结
+python中函数的实参传递规则是:{
+1.标注了参数名的就要按参数名传递，打乱顺序的情况下一定要加参数名，否则会混乱的。
+2.没有缺省的实参情况下就会依次传递，如果不够的话，后面的会自动去取自己的缺省值。
+3.如果实参的数量比形参要多的话，就要用到带*号的参数名了。
+需要注意的是默认参数在形式参数表中的位置，即默认参数必须在所有标准参数之后定义
+4.默认参数一定要用不可变对象，如果是可变对象，运行会有逻辑错误！
+5.要注意定义可变参数和关键字参数的语法：*args是可变参数，args接收的是一个tuple；**kw是关键字参数，kw接收的是一个dict，*name 必须在**name 之前出现。
+调用函数时如何传入可变参数和关键字参数的语法：
+可变参数既可以直接传入：func(1,2,3)，又可以先组装list或tuple，再通过*args传入：func(*(1,2,3))；
+关键字参数既可以直接传入：func(a=1,b=2)，又可以先组装dict，再通过**kw传入：func(**{'a':1,'b':2})。
+#任何出现在*args 后的参数是关键字参数，只能被用作关键字，而不是位置参数	
+}
+
+python之 {
+#python之 执行py文件
+1、在cmd/shell中 输入命令 python  a.py。
+2、#在解释器中，通过函数execfile（“a.py”）。
+	exec(open('e:\\mytest\\test.py').read())
+3、在解释器中直接输入程序语句立即执行。
+ 
+#python 之数据类型
+在python中有4种类型的数--整数、长整型、浮点型和复数。
+ 
+#python 之函数def  foo（p1，p2...）
+1、python函数定义不需要头文件。
+2、python函数定义不需要制定返回值的类型，要么return  value；要么让函数自己return None。
+3、python中变量和函数参数都不需要指明类型，根据他们的值，python会自行维护他们的类型。
+4、python语言没有子程序和过程（VB中的sub），统统都是函数。
+5、pass语句在python 中表示一个空的语句块。
+6、调用函数时会为局部变量引入一个新的符号表，所有的局部变量都存储在这个局部符号表中。
+7、用户定义的函数名也是一个解释器认可的类型值，这个值可以赋给其他变量，使其能作为一个函数来使用。
+ 
+#python之lambda函数：本质上lambda可以有任意数目的参数，冒号后面紧跟单个表达是作为函数体
+定义： foo=lambda x：expression相当于 def foo（x）： expression
+调用： foo（y）或直接（lambda  x: expression）(y) ,x形参，y实参
+1、lambda函数不能包含热和命令，而且只能包含一句表达式
+2、lambda并没有必须要是用它的理由，使用它仅是一种风格
+ 
+#python之 模块
+1、导入模块名用 import module_name; 导入模块中的子项目用 from module_name import xxx
+2、访问模块内部的函数，类以及各种属性
+3、要导入的模块应该被放置和调用它的程序相同的目录中，或者在sys.path 变量所列目录之一
+4、当你要导入一个模块时，python会依次在这些目录里寻找与你要导入的模块名称一致的py文件
+5、并不是所有的模块都是以py文件存在的，比如内置模块，它们的py源代码并不可见，因为它们不适用python写成的
+6、每个模块都有__name__属性，当模块被导入使用时，它的值为模块名；而当模块是被直接运行时，它便是__main__
+ 
+#python 之控制结构--其中1,2,3语句后都需要带冒号
+1、if  语法为 if elif  else
+2、for  对于任何序列都适用，逐一使用序列中的子项目
+3、while
+4、break  与C中的作用相同，用于跳出最近的一级for 或 while 循环
+5、range() 生成一个等差级数链表
+6、continue   与C中的作用相同，用于继续执行下一次迭代
+7、else   子句在循环结束后（for） 或条件为 False （while） 时执行，但循环被break中止的情况下不会执行
+8、pass 语句    pass语句什么也不做，它用于那些语法上必须要有什么语句，但程序上什么也不要做的场合
+ 
+#Python 之字典无序集合，所以无法像链表那样，根据排列序号来索引元素或索引切片
+创建：  dict = {1:35,2：“nice”，“key”：“value”}
+索引： dict[1]         #35 was  acquired
+#修改：  dict[1] = 36   #35 replace  by  36
+#添加：  dict[3] = 47    #pair(3:47)  was  added
+#删除：  del  dict[1]   #pair  (1:35)  was   deleted
+ 
+#Python 之字符串
+1、这里没有像C里的字符类型，单个字符仅仅是长度为一 的字符串
+2、python字符串不能被改写，按下标或切片赋值均会失败
+3、#单引号' '和双引号" "字符串是完全相同的，它们没有在任何方面有区别
+4、单引号字符串中可直接使用双、三引号，在双引号字符串中可直接使用单引号，在三引号中可自由使    用单、双引号
+5、在单，双引号字符串中使用同类引号，可以通过转义字符 \ 实现
+6、三引号""" """中的字符串被解释器打印出来的结果与它们输入的形式完全相同：内部的引号，用反斜杠标识的引号和各种怪字符， 都精确的显示出来。 
+7、#自然字符串通过在字符串前加 r 或 R 来指定；unicode 字符串通过在字符串前加 u 或 U 来指定
+8、字符串可以用+号联接，也可以用*号循环，但e = 'ab' 'cd'这种方式只对字符串值有效
+ 
+#下标索引&&切片索引
+1、链表、tuple 和字符串都是序列，是序列就支持下标和切片索引
+2、字符串可以用下标查询，但如果超过了索引范围，就会出错
+3、#切片操作符 s[a:b]，a是闭环，b是开环，即返回的结果包含a，但不包含b
+4、要想包含最好一个元素，则冒号:后空着，不要指定b
+5、如果不指定第一个数，就从序列首开始。如果没有指定第二个数，则Python会停止在序列尾。
+6、返回的序列从开始位置开始，刚好在结束位置之前结束。即开始位置是包含在切片中的，而结束位置被排斥在切片外
+7、四种情况下，切片索引将返回空字符串（假设 a = "lucky"）
+    一、下界超出上界，如 a[3：1] 或 a[－1：－3]，但有种情况例外，如 a[1：－1]
+    二、上界等于下界，如 a[0:0] 或 a[－1：－1]
+    三、上下界均右溢，如 a[10：100]
+    四、上下界均左溢，如 a[－100：－10]
+ 
+#Python 之Tuples可以包含数字，字符串，链表，字典和另一个 tuple ！
+1、#tuple 是不可变的list，一旦创建了一个 tuple，就不能以任何方式改变它
+2、tuple 没有方法，不能增加、删除或查找元素,只能使用in查看是个元素是否存在于tuple
+3、tuple 之内的 tuple 不会失去它的身份，它仍然是个 tuple
+4、空的 tuple 用一对空的圆括号表示；单个元素的 tuple 必须在元素后加个逗号，用来区别带圆括号的对象
+5、元组最通常的用法是用在打印语句中，如  print '%s is %d years old' % (name, age)
+ 
+#Python 之异常
+1、try     ：我们把所有可能引发异常的语句放在try块中，对于每个try从句，至少都有一个相关联的except从句
+2、except  ：一个预定义的异常或自定义的异常类名及对象，或者一组包括在圆括号内的异常，如果没有特别给出，只要出现异常，它就会用后面的代码来处理
+3、raise   ：预定义的异常或自定义的异常类型，即一个Error 或 Exception 类的子类
+4、finally ：无论是否发生异常，finally 从句都会在程序退出之前被执行，
+             如果你想在一个 try 块下同时使用 except 从句和 finally 从句的话，需要把一个嵌入另外一个
+}		  
+
+以下是我近些年收集的一些Python实用技巧和工具，希望能对你有所帮助。{
+交换变量
+x = 6
+y = 5
+ 
+x, y = y, x
+ 
+print x
+>>> 5
+print y
+>>> 6
+ 
+if 语句在行内 
+print "Hello" if True else "World"
+>>> Hello
+ 
+连接
+下面的最后一种方式在绑定两个不同类型的对象时显得很cool。
+ 
+nfc = ["Packers", "49ers"]
+afc = ["Ravens", "Patriots"]
+print nfc + afc
+>>> ['Packers', '49ers', 'Ravens', 'Patriots']
+ 
+print str(1) + " world"
+>>> 1 world
+ 
+print `1` + " world"
+>>> 1 world
+ 
+print 1, "world"
+>>> 1 world
+print nfc, 1
+>>> ['Packers', '49ers'] 1
+ 
+数字技巧
+#除后向下取整
+print 5.0//2
+>>> 2
+# 2的5次方
+print 2**5
+>> 32
+ 
+注意浮点数的除法
+print .3/.1
+>>> 2.9999999999999996
+print .3//.1
+>>> 2.0
+ 
+数值比较
+这是我见过诸多语言中很少有的如此棒的简便法
+x = 2
+if 3 > x > 1:
+   print x
+>>> 2
+if 1 < x > 0:
+   print x
+>>> 2
+ 
+#同时迭代两个列表 
+#nfc = ["Packers", "49ers"]
+#afc = ["Ravens", "Patriots"]
+for teama, teamb in zip(nfc, afc):
+     print teama + " vs. " + teamb
+>>> Packers vs. Ravens
+>>> 49ers vs. Patriots
+ 
+#带索引的列表迭代  enumerate(teams)
+teams = ["Packers", "49ers", "Ravens", "Patriots"]
+for index, team in enumerate(teams):
+    print index, team
+>>> 0 Packers
+>>> 1 49ers
+>>> 2 Ravens
+>>> 3 Patriots
+ 
+列表推导式
+已知一个列表，我们可以刷选出偶数列表方法：
+numbers = [1,2,3,4,5,6]
+even = []
+for number in numbers:
+    if number%2 == 0:
+        even.append(number)
+ 
+转变成如下
+ 
+numbers = [1,2,3,4,5,6]
+even = [number for number in numbers if number%2 == 0]
+是不是很牛呢，哈哈。
+字典推导
+和列表推导类似，字典可以做同样的工作：
+teams = ["Packers", "49ers", "Ravens", "Patriots"]
+print {key: value for value, key in enumerate(teams)}
+>>> {'49ers': 1, 'Ravens': 2, 'Patriots': 3, 'Packers': 0}
+ 
+初始化列表的值
+ 
+items = [0]*3
+print items
+>>> [0,0,0]
+ 
+列表转换为字符串
+teams = ["Packers", "49ers", "Ravens", "Patriots"]
+print ", ".join(teams)
+>>> 'Packers, 49ers, Ravens, Patriots'
+ 
+从字典中获取元素
+我承认try/except代码并不雅致，不过这里有一种简单方法，尝试在字典中查找key，如果没有找到对应的alue将用第二个参数设为其变量值。
+data = {'user': 1, 'name': 'Max', 'three': 4}
+try:
+   is_admin = data['admin']
+except KeyError:
+   is_admin = False
+替换诚这样：
+ 
+data = {'user': 1, 'name': 'Max', 'three': 4}
+is_admin = data.get('admin', False)
+ 
+获取列表的子集
+有时，你只需要列表中的部分元素，这里是一些获取列表子集的方法。
+x = [1,2,3,4,5,6]
+#前3个
+print x[:3]
+>>> [1,2,3]
+#中间4个
+print x[1:5]
+>>> [2,3,4,5]
+#最后3个
+print x[3:]
+>>> [4,5,6]
+#奇数项
+print x[::2]
+>>> [1,3,5]
+#偶数项
+print x[1::2]
+>>> [2,4,6]
+ 
+False == True
+比起实用技术来说这是一个很有趣的事，在python中，True和False是全局变量，因此：
+ 
+False = True
+if False:
+   print "Hello"
+else:
+   print "World"
+>>> Hello
+}
+
+系统内建函数{
+--------------------------------------------------------------------------------
+ cmp(obja,objb)
+比较两个对象的大小，返回值根据a,b的值的大小关系为正数，负数或者0
+repr(obj)或者'obj'
+返回一个对象的字符串表示， 适合用于eval()求值
+str(obj)
+返回对象适合可读性好的字符串表示，适合用户print输出
+type()
+返回对象的类型。
+isinstance()
+确认一个对象的类型。
+if isinstance(num,(int,long,float,complex)): num是属于int,long,float,complex（复数）中的一种
+pow（x,y）
+x的y次方
+字符串操作
+--------------------------------------------------------------------------------
+strip()
+用法：string.strip()
+当()中没有参数时，默认删除空白符（包括'\n', '\r',  '\t',  ' ')
+当（）中有参数时，
+声明：s为字符串，rm为要删除的字符序列
+s.strip(rm)       删除s字符串中开头、结尾处，位于 rm删除序列的字符
+s.lstrip(rm)      删除s字符串中开头处，位于 rm删除序列的字符
+s.rstrip(rm)      删除s字符串中结尾处，位于 rm删除序列的字符
+注意：删除序列，例如strip(ab)和strip(ba)的效果是一样的。
+列表
+--------------------------------------------------------------------------------
+list.append()
+在列表最后增加一个列
+>>>all=[]
+>>>all.append('test')
+>>>all
+>>>'test'
+工厂函数
+--------------------------------------------------------------------------------
+int(), 
+long(), 
+float(), 
+complex()
+str(), 
+unicode(), 
+basestring()
+list(), 
+tuple()
+type()
+dict()
+bool()
+set(),
+frozenset()
+object()
+classmethod()
+staticmethod()
+super()
+property()
+file()
+}
+
+十二种常用操作集锦：{
+Python编程中常用的12种基础知识总结：正则表达式替换，遍历目录方法，列表按列排序、去重，字典排序，字典、列表、字符串互转，时间对象操作，命令行参数解析(getopt)，print 格式化输出，进制转换，Python调用系统命令或者脚本，Python 读写文件。
+4.1、正则表达式替换{
+目标: 将字符串line中的 overview.gif 替换成其他字符串
+>>>line = '<IMG ALIGN="middle" SRC=\'#\'" /span>  
+>>> mo=re.compile(r'(?<=SRC=)"([\w+\.]+)"',re.I)   
+  
+>>> mo.sub(r'"\1****"',line)   
+'<IMG ALIGN="middle" SRC=\'#\'" /span>  
+  
+>>> mo.sub(r'replace_str_\1',line)   
+'<IMG ALIGN="middle" replace_str_overview.gif BORDER="0" ALT="">'< /span>  
+  
+>>> mo.sub(r'"testetstset"',line)   
+'<IMG ALIGN="middle" SRC=\'#\'" /span>
+ 
+注意: 其中 \1 是匹配到的数据，可以通过这样的方式直接引用}
+4.2、遍历目录方法  good{
+在某些时候，我们需要遍历某个目录找出特定的文件列表，可以通过os.walk方法来遍历，非常方便
+其中第一个为起始路径，第二个为起始路径下的文件夹,第三个是起始路径下的文件.
+
+import os 
+fileList = [] 
+rootdir = "/data"
+for root, subFolders, files in os.walk(rootdir): 
+  if '.svn' in subFolders: subFolders.remove('.svn')  # 排除特定目录 
+  for file in files: 
+    if file.find(".t2t") != -1:# 查找特定扩展名的文件 
+      file_dir_path = os.path.join(root,file) 
+      fileList.append(file_dir_path)   
+  
+print fileList
+
+
+import xlrd
+import os
+import sys
+"""可直接在任一目录执行，但需要xlrd库支持，有基本的错误处理，会自动跳过空白页和不是文本用例的表格，具体执行时请注意观察有没有错误的格式"""
+path=sys.path[0]
+file=os.walk(path)
+fileList = [] 
+for x,y,z in file:
+	for q in z:		
+		if q.find(".xlsx")&q.find(".xls")!=-1:
+			file_dir_path = os.path.join(x,q)
+			#print("遍历得到的execl路径名:",file_dir_path)
+			fileList.append(file_dir_path)
+
+writenamefile=open(path+"\\本目录下测试用例case名字汇总.txt",'w')
+print("############开始处理每个文件中的sheet###########")
+for x in fileList:		
+	file1=xlrd.open_workbook(x)
+	print("开始获取用例名:",x)
+	writenamefile.write('以下用例位于:' + x + '\n')
+	for n in file1.sheets():
+		#print(n.col_values(4))
+		try:
+			index=n.row_values(0).index('Testcase_Number')
+			for y in n.col_values(index):
+				if y != "" and y !="Testcase_Number":
+					writenamefile.write(y.rstrip()+'\n')
+		except ValueError:
+			print(x,n.name,"中有错误的格式，跳过处理本页!")
+		except IndexError:
+			print(x,n.name,"中有空白页，跳过处理本页!")
+writenamefile.close()
+}
+4.3、列表按列排序(list sort){
+#sort()：只能对list进行排序；在原list上进行排序。
+ L.sort(cmp=None, key=None, reverse=False)，配需成功，返回None
+cmp：对比函数
+key：用于获取排序的关键字
+reverse：True -- 降序  False -- 升序
+ 
+#sorted()：对所有的序列进行排序，包括：string、list、tuple和dictory；sorted生成1个新序列，同时保持原序列不变。
+ sorted(iterable, cmp=None, key=None, reverse=False)，排序成功，返回1个排序后的新列表
+cmp：对比函数
+key：用于获取排序的关键字
+reverse：True -- 降序  False -- 升序
+ 
+如果列表的每个元素都是一个元组(tuple),我们要根据元组的某列来排序的化，可参考如下方法
+下面例子我们是根据元组的第2列和第3列数据来排序的,而且是倒序(reverse=True)
+>>> a = [('2011-03-17', '2.26', 6429600, '0.0'), ('2011-03-16', '2.26', 12036900, '-3.0'), 
+ ('2011-03-15', '2.33', 15615500,'-19.1')] 
+>>> print a[0][0] 
+2011-03-17
+>>> b = sorted(a, key=lambda result: result[1],reverse=True) 
+>>> print b 
+[('2011-03-15', '2.33', 15615500, '-19.1'), ('2011-03-17', '2.26', 6429600, '0.0'), 
+('2011-03-16', '2.26', 12036900, '-3.0')] 
+>>> c = sorted(a, key=lambda result: result[2],reverse=True) 
+>>> print c 
+[('2011-03-15', '2.33', 15615500, '-19.1'), ('2011-03-16', '2.26', 12036900, '-3.0'), 
+('2011-03-17', '2.26', 6429600, '0.0')]
+}
+4.4、列表去重(list uniq){
+有时候需要将list中重复的元素删除，就要使用如下方法
+>>> lst= [(1,'sss'),(2,'fsdf'),(1,'sss'),(3,'fd')] 
+>>> set(lst) 
+set([(2, 'fsdf'), (3, 'fd'), (1, 'sss')]) 
+>>> 
+>>> lst = [1, 1, 3, 4, 4, 5, 6, 7, 6] 
+>>> set(lst) 
+set([1, 3, 4, 5, 6, 7])
+}
+4.5、字典排序(dict sort){
+一般来说，我们都是根据字典的key来进行排序，但是我们如果想根据字典的value值来排序，就使用如下方法
+>>> from operator import itemgetter 
+>>> aa = {"a":"1","sss":"2","ffdf":'5',"ffff2":'3'} 
+>>> sort_aa = sorted(aa.items(),key=itemgetter(1)) 
+>>> sort_aa 
+[('a', '1'), ('sss', '2'), ('ffff2', '3'), ('ffdf', '5')]
+>>> sort_aa=sorted(aa.items(),key=itemgetter(0))
+>>> sort_aa
+[('a', '1'), ('ffdf', '5'), ('ffff2', '3'), ('sss', '2')]
+与下面是一样的道理，转化成元组在通过序号 排序
+dic = {"a1":1, "c3":2, "b2":3}
+sorted(dic.iteritems()) -->[('a1', 1), ('b2', 3), ('c3', 2)]
+sorted(dic.iteritems(), key=lambda x : x[1]) --> [('a1', 1), ('c3', 2), ('b2', 3)]
+对字典按键排序，用元组 列表的形式返回
+>>> sorted(d.items, key=lambda d:d[0])
+[('no', 2), ('ok', 1)]
+对字典按值排序，用元组列表的形式返回
+>>> sorted(d.items, key=lambda d:d[1])
+[('ok', 1), ('no', 2)]
+从上面的运行结果看到，按照字典的value值进行排序的
+对于dictionnary，需知道以下几点注意事项：
+a、 dictionary 的 key 是大小写敏感的；
+b、 一个dictionary中不能有重复的 key；
+c、 dictionary是无序的，没有元素顺序的概念，它们只是序偶的简单排列。
+2、 字典排序实现：
+参见cookbook，Recipe 5.1. Sorting a Dictionary讲述了字典排序的方法；
+前面已说明dictionary本身没有顺序概念，但是总是在某些时候，但是我们常常需要对字典进行排序，怎么做呢？下面告诉你：
+方法1：最简单的方法，排列元素（key/value对），然后挑出值。字典的items方法，会返回一个元组的列表，其中每个元组都包含一对项目——键与对应的值。此时排序可以sort()方法。
+def sortedDictValues1(adict):
+    items = adict.items()
+    items.sort()
+    return [value for key, value in items]
+方法2：使用排列键（key）的方式，挑出值，速度比方法1快。字典对象的keys()方法返回字典中所有键值组成的列表，次序是随机的。需要排序时只要对返回的键值列表使用sort()方法。
+def sortedDictValues1(adict):
+    keys = adict.keys()
+    keys.sort()
+    return [adict[key] for key in keys]
+方法3：通过映射的方法去更有效的执行最后一步
+def sortedDictValues1(adict):
+    keys = adict.keys()
+    keys.sort()
+    return map(adict.get,keys)
+方法4：对字典按键排序，用元组列表的形式返回，同时使用lambda函数来进行；
+sorted(iterable[, cmp[, key[, reverse]]]
+cmp和key一般使用lambda
+如：
+  >>> d={"ok":1,"no":2}
+  对字典按键排序，用元组列表的形式返回
+  >>> sorted(d.items, key=lambda d:d[0])
+  [('no', 2), ('ok', 1)]
+  对字典按值排序，用元组列表的形式返回
+  >>> sorted(d.items, key=lambda d:d[1])
+  [('ok', 1), ('no', 2)]
+}
+4.6、字典,列表,字符串互转{
+以下是生成数据库连接字符串,从字典转换到字符串
+>>> params = {"server":"mpilgrim", "database":"master", "uid":"sa", "pwd":"secret"} 
+>>> ["%s=%s" % (k, v) for k, v in params.items()] #####6666
+['server=mpilgrim', 'uid=sa', 'database=master', 'pwd=secret'] 
+>>> ";".join(["%s=%s" % (k, v) for k, v in params.items()]) 
+'server=mpilgrim;uid=sa;database=master;pwd=secret'
+下面的例子 是将字符串转化为字典
+>>> a = 'server=mpilgrim;uid=sa;database=master;pwd=secret'
+>>> aa = {} 
+>>> for i in a.split(';'):aa[i.split('=',1)[0]] = i.split('=',1)[1] 
+... 
+>>> aa 
+{'pwd': 'secret', 'database': 'master', 'uid': 'sa', 'server': 'mpilgrim'}
+}
+4.7、时间对象操作{
+将时间对象转换成字符串 
+>>> import datetime 
+>>> datetime.datetime.now().strftime("%Y-%m-%d %H:%M") 
+  '2011-01-20 14:05' 
+  
+时间大小比较 
+>>> import time 
+>>> t1 = time.strptime('2011-01-20 14:05',"%Y-%m-%d %H:%M") 
+>>> t2 = time.strptime('2011-01-20 16:05',"%Y-%m-%d %H:%M") 
+>>> t1 > t2 
+  False
+>>> t1 < t2 
+  True 
+  
+时间差值计算,计算8小时前的时间 
+>>> datetime.datetime.now().strftime("%Y-%m-%d %H:%M") 
+  '2011-01-20 15:02'
+>>> (datetime.datetime.now() - datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M") 
+  '2011-01-20 07:03' 
+  
+将字符串转换成时间对象 
+>>> endtime=datetime.datetime.strptime('20100701',"%Y%m%d") 
+>>> type(endtime) 
+  <type 'datetime.datetime'> 
+>>> print endtime 
+  2010-07-01 00:00:00 
+  
+将从 1970-01-01 00:00:00 UTC 到现在的秒数，格式化输出    
+>>> import time 
+>>> a = 1302153828
+>>> time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(a)) 
+  '2011-04-07 13:23:48'
+  }
+4.8、命令行参数解析(getopt){
+
+通常在编写一些日运维脚本时，需要根据不同的条件，输入不同的命令行选项来实现不同的功能 在Python中提供了getopt模块很好的实现了命令行参数的解析,下面距离说明。请看如下程序:
+#!/usr/bin/env python 
+# -*- coding: utf-8 -*- 
+import sys,os,getopt 
+def usage(): 
+print ''''' 
+Usage: analyse_stock.py [options...] 
+Options: 
+-e : Exchange Name 
+-c : User-Defined Category Name 
+-f : Read stock info from file and save to db 
+-d : delete from db by stock code 
+-n : stock name 
+-s : stock code 
+-h : this help info 
+test.py -s haha -n "HA Ha" 
+''' 
+  
+try: 
+opts, args = getopt.getopt(sys.argv[1:],'he:c:f:d:n:s:') 
+except getopt.GetoptError: 
+usage() 
+sys.exit() 
+if len(opts) == 0: 
+usage() 
+sys.exit()   
+  
+for opt, arg in opts: 
+if opt in ('-h', '--help'): 
+  usage() 
+  sys.exit() 
+elif opt == '-d': 
+  print "del stock %s" % arg 
+elif opt == '-f': 
+  print "read file %s" % arg 
+elif opt == '-c': 
+  print "user-defined %s " % arg 
+elif opt == '-e': 
+  print "Exchange Name %s" % arg 
+elif opt == '-s': 
+  print "Stock code %s" % arg 
+elif opt == '-n': 
+  print "Stock name %s" % arg   
+  
+sys.exit()
+}
+4.9、print 格式化输出{
+1.格式化输出字符串
+截取字符串输出,下面例子将只输出字符串的前3个字母 
+>>> str="abcdefg"
+>>> print "%.3s" % str
+  abc 
+按固定宽度输出，不足使用空格补全,下面例子输出宽度为10
+>>> str="abcdefg"
+>>> print "%10s" % str
+     abcdefg 
+2.截取字符串，按照固定宽度输出 
+>>> str="abcdefg"
+>>> print "%10.3s" % str
+         abc 
+3.浮点类型数据位数保留 
+>>> import fpformat 
+>>> a= 0.0030000000005
+>>> b=fpformat.fix(a,6) 
+>>> print b 
+  0.003000
+4.对浮点数四舍五入,主要使用到round函数 
+>>> from decimal import *
+>>> a ="2.26"
+>>> b ="2.29"
+>>> c = Decimal(a) - Decimal(b) 
+>>> print c 
+  -0.03
+>>> c / Decimal(a) * 100
+  Decimal('-1.327433628318584070796460177') 
+>>> Decimal(str(round(c / Decimal(a) * 100, 2))) 
+  Decimal('-1.33')
+5.进制转换
+有些时候需要作不同进制转换，可以参考下面的例子(%x 十六进制,%d 十进制,%o 八进制)
+>>> num = 10
+>>> print "Hex = %x,Dec = %d,Oct = %o" %(num,num,num) 
+  Hex = a,Dec = 10,Oct = 12
+  }
+4.10、Python调用系统命令或者脚本{
+使用 os.system() 调用系统命令 , 程序中无法获得到输出和返回值 
+>>> import os 
+>>> os.system('ls -l /proc/cpuinfo') 
+>>> os.system("ls -l /proc/cpuinfo") 
+  -r--r--r-- 1 root root 0  3月 29 16:53 /proc/cpuinfo 
+  0 
+  
+使用 os.popen() 调用系统命令, 程序中可以获得命令输出，但是不能得到执行的返回值 
+>>> out = os.popen("ls -l /proc/cpuinfo") 
+>>> print out.read() 
+  -r--r--r-- 1 root root 0  3月 29 16:59 /proc/cpuinfo   
+  
+使用 commands.getstatusoutput() 调用系统命令, 程序中可以获得命令输出和执行的返回值 
+>>> import commands 
+>>> commands.getstatusoutput('ls /bin/ls') 
+  (0, '/bin/ls')
+ } 
+4.11、Python 捕获用户 Ctrl+C ,Ctrl+D 事件{
+有些时候，需要在程序中捕获用户键盘事件，比如ctrl+c退出，这样可以更好的安全退出程序
+try: 
+    do_some_func() 
+except KeyboardInterrupt: 
+    print "User Press Ctrl+C,Exit"
+except EOFError: 
+    print "User Press Ctrl+D,Exit"
+	}
+4.12、Python 读写文件{
+一次性读入文件到列表，速度较快，适用文件比较小的情况下 
+track_file = "track_stock.conf"
+fd = open(track_file) 
+content_list = fd.readlines() 
+fd.close() 
+for line in content_list: 
+    print line   
+  
+逐行读入，速度较慢,适用没有足够内存读取整个文件(文件太大) 
+fd = open(file_path) 
+fd.seek(0) 
+title = fd.readline() 
+keyword = fd.readline() 
+uuid = fd.readline() 
+fd.close()   
+  
+写文件 write 与 writelines 的区别    
+Fd.write(str) : 把str写到文件中，write()并不会在str后加上一个换行符 
+Fd.writelines(content) : 把content的内容全部写到文件中,原样写入，不会在每行后面加上任何东西
+
+执行python代码：
+exec(open('test2.py').read())
+}
+}
+#python常见问题
+
+from外网{
+1、python的帮助： help(str)  可以查看str字符类的帮助信息。 
+2、python没有括号来表明语句块，而是采用缩进来表示这一语法。 
+3、一定要用自然字符串处理正则表达式。否则会需要使用很多的反斜杠。例如，后向引用符可以写成'\\1'或r'\1'。  
+4、for循环的区间是半开区间：range(1,5,2)给出[1,3]。记住，range 向上延伸到第二个数，即它不包含第二个数。 
+5、print语句的结尾使用了一个 逗号 来消除每个print语句自动打印的换行符。 
+6、列表的sort方法来对列表排序。需要理解的是，这个方法影响列表本身，而不是返回一个修改后的列表——这与字符串工作的方法不同。 
+   这就是我们所说的列表是 可变的 而字符串是 不可变的 。 #sorted(a)不改变a，a.sort()改变a
+7、因为从文件读到的内容已经以换行符结尾，所以我们在print语句上使用逗号来消除自动换行。最后，我们用close关闭这个文件。 
+8、安全使用  and-or  技巧: (1 and [a] or [b] )[0]   
+   由于 [a] 是一个非空列表，所以它决不会为假。即使 a 是 0 或者 '' 或者其它假值，列表 [a] 也为真，因为它有一个元素。 
+   在 Python 语言的某些情况下 if 语句是不允许使用的，比如在 lambda 函数中。 
+9、从notepad++执行python代码：cmd /k python "$(FULL_CURRENT_PATH)" & PAUSE & EXIT  然后 run -> run设置快捷键 
+10、python 3 开始默认utf-8的编码模式，因此在2.x版本下要注意字符编码的问题： 
+     #!/usr/bin/python 
+      #coding:utf-8           #如果出现编码问题，需在开头加上这句 
+     movies=[] 
+      print('movies List的长度是：'+str(len(movies)))      #注意不像java隐式类型转换，要str显示转换类型 
+11、转置一个元组： 
+      a = (1,2,3,4,5) 
+      b = list(a)[::-1] 
+      print b   #[5, 4, 3, 2, 1] 
+      或者直接调用revered函数： 
+     >>> a = (1,2,3,4,5) 
+      >>> aa=tuple(reverse(a)) 
+      >>> print (aa) 
+      (5, 4, 3, 2, 1) 
+12、*和**作为参数列表的区别： 
+     不定长参数 *para,**para 
+     *para 表示接受一个元组
+     **para 表示接受一个字典 
+     *para要在**para之前 
+13、三元表达式推荐写法：foo = val1 if condition else val2 
+14、为啥[""]为真而("")为假呢 
+    那是因为 ("") 是空的字符串，而不是元组对象。 而前者则是一个 list 对象。 
+15、python的颜色设置：在linux上可以 
+     def inred( s ): 
+          return "%s[31;2m%s%s[0m"%(chr(27), s, chr(27)) 
+      print 'this is a very '+inred('important')+' thing'    
+16、有人知道以lambda作为参数的函数应该怎么写？可以用lambda作回调处理的 
+     def test(a,b): 
+      return a(b) 
+      test(lambda a:a+1, 1) 
+      是这种还是在test里返回函数？ 
+     那直接用函数做参数行吗？ 
+     当然可以 
+     不用把java的思维带进来，python里函数也是可传递的  
+17、#json.dumps在默认情况下，对于非ascii字符生成的是相对应的字符编码，而非原始字符，例如： 
+      >>> import json 
+      >>> js = json.loads('{"haha": "哈哈"}') 
+      >>> print json.dumps(js) 
+      {"haha": "\u54c8\u54c8"} 
+      解决办法很简单: 
+      >>> print json.dumps(js, ensure_ascii=False)   
+      {"haha": "哈哈"}   
+18、关于python打印乱码的问题： #3.0中已不存在
+     （1）、print list 出现：a1\xc7\xc9\xba\xc3\xd3\xc3\xb5\xc4\xd2\xf4\xc1\xbf\xbf\xd8\xd6 
+      （2）、print str 正常 
+     原因： 
+     在执行 print 时，如果是一个字符串，就直接输出。如果是其它的对象，python会调用这个对象的 __str__ 或 __repr__ 
+      来进行处理，对象list本身不是一个字符串，你要打印它，python会自动调用 repr(list) 来处理，这样就生成 list 
+      所表示的字符串，然后打印出来了。所以你看到的是 list 的字符串表示。其中的字符串都转为 \x这种内码表示形式了。 
+     例如： 
+     >>> a={} 
+      >>> a["abc"]="中国" 
+      >>> print a 
+      {'abc': '\xe4\xb8\xad\xe5\x9b\xbd'} 
+      >>> print a["abc"] 
+      中国 
+     >>> 
+      （3）、print会解释内嵌换行符，以友好显示 （P198） 
+     >>>bytes = open('datafile.txt').read() 
+      >>>bytes 
+      "apam\n43\n" 
+      >>>print bytes 
+      apam 
+      43 
+      因此，我们不得不使用其他转换工具，把文本文件中的字符串转换成真正的python对象。鉴于python不会自动把字符串转 
+     换为数字或其他对象类型，如果我们需要使用诸如索引、加法等普通对象工具，就得这么做。 
+     f = open('datafile.txt') 
+      line = f.readline() 
+      line 
+      'spam\n' 
+      line.rstrip()   #也可 line[:-1] ，但只有确定所有行都含有 "\n" 的时候才行（文件中最后一行有时会没有） 
+     'spam' 
+19、判断模块是否已安装 
+     模块加载后，会储存在sys.modules这个字典里，只需要在这个字典里查找，即可判断是否已安装。print sys.modules 
+20.python命令行求和： 
+      python -c "print reduce(lambda x,y:x+y,range(1,101))" 
+      python -c "print map(sum,zip([1],[2]))" 
+      python -c "print sum(range(101))" 
+21.python 简单模拟清屏方法： 
+     print ">>>\n"*40 
+22.python的高精度浮点运算： 
+      >>> from __future__ import division 
+      >>> print "%.2f" %(1/3) 
+      0.33 
+23.2.7版本以上直接设置千分位分隔符 
+     format(1234567890,',') 
+24.通过join来连接字符串： 
+      [ 1 ,   2 ,   3 ] 
+      >>> s = ['a', 'b', 'c', 'd'] 
+      >>> print " ".join(s) 
+      a b c d 
+      >>> print "-".join(s) 
+      a-b-c-d                                #可以设置分隔符 
+     >>> 
+      a = 'hello' 
+      b = 'python' 
+      c = 1 
+      print '%s %s %s %s' % (a, b, c, s)   #连接多个变量 
+25.python计时：python -mtimeit -s'l=[[1,2,3],[4,5,6], [7], [8,9]]*99' 'reduce(lambda x,y: x+y,l)' 
+26.python取前两天的日期 
+      >>> from datetime import timedelta, date 
+      >>> print date.today() + timedelta(days = -2) 
+      2011-10-09 
+      >>>  
+27.python 中元素是否设置：isset(var) #不知道还能不能用
+28.Python统计列表中元素出现的次数 
+     Python列表可以进行简单的统计，比如list的函数count()可以直接统计元素出现的次数。 set  #去重
+     mylist = [2,2,2,2,2,2,3,3,3,3] 
+      myset = set(mylist) 
+      for item in myset: 
+          print mylist.count(item), " of ", item, " in list" 
+29.一个空 list 本身等同于 False    
+30.遍历 list 的同时获取索引: #enumerate
+      for i, element in enumerate(mylist): 
+          pass 
+31.python全局替换： 
+      a="\t\t\t123\t456" 
+      print a 
+      print ",".join(a.split("\t")) 
+      或者 
+      re.sub 
+      或者 print a.replace("\t",",") 
+32.minidom的值：text、data、nodeValue 
+33.python的几大应用场景：系统维护，测试，web原型开发  
+34.如何让 json 以 gbk 编码： 
+     按照JSON标准，中文首先被转换成unicode，然后转换成\uxxxx的格式。 
+     json采用gbk编码： 
+     a = {'key':'中文'} 
+      print json.dumps(a, ensure_ascii=True, encoding='gbk') 
+35.python的双重for循环： 
+      >>> a = ('la','luo','lao') 
+      >>> b =('hua','huo') 
+      >>> print [(x,y) for x in a for y in b] 
+      [('la', 'hua'), ('la', 'huo'), ('luo', 'hua'), ('luo', 'huo'), ('lao', 'hua'), ('lao', 'huo')] 
+      >>> print zip(a,b) 
+      [('la', 'hua'), ('luo', 'huo')] 
+      >>> 
+36.python颜色输出： 
+      WHITE = '\033[97m' 
+      CYAN = '\033[96m' 
+      BLUE = '\033[94m' 
+      GREEN = '\033[92m' 
+      YELLOW = '\033[93m' 
+      RED = '\033[91m' 
+      ENDC = '\033[0m' 
+      print (GREEN + '    [>80]:' + BLUE + ' #%d(%d)' + WHITE + ':%s') % (i, len(line), line) + ENDC  
+37.python自带的简单的 http 服务器： 
+     python -m SimpleHTTPServer 
+38.python命令行将ascii转换成十六进制： 
+     python -c 'print "hello".encode("hex")' 
+39.python 中双斜杠代表单斜杠：python解析一次，正则解析一次： 
+     >>> r"123\\\121\3".replace("\\\\","\\") 
+      '123\\\\121\\3'                                # 注意 命令行 会对其做一次转义，以便可以还原 
+     >>> print r"123\\\121\3".replace("\\\\","\\") 
+      123\\121\3                                    # print 就会显示最终的效果 
+     >>> 
+40.python 行列倒序输出：类似 ...|rev|tac 
+      >>> print '''1 2  
+      ... 3 4 
+      ... 5 6 
+      ... 7 8'''[::-1] 
+      8 7 
+      6 5 
+      4 3 
+      2 1 
+      >>>  
+41.python 自动关闭文件句柄： 
+     在python 2.5之后 由于有了context manager, 就可以使用with语法, 在with语句结束时, 有系统来保证自动关闭文件句柄. 
+      with open("Output.txt", "w") as text_file: 
+          text_file.write("Purchase Amount: %s"%TotalAmount) 
+42.python对字符的转义： 
+     echo 'a\\\b'|python -c 'import sys;a=sys.stdin.readlines();print a;' 
+      ['a\\\\\\b\n'] 
+      echo 'a\\\b'|python -c 'import sys;a=sys.stdin.readlines();print a[0].replace("\\\\","-")' 
+      a-\b 
+43.遍历当前文件夹获取顶级文件夹： 
+     [ os.path.join(os.getcwd(), name) for name in os.listdir(os.getcwd()) if os.path.isdir(name)] 
+44.python产生空洞文件： 
+     bigFile= open(_filename_, 'w') 
+      bigFile.seek(1024*1024*1024* fileSize-1) #大小自己定,需要几个G, fileSize就是几，速度绝对快 
+     bigFile.write('\x00') 
+      bigFile.close() 
+45.json美化输出： 
+     chrome插件JSONView 或者 tool模块：echo '{"a": 1, "b": 2}' | python -m json.tool 
+      echo '{"a": 1, "b": 2}'|python -c 'import json,sys;print json.dumps(json.loads(sys.stdin.readlines()[0].strip()), indent=4)' 
+46.python字典 dict 默认是无序的，要有序请用collection中的orderdict： 
+      >>> d=collections.OrderedDict() 
+      >>> d['c']=1 
+      >>> d['d']=2 
+      >>> d['b']=4 
+      >>> d 
+      OrderedDict([('c', 1), ('d', 2), ('b', 4)]) 
+      #当往前台传递时 
+     >>> json.dumps(d) 
+      '{"c": 1, "d": 3, "b": 2}' 
+47.lamada的妙用：将下划线的字符串处理为Camel的表示形式： 
+     re.sub('^\w|_\w', lambda x:x.group()[-1].upper(), 'blog_view') 输出 'BlogView'。 
+48.getattr利用变量构造引用类属性： 
+     property in ['name','age','sex']: 
+      print getattr(user,property) 
+49.标准的JSON是使用双引号的，javascript支持使用单引号格式的json文本，而python的json库只支持双引号， 
+     如果有单引号的，需要 replace("'",'"') 全部替换成双引号，否则会报错 
+50.用 minidom 格式化输出 xml： 
+     python -c 'import xml.dom.minidom;print xml.dom.minidom.parseString("<Root><Head><a>20130221144501</a><b>1</b></Head><Records><c>1</c><d><e><f></f><g>20121022103334</g></e></d></Records></Root>").toprettyxml()' 
+51.使用 itertools 模块进行排列组合： 
+     python -c "from itertools import permutations;print [''.join(i) for i in list(permutations(['a','b','c']))]" 
+      print([''.join(x) for x in itertools.product('ATCG', repeat=4)]) 
+52.解码16进制字符串：也可以直接 print 出来 
+     >>> b='\xd1\xee\xba\xea\xc1\xc1\n' 
+      >>> print unicode(b, 'gbk').encode('utf8') 
+53.python 中的正则 split： 
+     print re.compile(r"a{1,2}").split('baac') 
+      >>> re.split('\W+', 'Words, words, words.') 
+      ['Words', 'words', 'words', ''] 
+      >>> re.split('(\W+)', 'Words, words, words.') 
+      ['Words', ', ', 'words', ', ', 'words', '.', ''] 
+      >>> re.split('\W+', 'Words, words, words.', 1) 
+      ['Words', 'words, words.'] 
+      >>> re.split('[a-f]+', '0a3B9', flags=re.IGNORECASE) 
+      ['0', '3', '9'] 
+      >>> re.split('(\W+)', '...words, words...') 
+      ['', '...', 'words', ', ', 'words', '...', ''] 
+54.python标准输出无缓存： 
+     export PYTHONUNBUFFERED=1     # python -u cmd 
+55.如何在循环中获取下标 
+      >>> seasons = ['Spring', 'Summer', 'Fall', 'Winter'] 
+      >>> list(enumerate(seasons)) 
+      [(0, 'Spring'), (1, 'Summer'), (2, 'Fall'), (3, 'Winter')] 
+      >>> list(enumerate(seasons, start=1)) 
+      [(1, 'Spring'), (2, 'Summer'), (3, 'Fall'), (4, 'Winter')] 
+56.foo is None 和 foo == None的区别： 
+     is是身份测试，==是值相等测试 
+     (ob1 is ob2) 等价于 (id(ob1) == id(ob2)) 
+57.为何1 in [1,0] == True执行结果是False 
+      这里python使用了比较运算符链，类似 a < b < c 会被转为 (a < b) and (b < c) # b不会被解析两次 
+58.Python中的switch替代语法： 
+     python中没有switch，有什么推荐的处理方法么？使用字典: 
+      def f(x): 
+          return { 
+              'a': 1, 
+              'b': 2, 
+          }.get(x, 9) 
+    
+59.字符串转为float/int： 
+     a = "545.2222"; int(float(a)) 或者 ast.literal_eval("545.2222") 
+60.如何随机生成大写字母和数字组成的字符串 
+     ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(N)) 
+61.python中字符串的contains 
+     if not "blah" in somestring: continue        # 可读性、可维护性差，不推荐！ 
+     if "blah" not in somestring: continue 
+62.如何判断一个字符串是数字 
+     a.isdigit()        # 缺点，对非整数无能为力，float(s) 或 正则 
+63.将一个字符串转为一个字典 
+     从python2.6开始，你可以使用内建模块 ast.literal_eval，这个做法比直接eval更安全 
+     ast.literal_eval("{'muffin' : 'lolz', 'foo' : 'kitty'}") 
+64.#如何获取一个字符的ASCII码 
+      >>> ord('a') 
+	   97 
+      >>> chr(97) 
+      'a' 
+      >>> chr(ord('a') + 3) 
+      'd' 
+      >>> 
+      #另外对于unicode 
+      >>> unichr(97) 
+      u'a' 
+      >>> unichr(1234) 
+      u'\u04d2' 
+65.如何填充 0 到数字字符串中保证统一长度 
+      print n.zfill(3) 
+      print '%03d' % n 
+      print "{0:03d}".format(4)  
+66.如何创建不存在的目录结构 
+     if not os.path.exists(directory): 
+          os.makedirs(directory) 
+      需要注意的是，当目录在exists和makedirs两个函数调用之间被创建时，makedirs将抛出OSError 
+67.#如何拷贝一个文件 
+     shutil.copyfile(src, dst) 
+      将src文件内容拷贝到dst，目标文件夹必须可写，否则将抛出IOError异常，如果目标文件已存在，将被覆盖 
+     另外特殊文件，比如字符文件，块设备文件，无法用这个方法进行拷贝 
+68.#逐行读文件去除换行符(perl chomp line) 
+      #比较pythonic的做法: "line 1\nline 2\r\nline 3\nline 4".splitlines() 
+69.如何获取一个文件的创建和修改时间 
+      print "last modified: %s" % time.ctime(os.path.getmtime(file)) 
+      print "created: %s" % time.ctime(os.path.getctime(file)) 
+      (mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime) = os.stat(file) 
+      print "last modified: %s" % time.ctime(mtime) 
+70.如何将字符串转换为datetime 
+      可以查看下time模块的strptime方法，反向操作是strftime 
+      date_object = datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p') 
+71.如何找到一个目录下所有.txt文件 
+      os.chdir("/mydir") 
+      for files in glob.glob("*.txt"): 
+          print files 
+            
+      os.chdir("/mydir") 
+      for files in os.listdir("."): 
+          if files.endswith(".txt"): 
+              print files 
+        
+      for r,d,f in os.walk("/mydir"): 
+          for files in f: 
+              if files.endswith(".txt"): 
+                  print os.path.join(r,files) 
+72.读文件到列表中 
+      f = open('filename') 
+      lines = f.readlines() 
+      f.close() 
+      等价 
+     with open(fname) as f: 
+          content = f.readlines() 
+      往文件中追加文本 
+     with open("test.txt", "a") as myfile: 
+          myfile.write("appended text") 
+73.如何列出一个目录的所有文件 
+     onlyfiles = [ f for f in listdir(mypath) if isfile(join(mypath,f)) ] 
+      f = [] 
+      for (dirpath, dirnames, filenames) in walk(mypath): 
+          f.extend(filenames) 
+          break 
+      print glob.glob("/home/adam/*.txt") 
+74.如何从标准输入读取内容stdin 
+      for line in fileinput.input(): pass 
+75.在Python中如何展示二进制字面值 
+     十六进制可以 
+   
+      >>> 0x12AF 
+      4783 
+      >>> 0x100 
+      256 
+      八进制可以 
+       
+      >>> 01267 
+      695 
+      >>> 0100 
+      64 
+      二进制如何表示？ 
+     Python 2.5 及更早版本: 可以表示为 int('01010101111',2) 但没有字面量 
+     Python 2.6 beta: 可以使用0b1100111 or 0B1100111 表示 
+     Python 2.6 beta: 也可以使用 0o27 or 0O27 (第二字字符是字母 O) 
+     Python 3.0 beta: 同2.6，但不支持027这种语法 
+76.如何将一个十六进制字符串转为整数 
+     >>> int("a", 16) 
+      10 
+      >>> int("0xa",16) 
+      10 
+77.如何强制使用浮点数除法 
+     from __future__ import division；c = a / b 
+      或者转换,如果除数或被除数是浮点数，那么结果也是浮点数 
+     c = a / float(b) 
+78.如何合并两个列表 
+     1.不考虑顺序：listone + listtwo    #linstone.extend(listtwo)也行，就是会修改listone 
+      2.考虑顺序做些处理： itertools.chain(listone, listtwo) 
+79.#如何随机地从列表中抽取变量 
+     print random.choice(['a', 'b', 'c', 'd', 'e']) 
+80.获取列表的最后一个元素 
+     result = l[-1] 
+      result = l.pop() 
+81.如何将一个列表切分成若干个长度相同的子序列 
+     想要得到这样的效果 
+     l = range(1, 1000) 
+      print chunks(l, 10) -> [ [ 1..10 ], [ 11..20 ], .., [ 991..999 ] ] 
+      使用yield: 
+      def chunks(l, n): 
+          """ Yield successive n-sized chunks from l. 
+          """ 
+          for i in xrange(0, len(l), n): 
+              yield l[i:i+n] 
+      list(chunks(range(10, 75), 10)) 
+      直接处理 
+     def chunks(l, n): 
+          return [l[i:i+n] for i in range(0, len(l), n)] 
+82.如何获取list中包含某个元素所在的下标 
+     ["foo","bar","baz"].index('bar') 
+83.如何扁平一个二维数组 
+      l = [[1,2,3],[4,5,6], [7], [8,9]] 
+      变为[1, 2, 3, 4, 5, 6, 4, 5, 6, 7, 8, 9] 
+	  b=[]
+	  for x in l:
+			b=b+x			
+      列表解析 
+     [item for sublist in l for item in sublist] 
+      itertools 
+      >>> import itertools 
+      >>> list2d = [[1,2,3],[4,5,6], [7], [8,9]] 
+      >>> merged = list(itertools.chain(*list2d)) 
+      # python >= 2.6 
+      >>> import itertools 
+      >>> list2d = [[1,2,3],[4,5,6], [7], [8,9]] 
+      >>> merged = list(itertools.chain.from_iterable(list2d)) 
+      sum 
+      sum(l, [])     
+84.使用列表解析创建一个字典 
+      python 2.6 
+      d = dict((key, value) for (key, value) in sequence) 
+      python 2.7+ or 3, 使用 字典解析语法 
+      d = {key: value for (key, value) in sequence} 
+85.如何在单一表达式中合并两个Python字典 
+     >>> x = {'a':1, 'b': 2} 
+      >>> y = {'b':10, 'c': 11} 
+      >>> z = x.update(y) 
+      print x 
+      我想要最终合并结果在z中，不是x，我要怎么做？ 
+     这种情况下，可以使用 
+     z = dict(x.items() + y.items()) 
+      这个表达式将会实现你想要的，最终结果z，并且相同key的值，将会是y中key对应的值 
+     >>> x = {'a':1, 'b': 2} 
+      >>> y = {'b':10, 'c': 11} 
+      >>> z = dict(x.items() + y.items()) 
+      >>> z 
+      {'a': 1, 'c': 11, 'b': 10} 
+      如果在Python3中,会变得有些复杂 
+     >>> z = dict(list(x.items()) + list(y.items())) 
+      >>> z 
+      {'a': 1, 'c': 11, 'b': 10} 
+86.排序一个列表中的所有dict，根据dict内值 
+     如何排序如下列表，根据name或age 
+      [{'name':'Homer', 'age':39}, {'name':'Bart', 'age':10}] 
+      简单的做法 
+     newlist = sorted(list_to_be_sorted, key=lambda k: k['name']) 
+      高效的做法 
+     from operator import itemgetter 
+      newlist = sorted(list_to_be_sorted, key=itemgetter('name')) 
+87.如何获取一个函数的函数名字符串 
+     my_function.__name__ 
+      >>> import time 
+      >>> time.time.__name__ 
+      'time' 
+88.用函数名字符串调用一个函数 
+     假设模块foo有函数bar: 
+      import foo 
+      methodToCall = getattr(foo, 'bar') 
+      result = methodToCall() 
+      或者一行搞定 
+     result = getattr(foo, 'bar')() 
+89.检查是否是str或者str的子类 
+     isinstance(o, str) 
+      注意，你或许想要的是 
+     isinstance(o, basestring) 
+      因为unicode字符串可以满足判定(unicode 不是str的子类，但是str和unicode都是basestring的子类) 
+      可选的，isinstance可以接收多个类型参数，只要满足其中一个即True 
+      isinstance(o, (str, unicode)) 
+      判断变量的类型可以使用 type 
+90.json和simplejson的区别 
+     json就是simple，加入到标准库. json在2.6加入，simplejson在2.4+,2.6+,更有优势 
+     另外，simplejson更新频率更高，如果你想使用最新版本，建议用simplejson 
+      好的做法是 
+     try:  
+          import simplejson as json 
+      except ImportError:  
+          import json 
+91.有什么方法可以获取系统当前用户名么? 
+      os.getusername()、os.getuid()、getpass.getuser() 
+92.Python中有没有简单优雅的方式定义单例类 
+     我不认为有必要，一个拥有函数的模块（不是类）可以作为很好的单例使用，它的所有变量被绑定到这个模块，无论如何都不能被重复实例化 
+     如果你确实想用一个类来实现，在python中不能创建私有类或私有构造函数,所以你不能隔离多个实例而仅仅通过自己的API来访问属性 
+     我还是认为将函数放入模块，并将其作为一个单例来使用是最好的办法 
+     顺带说下 staticmethod，静态方法在调用时，对类及实例一无所知 
+     仅仅是获取传递过来的参数，没有隐含的第一个参数，在Python里基本上用处不大，你完全可以用一个模块函数替换它 
+93.如何获取Python的site-packages目录位置 
+     python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())" 
+94.如何获取安装的python模块列表 
+     >>> help('modules') 
+95.什么是迭代？ 
+     任何你可用 "for... in..." 处理的都是可迭代对象：列表，字符串，文件.... 这些迭代对象非常便捷，因为你可以尽可能多地获取你想要的东西 
+     但当你有大量数据并把所有值放到内存时，这种处理方式可能不总是你想要的 
+96.什么是生成器？ 
+     生成器是迭代器，但你只能遍历它一次(iterate over them once) 因为生成器并没有将所有值放入内存中，而是实时地生成这些值 
+     >>> mygenerator = (x*x for x in range(3)) 
+      >>> for i in mygenerator: 
+      ...    print(i) 
+      0 
+      1 
+      4 
+      这和使用列表解析地唯一区别在于使用()替代了原来的[] 
+      注意，你不能执行for i in mygenerator第二次，因为每个生成器只能被使用一次: 计算0，并不保留结果和状态，接着计算1，然后计算4，逐一生成 
+97.yield 的意义与作用？ 
+     yield是一个关键词，类似return, 不同之处在于，yield返回的是一个生成器 
+     >>> def createGenerator(): 
+      ...    mylist = range(3) 
+      ...    for i in mylist: 
+      ...        yield i*i 
+      ... 
+      >>> mygenerator = createGenerator() # create a generator 
+      >>> print(mygenerator) # mygenerator is an object! 
+      <generator object createGenerator at 0xb7555c34> 
+      >>> for i in mygenerator: 
+      ...     print(i) 
+      0 
+      1 
+      4 
+      这个例子并没有什么实际作用,仅说明当你知道你的函数将产生大量仅被读取一次的数据时,使用生成器将是十分有效的做法 
+     要掌握yield,你必须明白 - 当你调用这个函数，函数中你书写的代码并没有执行。这个函数仅仅返回一个生成器对象 
+     这有些狡猾 :-) 
+      然后，在每次for循环使用生成器时,都会执行你的代码 
+     然后，是比较困难的部分： 
+     第一次函数将会从头运行，直到遇到yield，然后将返回循环的首个值. 然后，每次调用，都会执行函数中的循环一次，返回下一个值，直到没有值可以返回 
+     当循环结束，或者不满足"if/else"条件，导致函数运行但不命中yield关键字，此时生成器被认为是空的，然后就结束迭代 
+98.迭代器的内部机制 
+     迭代过程包含可迭代对象(实现__iter__()方法) 和迭代器(实现__next__()方法) 
+99.字典批量添加或更新 
+     d['key'] = 'newvalue' 
+      #另一个字典 
+     d.update({'key':'newvalue'})  #这里支持一整组值 
+     #元组列表 
+     d.update( [ ('a',1), ('b',2) ] ) #每个元组两个元素，(key,value) 
+      #**key 
+      d.update(c=3, e=4) 
+      d.setdefault('name', 'ken') #若原来没有，设置，否则原值不变 
+100.字典删除 
+     del d['key'] 
+      value = d.pop('key') #删除并返回值 
+     d.clear() #清空
+}  	 
+
+代码风格
+{
+空格(行)使用 (1) 
+?使用 4 个空格缩进。
+?不要使用制表符。
+?不要将制表符和空格混合使用。
+?IDEL和Emacs的Python的都支持 spaces模式。
+?每个函数之间应该有一个空行。
+?每一个 Class 之间应该有两个空行。
+空格(行)使用 (2) 
+?在使用 字典(dict), 列表(list), 元组(tuple), 参数(argument)列表时， 应在 "," 前添加一个空格, 并且使用字典(dict)时，在 ":" 号后添加空格，而不是在前面添加。
+?在括号之前或参数之前不添加空格。
+?在文档注释中前后应该没有空格。
+Python代码  
+1.def make_squares(key, value=0):  
+2.    """Return a dictionary and a list..."""  
+3.    d = {key: value}  
+4.    l = [key, value]  
+5.    return d, l  
+命名 
+?joined_lower 可以是 函数名, 方法名, 属性名
+?joined_lower or ALL_CAPS 是常量
+?StudlyCaps 类名
+?camelCase 只有在预先制定好的命名规范使用
+?属性: interface, _internal, __private
+?但尽量避免__private形式。下面两个链接解释了 为什么python中没有 private声明？
+      http://stackoverflow.com/questions/70528/why-are-pythons-private-methods-not-actually-private 
+       http://stackoverflow.com/questions/1641219/does-python-have-private-variables-in-classes 
+较长代码行 
+保持一行代码在 80 个字符长度。 
+在括号内使用隐含的行延续： 
+Python代码  
+1.def __init__(self, first, second, third,  
+2.            fourth, fifth, sixth):  
+3.   output = (first + second + third  
+4.             + fourth + fifth + sixth)  
+或者在需要换行的位置使用 \ 来延续行： 
+Python代码  
+1.VeryLong.left_hand_side \  
+2.    = even_longer.right_hand_side()  
+另外，使用反斜杠是有风险的，如果你添加一个空格在反斜杠后面，它就出错了。此外，它使代码难看。 
+较长字符串 
+将相邻的字符串进行连接的做法： 
+Python代码  
+1.>>> print 'o' 'n' "e"  
+2.one  
+虽然字符之间的空格不是必需的，但是这样有助于可读性。 
+Python代码  
+1.>>> print 't' r'\/\/' """o"""  
+2.t\/\/o  
+用一个 “r“ 开头的字符串是一个“raw“的字符串(类似java中的转义符)。上面的反斜杠就会当成普通字符串处理。他们对正则表达式和Windows文件系统路径非常有用。 
+注意：使用字符串变量名无法通过以上方式进行连接。 
+Python代码  
+1.>>> a = 'three'  
+2.>>> b = 'four'  
+3.>>> a b  
+4.  File "<stdin>", line 1  
+5.    a b  
+6.      ^  
+7.SyntaxError: invalid syntax  
+这是因为自动连接是由Python解析器/编译器来处理的，因为其无法在编译时对变量值进行"翻译"，所以就这种必须在运行时使用“+“运算符来连接变量。 
+复合语句 
+Good： 
+Python代码  
+1.if foo == 'blah':  
+2.    do_something()  
+3.do_one()  
+4.do_two()  
+5.do_three()  
+ Bad： 
+Python代码  
+1.if foo == 'blah': do_something()  
+2.do_one(); do_two(); do_three()  
+文档注释(Docstrings) & 注释 
+文档注释 = 用于解释如何使用代码 
+       文档注释公约：http://www.python.org/dev/peps/pep-0257/ 
+注释 = 为什么 (理由) & 代码如何工作的如： 
+Python代码  
+1.# !!! BUG: ...  
+2.# !!! FIX: This is a hack  
+3.# ??? Why is this here?  
+注释对于任何语言开发者来说已经最基本的东西了，这里就不详细说了. 
+交换变量 
+在其它语言的交换变量的做法一般是: 
+Java代码  
+1.temp = a  
+2.a = b  
+3.b = temp  
+ Python的做法： 
+Python代码  
+1.b, a = a, b  
+也许你见到过这样的情况，但是你知道它是如何工作的吗？ 
+?首先，逗号是元组构造语法。
+?等号的右边是定义一个元组 (tuple packing).
+?其左边为一个目标元组 (tuple unpacking)).
+右边的元组根据名称被 unpacked 到左边的无组。 
+更多关于 unpacked例子： 
+Python代码  
+1.>>> info =['David', 'Pythonista', '+1250']  
+2.>>> name, title, phone = info  
+3.>>> name  
+4.'Davids'  
+5.>>> title  
+6.'Pythonista'  
+7.>>> phone  
+8.'+1250'  
+在结构化的数据上使用循环： 
+info 是在上面定义的一个 list . 所以下面的 people 有两个项,  两个项都是分别都拥有三个项的 list. 
+Python代码  
+1.>>> people = [info, ['Guido', 'BDFL', 'unlisted']]  
+2.>>> for (name, title, phone) in people:  
+3....     print name, phone  
+4....  
+5.David +1250  
+6.Guido unlisted  
+以上循环中，people中的两个项(list item)，都已经被 unpacked 到 (name, title, phone) 无组中。 
+可以任意嵌套(只要左右两边的结构一定要能够匹配得上): 
+Python代码  
+1.>>> david, (gname, gtitle, gphone) = people  
+2.>>> gname  
+3.'Guido'  
+4.>>> gtitle  
+5.'BDFL'  
+6.>>> gphone  
+7.'unlisted'  
+8.>>> david  
+9.['David', 'Pythonista', '+1250']  
+更多关于 Tuples 
+我们看到的是元组通过逗号构造，而不是括号。例如： 
+Python代码  
+1.>>> 1,  
+2.(1,)  
+ Python的解释器会为你显示括号，所以建议你使用括号： 
+Python代码  
+1.>>> (1,)  
+2.(1,)  
+千万不要忘记逗号! 
+Python代码  
+1.>>> (1)  
+2.1  
+在只有一个元素的元组，尾随逗号是必须的，在2 + 元素的元组，尾随逗号是可选的。 如果创建一个 0或空元组，一对括号是快捷的语法： 
+Python代码  
+1.>>> ()  
+2.()  
+3.>>> tuple()  
+4.()  
+一个常见的??错误当你并不想要一个无组，却无意的添加了一个逗号，很容易造成你在代码中的错误，如： 
+Python代码  
+1.>>> value = 1,  
+2.>>> value # is a tuple, not a int  
+3.(1,)  
+所以，当你发现一个元组时，赶紧去找一下那个,号吧。 
+关于 "_" 
+是一个非常有用的功能，但是却很少有人知道。 
+当你在交互式模式下(如 IDEL)计算一个表达式或调用一个函数后，其结果必然是一个临时名称，_（下划线）： 
+Python代码  
+1.>>> 1 + 1  
+2.2  
+3.>>> _  
+4.2  
+在 _ 中存储最后输出的值。 
+当输出的结果是 None 或没有任何输出时，而 _ 的值并不会改变，仍然保存上一次的值。这就是方便所在。 
+当然，这只能交互式的模式中使用，在模块中不能支持。 
+这在交互式模式中是非常有用的，当你在过程中没有保存计算结果 或 你想看最后一步的执行的输出结果： 
+Python代码  
+1.>>> import math  
+2.>>> math.pi / 3  
+3.1.0471975511965976  
+4.>>> angle = _  
+5.>>> math.cos(angle)  
+6.0.50000000000000011  
+7.>>> _  
+8.0.50000000000000011  
+创建String: 从列表中创建 
+开始定义一个 string  列表：
+Python代码  
+1.colors = ['red', 'blue', 'green', 'yellow']  
+当我们需要将上面的列表连接成一个字符串。尤其当 list 是一个很大的列表时.... 
+不要这样做： 
+Python代码  
+1.result = ''  
+2.for s in colors:  
+3.    result += s  
+这种方式效率非常低下的，它有可怕的内存使用问题，至于为什么，如果你是 javaer 的话，其中的 string 连接，我想你并不陌生。 
+相反，你应该这样做： 
+Python代码  
+1.result = ''.join(colors)  
+当你只有几十或几百个string项连接时，它们效率上并不会太大的差别。但你要在养成写高效代码的习惯，因为当字符串数千时，join 比起 for 连接性能会能有所提升。 
+如果你需要使用一个函数来生成一个字符串列表，同样可以使用：
+Python代码  
+1.result = ''.join(fn(i) for i in items)  
+尽可能的使用 
+Good:
+Python代码  
+1.for key in d:  
+2.    print key  
+?使用 in 一般情况下是非常快的。
+?这种方式也适用于其它的容器对象（如 list，tuple 和 set）。
+?in 是操作符(正如上面所看到的)。
+Bad: 
+Python代码  
+1.for key in d.keys():  
+2.    print key  
+保持与上面的一致性，使用 use key in dict 方式，而不是 dict.has_key(): 
+Python代码  
+1. # do this:  
+2.if key in d:  
+3.    ...do something with d[key]  
+4.  
+5.# not this:  
+6.if d.has_key(key):  
+7.    ...do something with d[key]  
+字典中的 get 函数 
+我们经常需要在字典中初始化数据： 
+以下是不好的实现方法： 
+Python代码  
+1.navs = {}  
+2.for (portfolio, equity, position) in data:  
+3.    if portfolio not in navs:  
+4.        navs[portfolio] = 0  
+5.    navs[portfolio] += position * prices[equity]  
+使用dict.get(key, default) 删除 if 判断代码： 
+Python代码  
+1.navs = {}  
+2.for (portfolio, equity, position) in data:  
+3.    navs[portfolio] = (navs.get(portfolio, 0)  
+4.                       + position * prices[equity])  
+这种方式更为直接。 
+字典中的 setdefault 函数 (1) 
+当我们要初始化一个可变字典的值。每个字典的值将是一个列表。下面是不好的做法： 
+初始化可变字典的值： 
+Python代码  
+1.equities = {}  
+2.for (portfolio, equity) in data:  
+3.    if portfolio in equities:  
+4.        equities[portfolio].append(equity)  
+5.    else:  
+6.        equities[portfolio] = [equity]  
+通过 dict.setdefault(key, default) 使这段代码工作的更好: 
+Python代码  
+1.equities = {}  
+2.for (portfolio, equity) in data:  
+3.    equities.setdefault(portfolio, []).append(  
+4.                                         equity)  
+ dict.setdefault（）等同于“ get, or set & get“ 或"如果没有，就设置";  如果你的字典Key是复杂的计算或long类型，使用 setdefault 是特别有效的。
+字典中的 setdefault 函数 (2) 
+在我们看到的setdefault字典方法也可以作为一个独立的语句使用： 
+Python代码  
+1.avs = {}  
+2.for (portfolio, equity, position) in data:  
+3.    navs.setdefault(portfolio, 0)  
+4.    navs[portfolio] += position * prices[equity]  
+我们在这里忽略了字典的setdefault方法返回的默认值。我们正利用的setdefault中的作用，仅仅只是在dict中没有 key 的值的时候才会设置。 
+创建 & 分割字典 
+如果你有两份 list 对象，希望通过这两个对象构建一个 dict 对象。 
+Python代码  
+1.given = ['John', 'Eric', 'Terry', 'Michael']  
+2.family = ['Cleese', 'Idle', 'Gilliam', 'Palin']  
+3.pythons = dict(zip(given, family))  
+4.>>> pprint.pprint(pythons)  
+5.{'John': 'Cleese',  
+6. 'Michael': 'Palin',  
+7. 'Eric': 'Idle',  
+8. 'Terry': 'Gilliam'}  
+同样，如果希望获取两份列表，也是非常简单： 
+Python代码  
+1.>>> pythons.keys()  
+2.['John', 'Michael', 'Eric', 'Terry']  
+3.>>> pythons.values()  
+4.['Cleese', 'Palin', 'Idle', 'Gilliam']  
+需要注意的是，上面 list 虽然是有序的，但是 dict 中的  keys 和 values 是无序的，这正是因为 dict 本质就是无序存储的。 
+索引 & 项 (1) 
+如果你需要一个列表，这里有一个可爱的方式来节省你的输入： 
+Python代码  
+1.>>> items = 'zero one two three'.split()  
+2.>>> print items  
+3.['zero', 'one', 'two', 'three']  
+如果我们需要遍历这个 list ，而且需要 index 和 item： 
+Python代码  
+1.                  - or -  
+2.i = 0  
+3.for item in items:      for i in range(len(items)):  
+4.    print i, item               print i, items[i]  
+5.    i += 1  
+索引 & 项 (2): enumerate 
+通过 enumerate 可以返回 list 中的 (index, item)元组： 
+Python代码  
+1.>>> print list(enumerate(items))  
+2.[(0, 'zero'), (1, 'one'), (2, 'two'), (3, 'three')]  
+于是，遍历list获取index 及 item 就更加简单了： 
+Python代码  
+1.for (index, item) in enumerate(items):  
+2.    print index, item  
+Python代码  
+1.# compare:              # compare:  
+2.index = 0               for i in range(len(items)):  
+3.for item in items:              print i, items[i]  
+4.    print index, item  
+5.    index += 1  
+不难看出，使用 enumerate 比起下面两种方式，更加简单，更加容易阅读，这正是我们想要的。 
+下面是例子是如何通过 enumerate 返回迭代器： 
+Python代码  
+1.>>> enumerate(items)  
+2.<enumerate object at 0x011EA1C0>  
+3.>>> e = enumerate(items)  
+4.>>> e.next()  
+5.(0, 'zero')  
+6.>>> e.next()  
+7.(1, 'one')  
+8.>>> e.next()  
+9.(2, 'two')  
+10.>>> e.next()  
+11.(3, 'three')  
+12.>>> e.next()  
+13.Traceback (most recent call last):  
+14.  File "<stdin>", line 1, in ?  
+15.StopIteration  
+默认参数值 
+这是对于一个初学者常犯的错误，甚至于一些高级开发人员也会遇到，因为他们并不了解 Python 中的 names. 
+Python代码  
+1.def bad_append(new_item, a_list=[]):  
+2.    a_list.append(new_item)  
+3.    return a_list  
+这里的问题是，a_list是一个空列表，默认值是在函数定义时进行初始化。因此，每次调用该函数，你会得到不相同的默认值。尝试了好几次： 
+Python代码  
+1.>>> print bad_append('one')  
+2.['one']  
+3.>>> print bad_append('two')  
+4.['one', 'two']  
+列表是可变对象，你可以改变它们的内容。正确的方式是先获得一个默认的列表（或dict，或sets）并在运行时创建它。 
+Python代码  
+1.def good_append(new_item, a_list=None):  
+2.    if a_list is None:  
+3.        a_list = []  
+4.    a_list.append(new_item)  
+5.    return a_list  
+判断 True 值 
+Python代码  
+1.# do this:        # not this:  
+2.if x:             if x == True:  
+3.    pass              pass  
+它的优势在于效率和优雅。 
+判断一个list： 
+Python代码  
+1.# do this:        # not this:  
+2.if items:         if len(items) != 0:  
+3.    pass              pass  
+4.  
+5.                  # and definitely not this:  
+6.                  if items != []:  
+7.                      pass  
+True 值 
+True和False是内置的bool类型的布尔值的实例。谁都只有其中的一个实例。 
+False True 
+False (== 0) True (== 1) 
+"" (empty string)       any string but "" (" ", "anything") 
+0, 0.0      any number but 0 (1, 0.1, -1, 3.14) 
+[], (), {}, set()      any non-empty container ([0], (None,), ['']) 
+None      almost any object that's not explicitly False' 
+}
+
+#python 学习手册摘要
+{
+Python里一切都是对象
+动态语言里，一旦创建了对象，对象就会和操作集绑定
+在计算机内存中，统一使用Unicode编码，当需要保存到硬盘或者需要传输的时候，就转换为UTF-8编码。
+用记事本编辑的时候，从文件读取的UTF-8字符被转换为Unicode字符到内存里，编辑完成后，保存的时候再把Unicode转换为UTF-8保存到文件。
+
+为了避免乱码问题，应当始终坚持使用UTF-8编码对str和bytes进行转换
+
+写的文本基本上全部是英文的话，用Unicode编码比ASCII编码需要多一倍的存储空间，在存储和传输上就十分不划算。所以，又出现了把Unicode编码转化为“可变长编码”的UTF-8编码。UTF-8编码把一个Unicode字符根据不同的数字大小编码成1-6个字节，常用的英文字母被编码成1个字节，汉字通常是3个字节，只有很生僻的字符才会被编码成4-6个字节。如果你要传输的文本包含大量英文字符，用UTF-8编码就能节省空间
+
+#《python 变量的传递》
+
+在python中，类型属于对象，变量是没有类型的
+a="aaaaaa" #一个指向string数据类型的a
+a=1 	   #一个指向int数据类型的a
+#a指向的对象变了，可以看出变量a没有固定的类型，所有的变量都可以理解 是内存中一个对象的“引用”。
+
+
+python中变量都被视为对象的引用。python函数调用传递参数的时候，不允许程序员选择传值还是传引用，python参数传递采用的都是“传对象引用”的方式。
+这种方式相当于传值和传引用的结合，如果函数收到的是一个可变对象（比如字典或者列表）的引用，就能修改对象的原始值——相当于通过“传引用”来传递对象；如果函数收到的是一个不可变对象（比如数字、字符串或元组）的引用，就不能直接修改原始对象——相当于“传值”来传递对象。
+python一般内部赋值变量的话，都是个引用变量，和c语言的传地址概念差不多。可以通过id(x)来查询x的内存地址。 
+如果 a=b的话，a和b的地址相同；如果只是想拷贝，就要用 a = b[:]
+>>> a=[1,2,3]
+>>> id(a)
+46049880
+>>> b=a
+>>> id(b)
+46049880
+>>> c=a[:]
+>>> id(c)
+46500200
+>>> a[1]=2222
+>>> id(a)
+46049880
+>>> id(b)
+46049880
+>>> b
+[1, 2222, 3]
+>>> 
+>>> c[2]=3333
+>>> c
+[1, 2, 3333]
+>>> id(c)
+46500200
+
+def Func(x):
+    x = 20
+a = 10
+Func(a)
+print(a) 
+#输出10， 调用Func(a)时，Func内部的x变量指向整型对象10,
+#（即为整型对象10的引用）。在Func内部尝试修改一个不可变对象，
+#会使得Func内部的x指向一个新的对象20，而外部的变量a仍然指向不可变对象10.
+
+def Func2(x):
+    x[0] = 20
+ 
+a = [1,2,3]
+Func2[a]
+print(a) 
+#结果为 [20, 2, 3]。 
+
+#为一个定义在函数外的变量赋值
+a=[1,2,3]
+def aa():
+      global a
+      a=[2,3,4]
+      #global a=[2,3,4] #这样是错误的！
+      print(a)
+print(a)
+aa()
+print(a)
+
+'''
+[1, 2, 3]
+[2, 3, 4]
+[2, 3, 4]
+'''
+
+
+#枚举
+enumerate(x) #x为列表或者元组，对于每次迭代，返回 index， value 元组，index为下标，而value为x内的下标为index的对应的数值
+
+for (index, value) in enumerate(x):
+　　print index, value
+
+zip(x1, x2...)
+如果有多个列表x1,x2.... 每个序列的元素个数相同，可以通过zip来迭代取出所有序列的相同位置的元素。
+ta = [1,2,3]
+tb = [9,8,7]
+tc = ['a','b','c']
+for (a,b,c) in zip(ta,tb,tc):
+    print(a,b,c)
+	
+#yield的使用
+生成器可以构造一个用户自定义的循环对象。生成器的编写方法和函数定义类似，只是在return的地方改为 yield。生成器中可以有多个yield，当生成器遇到一个yield时，会暂停运行生成器，返回yield后面的值。当再次调用生成器的时候，会从刚才暂停的地方继续运行，直到下一次yield。生成器自身构成一个循环器，每次循环使用一个yield返回的值。	
+def gen():
+    a = 100
+    yield a
+    a = a*8
+    yield a
+    yield 1000
+
+list(gen())	#[100,800,1000]
+for i in gen():
+    print i
+ 
+def gen():
+    for i in range(4):
+        yield i
+ 
+或者可以写成生成器表达式
+G = (x for x in range(4))
+
+#生成器表达式
+a = (x for x in range(4))
+#表推导
+b = [x**2 for x in range(4)]
+
+>>> a
+<generator object <genexpr> at 0x00406788>
+>>> list(a)
+[1, 2, 3]
+>>> 
+>>> b=[x for x in range(1,4)]
+>>> b
+[1, 2, 3]
+>>> type(a)
+<class 'generator'> #生成器
+>>> type(b)
+<class 'list'>
+
+
+#map的使用
+re = map((lambda x:x + 3), [1,3,4,5])
+>>> list(re)
+[4, 6, 7, 8]
+这里参数1为lambda定义的函数对象，参数2为一个包含多个元素的表。map()的功能是将函数对象依次作用于表的每一个元素，每次作用的结果存储于返回的表re中。map是通过读入的函数来操作数据。
+如果作为参数的函数对象有多个参数，可以使用下面的方式，向map()传递函数参数的多个参数：
+re = map((lambda x, y: x + y), [1,2,3], [6,7,8])
+>>> list(re)
+[7, 9, 11]
+map()将每次从两个表中分别取出一个元素，带入lambda所定义的函数。
+在python3中，map()返回值不是一个表，而是一个循环对象。
+
+
+#filter 的使用  过滤器
+filter()和map()类似，将作为参数的函数对象作用于多个元素。如果函数对象返回的为True，则该次的元素被存储于返回的表中。filter通过读入的函数来筛选数据。在python3中，filter返回的不是表，而是循环对象。
+
+def func(a):
+    if a > 100：
+        return True
+    else:
+        return False
+print filter(func, [10, 56, 101, 100])
+
+>>> list(filter(f,[1,2333,34,435,121,22]))
+[2333, 435, 121]
+
+#id 的用法
+在python中通过执行内建函数 id(obj) 可以获得对象obj在内存中的地址。在python中，整数和短小的字符，python都会缓存这些对象，以便重复使用。当我们创建多个等于1的引用时，实际上是让所有这些引用指向同一个对象。
+#通过 is 关键字可以判断两个引用是否指向同一个对象
+
+#getrefcount() 引用计数器
+在python中，每个对象都有存有指向该对象的引用总数，即引用计数。通过sys包中的getrefcount()方法可以查看某个对象的引用计数。需要注意的是当使用某个引用作为参数，传递给getrefcount()时，参数实际上创建了一个临时的引用。因此，getrefcount()所得到的结果，会比期望的多1。
+
+#使用del关键字删除某个引用
+
+Python内置函数里，exec 关键字执行多行代码片段，eval() 函数通常用来执行一条包含返回值的表达式
+exec 
+>>> code = """
+... def test():
+...     print "this is a test by abeen"
+... """
+>>> test() #NameError: name 'test' is not defined
+>>> exec code
+>>> test() # test()成功执行
+this is a test by abeen
+>>> exec('print("aaa")')
+aaa
+>>>exec(open(filename).read())
+ 
+eval
+eval() 和 execfile() 都有 "globals, locals" 参数，用于传递环境变量，默认或显式设置为 None 时都直接使用 globals() 和 locals() 获取当前作用域的数据。
+>>> a =10
+>>> eval("a+3") #默认传递环境变量
+13
+>>> evla("a+3")#NameError: name 'evla' is not defined
+>>> eval("a+3")
+3
+>>> eval("a+3",{},{"a":100}) #显示传递环境变量
+103
+
+#将代码编译成字节码
+内置函数 compile() 将一段源代码编译成 codeobject，然后可以提交给 exec 执行
+compile(source, filename, mode[, flags[, dont_inherit]]) 
+参数 filename 只是用来在编译错误时显式一个标记，无关输出和存储什么事。mode 可以是 "exec"(多行代码组成的代码块)、"eval"(有返回值的单行表达式)、"single"(单行表达式)。
+
+>>> source = """
+def test():
+	print("dawdsfg")
+"""
+>>> code=compile(source,"test.py","exec")
+>>> exec(code)
+>>> test()
+dawdsfg
+
+>>> code=compile ("print('这样也行')",'test.py','exec')
+>>> exec(code)
+这样也行
+
+
+print(value, ..., sep=' ', end='\n', file=sys.stdout, flush=False)
+python print格式化输出{
+
+1. 打印字符串
+print ("His name is %s"%("Aviad"))
+
+2.打印整数
+print ("He is %d years old"%(25))
+
+3.打印浮点数
+print ("His height is %f m"%(1.83))
+
+4.打印浮点数（指定保留小数点位数）
+print ("His height is %.2f m"%(1.83))
+
+5.指定占位符宽度
+print ("Name:%10s Age:%8d Height:%8.2f"%("Aviad",25,1.83))
+
+6.指定占位符宽度（左对齐）
+print ("Name:%-10s Age:%-8d Height:%-8.2f"%("Aviad",25,1.83))
+
+7.指定占位符（只能用0当占位符？）
+print ("Name:%-10s Age:%08d Height:%08.2f"%("Aviad",25,1.83))
+
+8.科学计数法
+format(0.0015,'.2e')
+
+}
+}
+
+IDLE编辑器快捷键{
+自动补全代码        Alt+/（查找编辑器内已经写过的代码来补全)
+补全提示              Ctrl+Shift+space(默认与输入法冲突，修改之)
+(方法：Options->configure IDLE…->Keys-> force-open-completions
+提示的时候只要按空格就出来对于的，否则翻上下键不需要按其他键自动就补全了)
+
+后退                    Ctrl+Z
+
+重做                    Ctrl+Shift+Z
+加缩进                 Ctrl+]
+减缩进                 Ctrl+[
+加注释                 Alt+3
+去注释                 Alt+4
+
+Python Shell快捷键
+
+自动补全同上
+上一条命令           Alt+P
+下一条命令           Alt+N
+}
+
+python读写execl{
+https://pypi.python.org/pypi  #库下载网址
+#读是openpyxl 写是xlsxwriter 比较新的处理execl的库，好像xlrd只支持到execl 2007版本，openpyxl支持到最新的
+#http://www.cnblogs.com/guanfuchang/p/5970435.html
+#读
+1、导入模块 
+      import xlrd
+2、打开Excel文件读取数据
+       data = xlrd.open_workbook('excel.xls')
+3、获取一个工作表
+1  table = data.sheets()[0]          #通过索引顺序获取
+2  table = data.sheet_by_index(0) #通过索引顺序获取
+3  table = data.sheet_by_name(u'Sheet1')#通过名称获取
+4、获取整行和整列的值（返回数组）
+         table.row_values(i)
+         table.col_values(i)
+5、获取行数和列数　
+        table.nrows
+        table.ncols
+6、获取单元格
+　　table.cell(0,0).value
+      
+table.cell(2,3).value
+ #写
+
+　写excel表要用到xlwt模块，官网下载（http://pypi.python.org/pypi/xlwt）。大致使用流程如下：
+1、导入模块
+　　import xlwt
+2、创建workbook（其实就是excel，后来保存一下就行）
+　　workbook = xlwt.Workbook(encoding = 'ascii')
+3、创建表
+ 　　worksheet = workbook.add_sheet('My Worksheet')
+4、往单元格内写入内容
+　　worksheet.write(0, 0, label = 'Row 0, Column 0 Value')
+5、保存
+　　workbook.save('Excel_Workbook.xls')
+
+
+#复制execl中的部分数据到另一份execl中的相同位置
+import xlrd
+import xlwt
+import xlutils.copy
+path1="E:\\安全测试\\中央软件院网络安全需求基线V2.0-API管理子系统.xlsx"
+path2="E:\\安全测试\\2222.xlsx"
+workbook1 = xlrd.open_workbook(path1)
+workbook2 = xlrd.open_workbook(path2)
+
+print(workbook1.sheet_names())
+sheet1 = workbook1.sheet_by_name('应用层安全') # 根据sheet索引或者名称获取sheet内容
+print (sheet1.name,sheet1.nrows,sheet1.ncols) # sheet的名称，行数，列数
+cols0 = sheet1.col_values(0) # 获取第1列内容,用例编号
+cols9 = sheet1.col_values(9) # 获取第9列内容，产品状态
+cols10 = sheet1.col_values(10) # 获取第10列内容，举证说明 记得需要打开所有隐藏才能正确看到
+a=[]
+for x,y,z in zip(cols0,cols9,cols10):
+	print(x,y,z)
+	a.append([x,y,z])
+	
+workbook2 = xlrd.open_workbook(path2)
+sheet2 = workbook2.sheet_by_name('Sheet1')
+cols02 = sheet2.col_values(0) # 获取第1列内容,用例编号
+cols92 = sheet2.col_values(14) # 获取第9列内容，产品状态
+cols102 = sheet2.col_values(15) # 获取第10列内容，举证说明 记得需要打开所有隐藏才能正确看到
+b=[]
+for x,y,z in zip(cols02,cols92,cols102):
+	print(x,y,z)
+	b.append([x,y,z])
+#以上已经获取了对应的两份文件的数据信息，下面将第一列的数据相同的对应上，不同的暂时不管	
+#原始数据	
+print(b)	
+e=[]
+f=[]
+for x,y,z in a:
+	e.append(x)
+	
+for x,y,z in b:
+	f.append(x)
+#查找对应位置上的数据
+for x,y in enumerate(e):
+        if e[x] in f:
+                q=f.index(e[x]) #源数据在目标数据中的索引位置
+                b[q][1]=a[x][1]	
+                b[q][2]=a[x][2]
+#修改后的数据
+print(b)
+#将修改后的数据写入到目标文件的对应位置	
+path3="E:\\安全测试\\2222.xls"	
+workbook3 = xlrd.open_workbook(path3,formatting_info=True)
+workbook4 = xlutils.copy.copy(workbook3)
+wd = workbook4.get_sheet(0)
+		
+for x in range(len(b)):
+	wd.write(x, 14, b[x][1])
+	wd.write(x, 15, b[x][2])	
+			
+workbook4.save(path3)
+
+}
+
+Python3常用内置函数{
+
+#数学相关
+abs(a) : 求取绝对值。abs(-1)
+max(list) : 求取list最大值。max([1,2,3]),max(1,2,3,4),max((1,2,3,4)),max({1,2,3,4})
+min(list) : 求取list最小值。min([1,2,3]),同上
+sum(list) : 求取list元素的和。 sum([1,2,3]) >>> 6  ,sum((1,2,3,4)),sum({1,2,3,4})
+sorted(list) : 排序，返回排序后的list。sorted({1,6,3,4}),sorted((1,6,3,4)),sorted([1,6,3,4])
+len(list) : list长度,len([1,2,3])
+divmod(a,b): 获取商和余数。 divmod(5,2) >>> (2,1)
+pow(a,b) : 获取乘方数。pow(2,3) >>> 8
+round(a,b) : 获取指定位数的小数。a代表浮点数，b代表要保留的位数。round(3.1415926,2) >>> 3.14
+range(a[,b]) : 生成一个a到b的数组,左闭右开。 range(1,10) >>> [1,2,3,4,5,6,7,8,9]
+
+#类型转换
+int(str) : 转换为int型。int('1') >>> 1
+float(int/str) : 将int型或字符型转换为浮点型。float('1') >>> 1.0
+str(int) : 转换为字符型。str(1) >>> '1'
+bool(int) : 转换为布尔类型。 str(0) >>> False str(None) >>> False
+bytes(str,code) : 接收一个字符串，与所要编码的格式，返回一个字节流类型。bytes('abc', 'utf-8') >>> b'abc' bytes(u'爬虫', 'utf-8') >>> b'\xe7\x88\xac\xe8\x99\xab'
+list(iterable) : 转换为list。 list((1,2,3)) >>> [1,2,3]
+iter(iterable)： 返回一个可迭代的对象。 iter([1,2,3]) >>> <list_iterator object at 0x0000000003813B00>
+dict(iterable) : 转换为dict。 dict([('a', 1), ('b', 2), ('c', 3)]) >>> {'a':1, 'b':2, 'c':3} >>> dict(zip([23,345,65,42,234],[1,2,34,345,675,45]))  >>> dict(enumerate([1,34,43,54,64,43]))
+enumerate(iterable) : 返回一个枚举对象。
+tuple(iterable) : 转换为tuple。 tuple([1,2,3]) >>>(1,2,3)
+set(iterable) : 转换为set。 set([1,4,2,4,3,5]) >>> {1,2,3,4,5} set({1:'a',2:'b',3:'c'}) >>> {1,2,3}
+hex(int) : 转换为16进制。hex(1024) >>> '0x400'
+oct(int) : 转换为8进制。 oct(1024) >>> '0o2000'
+bin(int) : 转换为2进制。 bin(1024) >>> '0b10000000000'
+chr(int) : 转换数字为相应ASCI码字符。 chr(65) >>> 'A'
+ord(str) : 转换ASCI字符为相应的数字。 ord('A') >>> 65
+
+#相关操作
+eval() : 执行一个表达式，或字符串作为运算。 eval('1+1') >>> 2
+exec() : 执行python语句。 exec('print("Python")') >>> Python
+filter(func, iterable) : 通过判断函数fun，筛选符合条件的元素。 filter(function or None, iterable) --> filter object   filter(lambda x: x>3, [1,2,3,4,5,6]) >>> #很有用的函数
+map(func, *iterable) : 将func用于每个iterable对象。 map(lambda a,b: a+b, [1,2,3,4], [5,6,7]) >>> [6,8,10]
+zip(*iterable) : 将iterable分组合并。返回一个zip对象。 list(zip([1,2,3],[4,5,6])) >>> [(1, 4), (2, 5), (3, 6)]
+type()：返回一个对象的类型。
+id()： 返回一个对象的唯一标识值。
+hash(object)：返回一个对象的hash值，具有相同值的object具有相同的hash值。 hash('python') >>> 7070808359261009780
+help()：调用系统内置的帮助系统。
+isinstance()：判断一个对象是否为该类的一个实例。
+issubclass()：判断一个类是否为另一个类的子类。
+globals() : 返回当前全局变量的字典。
+locals() : 更新并返回包含当前作用域的局部变量的字典。
+next(iterator[, default]) : 接收一个迭代器，返回迭代器中的数值，如果设置了default，则当迭代器中的元素遍历后，输出default内容。
+reversed(sequence) ： 生成一个反转序列的迭代器并返回。 reversed('abc') >>> ['c','b','a']  ,list(reversed([1,2,3,4,5])),list(reversed((1,2,3,4,5)))
+} 
+
+数据库{
+
+import pymysql
+conn = pymysql.connect(host='10.175.102.222', port=15432, user='root', passwd='root',db='wso2am_db',charset='utf8')
+cursor = conn.cursor()
+cursor.execute("select * from am_api")
+row_1 = cursor.fetchone()
+(2413, 'provider', 'add_api_01bc7e9', 'v1.0', '/gts/delete_api_01/698e9')
+>>> type(row_1)
+<class 'tuple'>
+
+>>> for x in range(1,50):
+	print(cursor.fetchone())
+	
+conn.commit()
+cursor.close(); 
+conn.close();
+	
+	
+#具体情况看博客园
+conn = pymysql.connect(host='10.175.102.222', port=15432, user='root', passwd='root')
+cur.execute('delete from user where id=20')                  # 删除一条记录
+cur.execute("update user set name='a' where id=20")          # 更细数据
+sqlresult = cur.fetchall()                                   # 接收全部返回结果
+conn.commit()                                                # 提交
+cur=conn.cursor()                                            # 定义游标
+conn.select_db('fortress')                                   # 选择数据库
+}	
+
+目录中的斜杠们{
+python读文件需要输入的目录参数，列出以下例子：
+path = r"C:\Windows\temp\readme.txt"
+path1 = r"c:\windows\temp\readme.txt"
+path2 = "c:\\windows\\temp\\readme.txt"
+path3 = "c:/windows/temp/readme.txt"
+打开文件函数open()中的参数可以是path也可以是path1、path2、path3。
+}
+#内置的装饰器有三个，分别是staticmethod、classmethod和property，作用分别是把类中定义的实例方法变成静态方法、类方法和类属性
+#装饰器 的作用就是为已经存在的函数或对象添加额外的功能。
+类中各种方法、各种变量和 装饰器
+{
+
+1.静态方法，可以认为是一种全局方法，因为它不需要类实例化就能访问，和模块内的方法没什么区别，可以通过类和实例进行调用，它不能访问实例变量。当然，但能够通过类名访问类变量，如MyClass.val1。
+2.类方法，类似是个全局方法，它也能如静态方法那样被类调用，也能被实例调用，不同的是它通过实例来访问类变量，有类变量cls传入，并且有子类继承时，调用该类方法时，传入的类变量cls是子类，而非父类，如x.val1。
+3.实例方法，实例方法只能通过实例访问，它能够访问实例变量（公有）和类变量。
+私有方法，无法被类和实例调用。
+4.类变量，能够被类、类方法、实例和实例方法等访问。且在类和实例中进行传递（不停累加），如val4。
+5.实例变量（公有），能被实例和实例方法访问，但不能被类和类方法访问。
+6.实例变量（私有），不能被任何实例访问，但我们可以通过装饰器对其增加get/set方法来进行操作，具体在下面介绍。
+7.私有属性，通过在变量和方法前增加__（两个下划线）来定义。
+
+#内置的装饰器有三个，分别是staticmethod、classmethod和property，作用分别是把类中定义的实例方法变成 静态方法、类方法和类属性
+# coding: utf-8
+class MyClass:
+    '''I simple example class'''
+    val1 = 'Value 1'            #类变量
+    val4 = 1
+    def __init__(self):
+        self.val2 = 'Value 2'   #公有实例变量
+        self.__val3 = 'Value 3' #私有实例变量
+
+    def __func():
+        print( 'val1 : ', MyClass.val1)
+        print( 'static method cannot access val2')
+        print( 'static method cannot access __val3')
+        print( 'val4 : ', MyClass.val4)
+        MyClass.val4 = ((MyClass.val4 + 1))
+
+    smd = staticmethod(__func)
+
+    def __func2(cls):
+        print( 'val1 : ', cls.val1)
+        print( 'class method cannot access val2')
+        print( 'class method cannot access __val3')
+        print( 'val4 : ', cls.val4)
+        cls.val4 = ((cls.val4 + 1))
+
+    cmd = classmethod(__func2)
+
+    def func3(self):
+        print( 'val1 : ', self.val1)
+        print( 'val2 : ', self.val2)
+        print( 'instance method cannot access __val3')
+        print( 'val4 : ', self.val4)
+        self.val4 = ((self.val4 + 1))
+
+print ('--------------------MyClass.smd()-------------------')
+MyClass.smd()        #类调用静态方法
+print ('--------------------MyClass.cmd()-------------------')
+MyClass.cmd()        #类调用类方法
+#MyClass.func3()        #类无法直接调用实例方法
+
+x = MyClass()
+print( '--------------------x.smd()-------------------')
+x.smd()            #实例调用静态方法
+print( '--------------------x.cmd()-------------------')
+x.cmd()            #实例调用类方法
+print ('--------------------x.func3()-------------------')
+x.func3()        #实例调用实例方法
+
+
+#优化后，使用装饰器
+
+# coding: utf-8
+class MyClass:
+    '''my simple example class'''
+    val1 = 'Value 1'                #类变量
+    val4 = 1                        #类变量
+    def __init__(self):
+        self.val2 = 'Value 2'       #公有实例变量
+        self.__val3 = 'Value 3'     #私有实例变量
+
+    def func3(self):                #定义实例方法
+        print( 'val1 : ', self.val1)
+        print( 'val2 : ', self.val2)
+        print( 'instance method cannot access __val3')
+        print( 'val4 : ', self.val4)
+        self.val4 = ((self.val4 + 1))
+
+    @classmethod                    #定义类方法
+    def func2(cls):
+        print( 'val1 : ', cls.val1)
+        print( 'class method cannot access val2')
+        print( 'class method cannot access __val3')
+        print( 'val4 : ', cls.val4)
+        cls.val4 = ((cls.val4 + 1))
+
+    @staticmethod                   #定义静态方法
+    def func():
+        print( 'val1 : ', MyClass.val1)
+        print( 'static cannot access val2')
+        print( 'static method cannot access __val3')
+        print( 'val4 : ', MyClass.val4)
+        MyClass.val4 = ((MyClass.val4 + 1))
+
+    @property                       #私有实例变量get属性
+    def val3(self):
+        return self.__val3
+
+    @val3.setter                    #私有实例变量set属性
+    def val3(self, value):
+        self.__val3 = value
+
+    @val3.deleter                   #私有实例变量del属性
+    def val3(self):
+        del self.__val3
+		
+
+print( '-------------------MyClass.func()------------------')
+MyClass.func()
+
+x = MyClass()
+print( '-------------------x.func()------------------')
+x.func()
+print( '-------------------x.func2()------------------')
+x.func2()
+print( '-------------------x.func3()------------------')
+x.func3()
+
+print( '')
+print( 'MyClass().val3 : ',MyClass().val3  )      #类调用property
+MyClass().val3 = 'New Value'            #类调用setter
+print( 'after "MyClass().val3 = New Value" val3 :', MyClass().val3)
+
+print('')
+print( 'val3 : ',x.val3 )            #实例调用property
+x.val3 = 'New Value'                #实例调用setter
+print( 'after "x.val3 = New Value" val3 :', x.val3 )
+del x.val3                    #实例调用deleter
+#print( 'after "del x.val3"  val3 : ', x.val3 )	
+
+
+
+#装饰器
+http://www.cnblogs.com/cicaday/p/python-decorator.html
+{
+#使用装饰函数在函数执行前和执行后分别附加额外功能
+'''示例2: 替换函数(装饰)
+装饰函数的参数是被装饰的函数对象，返回原函数对象
+装饰的实质语句: myfunc = deco(myfunc)'''
+ 
+def deco(func):
+    print("before myfunc() called.")
+    func()
+    print("  after myfunc() called.")
+    return func
+ 
+def myfunc():
+    print(" myfunc() called.")
+ 
+myfunc = deco(myfunc)
+ 
+myfunc()
+myfunc()
+#使用语法糖@来装饰函数
+# -*- coding:gbk -*-
+'''示例3: 使用语法糖@来装饰函数，相当于“myfunc = deco(myfunc)”
+但发现新函数只在第一次被调用，且原函数多调用了一次'''
+#只有一个return时 
+def deco(func):
+    print("before myfunc() called.")
+    func()
+    print("  after myfunc() called.")
+    return func
+ 
+@deco
+def myfunc():
+    print(" myfunc() called.")
+ 
+myfunc()
+myfunc()
+#使用内嵌包装函数来确保每次新函数都被调用
+'''示例4: 使用内嵌包装函数来确保每次新函数都被调用，
+内嵌包装函数的形参和返回值与原函数相同，装饰函数返回内嵌包装函数对象'''
+#用两个return时  
+def deco(func):
+    def _deco():
+        print("before myfunc() called.")
+        a=func()
+        print("  after myfunc() called.")
+        return a
+        # 不需要返回func，实际上应返回原函数的返回值 《=== 存疑
+    return _deco
+ 
+@deco
+def myfunc():
+    print(" myfunc() called.")
+    return 'ok'
+ 
+print(myfunc())
+print("=======")
+print(myfunc())
+#对带参数的函数进行装饰
+'''示例5: 对带参数的函数进行装饰，
+内嵌包装函数的形参和返回值与原函数相同，装饰函数返回内嵌包装函数对象'''
+ 
+def deco(func):
+    def _deco(a, b):
+        print("before myfunc() called.")
+        ret = func(a, b)
+        print("  after myfunc() called. result: %s" % ret)
+        return ret
+    return _deco
+ 
+@deco
+def myfunc(a, b):
+    print(" myfunc(%s,%s) called." % (a, b))
+    return a + b
+ 
+print(myfunc(1, 2))
+print("=====")
+print(myfunc(3, 4))
+#对参数数量不确定的函数进行装饰
+'''示例6: 对参数数量不确定的函数进行装饰，
+参数用(*args, **kwargs)，自动适应变参和命名参数'''
+ 
+def deco(func):
+    def _deco(*args, **kwargs):
+        print("before %s called." % func.__name__)
+        ret = func(*args, **kwargs)
+        print("  after %s called. result: %s" % (func.__name__, ret))
+        return ret
+    return _deco
+ 
+@deco
+def myfunc(a, b):
+    print(" myfunc(%s,%s) called." % (a, b))
+    return a+b
+ 
+@deco
+def myfunc2(a, b, c):
+    print(" myfunc2(%s,%s,%s) called." % (a, b, c))
+    return a+b+c
+ 
+print(myfunc(1, 2))
+print(myfunc(3, 4))
+print(myfunc2(1, 2, 3))
+print(myfunc2(3, 4, 5))
+
+
+
+}
+
+#总结 ： 在不改变原函数myfunc的情况下附加新功能，不管myfunc中有没有return语句，deco中都应该有两个return，第一个返回用来返回传入的myfunc的结果，第二个用来调用_deco，并返回_deco的结果。
+}
+
+去除空格{
+　　strip()
+"   xyz   ".strip()            # returns "xyz"  
+"   xyz   ".lstrip()           # returns "xyz   "  
+"   xyz   ".rstrip()           # returns "   xyz"  
+"  x y z  ".replace(' ', '')   # returns "xyz" 
+}
+
+函数的使用与装饰器{
+
+import time
+def shoe_time(f):
+    print("33333")
+    def inner():
+        start = time.time()
+        f()
+        print("22222")
+        end = time.time()
+        print(end-start)
+    print("1111")
+    return inner
+
+def foo():
+    print("foo......")
+    time.sleep(1)
+
+#嵌套函数    
+print("===========0")
+foo
+print(type(foo))
+print("===========0")    
+a=shoe_time(foo)
+a()
+print(type(a))
+print("===========0")
+shoe_time(shoe_time(foo))
+print("===========0")
+#嵌套函数的总结：先计算最内部的表达式，一层一层剥离。
+
+#foo 是函数,foo()是运行这个foo函数
+print("===========11")
+foo()    
+print("===========11")    
+a=shoe_time(foo())
+#a()   #其实a 里什么也没接收到,所以不能运行a()函数
+print('aaa:',a)
+print(type(a))
+print("===========11")
+shoe_time(shoe_time(foo()))
+print("===========11")
+###############上面的例子都懂了后,开始下面的装饰器例子##################
+print("===========装饰1")
+foo=shoe_time(foo)  #装饰时shoe_time会运行一次,返回inner函数,给foo,其实就是用inner装饰了foo
+print("===========装饰1.0")
+foo()
+print("===========装饰1")
+#@shoe_time  等同于bar = shoe_time(bar)  
+def bar():              
+    print("bar......")
+    time.sleep(2)
+
+bar=shoe_time(bar)  
+bar()
+print("===========装饰2")
+foo()       #被装饰后,函数可以重复调用，且不会失效,全靠了 return                       
+bar()
+foo()                              
+bar()                    
+}
+
+Python 获取当前脚本文件路径目录{
+
+ import sys,os
+#获取脚本文件的当前路径
+def cur_file_dir():
+     #获取脚本路径
+     path = sys.path[0]
+     #判断为脚本文件还是py2exe编译后的文件，如果是脚本文件，则返回的是脚本的目录，如果是py2exe编译后的文件，则返回的是编译后的文件路径
+     if os.path.isdir(path):
+         return path
+     elif os.path.isfile(path):
+         return os.path.dirname(path)
+#打印结果
+print cur_file_dir()
+}
+
+Python3基础学习笔记(精品)  百度文库
+
+socket{
+http://www.cnblogs.com/wupeiqi/articles/5040823.html
+
+注意点：
+    1.基于python3.5.2版本的socket只能收发字节（python2.7可以发送字符串）；
+    2.客户端退出不能影响服务端；
+    3.sk.accept()和sk.recv()是阻塞的（连接正常的情况下）；
+    4.send返回发送的字节数并且不一定把全部数据发送。sendall会循环调用send，直至全部发送.
+	
+	
+	
+详细介绍：
+sk.bind(address)
+　　sk.bind(address) 将套接字绑定到地址。address地址的格式取决于地址族。在AF_INET下，以元组（host,port）的形式表示地址。
+sk.listen(backlog)
+　　开始监听传入连接。backlog指定在拒绝连接之前，可以挂起的最大连接数量。 backlog等于5，表示内核已经接到了连接请求，但服务器还没有调用accept进行处理的连接个数最大为5。 这个值不能无限大，因为要在内核中维护连接队列
+sk.setblocking(bool)
+　　是否阻塞（默认True），如果设置False，那么accept和recv时一旦无数据，则报错。
+sk.accept()
+　　接受连接并返回（conn,address）,其中conn是新的套接字对象，可以用来接收和发送数据。address是连接客户端的地址。
+　　接收TCP 客户的连接（阻塞式）等待连接的到来
+sk.connect(address)
+　　连接到address处的套接字。一般，address的格式为元组（hostname,port）,如果连接出错，返回socket.error错误。
+sk.connect_ex(address)
+　　同上，只不过会有返回值，连接成功时返回 0 ，连接失败时候返回编码，例如：10061
+sk.close()
+　　关闭套接字
+
+sk.recv(bufsize[,flag])
+　　接受套接字的数据。数据以字符串形式返回，bufsize指定最多可以接收的数量。flag提供有关消息的其他信息，通常可以忽略。
+sk.recvfrom(bufsize[.flag])
+　　与recv()类似，但返回值是（data,address）。其中data是包含接收数据的字符串，address是发送数据的套接字地址。
+sk.send(bytes[,flag])
+　　将bytes中的数据发送到连接的套接字。返回值是要发送的字节数量，该数量可能小于bytes的字节大小。即：可能未将指定内容全部发送。
+sk.sendall(bytes[,flag])
+　　将bytes中的数据发送到连接的套接字，但在返回之前会尝试发送所有数据。成功返回None，失败则抛出异常。
+内部通过递归调用send，将所有内容发送出去。
+sk.sendto(bytes[,flag],address)
+　　将数据发送到套接字，address是形式为（ipaddr，port）的元组，指定远程地址。返回值是发送的字节数。该函数主要用于UDP协议。
+sk.settimeout(timeout)
+　　设置套接字操作的超时期，timeout是一个浮点数，单位是秒。值为None表示没有超时期。一般，超时期应该在刚创建套接字时设置，因为它们可能用于连接的操作（如 client 连接最多等待5s ）
+
+sk.getpeername()
+　　返回连接套接字的远程地址。返回值通常是元组（ipaddr,port）。
+sk.getsockname()
+　　返回套接字自己的地址。通常是一个元组(ipaddr,port)
+sk.fileno()
+　　套接字的文件描述符 
+
+
+例子1{
+
+#服务端
+#!/usr/bin/env python
+# Version = 3.4
+import socket
+#socket模块是针对 服务器端 和 客户端Socket 进行【打开】【读写】【关闭】
+ip_port = ('127.0.0.1',9999)
+
+sk = socket.socket()
+sk.bind(ip_port)
+sk.listen(5)
+sk.settimeout(50.0) 
+print(sk.getsockname())	#返回套接字自己的地址。通常是一个元组(ipaddr,port)
+print("===================")
+while True:
+    print('server waiting...')
+    conn, addr = sk.accept()
+    client_data = conn.recv(1024)	
+    print(conn,addr)	
+    print(type(client_data))
+    print(str(client_data,encoding='utf8'))
+    conn.sendall(client_data)
+    #conn.sendall(bytes("fanhuigeiclient",encoding='utf8'))
+    client_data = conn.recv(1024)
+    print(str(client_data,encoding='utf8'))
+    conn.close()
+
+
+#客户端
+#!/usr/bin/env python
+# Version = 3.4
+import socket
+ip_port = ('127.0.0.1',9999)
+
+sk = socket.socket()
+sk.connect(ip_port)
+sk.sendall(bytes('bbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',encoding='utf8'))
+server_reply = sk.recv(10)
+print(str(server_reply,encoding='utf8')) #接收不完，还可以接收
+server_reply = sk.recv(100)
+print(str(server_reply,encoding='utf8'))
+print(sk.getpeername()) #返回连接套接字的远程地址
+print(sk.fileno())
+print("000000000000000000000000000")
+sk.sendto(b'hello world!',('127.0.0.1',9999))
+sk.close()	
+}
+
+#连续发消息，结束时，不影响服务端，不遗留数据
+例2{
+
+#!/usr/bin/env python
+# Version = 3.4
+import socket
+ip_port = ('127.0.0.1', 9995)
+server = socket.socket()
+server.bind(ip_port)
+server.listen(3)
+# 此while循环为了持续的接收连接（当一个连接断开，接收另一个）
+while True:
+    conn, addr = server.accept()
+    # 此while循环为了持续收发消息
+    while True:
+        try:
+            recv_data = conn.recv(1024)
+            print(recv_data,'xxx')
+            if recv_data == bytes('exit',encoding='utf8'):
+                break
+            elif len(recv_data) == 0: # 当客户端发送空后，服务端退出本次连接
+                break
+            send_data = recv_data.upper()
+            conn.send(send_data)
+        except Exception as e:
+            print(e)
+            break
+    conn.close()
+	
+	
+#!/usr/bin/env python
+# Version = 3.4
+import socket
+ip_port = ('127.0.0.1', 9995)
+# 买手机
+client = socket.socket()
+# 拨号
+client.connect(ip_port)
+while True:
+    # 发消息
+    send_data = input('>>>').strip()
+    client.send(bytes(send_data, encoding='utf8'))
+    if send_data == 'exit':
+        break
+    elif send_data == '':
+        continue
+    # 收消息
+    recv_data = client.recv(1024)
+    print('>>>{}'.format(str(recv_data, encoding='utf8')))	
+
+
+}
+
+例3{
+粘包问题:
+当服务端要反馈的数据大于客户端一次能接收的大小时，服务端的剩余数据就会“残留”在服务器端，下次反馈数据时会先把残存的数据先发送到客户端，造成请求的数据和反馈的数据不相对应，这种现象就是 粘包。
+解决粘包的方法很简单，就是服务器端提前告诉客户端要发送多大的数据，然后客户端循环接收，直到接收完毕，退出循环。
+
+代码实现：
+服务器端：
+#!/usr/bin/env python
+# Version = 3.5.2
+import socket, subprocess
+ip_port = ('127.0.0.1', 9999)
+server = socket.socket()
+server.bind(ip_port)
+server.listen(3)
+# 此while循环为了持续的接收连接（当一个连接断开，接收另一个）
+while True:
+    conn, addr = server.accept()
+    # 此while循环为了持续收发消息
+    while True:
+        try:  # 客户端异常关闭处理
+            recv_data = conn.recv(1024)
+            print(recv_data,'xxx')
+            if recv_data == bytes('exit', encoding='utf8'):
+                break
+            elif len(recv_data) == 0:  # 当客户端发送空后，服务端退出本次连接
+                break
+            p = subprocess.Popen(str(recv_data,encoding='utf8'),shell=True,stdout=subprocess.PIPE)
+            res = p.stdout.read()
+            if len(res) == 0:  # 客户端输入错误命令时，服务端返回空
+                send_data = 'cmd error'
+            else:
+                # 将gbk转为utf8，需要先转为str作为过度
+                send_data = str(res, encoding='gbk')
+                send_data = bytes(send_data, encoding='utf8')
+            # 发送一个说明，告诉客户端要发送多大的包（解决粘包问题）
+            ready_flag = 'Ready|{}'.format(len(send_data))
+            conn.send(bytes(ready_flag, encoding='utf8'))
+            feed_back = conn.recv(1024)
+            feed_back = str(feed_back,encoding='utf8')
+            if feed_back == 'Start':
+                conn.send(send_data)
+                print(str(send_data, encoding='utf8'))
+        except Exception as e:
+            print(e)
+            break
+    conn.close()
+
+	
+客户端：
+#!/usr/bin/env python
+# Version = 3.5.2
+import socket
+ip_port = ('127.0.0.1', 9999)
+# 买手机
+client = socket.socket()
+# 拨号
+client.connect(ip_port)
+while True:
+    # 发消息
+    send_data = input('>>>').strip()
+    client.send(bytes(send_data, encoding='utf8'))
+    if send_data == 'exit':
+        break
+    elif send_data == '':
+        continue
+    # 处理服务端发送过来的说明，明确即将收多大包（解决粘包问题）
+    ready_tag = client.recv(1024)
+    ready_tag = str(ready_tag, encoding='utf8')
+    if ready_tag.startswith('Ready'):
+        msg_size = int(ready_tag.split('|')[-1])
+    start_tag = 'Start'
+    client.send(bytes(start_tag,encoding='utf8'))
+
+    recv_size = 0
+    recv_msg = b''
+    while recv_size < msg_size:
+        recv_data = client.recv(1024)
+        recv_msg += recv_data
+        recv_size += len(recv_data)
+        print(recv_size,msg_size)
+    # 收消息
+    print('>>>{}'.format(str(recv_msg, encoding='utf8')))
+
+}
+
+
+}
+
+#http://www.cnblogs.com/huyuedong/p/5882510.html  很不错的博客
+#不需要实现复杂的内存共享且需利用多cpu，用多进程；实现复杂的内存共享及IO密集型应用：多线程或协程；实现复杂的内存共享及CPU密集型应用：协程
+#多核cpu执行多任务的原理：由于实际应用中，任务的数量往往远超过cpu的核数，所以操作系统实际上是把这些多任务轮流地调度到每个核心上执行。
+#对于操作系统来说，一个应用就是一个进程。比如打开一个浏览器，它是一个进程；打开一个记事本，它是一个进程。每个进程有它特定的进程号。他们共享系统的内存资源。进程是操作系统分配资源的最小单位。
+#而对于每一个进程而言，比如一个视频播放器，它必须同时播放视频和音频，就至少需要同时运行两个“子任务”，进程内的这些子任务就是通过线程来完成。线程是最小的执行单元。一个进程它可以包含多个线程，这些线程相互独立，同时又共享进程所拥有的资源。
+多线程  threading{
+
+方法1: 核心是继承threading.Thread类,通过修改Thread类的run()方法来定义线程所要执行的命令,并调用start()方法来运行线程, join让主线程等待每个线程返回，
+
+threading.Thread 类是主要的线程类，可以创建进程实例。该类提供的函数包括：
+getName(self) 返回线程的名字
+isAlive(self) 布尔标志，表示这个线程是否还在运行中
+isDaemon(self) 返回线程的daemon标志
+join(self, timeout=None) 程序挂起，直到线程结束，如果给出timeout，则最多阻塞timeout秒
+run(self) 定义线程的功能函数
+setDaemon(self, daemonic)  把线程的daemon标志设为daemonic 主线程不等待子线程，而是在退出时自动结束所有的子线程，设置子线程为后台线程(daemon)
+setName(self, name) 设置线程的名字
+start(self) 开始线程执行
+
+#创建锁
+lock = threading.Lock()
+#锁定
+lock.acquire([timeout]) #锁定方法acquire可以有一个超时时间的可选参数timeout。如果设定了timeout，则在超时后通过返回值可以判断是否得到了锁，从而可以进行一些其他的处理。
+#释放
+lock.release()
+
+
+#样例
+{
+#!/usr/bin/python3.4
+# -*- coding: utf-8 -*-
+#听歌不占用时间、写代码和吃辣条需要时间互斥
+import time
+import threading
+
+# 打开线程锁
+lock = threading.Lock()
+
+class MyThread(threading.Thread):
+    def __init__(self, func, args, name=''):
+        threading.Thread.__init__(self)
+        self.name = name
+        self.func = func
+        self.args = args
+        #self.counter = counter
+
+    def run(self):
+        # 某某线程要开始了
+        print(self.name + "开始了##################")
+
+        if self.name == "听歌线程":
+            matter1(music)
+        elif self.name == "打码线程":
+            matter2(number)
+        elif self.name == "零食线程":
+            matter3(snacks)
+        print(self.name + "结束了##################")
+
+def matter1(music):
+    for i in range(0,len(music)):
+        print("第" + str(i + 1) + "首歌是：" + str(music[i]))
+        # 假设每一首歌曲的时间是2秒
+        time.sleep(6)
+        print("切换下一首歌...")
+
+def matter2(number):
+    lock.acquire()		#加锁，锁住相应的资源
+    j = 0
+    while j <= number:
+        print("正在写第" + str(j + 1) +"行代码")
+        j = j + 1
+        # 假设每写一行代码的时间为1秒
+        time.sleep(0.5)
+        print("第"+ str(j) +"行代码写好了!")
+    lock.release()		#解锁，离开该资源
+
+def matter3(snacks):
+    lock.acquire()		#加锁，锁住相应的资源
+    for k in range(0,len(snacks)):
+        print("我正在听着歌吃" + str(snacks[k]) + "零食")
+        #每吃一袋零食间隔5秒
+        time.sleep(5)
+        print("吃完了一包零食")
+    lock.release()		#解锁，离开该资源
+
+if __name__ == '__main__':
+    # 设定我要听的歌为
+    music = ["music1","music2","music3"]
+
+    # 设定我要打码的行数
+    number = 4
+
+    # 设定我想吃的零食
+    snacks = ["咪咪","辣条"]
+
+    # 开始时间
+    start = time.time()
+
+    thing1 = MyThread(matter1, music, "听歌线程")
+    thing2 = MyThread(matter2, number, "打码线程")
+    thing3 = MyThread(matter3, snacks, "零食线程")
+    thing1.start()
+    thing2.start()
+    thing3.start()
+    thing1.join()
+    thing2.join()
+    thing3.join()
+
+    # 结束时间
+    end = time.time()
+    print("完成的时间为：" + str(end - start))
+
+
+}
+
+#线程不安全的样例
+{
+# encoding: UTF-8
+#线程不安全的例子:没有控制多个线程对同一资源的访问，对数据造成破坏，使得线程运行的结果不可预期
+import threading
+import time
+
+class MyThread(threading.Thread):
+    def run(self):
+        global num
+        time.sleep(1)
+        num = num+1
+        msg = self.name+' set num to '+str(num)
+        print(msg)
+num = 0
+def test():
+    for i in range(5):
+        t = MyThread()
+        t.start()
+if __name__ == '__main__':
+    test()
+    print('print都在一行里了，是代表是同时执行的，这个print是单独执行的，会有换行')
+}
+
+加锁后{
+# encoding: UTF-8
+#线程不安全的例子:没有控制多个线程对同一资源的访问，对数据造成破坏，使得线程运行的结果不可预期
+import threading
+import time
+
+class MyThread(threading.Thread):
+    def run(self):
+        global num
+        lock.acquire()
+        time.sleep(1)
+        num = num+1
+        msg = self.name+' set num to '+str(num)
+        print(msg)
+        lock.release()
+num = 0
+lock = threading.Lock()
+def test():
+    for i in range(5):
+        t = MyThread()
+        t.start()
+        t.join()
+if __name__ == '__main__':
+    test()
+    print('print都在一行里了，是代表是同时执行的，这个print是单独执行的，会有换行')
+}
+#join()方法使得线程可以等待另一个线程的运行，而 setDaemon() 方法使得线程在结束时不等待子线程。join和setDaemon都可以改变线程之间的运行顺序。
+#join()方法，调用该方法的线程将等待直到该Thread对象完成，再恢复运行
+#线程等待
+{
+import threading
+import random
+import time
+
+class MyThread(threading.Thread):
+
+    def run(self):
+        wait_time=random.randrange(1,10)
+        print ("%s will wait %d seconds...." % (self.name, wait_time))
+        time.sleep(wait_time)
+        print ("%s finished!" % self.name)
+
+if __name__=="__main__":
+    threads = []
+    for i in range(5):
+        t = MyThread()
+        t.start()
+        threads.append(t)
+    print ('main thread is waitting for exit...'  )      
+    for t in threads:
+        t.join()
+        print("等待")
+        
+    print('main thread finished!')
+
+
+# 加上join 运行结果   print ('main thread finished!')等待5个子进程结束
+{
+>>> 
+Thread-1 will wait 9 secondsThread-2 will wait 1 secondsmain thread is waitting for exit...Thread-3 will wait 9 secondsThread-4 will wait 3 seconds
+Thread-5 will wait 2 seconds
+
+
+
+
+Thread-2 finished!
+Thread-5 finished!
+Thread-4 finished!
+Thread-1 finished!Thread-3 finished!
+
+main thread finished!
+>>> 
+}
+
+import threading
+import random
+import time
+
+class MyThread(threading.Thread):
+
+    def run(self):
+        wait_time=random.randrange(1,10)
+        print ("%s will wait %d seconds" % (self.name, wait_time))
+        time.sleep(wait_time)
+        print ("%s finished!" % self.name)
+
+if __name__=="__main__":
+    threads = []
+    for i in range(5):
+        t = MyThread()
+        t.start()
+        threads.append(t)
+    print ('main thread is waitting for exit...'  )      
+    #for t in threads:
+        #t.join()
+        
+    print ('main thread finished!')
+# 去掉join 运行结果		print ('main thread finished!')先结束,5个子进程后结束
+{
+>>> 
+Thread-1 will wait 8 secondsmain thread is waitting for exit...Thread-2 will wait 8 secondsThread-3 will wait 8 secondsThread-4 will wait 3 secondsThread-5 will wait 9 seconds
+
+
+
+
+
+main thread finished!
+>>> Thread-4 finished!
+Thread-1 finished!Thread-3 finished!Thread-2 finished!
+
+
+Thread-5 finished!
+
+>>> 
+}
+
+
+
+
+
+
+	
+}
+
+
+
+}
+
+多进程  multiprocessing  {
+#参考  http://www.cnblogs.com/kaituorensheng/p/4445418.html
+http://www.cnblogs.com/liuyansheng/p/5959403.html
+
+#unix系统中:
+from multiprocessing import Process
+import os
+import time
+# 子进程要执行的代码
+
+def run_proc(name):
+    time.sleep(20)
+    print('Run child process %s (%s)...' % (name, os.getpid()))
+
+if __name__=='__main__':
+    print('Parent process %s.' % os.getpid())
+    time.sleep(20)
+    p = Process(target=run_proc, args=('test',))
+    print('Child process will start.')
+    p.start()
+    p.join()
+    print('Child process end.')
+
+	
+结果{
+Parent process 201779.
+Child process will start.
+Run child process test (201830)...
+Child process end.
+
+root@api:~# ps -ef|grep python 
+root     201779 147500  0 11:30 pts/18   00:00:00 python3.4 prosss.py
+root     201830 201779  0 11:30 pts/18   00:00:00 python3.4 prosss.py
+root     201870 146860  0 11:30 pts/25   00:00:00 grep --color=auto python
+}	
+
+#windows下:
+{
+from multiprocessing import Process
+import os
+
+# 子进程要执行的代码
+def run_proc(name):
+    print('Run child process %s (%s)...' % (name, os.getpid()))
+    open('c:\\xxxx.log','w')
+
+if __name__=='__main__':
+    print('Parent process %s.' % os.getpid())
+    p = Process(target=run_proc, args=('test',))
+    print('Child process will start.')
+    p.start()
+    p.join()
+    print('Child process end.')	
+
+}
+
+结果{
+>>> 
+Parent process 12236.
+Child process will start.
+Child process end.
+>>>
+
+#看不到子进程的进程号，但确实执行过了，c盘下有文件产生
+}
+
+####进程间通信 #######
+#!/usr/bin/python
+# -*- coding: utf-8 -*
+__author__ = 'zni.feng'
+import  sys
+reload (sys)
+sys.setdefaultencoding('utf-8')
+from multiprocessing import Process, Queue, Lock
+import os, time, random
+#写数据进程
+def write(q, lock, name):
+    print 'Child Process %s starts' % name
+    #加锁
+    lock.acquire()
+    for value in ['A' , 'B', 'C']:
+        print 'Put %s to queue...' % value
+        q.put(value)
+        time.sleep(random.random())
+    #释放锁
+    lock.release()
+    print 'Child Process %s ends' % name
+
+#读数据进程
+def read(q, lock, name):
+    print 'Child Process %s starts' % name
+    while True: #持续地读取q中的数据
+        value =q.get()
+        print 'Get %s from queue.' % value
+    print 'Child Process %s ends' % name
+
+if __name__ == "__main__":
+    #父进程创建queue，并共享给各个子进程
+    q= Queue()
+    #创建锁
+    lock = Lock()
+    pw = Process(target = write , args=(q, lock, 'WRITE', ))
+    pr = Process(target = read, args=(q,lock, 'READ',))
+    #启动子进程pw,写入：
+    pw.start()
+    #启动子进程pr，读取：
+    pr.start()
+    #等待pw结束：
+    pw.join()
+    #pr是个死循环，通过terminate杀死：
+    pr.terminate()
+    print 'Test finish.'	
+}
+
+正则表达式学习{
+
+#http://www.cnblogs.com/cdinc/p/5789429.html
+#http://www.cnblogs.com/huxi/archive/2010/07/04/1771073.html
+}
+
+requests库的使用
+{
+
+#! /usr/bin/env python3
+ 
+import requests
+from requests.auth import HTTPBasicAuth
+"""
+ms3_url='https://login.huawei.com/login/?redirect=http%3A%2F%2Fw3.huawei.com%2Fnext%2Findexa.html%3Flocale%3Dzh%23path%3Dhome'
+dts_url='http://w3.huawei.com/next/indexa.html?locale=zh#path=home'
+
+#登陆3ms 
+r =requests.get('https://login.huawei.com/login/', auth=('lwx307086', 'qwer!4321'))
+print(r.status_code)
+#使用HTTPBasicAuth 登陆3ms
+r1 =requests.get(ms3_url, auth=HTTPBasicAuth('lwx307086', 'qwer!4321'))
+print(r1.status_code)
+
+#登陆dts >>好像不行，需要很多东西
+dts_url2='http://dts.huawei.com/net/dts/sys/Global/personalinfodetail.aspx?UserName=liuguojin%20WX307086'
+dts_url3='http://dts.huawei.com/net/dts/commonpage/logout.aspx'
+r2 =requests.get(dts_url3, auth=('lwx307086', 'qwer!4321'))
+print(r2.status_code)
+
+#在179上可以访问成功百度文库
+baiduwenku='http://wenku.baidu.com/?fr=swsy'
+proxies = {"http": "http://lwx307086:qwer!4321@172.18.32.134:8080","https": "https://lwx307086:qwer!4321@172.18.32.134:8080"}
+r5=requests.get(baiduwenku,proxies=proxies)
+print(r5.status_code)
+
+"""
+proxies = {
+  "http": "http://lwx307086:qwer!4321@openproxy.huawei.com:8080",
+  "https": "https://lwx307086:qwer!4321@openproxy.huawei.com:8080",
+}
+
+#使用公司代理登陆博客园  在window上由于8080端口被占用导致报错10013，在179上可以访问成功
+bky_url='http://www.cnblogs.com/'
+proxies = {"http": "http://lwx307086:qwer!4321@172.18.32.134:8080","https": "https://lwx307086:qwer!4321@172.18.32.134:8080"}
+r3 =requests.get(bky_url,proxies=proxies)
+print(r3.status_code)
+
+bky_url2="https://passport.cnblogs.com/user/signin" #登陆界面
+
+cookies={"SERVERID":'9ffd301069c1081a14d128e0c97deda8|1476261710|1476261492',
+'_ga':'GA1.2.458476210.1474601742',
+'__utmz':'226521935.1474888410.1.1.utmccn=(referral)|utmcsr=zzk.cnblogs.com|utmcct=/s|utmcmd=referral',
+'__utma':'226521935.1300967635.1474888410.1474888410.1474888410.1'}
+
+r4=requests.get(bky_url2,proxies=proxies,auth=('lgj_bky', 'lgj@12345'), verify=False,cookies=cookies)
+print(r4.status_code)
+
+}
+
+python中 字节(bytes)、字符(chr)、字符串(str)、int 的学习总结{
+
+1 bit = 1 二进制数据
+1 byte = 8 bit   >> 1 字节 = 8 比特  python 中 bytes must be in range(0, 256) #参见后面
+1 字母 = 1 byte = 8 bit(位)
+1 汉字 = 2 byte = 16 bit
+
+文件读写{
+w=open("e:\\bin.txt",'wb')
+>>> w.write(bytes('我',encoding='gbk'))
+2
+>>> w.write(bytes('我',encoding='utf8'))
+3
+>>> w.close()
+
+#已不同编码打开后看到的
+我鎴?
+?我
+
+如果以下面的方式打开都会报 "UnicodeDecodeError"
+q=open('e://bin.txt',encoding='utf8')
+q=open('e://bin.txt',encoding='gbk')
+
+q=open('e://bin.txt','rb')
+q.read()
+>>>b'\xce\xd2\xe6\x88\x91'
+
+str(b'\xce\xd2',encoding='gbk')
+>>>'我'
+str(b'\xe6\x88\x91',encoding='gbk')
+>>>'我'
+}
+
+bit 与 int 的转换{
+>>> int('0b1010101010101010101010',base=0) #base=0 解释为代码字面量
+2796202
+>>> int('1010101010101010101010',base=2) #base=2 二进制
+2796202
+ >>> bin(2796202)  #只是将int用bit记数，只是二进制位换算，当写入文件后保存的二进制并不是'0b1010101010101010101010'，而是通过编码方式决定的。
+'0b1010101010101010101010'
+
+>>> hex(15456)
+'0x3c60'
+>>> int('0x3c60',base=16)
+15456
+}
+
+str 与 bytes 的互转{
+>>> bytes("A",encoding='gbk')
+b'A'
+>>> str(b'A',encoding='gbk')
+'A'
+
+>>> a=bytes('我',encoding='utf8')
+>>> a
+b'\xe6\x88\x91'
+>>> a.decode(encoding='utf8')
+'我'
+
+>>> bytes("你",encoding='utf8')
+b'\xe4\xbd\xa0'
+>>> 
+>>> str(b'\xe4\xbd\xa0',encoding='utf8')
+'你'
+
+>>> str(b'Zoot!',encoding='utf8')
+'Zoot!'
+>>> str(b'Zoot!')
+"b'Zoot!'"
+}
+
+int 与 str 的互转{
+
+>>> str(21)
+'21'
+>>> int('21')
+21
+}
+
+int 和 bytes 的互转{
+
+class bytes(object) #python 中bytes的构造函数
+{
+ bytes(iterable_of_ints) -> bytes
+ bytes(string, encoding[, errors]) -> bytes
+ bytes(bytes_or_buffer) -> immutable copy of bytes_or_buffer
+ bytes(int) -> bytes object of size given by the parameter initialized with null bytes
+ bytes() -> empty bytes object
+ }
+#字符转换
+{
+>>> a=bytes([97])
+>>> a
+b'a'
+>>> a.decode()
+'a'
+>>> chr(97)
+'a'
+>>> ord('a')
+97
+>>> ord(bytes([97]).decode())
+97
+
+#Unicode字符转换
+>>> chr(97)
+'a'
+>>> ord("a")
+97
+>>> ord('a')
+97
+>>> bytes(97)  #建立97个null bytes
+b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+#python2.7中有如下效果
+>>> a='关于'
+>>> a
+'\xe5\x85\xb3\xe4\xba\x8e'
+>>> a=b'\xe5\x85\xb3\xe4\xba\x8e'
+>>> str(a,encoding='utf8')
+'关于'
+}
+#字面换算 
+{
+>>> (34).to_bytes(10,byteorder='little')
+b'"\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+>>> int.from_bytes(b'"\x00\x00\x00\x00\x00\x00\x00\x00\x00',byteorder='little')
+34
+"""byteorder 参数确定用于表示整数的字节顺序。如果字节序是 "big"，则最高有效字节在字节数组的开始。如果字节序是 "little"，最高有效字节在字节数组的结尾。 要请求主机系统的本机字节顺序，请使用sys.byteorder作为字节顺序值。"""
+>>> (512).to_bytes(2, byteorder='big')
+b'\x02\x00'
+>>> (511).to_bytes(2, byteorder='big')
+b'\x01\xff'
+>>> (5120).to_bytes(2, byteorder='big')
+b'\x14\x00'
+
+>>> (51202000).to_bytes(5, byteorder='big')
+b'\x00\x03\rG\xd0'
+>>> (51202000).to_bytes(4, byteorder='big')
+b'\x03\rG\xd0'
+>>> (51202000).to_bytes(3, byteorder='big')
+Traceback (most recent call last):
+  File "<pyshell#706>", line 1, in <module>
+    (51202000).to_bytes(3, byteorder='big')
+OverflowError: int too big to convert
+
+以上都是将int换算成二进制
+
+#计算方法
+{
+ord(b'\x01')*2**8+ord(b'\xff')*2**0
+511
+a=(2543).to_bytes(4, byteorder='big')
+>>> a
+b'\x00\x00\t\xef'
+>>> for x in a:
+	print(x)
+0 0 9 239 
+
+9*2**8+239=2543	
+}
+bytes 转 int
+>>> int.from_bytes(b'\x00\x00\t\xef', byteorder='big')
+2543
+
+>>> (1024).to_bytes(2, sys.byteorder)
+b'\x00\x04'
+>>> ord(b'\x04')
+4
+4*2**8=1024
+
+'\xff'中'\x'组合表示是一个十六进制数，它代表一个不可见字符的ASCII码
+>>> ord(b'\xff')
+255
+}
+} 
+}
+
+bytearray 可以对 bytes 进行修改{
+>>> bytes("我是中国人",encoding='gbk')
+b'\xce\xd2\xca\xc7\xd6\xd0\xb9\xfa\xc8\xcb'
+>>> a=bytearray("我是中国人",encoding='gbk')
+>>> a
+bytearray(b'\xce\xd2\xca\xc7\xd6\xd0\xb9\xfa\xc8\xcb')
+}
+
+>>> bytes(range(256))
+b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff'
+
+'`
+tkinter 学习{
+#http://www.cnblogs.com/kaituorensheng/p/3287652.html
+#http://www.cnblogs.com/fuyunbiyi/archive/2012/06/13/2548497.html
+#http://www.cnblogs.com/Tommy-Yu/p/4171006.html
+#http://www.cnblogs.com/Kobe10/p/5773821.html
+#http://www.cnblogs.com/zhangpengshou/p/3626137.html Python-Tkinter几何布局管理
+#http://www.cnblogs.com/Kobe10/p/5712233.html 记事本的实现 666
+Tkinter 控件详细介绍
+
+ 
+
+1.Button 按钮。类似标签,但提供额外的功能,例如鼠标掠过、按下、释放以及键盘操作/事件
+
+2.Canvas 画布。提供绘图功能(直线、椭圆、多边形、矩形) ;可以包含图形或位图
+
+3.Checkbutton 选择按钮。一组方框,可以选择其中的任意个(类似 HTML 中的 checkbox)
+
+4.Entry 文本框。单行文字域,用来收集键盘输入(类似 HTML 中的 text)
+
+5.Frame 框架。包含其他组件的纯容器
+
+6.Label 标签。用来显示文字或图片
+
+7.Listbox 列表框。一个选项列表,用户可以从中选择
+
+8.Menu 菜单。点下菜单按钮后弹出的一个选项列表,用户可以从中选择
+
+9.Menubutton 菜单按钮。用来包含菜单的组件(有下拉式、层叠式等等)
+
+10.Message 消息框。类似于标签,但可以显示多行文本
+
+11.Radiobutton 单选按钮。一组按钮,其中只有一个可被“按下” (类似 HTML 中的 radio)
+
+12.Scale 进度条。线性“滑块”组件,可设定起始值和结束值,会显示当前位置的精确值
+
+13.Scrollbar 滚动条。对其支持的组件(文本域、画布、列表框、文本框)提供滚动功能
+
+14.Text 文本域。 多行文字区域,可用来收集(或显示)用户输入的文字(类似 HTML 中的 textarea)
+
+15.Toplevel 顶级。类似框架,但提供一个独立的窗口容器。
+
+
+
+from Tkinter import *	 #引用Tk模块
+root = Tk()	#初始化Tk()
+root.title("hello world")
+root.geometry('200x100')                 #是x 不是*
+root.resizable(width=False, height=True) #宽不可变, 高可变,默认为True
+root.mainloop()	#进入消息循环
+
+title: 设置窗口标题
+geometry: 设置窗口大小
+resizable():设置窗口是否可以变化长 宽
+#几个常用控件的用法
+
+Label	标签
+Frame	帧
+Entry	条目
+Text	文本
+Button	按钮
+Listbox	列表框
+Scrollbar	滚动条
+
+说明:每个控件最后要加上 pack().否则控件是无法显示的.
+1.Label
+#标签
+bm = PhotoImage(file="e://11.PNG") 
+la = Label(root, text="show", bg="green", font=("Arial", 12), width=50, height=20,image = bm,compound = 'center')
+la.pack(side=LEFT)  #这里的side可以赋值为 LEFT  RTGHT  TOP  BOTTOM
+
+Label(root, 
+      text = 'center', 
+      compound = 'center', 
+      bitmap = 'error' 
+      ).pack() 
+	  
+left：  图像居左 
+right:  图像居右 
+top：  图像居上 
+bottom：图像居下 
+center：文字覆盖在图像上
+ 
+Label(根对象, [属性列表])
+#属性
+text　   要现实的文本
+bg　　  背景颜色
+font　   字体(颜色, 大小)
+width　 控件宽度
+height　控件高度
+
+
+#下拉菜单
+#-*- encoding=UTF-8 -*-
+__author__ = 'fyby'
+from tkinter import *
+root = Tk()
+
+def hello():
+    print('hello')
+
+def about():
+    print('我是开发者')
+
+menubar = Menu(root)
+
+#创建下拉菜单File，然后将其加入到顶级的菜单栏中
+filemenu = Menu(menubar,tearoff=0)
+filemenu.add_command(label="Open", command=hello)
+filemenu.add_command(label="Save", command=hello)
+filemenu.add_separator()
+filemenu.add_command(label="Exit", command=root.quit)
+menubar.add_cascade(label="File", menu=filemenu)
+
+#创建另一个下拉菜单Edit
+editmenu = Menu(menubar, tearoff=0)
+editmenu.add_command(label="Cut", command=hello)
+editmenu.add_command(label="Copy", command=hello)
+editmenu.add_command(label="Paste", command=hello)
+menubar.add_cascade(label="Edit",menu=editmenu)
+#创建下拉菜单Help
+helpmenu = Menu(menubar, tearoff=0)
+helpmenu.add_command(label="About", command=about)
+menubar.add_cascade(label="Help", menu=helpmenu)
+
+#显示菜单
+root.config(menu=menubar)
+
+mainloop()
+
+
+{
+
+pyhon之Tkinter实例化学习
+Tkinter模块("Tk 接口")是Python的标准Tk GUI工具包的接口，位Python的内置模块，直接import tkinter即可使用。
+作为实践, 用Tkinter做了个ascii码转化查询表
+1. 产品介绍
+通过输入字符或数字查询对应的信息
+通过选择列表中的信息查询对应的信息
+#
+2. 设计规划
+3. 相关知识
+首先看怎么产生第一个窗口
+from Tkinter import *   #引用Tk模块
+root = Tk()             #初始化Tk()
+root.mainloop()         #进入消息循环
+几个常用属性
+title: 设置窗口标题
+geometry: 设置窗口大小
+resizable():设置窗口是否可以变化长 宽
+#
+# -*- coding: cp936 -*-
+from Tkinter import *
+root = Tk()
+root.title("hello world")
+root.geometry('200x100')                 #是x 不是*
+root.resizable(width=False, height=True) #宽不可变, 高可变,默认为True
+root.mainloop()
+#
+介绍以下几个控件的用法
+Label
+Frame
+Entry
+Text
+Button
+Listbox
+Scrollbar
+说明每个控件最后要加上 pack() .否则控件是无法显示的.
+3.1 Label
+说明
+　　标签
+用法
+　　Label(根对象, [属性列表])
+属性
+text　   要现实的文本
+bg　　  背景颜色
+font　   字体(颜色, 大小)
+width　 控件宽度
+height　控件高度
+　　以下介绍的控件差不多都有这几个属性, 更详细的属性查看参考网页
+举例
+#
+# -*- coding: cp936 -*-
+from Tkinter import *
+root = Tk()
+root.title("hello world")
+root.geometry('300x200')
+l = Label(root, text="show", bg="green", font=("Arial", 12), width=5, height=2)
+l.pack(side=LEFT)  #这里的side可以赋值为LEFT  RTGHT TOP  BOTTOM
+root.mainloop()
+#
+#
+　　
+3.2 Frame
+说明
+　　在屏幕上创建一块矩形区域,多作为容器来布局窗体
+用法
+　　Frame(根对象, [属性列表])
+举例
+     要在控件中出现这样的四个词语
+                 校训
+          厚德        敬业
+          博学        乐群     
+# -*- coding: cp936 -*-
+from Tkinter import *
+root = Tk()
+root.title("hello world")
+root.geometry('300x200')
+
+Label(root, text='校训'.decode('gbk').encode('utf8'), font=('Arial', 20)).pack()
+
+frm = Frame(root)
+#left
+frm_L = Frame(frm)
+Label(frm_L, text='厚德'.decode('gbk').encode('utf8'), font=('Arial', 15)).pack(side=TOP)
+Label(frm_L, text='博学'.decode('gbk').encode('utf8'), font=('Arial', 15)).pack(side=TOP)
+frm_L.pack(side=LEFT)
+
+#right
+frm_R = Frame(frm)
+Label(frm_R, text='敬业'.decode('gbk').encode('utf8'), font=('Arial', 15)).pack(side=TOP)
+Label(frm_R, text='乐群'.decode('gbk').encode('utf8'), font=('Arial', 15)).pack(side=TOP)
+frm_R.pack(side=RIGHT)
+
+frm.pack()
+
+root.mainloop()
+ 
+3.3 Entry
+说明
+　　创建单行文本框
+用法
+　　创建:lb =Entry(根对象, [属性列表])
+　　绑定变量 var=StringVar()    lb=Entry(根对象, textvariable = var)
+　　获取文本框中的值   var.get()
+　　设置文本框中的值   var.set(item1)
+举例
+#
+# -*- coding: cp936 -*-
+from Tkinter import *
+root = Tk()
+root.title("hello world")
+root.geometry()
+var = StringVar()
+e = Entry(root, textvariable = var)
+var.set("hello")
+e.pack()
+    
+root.mainloop()
+#
+#
+　　
+3.4 Text
+说明
+　　向该空间内输入文本
+用法
+　　t = Text(根对象)
+　　插入:t.insert(mark, 内容)
+　　删除:t.delete(mark1, mark2)
+其中,mark可以是行号,或者特殊标识,例如
+INSERT:光标的插入点CURRENT:鼠标的当前位置所对应的字符位置
+END:这个Textbuffer的最后一个字符
+SEL_FIRST:选中文本域的第一个字符，如果没有选中区域则会引发异常
+SEL_LAST：选中文本域的最后一个字符，如果没有选中区域则会引发 异常
+举例
+#
+# -*- coding: cp936 -*-
+from Tkinter import *
+root = Tk()
+root.title("hello world")
+root.geometry('300x200')
+t = Text(root)
+t.insert(1.0, 'hello\n')
+t.insert(END, 'hello000000\n')
+t.insert(END, 'nono')
+print(t.get(1.0,END))#获得所有输入的内容
+t.pack(expand=YES, fill=BOTH)#允许进行扩展 ,填充X，Y轴
+#t.pack() #固定的大小
+root.mainloop()
+#
+#
+　　
+3.5 Button
+说明
+　　创建按钮
+用法
+　　Button(根对象, [属性列表])
+举例
+#
+# -*- coding: cp936 -*-
+from Tkinter import *
+root = Tk()
+root.title("hello world")
+root.geometry()
+def printhello():
+    t.insert('1.0', "hello\n")
+    
+t = Text()
+t.pack()
+Button(root, text="press", command = printhello).pack()
+root.mainloop()
+#Button中的窗口部件的选项
+"""
+#coding=gbk
+activebackground, activeforeground:当按钮被激活时所使用的颜色
+anchor:控制按钮上内容的位置。使用N, NE, E, SE, S, SW, W, NW, or CENTER这些值之一。默认值是CENTER。
+background (bg), foreground (fg):按钮的颜色。默认值与特定平台相关。
+bitmap:显示在窗口部件中的位图。如果image选项被指定了，则这个选项被忽略。下面的位图在所有平台上都有 效：error, gray75, gray50, gray25, gray12, hourglass, info, questhead, question, 和 warning.
+
+borderwidth (bd):按钮边框的宽度。默认值与特定平台相关。但通常是1或2象素。
+command:当按钮被按下时所调用的一个函数或方法。所回调的可以是一个函数、方法或别的可调用的Python对象。
+cursor:当鼠标移动到按钮上时所显示的光标。
+default:如果设置了，则按钮为默认按钮。
+disabledforeground:当按钮无效时的颜色。
+image:在部件中显示的图象。如果指定，则text和bitmap选项将被忽略。
+justify:定义多行文本如何对齐。可取值有：LEFT, RIGHT, 或 CENTER。
+padx, pady:指定文本或图象与按钮边框的间距。
+state:按钮的状态：NORMAL, ACTIVE 或 DISABLED。默认值为NORMAL。
+relief:边框的装饰。通常按钮按下时是凹陷的，否则凸起。另外的可能取值有GROOVE, RIDGE, 和 FLAT。
+text:显示在按钮中的文本。文本可以是多行。如果bitmaps或image选项被使用，则text选项被忽略
+textvariable:
+underline:在文本标签中哪个字符加下划线。默认值为-1，意思是没有字符加下划线
+width, height:按钮的尺寸。如果按钮显示文本，尺寸使用文本的单位。如果按钮显示图象，尺寸以象素为单位（或屏幕的单位）。如果尺寸没指定，它将根据按钮的内容来计算。
+"""
+
+#
+#
+　　
+3.6 Listbox
+说明
+　　列表控件,可以含有一个或多个文本想,可单选也可多选
+用法
+　　创建:lb = ListBox(根对象, [属性列表])
+　　绑定变量 var=StringVar()    lb=ListBox(根对象, listvariable = var)
+　　得到列表中的所有值   var.get()
+　　设置列表中的所有值   var.set((item1, item2, .....))
+　　添加:lb.insert(item)
+　　删除:lb.delete(item,...)
+　　绑定事件 lb.bind('<ButtonRelease-1>', 函数)
+　　获得所选中的选项 lbl.get(lb.curselection())
+属性
+　　selectmode可以为BROWSE MULTIPL SINGLE
+举例
+#
+# -*- coding: cp936 -*-
+from Tkinter import *
+root = Tk()
+root.title("hello world")
+root.geometry()
+def print_item(event):
+    print lb.get(lb.curselection())
+    
+var = StringVar()
+lb = Listbox(root,  listvariable = var)
+list_item = [1, 2, 3, 4]         #控件的内容为1 2 3 4
+for item in list_item:
+    lb.insert(END, item)
+lb.delete(2, 4)                  #此时控件的内容为1 3
+var.set(('a', 'ab', 'c', 'd'))   #重新设置了，这时控件的内容就编程var的内容了
+print var.get()
+lb.bind('<ButtonRelease-1>', print_item)
+lb.pack()
+    
+root.mainloop()
+#
+#
+　　
+3.7 Scrollbar
+说明
+　　在屏幕上创建一块矩形区域,多作为容器来布局窗体
+用法
+　　Frame(根对象, [属性列表]), 最长用的用法是和别的控件一起使用.
+举例
+#
+from Tkinter import *
+root = Tk()
+root.title("hello world")
+root.geometry()
+def print_item(event):
+    print lb.get(lb.curselection())
+    
+var = StringVar()
+lb = Listbox(root, height=5, selectmode=BROWSE, listvariable = var)
+lb.bind('<ButtonRelease-1>', print_item)
+list_item = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+for item in list_item:
+    lb.insert(END, item)
+    
+scrl = Scrollbar(root)
+scrl.pack(side=RIGHT, fill=Y)
+lb.configure(yscrollcommand = scrl.set)
+lb.pack(side=LEFT, fill=BOTH)
+scrl['command'] = lb.yview
+root.mainloop()
+#
+#
+　　
+
+#tkinter之文件对话框
+from tkinter import *
+from tkinter.filedialog import *
+
+filetype = [('Python Files', '*.py *.pyw'),
+     ('Text Files', '*.txt'),
+     ('All Files', '*.*')]
+
+def saveFileDialog():
+    "保存对话框"
+    filename = asksaveasfilename(
+                                #默认扩展名，.号可带可不带
+                                defaultextension = '.py',
+                                #文件类型选项
+                                filetypes = filetype,
+                                #初始目录，默认当前目录
+                                initialdir = 'G:\\Tkinter',
+                                #初始文件名，默认为空
+                                initialfile = 'Test',
+                                #打开的位置，默认是根窗口
+                                parent = root,
+                                #窗口标题
+                                title = "另存为")
+    print(filename)
+
+def openFileDialog():
+    "打开对话框,参数与保存对话框相同.略"
+    filename = askopenfilename(filetypes = filetype)
+    print(filename)
+
+root = Tk()
+menubar = Menu(root)
+filemenu = Menu(menubar, tearoff = 0)
+filemenu.add_command(label = '打开', command = openFileDialog)
+filemenu.add_command(label = '保存', command = saveFileDialog)
+menubar.add_cascade(label = '文件', menu = filemenu)
+root['menu'] = menubar
+root.title('文件对话框')
+root.mainloop()
+
+
+
+
+
+#如何设置右键菜单?
+context_menu = Menu(self.tv, tearoff=0)
+context_menu.add_command(label="复制", command=copy_handler)
+some_widget.bind('<3>', show_context_menu)
+ 
+def show_context_menu(event):
+    context_menu.post(event.x_root,event.y_root)
+ 
+def copy_handler():
+    pass
+}
+}
+
+模块安装
+{
+#http://www.cnblogs.com/xueranzp/p/5787270.html 常用库
+#http://www.cnblogs.com/zdz8207/p/python_learn_note_8.html
+C:\setuptools-25.1.1\setuptools-25.1.1
+ 解压要安装的模块，cmd切换到目录，运行setup.py install进行安装，就能安装上库  python setup.py install
+ 
+当我们点开下载页时, 一般会看到以下几种格式的文件: msi, egg, whl
+msi文件:Windows系统的安装包, 在Windows系统下可以直接双击打开, 并按提示进行安装
+egg文件:setuptools使用的文件格式, 可以用setuptools进行安装
+whl文件:wheel本质上是zip文件, 它使用.whl作为拓展名, 用于Python模块的安装, 它的出现是为了替代Eggs, 可以用pip的相关命令进行安装 
+
+easy_install,pip和一个egg什么什么的，都是python官方的第三方模块管理工具，
+#现在python官方推荐的工具就是pip
+
+#在cmd中输入“pip list”可一次查看所有安装的python库
+C:\Users\lWX307086>pip list
+Pillow (4.0.0)
+pip (8.1.2)
+pymysql (0.7.6)
+requests (2.10.0)
+setuptools (2.1)
+xlrd (0.9.2)
+xlutils (2.0.0)
+xlwt (1.1.2)
+
+本人在公司使用windows域账户代理上网，用pip在线安装package 返回ProxyError，类似Tunnel connection failed: 407 authenticationrequired
+#解决方案
+# UNIX
+export http_proxy=<user>:<password>@<proxy_ip_address>:<port>
+export set https_proxy=<user>:<password>@<proxy_ip_address>:<port>
+# Windows
+c:\> set http_proxy=<user>:<password>@<proxy_ip_address>:<port>
+c:\> set https_proxy=<user>:<password>@<proxy_ip_address>:<port>
+上面需要注意的是windows域账户需要使用类似set https_proxy=<hostname>\\<user>:<password>@<proxy_ip_address>:<port>，hostname为域名
+
+172.18.32.134 就是  openproxy.huawei.com  8080
+
+set http_proxy=CHINA\lwx307086:qwer!4321@openproxy.huawei.com:8080
+set https_proxy=CHINA\lwx307086lwx307086:qwer!4321@openproxy.huawei.com:8080
+
+set http_proxy=CHINA\lwx307086:qwer!4321@172.18.32.134:8080
+set https_proxy=CHINA\lwx307086lwx307086:qwer!4321@172.18.32.134:8080
+
+export http_proxy=CHINA\lwx307086:qwer!4321@172.18.32.134:8080
+export https_proxy=CHINA\lwx307086lwx307086:qwer!4321@172.18.32.134:8080
+
+#cmd中的grep
+netstat -aon|findstr "8080"
+
+#win上设置代理后访问pip下载失败，报错“以一种访问权限不允许的方式做了一个访问嵌套字的尝试”
+
+179上安装Python库
+{
+tar xf pip-9.0.1.tar.gz
+python3 setup.py install
+
+export http_proxy='CHINA\lwx307086:qwer!4321'@172.18.32.134:8080
+export https_proxy='CHINA\lwx307086:qwer!4321'@172.18.32.134:8080
+
+root@api:/home/lgj/python/pip-9.0.1# pip install requests
+Requirement already satisfied: requests in /usr/local/lib/python3.4/dist-packages/requests-2.10.0-py3.4.egg
+root@api:/home/lgj/python/pip-9.0.1# pip install Pillow
+Collecting Pillow
+  Downloading Pillow-4.0.0-cp34-cp34m-manylinux1_x86_64.whl (5.6MB)
+    100% |████████████████████████████████| 5.6MB 321kB/s 
+Collecting olefile (from Pillow)
+  Downloading olefile-0.44.zip (74kB)
+    100% |████████████████████████████████| 81kB 9.4MB/s 
+Installing collected packages: olefile, Pillow
+  Running setup.py install for olefile ... done
+Successfully installed Pillow-4.0.0 olefile-0.44
+root@api:/home/lgj/python/pip-9.0.1# 
+root@api:/home/lgj/python/pip-9.0.1# python3
+Python 3.4.3 (default, Oct 14 2015, 20:28:29) 
+[GCC 4.8.4] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import PIL
+>>> exit()
+root@api:/home/lgj/python/pip-9.0.1#
+ 
+#这样也可以的
+root@api:/home/lgj/python/pip-9.0.1# python3 -m pip install 
+You must give at least one requirement to install (see "pip help install")
+root@api:/home/lgj/python/pip-9.0.1# python3 -m pip install xlutils
+Collecting xlutils
+  Downloading xlutils-2.0.0-py2.py3-none-any.whl (55kB)
+    100% |████████████████████████████████| 61kB 517kB/s 
+Collecting xlwt>=0.7.4 (from xlutils)
+  Downloading xlwt-1.2.0-py2.py3-none-any.whl (99kB)
+    100% |████████████████████████████████| 102kB 651kB/s 
+Requirement already satisfied: xlrd>=0.7.2 in /usr/local/lib/python3.4/dist-packages (from xlutils)
+Installing collected packages: xlwt, xlutils
+Successfully installed xlutils-2.0.0 xlwt-1.2.0
+root@api:/home/lgj/python/pip-9.0.1# 
+
+#进阶版
+root@api:/home/lgj/python/pip-9.0.1# pip install xlrd --proxy CHINA\\lwx307086:'qwer!4321'@172.18.32.134:8080
+Collecting xlrd
+  Using cached xlrd-1.0.0-py3-none-any.whl
+Installing collected packages: xlrd
+Successfully installed xlrd-1.0.0
+root@api:/home/lgj/python/pip-9.0.1#
+
+#指定为哪个版本的 Python安装库
+python2.7 -m pip install xlutils
+python2.7 -m pip install setuptools
+python2.7 -m pip install xlutils
+}
+#代理查看和去除
+set |grep proxy
+unset http_proxy https_proxy
+
+#pip 常用命令：
+install
+download
+uninstall
+pip install xlrd --proxy CHINA\\lwx307086:'qwer!4321'@172.18.32.134:8080  #使用代理
+
+下载{
+root@api:/home/lgj/python# pip download xlrd --proxy CHINA\\lwx307086:'qwer!4321'@172.18.32.134:8080
+Collecting xlrd
+  Using cached xlrd-1.0.0-py3-none-any.whl
+  Saved ./xlrd-1.0.0-py3-none-any.whl
+Successfully downloaded xlrd
+root@api:/home/lgj/python# ll
+total 1328
+drwxr-xr-x  3 root root     4096 Jan 16 17:00 ./
+drwxr-xr-x 16 root root     4096 Jan 16 16:19 ../
+drwxr-xr-x  7  501 staff    4096 Jan 16 16:20 pip-9.0.1/
+-rw-r--r--  1 root root  1197370 Jan 16 16:20 pip-9.0.1.tar.gz
+-rw-r--r--  1 root root   143594 Jan 16 17:00 xlrd-1.0.0-py3-none-any.whl
+}
+# pip install whatever.whl 安装whl格式的库
+
+#python pyinstaller.py [opts] yourprogram.py
+　　主要选项包括：
+　　-F, –onefile 打包成一个exe文件。
+　　-D, –onedir 创建一个目录，包含exe文件，但会依赖很多文件（默认选项）。
+　　-c, –console, –nowindowed 使用控制台，无界面(默认)
+　　-w, –windowed, –noconsole 使用窗口，无控制台
+}
+
+py2exe打包exe{
+#https://pypi.python.org/pypi/py2exe/0.9.2.2#downloads  这个版本支持python3.4
+
+提到了获取exe路径的办法，我们只需要在第一行代码执行前，cd到exe所在目录，就能保证相对路径没有问题了：
+path=os.path.dirname(sys.executable) #在打包成exe后正常使用
+path=sys.path[0] #这样的方式会导致执行路径有问题	
+
+setup.py
+{
+from distutils.core import setup
+import py2exe
+
+#this allows to run it with a simple double click.
+
+py2exe_options = {
+        "compressed": 1,
+        "optimize": 2,
+        "ascii": 0,
+        "bundle_files": 1,  
+        }
+
+setup(
+      name = 'getname',
+      version = '1.0',
+      windows = ['getname.py',],   # 括号中更改为你要打包的代码文件名
+      zipfile = None,
+      options = {'py2exe': py2exe_options}
+      )
+
+}	
+
+#cmd
+#python setup.py py2exe
+
+}
+
+PIL库的例子
+#http://www.cnblogs.com/youhui/articles/3772001.html#Python_Imaging_Library_.2BTi1lh2JLUYw-
+#http://wenku.baidu.com/view/35feb8bf1a37f111f1855b9d.html?from=search
+{
+# -*-coding:utf-8 -*-
+__author__ = 'Administrator'
+from PIL import Image
+from PIL import ImageFilter
+from PIL import ImageEnhance
+
+im = Image.open("C:/1.jpg")
+print im.size, im.format, im.mode, im.info
+# im.show() convert()可以用来转换色彩模式
+# 设置拷贝区域， box变量是四元组（左，上，右，下）
+box = (100, 100, 200, 200)
+# 复制抠图 将im表示的图片对象拷贝到region中，大小（400*400），region其实也是image对象了。抠图
+region = im.crop(box)
+region = region.transpose(Image.ROTATE_180)  # 旋转方向
+# 粘贴 母图.粘贴（子图，位置）
+im.paste(region, box)
+# 保存
+im.save('C:/2.jpg')
+# 分离三通道，红绿蓝
+r, g, b = im.split()
+# 保存查看之。直接调用show也可，但是windows不好用
+r.save('C:/r.jpg')
+# 调整图片大小
+out = im.resize((128, 128))
+# 图片逆时针旋转
+out = im.rotate(45)
+# 保存查看
+out.save('C:/out.jpg')
+# 各种翻转效果，镜面效果可以用transpose()预定义的旋转方式
+reset = im.transpose(Image.FLIP_LEFT_RIGHT)  # 左右镜像
+reset = im.transpose(Image.FLIP_TOP_BOTTOM)  # 上下镜像
+reset = im.transpose(Image.ROTATE_270)
+
+# 图像增强-滤镜filter
+out = im.filter(ImageFilter.DETAIL)
+out.save('C:/out3.jpg')
+# 对每个点都做20%的增强
+out = im.point(lambda i: i * 1.2)  # 注意这里用到一个匿名函数(那个可以把i的1.2倍返回的函数)
+# 如上上边的那个例子，我们可以将一个RGB模式的图分离成三个通道的层
+# 然后对一个通道进行加强或减弱操作，完成后我们又可以使用Merge将通道合并，从而改变图片的色调(冷暖色调的互换)等。
+#### 点操作 #####
+# img.point(function),这个function接受一个参数，且对图片中的每一个点执行这个函数，这个函数是一个匿名函数，在python之类的函数式编程语言中，可以使用
+# lambda表达式来完成，如
+# out = img.point(lambda i : i*1.2)#对每个点进行20%的加强
+# 如果图片是“I”或者“F”模式，那么这个lambda必须使用这样的形式
+# argument * scale + offset
+# e.g
+# out = img.point(lambda i: i*1.2 + 10)
+#############
+r = r.point(lambda i: i * 1.2)
+g = g.point(lambda i: i * 0.7)
+sexy = Image.merge('RGB', (r, g, b))
+sexy.save("C:/sexy.png")
+# 创建mask的语句：
+mask = r.point(lambda i: i < 100 and 255)
+# 该句可以用下句表示
+# imout = im.point(lambda i: expression and 255)
+# 如果expression为假则返回expression的值为0（因为and语句已经可以得出结果了），否则返回255。（mask参数用法：当为0时，保留当前值，255为使用paste进来的值，中间则用于transparency效果）
+# 更高级的图片加强，可以使用ImageEnhance模块，其中包含了大量的预定义的图片加强方式。一旦有一个Image对象，
+# 应用ImageEnhance对象就能快速地进行设置。 可以使用以下方法调整对比度、亮度、色平衡和锐利度。
+enh = ImageEnhance.Contrast(im)
+enh.enhance(1.3).show("30% more contrast")
+# 创建一个新的图片
+# Image.new(mode, size)
+# Image.new(mode, size, color)
+# 层叠图片
+# 层叠两个图片，img2和img2,alpha是一个介于[0,1]的浮点数，如果为0，效果为img1，如果为1.0，效果为img2。当然img1和img2的尺寸和模式必须相同。这个函数可以做出很漂亮的效果来，而图形的算术加减后边会说到。
+# Image.blend(img1, img2, alpha)
+# composite可以使用另外一个图片作为蒙板(mask)，所有的这三张图片必须具备相同的尺寸，mask图片的模式可以为“1”，“L”，“RGBA”(关于模式请参看前一篇)
+# Image.composite(img1, img2, mask)
+# 转换图形模式
+# 下面看一个比较牛的方法convert，这个方法可以将图片在不同的模式间进行转换，在将灰度图转换成二值图时，所有的非零值被设置为255(白色)。灰度图的转换方式采用的是这个算法：
+# L = R*299/1000 + G*587/1000 + B*114/1000
+
+# 透明通道的使用
+# putalpha(alpha)
+# 这个方法是一个神奇的方法，你可以将一个图片(与原图尺寸相同)写入到原图片的透明通道中，而不影响原图片的正常显示，可以用于信息隐藏哦。当然，前提是原
+# 始图片有透明通道。不过就算不是也没有多大关系，因为有PIL提供的convert功能，可以把一个图片先转换成RGBA模式，然后把要隐藏的信息文件转成“L”或者“1”模
+# 式，最后使用这个putalpha将其叠加。而在图片的使用方，只需要简单的抽取其中的透明通道就可以看到隐藏信息了，哈哈。
+
+def hideInfoInImage(im, info):
+    if im.mode != "RGBA":
+        im = im.convert("RGBA")
+    if info.mode != "L" and info.mode != "1":
+        info = info.convert("L")
+    im.putalpha(info)
+    return im
+
+
+# 测试之
+if __name__ == "__main__":
+    img = Image.open("green.png")
+    band = Image.open("antelope_inhalf.jpg")
+
+    img = hideInfoInImage(img, band)
+    img.show()                       # 可以看到，原图片没有显式变化
+    img.split()[3].show()            # 抽取出透明通道中的图片并显示
+
+
+}
+
+动态生成变量 eval 和 exec
+{
+#方法1
+#Python的变量名就是一个字典的key而已。要获取这个字典，直接用locals和globals
+>>> a=1
+>>> b=2
+>>> locals()['a%s'%b]=3
+>>> a2
+3
+
+>>> globals()['aa']=4
+>>> aa
+4
+#方法2
+>>> a=1
+>>> b=2
+>>> exec('ab=a+b')
+>>> ab
+3
+
+Python有时需要动态的创造Python代码，然后将其作为语句执行或作为表达式计算。
+exec用于执行存储在字符串中的Python代码。
+
+eval 的用途；可以把list,tuple,dict和string相互转化。
+可以把list,tuple,dict和string相互转化。
+
+语法： eval(source[, globals[, locals]]) -> value
+参数：
+　　　　source：一个Python表达式或函数compile()返回的代码对象
+　　　　globals：可选。必须是dictionary
+　　　　locals：可选。任意map对象
+		globals变量作用域，locals变量作用域
+		
+如果指定globals参数：
+g = {'b' : 10}
+eval('b*2', g)
+输出：20
+
+如果指定locals参数：
+g={'a':6,'b':8}
+l={'b':9,'c':10}
+eval("a+b+c",g,l)
+输出：25
+
+#################################################
+字符串转换成列表
+>>>a = "[[1,2], [3,4], [5,6], [7,8], [9,0]]"
+>>>type(a)
+<type 'str'>
+>>> b = eval(a)
+>>> print b
+[[1, 2], [3, 4], [5, 6], [7, 8], [9, 0]]
+>>> type(b)
+<type 'list'>
+#################################################
+字符串转换成字典
+>>> a = "{1: 'a', 2: 'b'}"
+>>> type(a)
+<type 'str'>
+>>> b = eval(a)
+>>> print b
+{1: 'a', 2: 'b'}
+>>> type(b)
+<type 'dict'>
+#################################################
+字符串转换成元组
+>>> a = "([1,2], [3,4], [5,6], [7,8], (9,0))"
+>>> type(a)
+<type 'str'>
+>>> b = eval(a)
+>>> print b
+([1, 2], [3, 4], [5, 6], [7, 8], (9, 0))
+>>> type(b)
+<type 'tuple'>
+
+
+# ast.literal_eval(node_or_string) 也是可以的，比eval安全
+}
+
+插入一个数，再排序
+{
+
+http://www.cnblogs.com/skydesign/archive/2011/09/02/2163592.html
+一个有趣的python排序模块：bisect
+插入一个数，再排序
+}
+
+闭包{
+
+#如果要实现两个功能，可以定义两个函数。
+def func_150(val):
+    passline = 90  #150
+    if val >= passline:
+        print ("pass")
+    else:
+        print ("failed")
+
+def func_100(val):
+    passline = 60  #150
+    if val >= passline:
+        print ("pass")
+    else:
+        print ("failed")
+
+func_100(69)#pass
+func_150(69)#failed
+
+#如果用闭包的话只需要定义一个函数
+def set_passline(passline):#passline
+    def cmp(val):
+        if val >= passline:
+            print ("pass")
+        else:
+            print ("failed")
+    return cmp  #返回值是一个函数
+
+f_100 = set_passline(60) #f_100就是cmp,f_100()就是cmp()，而且内置一个passline=60
+f_150 = set_passline(90)
+
+f_100(69)#pass
+f_150(69)#failed
+
+}
+
