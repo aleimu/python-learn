@@ -3,6 +3,8 @@ import os
 import pty
 import sys
 import time
+""" 这个例子是摘自API接口文档中的pty样例，主要是为了学习argparse 和pty的用法，pty和os中用法还是不清楚，暂时mark一下"""
+
 def printsomething():
     print("这就是printsomething!")
 	
