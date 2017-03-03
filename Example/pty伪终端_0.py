@@ -3,7 +3,16 @@ import os
 import pty
 import sys
 import time
-""" 这个例子是摘自API接口文档中的pty样例，主要是为了学习argparse 和pty的用法，pty和os中用法还是不清楚，暂时mark一下"""
+""" 这个例子是摘自API接口文档中的pty样例，主要是为了学习argparse 和pty的用法，pty和os中用法还是不清楚，暂时mark一下
+
+#os.openpty()                    # 打开一个新的伪终端对。返回 pty 和 tty的文件描述符。				
+#os.write(fd, str)               # 写入字符串到文件描述符 fd中. 返回实际写入的字符串长度
+#os.read(fd, n)                  # 从文件描述符 fd 中读取最多 n 个字节，返回包含读取字节的字符串，文件描述符 fd对应文件已达到结尾, 返回一个空字符串。
+#os.ttyname(fd)                  # 返回一个字符串，它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联，则引发一个异常。
+#os.dup(fd)                      # 复制文件描述符 fd
+#os.dup2(fd, fd2)                # 将一个文件描述符 fd 复制到另一个 fd2
+
+"""
 
 def printsomething():
     print("这就是printsomething!")
