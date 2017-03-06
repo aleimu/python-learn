@@ -18,6 +18,10 @@ path=os.path.dirname(sys.executable) #在打包成exe后正常使用
 path=sys.path[0] #这样的方式会导致执行路径有问题	
 sys.prefix 	#查看python的安装位置
 
+#通过webshell反弹shell回来之后获取真正的ttyshell
+python -c 'import pty; pty.spawn("/bin/sh")'
+python3.4 -c 'import pty; pty.spawn("/bin/bash")'
+
 import builtins
 dir(builtins)
 help(sequence)
@@ -4455,7 +4459,8 @@ http://www.cnblogs.com/skydesign/archive/2011/09/02/2163592.html
 插入一个数，再排序
 }
 
-闭包{
+闭包
+{
 
 #如果要实现两个功能，可以定义两个函数。
 def func_150(val):
@@ -4490,5 +4495,376 @@ f_150 = set_passline(90)
 f_100(69)#pass
 f_150(69)#failed
 
+#闭包说的简单点就是，函数a中定义函数b，函数b可以使用函数a中的变量
+
 }
+
+两层装饰的运行顺序
+{
+#两层包装,加入全局变量x 和 自定义值 y 用来跟踪函数运行过程
+global x
+x=1
+def ab1(y):
+    global x
+    print ('begin1,x=',x)
+    print("包装时的参数1:",y)
+    def ab2(func):
+        global x
+        print ('begin2,x=',x)
+        print("包装时的参数2:",y)
+        def ab3(*args, **kwargs):
+            global x
+            content = func(*args, **kwargs)
+            x=x+1
+            print ('begin3,x=',x)
+            print("包装时的参数3:",y)
+            return content
+        x=x+1
+        print ('end2,x=',x)
+        return ab3
+    x=x+1
+    print ('end1,x=',x)
+    return ab2
+
+#尝试剥离每一层装饰
+test1=ab1('1111') # >>返回是的已传入11111111111的ab2函数 >>return ab2
+print(type(test1)) 
+print("===========0")
+
+def hello(a,b):
+       return ("a+b=",a+b)
+  
+test2=ab1('2222')(hello) # >>返回是的已传入hello的ab3函数 >>return ab3
+print(type(test2))
+print("===========1")
+
+@ab1('3333')
+# hello=ab1('3333')(hello) 结合y值的运行,可以将装饰分成两个包装步骤:
+#可以理解成ab1先自己包装了'3333',返回ab1('3333')也就是ab2(func)，但fun未传入，ab1('3333')(hello)再次包装hello传入func
+#返回的是 ab3(*args, **kwargs)但(*args, **kwargs)未传入，hello=ab3(*args, **kwargs)，包装后调用hello(a=1,b=2)就是传入参数的过程
+def hello(a,b):
+       return ("a+b=",a+b)
+
+print("===========2")
+print(hello(a=1,b=2)) #ab3函数,第一次运行，包装后就不会再运行ab3包装外的语句
+print("===========3")
+print(hello(a=1,b=2)) #ab3函数,第二次运行，包装后就不会再运行ab3包装外的语句
+print("===========4")
+#对比 不包装
+def hello(a,b):
+       return ("a+b=",a+b)
+
+print(hello(a=1,b=2))
+
+
+
+}
+
+多种装饰器的总结
+{
+
+# 1. 普通装饰漆，单功能附加，任意参数，需要2个return
+def debug(func):
+    def wrapper(*args, **kwargs):  # 指定宇宙无敌参数
+        print ("[DEBUG]: enter {}()".format(func.__name__))
+        print ('Prepare and say...')
+        return func(*args, **kwargs)
+    return wrapper  # 返回
+
+@debug
+def say(something):
+    print ("hello {}!".format(something))
+
+say('hello，1层装饰器') 
+
+# 2. 两层装饰
+#进入某个函数后打出log信息，而且还需指定log的级别
+def logging(level):
+    def wrapper(func):
+        def inner_wrapper(*args, **kwargs):
+            print ("[{level}]: enter function {func}()".format( level=level, func=func.__name__))
+            return func(*args, **kwargs)
+        return inner_wrapper
+    return wrapper
+#需要3个return
+@logging(level='INFO')
+def say(something):
+    print ("say {}!".format(something))
+
+# 如果没有使用@语法，等同于
+# say = logging(level='INFO')(say)
+#@logging(level='DEBUG')，它其实是一个函数，会马上被执行，它返回的结果是一个装饰器，再去装饰do()
+@logging(level='DEBUG')
+def do(something):
+    print ("do {}...".format(something))
+
+print("2层装饰器")
+say('hello')
+do("my work")
+
+
+# 3. 带参数的类装饰器
+class logging(object):
+    def __init__(self, level='INFO'):
+        self.level = level
+        
+    def __call__(self, func): # 接受函数
+        def wrapper(*args, **kwargs):
+            print( "[{level}]: enter function {func}()".format( level=self.level, func=func.__name__))
+            func(*args, **kwargs)
+        return wrapper  #返回函数
+
+@logging(level='INFO')
+def say(something):
+    print ("say {}!".format(something) )
+
+say('hello，类装饰器！')
+
+# 4. 包装时需要几个return ，以及包装函数中，各层次的运行顺序  举例如下：
+def html_tags(tag_name):
+    print ('begin 1')
+    def wrapper_(func):
+        print ('begin 2')
+        def wrapper(*args, **kwargs):
+            content = func(*args, **kwargs)
+            print ("<{tag}>{content}</{tag}>".format(tag=tag_name, content=content))
+        print ('end 2')
+        return wrapper
+    print ('end 1')
+    return wrapper_
+
+@html_tags('b')
+def hello(name='Toby'):
+    return 'Hello {}!'.format(name)
+
+#print(hello())
+#print(hello())
+
+#不包装
+def hello(name='Toby'):
+    return 'Hello {}!'.format(name)
+
+#print(hello())
+
+#上面的包装方式，少了一个return，包装时代参数后被包装的函数有返回值时被包装后会被改变成无返回值的函数
+#两层包装
+
+def a_b(tag_name):
+    print ('begin 1')
+    def ab(func):
+        print ('begin 2')
+        def and1(*args, **kwargs):
+            content = func(*args, **kwargs)
+            return content
+        print ('end 2')
+        return and1
+    print ('end 1')
+    return ab
+
+@a_b('b')
+def hello(a=1,b=2):
+       return ("a+b=",a+b)
+
+print(hello())
+print(hello())
+
+#不包装
+def hello(a=1,b=2):
+       return ("a+b=",a+b)
+
+print(hello())
+
+#对比可知，代参数包装时，应该加三个return
+
+
+}
+
+多态{
+
+class Person(object):
+    def __init__(self, name, gender):
+        self.name = name
+        self.gender = gender
+    def whoAmI(self):
+        return 'I am a Person, my name is %s' % self.name
+
+class Student(Person):
+    def __init__(self, name, gender, score):
+        super(Student, self).__init__(name, gender)
+        self.score = score
+    def whoAmI(self):
+        return 'I am a Student, my name is %s' % self.name
+
+class Teacher(Person):
+    def __init__(self, name, gender, course):
+        super(Teacher, self).__init__(name, gender)
+        self.course = course
+    def whoAmI(self):
+        return 'I am a Teacher, my name is %s' % self.name
+#在一个函数中，如果我们接收一个变量 x，则无论该 x 是 Person、Student还是 Teacher，都可以正确打印出结果：
+
+def who_am_i(x):
+    print (x.whoAmI())
+
+p = Person('Tim', 'Male')
+s = Student('Bob', 'Male', 88)
+t = Teacher('Alice', 'Female', 'English')
+
+who_am_i(p)
+who_am_i(s)
+who_am_i(t)
+
+
+}
+
+
+os{
+os.access(path, mode)           # 检验权限模式   
+os.chdir(path)                  # 改变当前工作目录
+os.chflags(path, flags)         # 设置路径的标记为数字标记。
+os.chmod(path, mode)            # 更改权限
+os.chown(path, uid, gid)        # 更改文件所有者
+os.chroot(path)                 # 改变当前进程的根目录
+os.close(fd)                    # 关闭文件描述符 fd
+os.closerange(fd_low, fd_high)  # 关闭所有文件描述符，从 fd_low (包含) 到 fd_high (不包含), 错误会忽略
+os.curdir                       # 返回当前目录：（'.'）
+os.dup(fd)                      # 复制文件描述符 fd
+os.dup2(fd, fd2)                # 将一个文件描述符 fd 复制到另一个 fd2
+os.environ                      # 获取系统环境变量
+os.fchdir(fd)                   # 通过文件描述符改变当前工作目录
+os.fchmod(fd, mode)             # 改变一个文件的访问权限，该文件由参数fd指定，参数mode是Unix下的文件访问权限。
+os.fchown(fd, uid, gid)         # 修改一个文件的所有权，这个函数修改一个文件的用户ID和用户组ID，该文件由文件描述符fd指定。
+os.fdatasync(fd)                # 强制将文件写入磁盘，该文件由文件描述符fd指定，但是不强制更新文件的状态信息。
+os.fdopen(fd[, mode[, bufsize]])  # 通过文件描述符 fd 创建一个文件对象，并返回这个文件对象
+os.fpathconf(fd, name)          # 返回一个打开的文件的系统配置信息。name为检索的系统配置的值，它也许是一个定义系统值的字符串，这些名字在很多标准中指定（POSIX.1, Unix 95, Unix 98, 和其它）。
+os.fstat(fd)                    # 返回文件描述符fd的状态，像stat()。
+os.fstatvfs(fd)                 # 返回包含文件描述符fd的文件的文件系统的信息，像 statvfs()
+os.fsync(fd)                    # 强制将文件描述符为fd的文件写入硬盘。
+os.ftruncate(fd, length)        # 裁剪文件描述符fd对应的文件, 所以它最大不能超过文件大小。
+os.getcwd()                     # 返回当前工作目录
+os.getcwdu()                    # 返回一个当前工作目录的Unicode对象
+os.isatty(fd)                   # 如果文件描述符fd是打开的，同时与tty(-like)设备相连，则返回true, 否则False。
+os.lchflags(path, flags)        # 设置路径的标记为数字标记，类似 chflags()，但是没有软链接
+os.lchmod(path, mode)           # 修改连接文件权限
+os.lchown(path, uid, gid)       # 更改文件所有者，类似 chown，但是不追踪链接。
+os.link(src, dst)               # 创建硬链接，名为参数 dst，指向参数 src
+os.listdir(path)                # 返回path指定的文件夹包含的文件或文件夹的名字的列表。
+os.lseek(fd, pos, how)          # 设置文件描述符 fd当前位置为pos, how方式修改: SEEK_SET 或者 0 设置从文件开始的计算的pos; SEEK_CUR或者 1 则从当前位置计算; os.SEEK_END或者2则从文件尾部开始. 在unix，Windows中有效
+os.lstat(path)                  # 像stat(),但是没有软链接
+os.linesep                      # 当前平台使用的行终止符，win下为"\t\n",Linux下为"\n"
+os.major(device)                # 从原始的设备号中提取设备major号码 (使用stat中的st_dev或者st_rdev field)。
+os.makedev(major, minor)        # 以major和minor设备号组成一个原始设备号
+os.makedirs(path[, mode])       # 递归文件夹创建函数。像mkdir(), 但创建的所有intermediate-level文件夹需要包含子文件夹。
+os.minor(device)                # 从原始的设备号中提取设备minor号码 (使用stat中的st_dev或者st_rdev field )。
+os.mkdir(path[, mode])          # 以数字mode的mode创建一个名为path的文件夹.默认的 mode 是 0777 (八进制)。
+os.mkfifo(path[, mode])         # 创建命名管道，mode 为数字，默认为 0666 (八进制)
+os.mknod(filename[, mode=0600, device])  # 创建一个名为filename文件系统节点（文件，设备特别文件或者命名pipe）。
+os.open(file, flags[, mode])    # 打开一个文件，并且设置需要的打开选项，mode参数是可选的
+os.openpty()                    # 打开一个新的伪终端对。返回 pty 和 tty的文件描述符。
+os.pathconf(path, name)         # 返回相关文件的系统配置信息。
+os.pathsep                      # 用于分割文件路径的字符串
+os.pardir                       # 获取当前目录的父目录字符串名：('..')
+os.pipe()                       # 创建一个管道. 返回一对文件描述符(r, w) 分别为读和写
+os.popen(command[, mode[, bufsize]])  # 从一个 command 打开一个管道
+os.path.abspath(path)           # 返回path规范化的绝对路径
+os.path.split(path)             # 将path分割成目录和文件名二元组返回
+os.path.dirname(path)           # 返回path的目录。其实就是os.path.split(path)的第一个元素
+os.path.basename(path)          # 返回path最后的文件名。如何path以／或\结尾，那么就会返回空值。即os.path.split(path)的第二个元素
+os.path.exists(path)            # 如果path存在，返回True；如果path不存在，返回False
+os.path.isabs(path)             # 如果path是绝对路径，返回True
+os.path.isfile(path)            # 如果path是一个存在的文件，返回True。否则返回False
+os.path.isdir(path)             # 如果path是一个存在的目录，则返回True。否则返回False
+os.path.join(path1[, path2[, ...]])  # 将多个路径组合后返回，第一个绝对路径之前的参数将被忽略
+os.path.getatime(path)          # 返回path所指向的文件或者目录的最后存取时间
+os.path.getmtime(path)          # 返回path所指向的文件或者目录的最后修改时间
+os.name                         # 字符串指示当前使用平台。win->'nt'; Linux->'posix'
+os.read(fd, n)                  # 从文件描述符 fd 中读取最多 n 个字节，返回包含读取字节的字符串，文件描述符 fd对应文件已达到结尾, 返回一个空字符串。
+os.readlink(path)               # 返回软链接所指向的文件
+os.remove(path)                 # 删除路径为path的文件。如果path 是一个文件夹，将抛出OSError; 查看下面的rmdir()删除一个 directory。
+os.removedirs(path)             # 递归删除目录。若目录为空，则删除，并递归到上一级目录，如若也为空，则删除，依此类推
+os.rename(src, dst)             # 重命名文件或目录，从 src 到 dst
+os.renames(old, new)            # 递归地对目录进行更名，也可以对文件进行更名。
+os.rmdir(path)                  # 删除path指定的空目录，如果目录非空，则抛出一个OSError异常。
+os.sep                          # 操作系统特定的路径分隔符，win下为"\\",Linux下为"/"
+os.stat(path)                   # 获取path指定的路径的信息，功能等同于C API中的stat()系统调用。
+os.stat_float_times([newvalue]) # 决定stat_result是否以float对象显示时间戳
+os.statvfs(path)                # 获取指定路径的文件系统统计信息
+os.symlink(src, dst)            # 创建一个软链接
+os.system("bash command")       # 运行shell命令，直接显示
+os.tcgetpgrp(fd)                # 返回与终端fd（一个由os.open()返回的打开的文件描述符）关联的进程组
+os.tcsetpgrp(fd, pg)            # 设置与终端fd（一个由os.open()返回的打开的文件描述符）关联的进程组为pg。
+os.tempnam([dir[, prefix]])     # 返回唯一的路径名用于创建临时文件。
+os.tmpfile()                    # 返回一个打开的模式为(w+b)的文件对象 .这文件对象没有文件夹入口，没有文件描述符，将会自动删除。
+os.tmpnam()                     # 为创建一个临时文件返回一个唯一的路径
+os.ttyname(fd)                  # 返回一个字符串，它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联，则引发一个异常。
+os.unlink(path)                 # 删除文件路径
+os.utime(path, times)           # 返回指定的path文件的访问和修改的时间。
+os.walk(top[, topdown=True[, onerror=None[, followlinks=False]]])  # 输出在文件夹中的文件名通过在树中游走，向上或者向下。
+os.write(fd, str)               # 写入字符串到文件描述符 fd中. 返回实际写入的字符串长度
+}
+
+#python虚拟串口和终端
+{
+#! /usr/bin/env python
+#coding=utf-8
+
+import pty
+import os
+import select
+#python虚拟串口
+#pty是假串口的意思，但是支持硬件串口的所有操作
+#import serial   serial是个串口的专门的库
+def mkpty():
+    # 打开伪终端
+    master1, slave = pty.openpty()
+    slaveName1 = os.ttyname(slave)
+    master2, slave = pty.openpty()
+    slaveName2 = os.ttyname(slave)
+    print ('\nslave device names: ', slaveName1, slaveName2)
+    return master1, master2
+
+if __name__ == "__main__":
+
+    master1, master2 = mkpty()
+    while True:
+        rl, wl, el = select.select([master1,master2], [], [], 1)
+        for master in rl:
+            data = os.read(master, 128)
+            print ("read %d data." % len(data))
+            if master==master1:
+                os.write(master2, data)
+            else:
+                os.write(master1, data)
+
+#os.openpty()                    # 打开一个新的伪终端对。返回 pty 和 tty的文件描述符。				
+#os.write(fd, str)               # 写入字符串到文件描述符 fd中. 返回实际写入的字符串长度
+#os.read(fd, n)                  # 从文件描述符 fd 中读取最多 n 个字节，返回包含读取字节的字符串，文件描述符 fd对应文件已达到结尾, 返回一个空字符串。
+#os.ttyname(fd)                  # 返回一个字符串，它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联，则引发一个异常。
+#os.dup(fd)                      # 复制文件描述符 fd
+#os.dup2(fd, fd2)                # 将一个文件描述符 fd 复制到另一个 fd2
+
+'''
+>>> import os
+>>> a,b=os.openpty()
+>>> a
+3
+>>> b
+4
+>>> os.write(a,b"this is a test data")
+19
+>>> os.read(a,5)
+b'this '
+>>> os.ttyname(a)
+'/dev/ptmx'
+>>> os.ttyname(b)
+'/dev/pts/2'
+>>> os.dup(a)
+6
+>>> os.dup2(a,7)
+'''
+
+}
+
+
+
 
