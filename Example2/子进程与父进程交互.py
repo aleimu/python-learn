@@ -36,11 +36,53 @@ fd_r_list, fd_w_list, fd_e_list = select.select(rlist, wlist, xlist, [timeout])
 2、当参数2 序列中含有fd时，则将该序列中所有的fd添加到 fd_w_list中
 3、当参数3 序列中的fd发生错误时，则将该发生错误的fd添加到 fd_e_list中
 '''
-#################使用os.fork,pipe 处理子进程的返回，	
+#################使用os.fork,pipe 处理子进程的返回，不使用pty又怎么写呢？pty.fork会把子进程的fd返回给父进程读取，这样很方便进程间的交流。
 '''
 os.dup2(fd，fd2，inheritable = True)
 #将文件描述符fd重复到fd2，如有必要，关闭后者。
 '''
+# encoding: utf-8
+import os
+import sys
+import time
+
+def child(master, slave):
+    os.close(master)
+    os.dup2(slave, 0)
+    os.dup2(slave, 1)
+    os.dup2(slave, 2)
+    os.execvp("/bin/bash", ["bash", "-l", "-i"])
+
+
+def parent():
+    master, slave = os.openpty()
+    new_pid = os.fork()
+    if new_pid == 0:
+        child(master, slave)
+
+    time.sleep(0.1)
+    os.close(slave)
+
+    os.write(master, b"fg\n")
+    time.sleep(0.1)
+    _ = os.read(master, 1024)
+
+    os.write(master, (sys.argv[1] + "\n").encode('utf8'))
+    time.sleep(0.1)
+    lines = []
+    while True:
+        tmp = os.read(master, 1024)
+        tmp=tmp.decode('utf8')
+        lines.append(tmp)
+        if len(tmp) < 1024:
+            break
+    output = "".join(lines)
+    output = "\n".join(output.splitlines()[1:])
+    print (output)
+
+parent()
+
+#使用 python3.4 cmd_pty1.py ls
 
 '''
 #创建管道给来子程序中的输出和错误
@@ -65,3 +107,4 @@ if a_pid !=0:
 	print(os.read(fdout,100))
 
 '''
+
