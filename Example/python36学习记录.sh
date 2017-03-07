@@ -370,7 +370,7 @@ out = child2.communicate()
 print(out)
 # http://www.cnblogs.com/icejoywoo/p/3627397.html
 # http://www.cnblogs.com/yangxudong/p/3753846.html
-在POSIX上，subprocess类使用os.execvp（） - 类行为来执行子程序。 在Windows上，类使用Windows CreateProcess（）函数
+在POSIX上，subprocess类使用os.execvp（）来执行在子程序中执行shell命令。 在Windows上，类使用Windows CreateProcess（）函数
 '''
 sys.stdin.fileno()
 >>> import os
