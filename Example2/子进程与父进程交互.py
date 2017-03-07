@@ -5,6 +5,7 @@ import pty
 import select
 #################使用pty和select 处理子进程的返回， 这样的用例是不能在shell中一步一步敲的，因为存在两个进程
 pid, fd = pty.fork()
+print(pid) #你会发现这里打印了两个值
 mystr=""
 #处理子进程
 if pid == 0:
