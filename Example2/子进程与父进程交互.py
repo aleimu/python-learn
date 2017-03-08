@@ -38,7 +38,7 @@ fd_r_list, fd_w_list, fd_e_list = select.select(rlist, wlist, xlist, [timeout])
 '''
 #################使用os.fork,pipe 处理子进程的返回，不使用pty又怎么写呢？pty.fork会把子进程的fd返回给父进程读取，这样很方便进程间的交流。
 '''
-os.dup2(fd，fd2，inheritable = True)
+os.dup2(fd，fd2，inheritable = True)  #最大的作用就是重定向，将fd2重定向到fd。
 #将文件描述符fd重复到fd2，如有必要，关闭后者。
 '''
 # encoding: utf-8
@@ -47,27 +47,28 @@ import sys
 import time
 
 def child(master, slave):
-    os.close(master)
-    os.dup2(slave, 0)
+    os.close(master) #关闭不需要的主设备，因为主设备是给父进程传送指令到子进程的
+    os.dup2(slave, 0) #最大的作用就是重定向，将子进程中的0,1,2 都重定向到从端。
     os.dup2(slave, 1)
     os.dup2(slave, 2)
     os.execvp("/bin/bash", ["bash", "-l", "-i"])
+	#os.execvp("/bin/ls", ["bash", "-l", "-i"])
 
 
 def parent():
-    master, slave = os.openpty()
+    master, slave = os.openpty() #新建虚拟终端，将从端分配给子进程，主端给主进程。#打开一个新的伪终端对。 分别为pty和tty返回一对文件描述符（主，从）
     new_pid = os.fork()
     if new_pid == 0:
         child(master, slave)
 
     time.sleep(0.1)
-    os.close(slave)
+    os.close(slave) #关闭主进程中的从设备
 
-    os.write(master, b"fg\n")
+    os.write(master, b"fg\n") #把作业放置前台执行，下发指令到子进程，将子进程中的执行放到前台
     time.sleep(0.1)
-    _ = os.read(master, 1024)
+   # _ = os.read(master, 1024) #>>见后面的解析1
 
-    os.write(master, (sys.argv[1] + "\n").encode('utf8'))
+    #os.write(master, (sys.argv[1] + "\n").encode('utf8'))
     time.sleep(0.1)
     lines = []
     while True:
@@ -82,29 +83,27 @@ def parent():
 
 parent()
 
+'''
+#执行结果
+解析1，注释掉后会多打印这些东西。这些是父进程中的多余数据，可以先读出丢弃
+bash: no job control in this shell
+root@api:/home/lgj/pty# fg
+bash: fg: no job control
+root@api:/home/lgj/pty# ll
+
+bg（将作业放置于后台执行）（在前台执行时间过长，则可以按ctrl+z，暂停进程，用bg放其至后台）
+bg 作业ID
+fg（把作业放置前台执行）
+jobs（查看后台作业）
+
+#http://www.cnblogs.com/nufangrensheng/p/3577853.html
+通常一个进程打开伪终端设备，然后调用fork。子进程建立了一个新会话，打开一个相应的伪终端从设备，将其描述符复制到标准输入、标准输出和标准出错，然后调用exec。伪终端从设备成为子进程的控制终端。
+
+对于ssh，telnet等远程登录程序而言，当你ssh到某个sshd服务器上去时，这个sshd会打开一个伪终端主设备，然后fork出一个子进程，在子进程中打开一个从设备，
+这样，主进程和子进程之间就可以通过伪终端的主从设备进行交流，任何从主设备的输入都会输出到从设备上
+使用主从伪终端之后，当sshd收到指令时会将指令输入到主设备，然后主设备会把执行输出到从设备，这样就相当于指令输入到了从设备，而从设备是和某个shell连接的,从而这个指令或者毫无意义的字符串就被发往了远程的shell去解释
+'''
+
 #使用 python3.4 cmd_pty1.py ls
 
-'''
-#创建管道给来子程序中的输出和错误
-fdin, fdout = os.pipe()
-
-#a_pid,b_fd=os.forkpty()
-a_pid=os.fork()
-print("a_pid:",a_pid)
-
-#处理子程序中的输出
-if a_pid ==0:
-	os.close(fdin)
-	os.dup2(fdout, sys.stdout.fileno())
-	os.dup2(fdout, sys.stderr.fileno())
-	#os.close(fdout)
-	#os.dup2(fdin, sys.stdin.fileno())
-	os.execvp('/bin/ls', ['/bin/ls', '-l'])
-time.sleep(2)
-if a_pid !=0:
-	print(os.read(fdout,100))
-	print(os.read(fdout,100))
-	print(os.read(fdout,100))
-
-'''
 
