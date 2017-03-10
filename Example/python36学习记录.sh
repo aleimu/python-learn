@@ -449,13 +449,14 @@ elif forkPid == 0:
         print ("Process finishingntpid: %d, processName: %s" % (os.getpid(), processName))
 		
 		
-'''
+''' 都能打印在一起，应该是子进程继承了父进程的输入输出端
 root@api:/home/lgj/pty# python3.4 cmd_pty2.py 
 Program executing ntpid:121728,processNmae:父进程
 Parent executingntpid:121728,forkPid:121729,processNmae:父进程
 Child executingntpid: 121729, forkPid: 0, processName: 子进程
 Process finishingntpid: 121729, processName: 子进程
 
+#########################下面这段话很重要##############################
 程序每次执行时，操作系统就会创建一个新的进程来运行程序指令。进程还可以调用os.fork，要求操作系统新建一个进程。“父进程”是调用os.fork的进程。父进程所创建的任何进程都是子进程。每个进程都有一个不重复的“进程ID号”，或称“pid”，它对进程进程进行标识。进程调用fork函数时，操作系统会新建一个子进程，它本质上与父进程完全相同。子进程从父进程继承了多个值的拷贝，比如全局变量和环境变量。两个进程唯一的区别就是fork的返回值。
 child（子）进程接收返回值为0，而父进程接收子进程的pid作为返回值。调用fork函数后，两个进程并发执行同一个程序，首先执行的是调用了fork之后的下一行代码。父进程和子进程既并发执行，又相互独立；也就是说，它们是“异步执行”的。
 '''
@@ -631,7 +632,7 @@ parent()
 how are you
 how are you
 
-如果要与子进程进行双向通信,只有一个pipe管道是不够的,需要2个pipe管道才行.以下示例在父进程新建了2个管道,然后再fork子进程.os.dup2()实现输出和输入的重定向.spawn功能类似于subprocess.Popen(),既能发送消息给子进程,由能从子子进程获取返回数据. 
+#如果要与子进程进行双向通信,只有一个pipe管道是不够的,需要2个pipe管道才行.以下示例在父进程新建了2个管道,然后再fork子进程.os.dup2()实现输出和输入的重定向.spawn功能类似于subprocess.Popen(),既能发送消息给子进程,由能从子子进程获取返回数据. 
 ​
 
 #!/usr/bin/python
@@ -646,12 +647,13 @@ def spawn(prog, *args):
     childStdin, parentStdout= os.pipe()
 
     pid = os.fork()
-    if pid:
+	#程序分叉，子进程中关闭父进程的文件符并将自己用到的文件符重定向到通道，父进程中关闭子进程的文件符并将自己用到的文件符重定向到通道
+    if pid: #父进程
         os.close(childStdin)
         os.close(childStdout)
         os.dup2(parentStdin, stdinFd)#输入流绑定到管道,将输入重定向到管道一端parentStdin
         os.dup2(parentStdout, stdoutFd)#输出流绑定到管道,发送到子进程childStdin
-    else:
+    else:   #子进程
         os.close(parentStdin)
         os.close(parentStdout)
         os.dup2(childStdin, stdinFd)#输入流绑定到管道
@@ -744,6 +746,7 @@ fd_r_list, fd_w_list, fd_e_list = select.select(rlist, wlist, xlist, [timeout])
 os.dup2(fd，fd2，inheritable = True)  #最大的作用就是重定向，将fd2重定向到fd。
 #将文件描述符fd重复到fd2，如有必要，关闭后者。
 '''
+##通常一个进程打开伪终端设备，然后调用fork。子进程建立了一个新会话，打开一个相应的伪终端从设备，将其描述符复制到标准输入、标准输出和标准出错，然后调用exec。伪终端从设备成为子进程的控制终端。
 # encoding: utf-8
 import os
 import sys
@@ -800,7 +803,7 @@ fg（把作业放置前台执行）
 jobs（查看后台作业）
 
 #http://www.cnblogs.com/nufangrensheng/p/3577853.html
-通常一个进程打开伪终端设备，然后调用fork。子进程建立了一个新会话，打开一个相应的伪终端从设备，将其描述符复制到标准输入、标准输出和标准出错，然后调用exec。伪终端从设备成为子进程的控制终端。
+##通常一个进程打开伪终端设备，然后调用fork。子进程建立了一个新会话，打开一个相应的伪终端从设备，将其描述符复制到标准输入、标准输出和标准出错，然后调用exec。伪终端从设备成为子进程的控制终端。
 
 对于ssh，telnet等远程登录程序而言，当你ssh到某个sshd服务器上去时，这个sshd会打开一个伪终端主设备，然后fork出一个子进程，在子进程中打开一个从设备，
 这样，主进程和子进程之间就可以通过伪终端的主从设备进行交流，任何从主设备的输入都会输出到从设备上
@@ -808,5 +811,41 @@ jobs（查看后台作业）
 '''
 
 #使用 python3.4 cmd_pty1.py ls
+
+}
+
+{
+try ... except 语句可以带有一个 else子句 ，该子句只能出现在 有 except 子句之
+后。 try语句没有出现异常时，还想要行执行一些代码，可以使这个子句。例 :
+for arg in sys.argv[1:]:
+	try:
+		f = open(arg, ’r’)
+	except IOError:
+		print(’cannot open’, arg)
+	else:
+		print(arg, ’has’, len(f.readlines()), ’lines’)
+		f.close()
+#例子
+def dome():
+	try:
+		a=7
+		print(1)
+	except OSError:
+		print(2)
+	else:
+		print(3)
+		return a
+	a=8
+	print(5)
+	return a
+
+print(dome())
+
+
+'''result
+1
+3
+7
+'''
 
 }
