@@ -133,7 +133,11 @@ Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间
 }
 11.数组切片{
 11.1.数组切片的数据结构可以抽象为以下3个变量： 
- 
+	// ()转换 
+	// {}元素
+	e1 := []byte("a string")
+	e2 := []byte{'a', 'c', 24, 45, 75}
+	
 	struct Slice
 	{                        
 		byte*    array;      // 一个指向原生数组的指针； 
@@ -180,7 +184,7 @@ Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间
 	
 }
 12.函数参数传值、闭包传引用{
-	
+//可以参考 22.值语义与引用语义	
 12.1例子1{
 	package main
 
@@ -317,7 +321,7 @@ func echoArray(a interface{}){
 	+ []byte  										[]byte(s)
 	+ []int  										[]int(s)
 	+ []rune 							 			[]rune(s)
-	+ string 	string(xb) string(xi) string(xr) 
+	+ string 	string(xb)  string(xi)  string(xr) 
 	+ float32  																float32(i)
 	+ int 														int(f) 
 	//例子
@@ -333,7 +337,7 @@ func echoArray(a interface{}){
 	#X类型需要转换为Y类型，语法是y(x),如果对于某些地方的优先级拿不准可以自己加()约束，变成(T)(X)。如：
 	*Point(p) // 和 *(Point(p))一样
 	(*Point)(p) // p 转换成 *Point
-	(func())(x) // x 转换成unc()
+	(func())(x) // x 转换成func()
 	(func() int)(x) // x 转换 func() int
 	 
 	//接口转换
@@ -358,7 +362,9 @@ func echoArray(a interface{}){
 	
 }
 14.map{
-	
+	//复合型map
+	f := map[string]interface{}{"a": 1, "b": 2, "c": "c", "d": []string{"aa", "bb", "cc"}}
+	fmt.Println(f["d"])
 // PersonInfo是一个包含个人详细信息的类型 
 type PersonInfo struct { 
     ID string 
@@ -437,15 +443,15 @@ Go语言还添加了如下关键字：break、continue和fallthrough。
 
 //循环嵌套循环时，可以在break后指定标签。用标签决定哪个循环被终止：
 
-J:
-	for j := 0; j < 5; j++ {
-		for i := 0; i < 10; i++ {
-			if i > 5 {
-				break J //现在终止的是 j 循环，而不是 i 的那个
+	J:
+		for j := 0; j < 5; j++ {
+			for i := 0; i < 10; i++ {
+				if i > 5 {
+					break J //现在终止的是 j 循环，而不是 i 的那个
+				}
+				println(i)
 			}
-			println(i)
 		}
-	}
 //利用continue让循环进入下一个迭代，而略过剩下的所有代码。下面循环打印了0到5。
 	for i := 0; i < 10; i++ {
 		if i > 5 {
@@ -457,28 +463,62 @@ J:
 	}
 //保留字range可用于循环。它可以在slice、array、string、map和channel。range是个迭代器，当被调用的时候，从它循环的内容中返回一个键值对。
 //基于不同的内容，range返回不同的东西。当对slice或者array做循环时，range返回序号作为键，这个序号对应的内容作为值。考虑这个代码：
-list := []string{"a", "b", "c", "d", "e", "f"}
+	list := []string{"a", "b", "c", "d", "e", "f"}
 
-for k, v := range list {
-// 对 k 和 v 做想做的事情 
-}
-//例子
-func main() {
-L1:
-    for x := 0; x < 3; x++ {
-L2:
-        for y := 0; y < 5; y++ {
-            if y > 2 { continue L2 }
-            if x > 1 { break L1 }
-            print(x, ":", y, " ")
-        }
-        println()
-    }
-}
-//输出：
-0:0  0:1  0:2
-1:0  1:1  1:2
-//附：break 可用于 for、switch、select， continue 仅能用于 for 循环。
+	for k, v := range list {
+	// 对 k 和 v 做想做的事情 
+	}
+	//例子
+	func main() {
+	L1:
+		for x := 0; x < 3; x++ {
+	L2:
+			for y := 0; y < 5; y++ {
+				if y > 2 { continue L2 }
+				if x > 1 { break L1 }
+				print(x, ":", y, " ")
+			}
+			println()
+		}
+	}
+	//输出：
+	0:0  0:1  0:2
+	1:0  1:1  1:2
+	//附：break 可用于 for、switch、select， continue 仅能用于 for 循环。
+	
+	//例子
+	
+	import "fmt"
+	import "reflect"
+
+	func main() {
+		a := [...]int{1, 2, 3, 4, 5}
+		//fmt.Println("a的type:", reflect.TypeOf(a))
+		for i, v := range a { // index、value 都是从复制品中取出。
+			if i == 0 { // 在修改前，我们先修改原数组。
+				a[1], a[2] = 999, 999
+				fmt.Println(a) // 确认修改有效，输出 [0, 999, 999]。
+			}
+			a[i] = v + 100 // 使用复制品中取出的 value 修改原数组。
+			fmt.Println("range中:", a)
+		}
+		fmt.Println("range外:", a) // 输出 [100, 101, 102]。
+
+		////对比可以看出，range内修改数组也是生效的，会影响原数组
+
+		s := []int{1, 2, 3, 4, 5}
+		fmt.Println("s的type:", reflect.TypeOf(s))
+		for i, v := range s { // 复制 struct slice { pointer, len, cap }。
+			if i == 0 {
+				s = s[:3]  // 对 slice 的修改，不会影响 range。
+				s[2] = 100 // 对底层数据的修改。
+			}
+			fmt.Println(i, v)
+		}
+		fmt.Println("range外的s:", s)
+		////对比可以看出，range内修改切片也是生效的，会影响原切片
+	}
+	//总结就是 range 会复制 struct array slice { pointer, len, cap }，在range中可以改变这些变量的值，但改变后并不会影响本次遍历
 
  
 }
@@ -626,6 +666,16 @@ b.Modify()
  map：map本质上是一个字典指针
  channel：执行体（goroutine）间的通信设施。 
  接口（interface）：对一组满足某个契约的类型的抽象。 
+
+//按值传递（call by value） 按引用传递（call by reference）
+
+Go 默认使用按值传递来传递参数，也就是传递参数的副本。函数接收参数副本之后，在使用变量的过程中可能对副本的值进行更改，但不会影响到原来的变量，比如 Function(arg1)。
+
+如果你希望函数可以直接修改参数的值，而不是对参数的副本进行操作，你需要将参数的地址（变量名前面添加&符号，比如 &variable）传递给函数，这就是按引用传递，比如 Function(&arg1)，此时传递给函数的是一个指针。如果传递给函数的是一个指针，指针的值（一个地址）会被复制，但指针的值所指向的地址上的值不会被复制；我们可以通过这个指针的值来修改这个值所指向的地址上的值。（译者注：指针也是变量类型，有自己的地址和值，通常指针的值指向一个变量的地址。所以，按引用传递也是按值传递。）
+
+几乎在任何情况下，传递指针（一个32位或者64位的值）的消耗都比传递副本来得少。
+
+在函数调用时，像切片（slice）、字典（map）、接口（interface）、通道（channel）这样的引用类型都是默认使用引用传递（即使没有显式的指出指针）。
 }
 23.结构体与方法{
 	//定义一个矩形类型：
@@ -642,6 +692,23 @@ b.Modify()
 	rect2 := &Rect{} 
 	rect3 := &Rect{0, 0, 100, 200} 
 	rect4 := &Rect{width: 100, height: 200} 
+	
+	//这里只能定义类型，不能带默认值！！
+	type my struct{
+		A string 
+		B string 
+		C string 
+	}
+
+	func main(){
+		fmt.Println("Hello World")
+		a:=my{"a","bb","ccc"}
+		fmt.Println(a.A)
+		b:=new(my)
+		*b=my{"c","d","e"}
+		fmt.Println(b.A)
+		
+	}
 //在Go语言中，未进行显式初始化的变量都会被初始化为该类型的零值，例如bool类型的零值为false，int类型的零值为0，string类型的零值为空字符串。 
 //注意首字母大写的字段可以被导出，也就是说，在其他包中可以进行读写。字段名以小写字母开头是当前包的私有的
 	
@@ -698,7 +765,7 @@ b.Modify()
 }
 
 //进阶部分
-接口{
+接口断言{
 	
 	//还可用 switch 做批量类型判断，不支持 fallthrough。
 	func main() {
@@ -1134,3 +1201,1155 @@ func main() {
 }
 
 //例子部分
+简单的go并发{
+	package main
+
+	import "fmt"
+	import "time"
+
+	func f(n *int) {
+		a := "hello, world"
+		(*n)++
+		fmt.Println(*n)
+		fmt.Println(a + string(*n))
+
+	}
+
+	func main() {
+		n := 64
+		go f(&n)
+		go f(&n)
+		go f(&n)
+		time.Sleep(1) //不加的话，不会打印f函数中的提示
+		fmt.Println("n:", n)
+	}
+
+	/*为什么打印不会混乱？
+	65
+	hello, worldA
+	66
+	hello, worldB
+	67
+	hello, worldC
+	n: 67
+	*/
+
+	
+}
+
+加锁后的go并发{
+	//一般是不应这样的，都是用chan
+	package main
+
+	import "fmt"
+	import "sync"
+	import "runtime"
+
+	//import "time"
+
+	var counter int = 0
+	var counter1 int = 0
+
+	//加锁
+	func Count(lock *sync.Mutex) {
+		lock.Lock()
+		counter++
+		fmt.Println("counter:", counter)
+		lock.Unlock()
+	}
+
+	//不加锁
+	func Count1(i int) {
+		counter1++
+		fmt.Println("i:", i)
+		fmt.Println("counter1:", counter1)
+	}
+
+	func main() {
+		lock := &sync.Mutex{}
+
+		for i := 0; i < 10; i++ {
+			go Count(lock)
+		}
+
+		for {
+			lock.Lock()
+
+			c := counter
+
+			lock.Unlock()
+
+			runtime.Gosched()
+			if c >= 10 {
+				break
+			}
+		}
+		fmt.Println("=====不加锁======1")
+		for i := 0; i < 20; i++ {
+			go Count1(i)
+		}
+
+		//time.Sleep(10)
+		for {
+			d := counter1
+			fmt.Println("d:", d)
+			if d >= 10 {
+				fmt.Println("break")
+				break
+			}
+		}
+		fmt.Println("=====不加锁======2")
+		//不加锁也没有混乱，是因为并发的原因的吗？
+	}
+
+	/*
+
+		go func() {
+			for {
+				d := counter1
+				fmt.Println("d:", d)
+				if d >= 10 {
+					fmt.Println("break")
+					break
+				}
+			}
+		}()
+
+	*/
+
+	
+}
+
+select与并发{
+	
+	package main
+
+	import "fmt"
+	import "os"
+
+	func main() {
+		fmt.Println("-----")
+		a, b := make(chan int, 3), make(chan int)
+		go func() {
+			v, ok, s := 0, false, ""
+			for {
+				select { // 随机选择可用 channel，接收数据。
+				case v, ok = <-a:
+					s = "a"
+				case v, ok = <-b:
+					s = "b"
+				}
+				if ok {
+					fmt.Println(s, v)
+				} else {
+					os.Exit(0)
+				}
+			}
+		}()
+
+		for i := 0; i < 5; i++ {
+			select {
+			case a <- i:
+			case b <- i:
+			}
+		}
+		close(a)
+		select {} // 没有可用 channel，阻塞 main goroutine。
+
+	}
+
+	/*
+	os.Args 返回命令⾏参数，os.Exit 终止进程。
+	要获取正确的可执行文件路径，可用  ﬁlepath.Abs(exec.LookPath(os.Args[0]))。
+	*/
+
+	
+}
+
+再学json解析{
+	
+	package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"reflect"
+	"strconv"
+	"strings"
+)
+
+//input输入字符串型,最好原样输入,get是索引(第一个索引值),若get是数组或map，那key就会有作用
+//(get对应的是map，key应该是map的key，get对应的是数组时，key应该是数组的index)
+func myjson(input string, get string, key interface{}) interface{} {
+
+	var gojson map[string]interface{}
+	var areturn interface{}
+	b := []byte(input)
+	err := json.Unmarshal(b, &gojson)
+	if err != nil {
+		return err
+	}
+	fmt.Println("解析后:", gojson)
+	if true {
+		for k, v := range gojson { //k是索引，v是值
+			if k == get {
+				switch v2 := v.(type) { //固定句式
+				case string:
+					//fmt.Println(k, "is string", v2)
+					areturn = v2
+				case int:
+					//fmt.Println(k, "is int", v2)
+					areturn = v2
+				case float64:
+					//fmt.Println(k, "is float64", v2)
+					areturn = v2
+				case bool:
+					//fmt.Println(k, "is bool", v2)
+					areturn = v2
+				}
+				switch v3 := v.(type) {
+				case []interface{}:
+					//fmt.Println(k, "is an array", ",index is", key)
+					for i, iv := range v3 {
+						if key == i {
+							areturn = iv
+						}
+						//fmt.Println("areturn:", areturn)
+					}
+				case map[string]interface{}:
+					//fmt.Println(k, "is an map", ",key is", key)
+					//fmt.Println("v3:", v3)
+					for i, iv := range v3 {
+						if key == i {
+							areturn = iv
+							//fmt.Println("areturn:", areturn)
+						}
+					}
+				}
+			}
+		}
+
+	}
+	return areturn
+}
+func main() {
+	//递归方式变量未知结构
+	a := `{
+			    "Title": "Go语言编程",
+			    "Authors": ["XuShiwei", "HughLv", "Pandaman", "BertYuan","XuDaoli",{"cmap":{"a4":1,"b4":"b4","c4":0.11}}],
+			    "Publisher": "ituring.com.cn",
+			    "IsPublished": true,
+			    "Price": 9.99,
+			    "Sales": 1000000,
+				"amap":{"a":1,"b":2,"c":3},
+				"bmap":{"a1":1,"b1":"b","c1":0.11,"dmap":{"a2":1,"b2":"b","c2":0.11,"emap":{"a3":1,"b3":"b3","c3":0.11}}}
+			}`
+
+	atype := myjson(a, "Authors", 5)
+	fmt.Println("函数返回值是:", atype)
+	fmt.Println("函数返回值的类型是:", reflect.TypeOf(atype)) //[]interface {} 不支持索引
+
+	//可以将多种类型赋给interface{}
+	var b interface{}
+	c := "abcdefg"
+	d := []string{"1", "2", "a"}
+	b = c
+	fmt.Println(b)
+	b = d
+	fmt.Println(b)
+	fmt.Println([]byte("aaaaaaaa"))
+
+	println(strings.Contains(a, "cmap"))
+	//()转换 {}元素
+	//e := []byte(`{"a1": 1, "b1": "b", "c1": 0.11, "dmap": {"a2": 1, "b2": "b", "c2": 0.11, "emap": {"a3": 1, "b3": "b3", "c3": 0.11}}}`)
+	//fmt.Println(e)
+
+	//复合型map
+	f := map[string]interface{}{"a": 1, "b": 2, "c": "c", "d": []string{"aa", "bb", "cc"}}
+	fmt.Println(f["d"])
+	fmt.Println(strconv.FormatFloat(12.164, 'g', 8, 32))
+	//map ->string ->map
+	fbyte, _ := json.Marshal(f)
+	fmt.Println(string(fbyte))
+	var fjson map[string]interface{}
+	err := json.Unmarshal(fbyte, &fjson)
+	fmt.Println(err, fjson)
+
+}
+
+/*
+	atype := myjson(a, "Authors", 7)
+	函数返回值是: map[cmap:map[c:0.11 a:1 b:b]]
+	函数返回值的类型是: map[string]interface {}  >>>>>>atype["a"],atype["cmap"] >>>都不支持索引,只能在switch的case中for..range。如下:
+
+	//错误的map
+	//e := map[string]interface{}{"a1": 1, "b1": "b", "c1": 0.11, "dmap": {"a2": 1, "b2": "b", "c2": 0.11, "emap": {"a3": 1, "b3": "b3", "c3": 0.11}}}
+	//fmt.Println(f["dmap"])
+	//复合型map
+	f := map[string]interface{}{"a": 1, "b": 2, "c": "c", "d": []string{"aa", "bb", "cc"}}
+	fmt.Println(f["d"])
+
+
+		func MaptoStr(amap map[string]interface{}) string {
+		var astr string
+		var v2 string
+		for k, v := range amap {
+			fmt.Println("k:v", k, v)
+			fmt.Println("v类型是:", reflect.TypeOf(v))
+			switch v.(type) {
+			case string:
+				v2 = v.(string)
+				//fmt.Println("v2", v2)
+			case int:
+				v2 = strconv.Itoa(v.(int))
+				//fmt.Println("v2", v2)
+			case float64:
+				v2 = strconv.FormatFloat(v.(float64), 'g', 8, 32)
+				//fmt.Println("v2", v2)
+
+			case []interface{}:
+				fmt.Println(k, "is an array", ",index is", v)
+				v2 = ArrtoStr(v.([]interface{}))
+			case map[string]interface{}:
+				//fmt.Println(k, "is an map", ",key is", key)
+				v2 = MaptoStr(v.(map[string]interface{}))
+			}
+			astr = k + ":" + v2 + "," + astr
+		}
+		return astr
+	}
+
+	func ArrtoStr(arry []interface{}) string {
+		var astr string
+		var v2 string
+		for k, v := range arry {
+			fmt.Println("array", k, v)
+			switch v.(type) {
+			case string:
+				v2 = v.(string)
+				fmt.Println("v2", v2)
+			case int:
+				v2 = strconv.Itoa(v.(int))
+				//fmt.Println("v2", v2)
+			case float64:
+				v2 = strconv.FormatFloat(v.(float64), 'g', 8, 32)
+				//fmt.Println("v2", v2)
+			case []interface{}:
+				fmt.Println(k, "is an array", ",index is", v)
+				v2 = ArrtoStr(v.([]interface{}))
+			case map[string]interface{}:
+				//fmt.Println(k, "is an map", ",key is", key)
+				v2 = MaptoStr(v.(map[string]interface{}))
+			}
+			astr = astr + "," + v2
+		}
+		return astr
+	}
+
+
+*/
+
+	
+}
+
+管道原来可以这样用{
+//首先限定基本的数据结构： 
+	type PipeData struct { 
+		value int 
+		handler func(int) int 
+		next chan int 
+	} 
+	
+	//流式处理数据： 
+	func handle(queue chan *PipeData) { 
+	 for data := range queue { 
+			data.next <- data.handler(data.value) 
+		} 
+	} 
+	
+}
+
+/////golang小知识点记录
+golang小知识点记录{
+
+1.获取url中的参数及输出到页面的几种方式
+func SayHello(w http.ResponseWriter, req *http.Request) {
+    req.Method                              //获取url的方法 GET or POST
+    request := req.URL.Query()              //获取url中的所有参数（get或post）
+    io.WriteString(w, req.FormValue("id"))  //获取url的id参数（常用）
+    w.Write([]byte(request["wang"][0]))     //发送到HTTP客户端
+    io.WriteString(w, "hello, world!\n")    //发送到HTTP客户端
+    fmt.Fprintf(w, "%s", "hello, world!\n") //发送到HTTP客户端
+
+}
+
+2.获取当前路径  
+
+ os.Getwd() //执行用户当前所在路径
+ file, _ := exec.LookPath(os.Args[0])//执行程序所在的绝对路径
+ 
+3.变量类型转换
+
+floatTOint
+      int(float)
+      
+intTOfloat
+      var a int = 2
+      var b float64 = float64(a)
+stringTOfloat(32 / 64)
+      f, err := strconv.ParseFloat(s, 32)
+      f, err := strconv.ParseFloat(s, 64)
+intTOstring
+      var i int = 10  
+      str1 := strconv.Itoa(i)   // 通过Itoa方法转换  
+      str2 := fmt.Sprintf("%v", i) // 通过Sprintf方法转换  万能
+stringTOint     
+      var s string = "1"  
+      var i int  
+      i, err = strconv.Atoi(s) 
+stringToint
+      strconv.ParseInt()
+strToBool
+      i, err =strconv.ParseBool("1")
+intToint32
+      var a int
+      b = int32(a)
+interface TO string
+        var a interface{}
+        var b string
+        a = "asdasdasdasd"
+        b = a.(string)
+interface TO float32 
+        var a interface{}
+        var b float32
+        a = 126.982577
+        b = a.(float32)
+ interface TO int32
+        var a interface{}
+        var b int32
+        a = 126
+        b = a.(int32)
+//强制类型转换 1
+            type MyInt32 int32
+            func main() {
+                var uid int32 = 12345
+                var gid MyInt32 = MyInt32(uid)
+                fmt.Printf("uid=%d, gid=%d\n", uid, gid)
+            }
+//强制类型转换 2 
+        unsafe.Pointer  
+
+//string  byte互转
+      aa:="hello world" 
+      bb:=[]byte(aa)
+      cc:=string(bb)
+
+
+ 
+
+
+4.当前时间戳
+    fmt.Println(time.Now().Unix())
+    # 1389058332
+     
+5.时间戳到具体显示的转化
+        fmt.Println(time.Unix(t, 0).String())
+     
+6.带纳秒的时间戳
+     t = time.Now().UnixNano()
+7.基本格式化的时间表示
+         fmt.Println(time.Now().String())
+8.格式化时间
+        fmt.Println(time.Now().Format("2006-01-02 15:04:05")) # 记忆方法:6-1-2-3-4-5
+        # 2014-01-07 09:42:20
+   
+9.时间戳转str格式化时间
+        str_time := time.Unix(1389058332, 0).Format("2006-01-02 15:04:05")
+        fmt.Println(str_time) # 2014-01-07 09:32:12
+        
+10.str格式化时间转时间戳
+       the_time := time.Date(2014, 1, 7, 5, 50, 4, 0, time.Local)
+       unix_time := the_time.Unix()
+       fmt.Println(unix_time) # 389045004
+                
+//还有一种方法,使用time.Parse
+              the_time, err := time.Parse("2006-01-02 15:04:05", "2014-01-08 09:04:41")
+                if err == nil {
+                        unix_time := the_time.Unix()
+                    fmt.Println(unix_time)      
+                }
+                # 1389171881
+11.sleep
+
+   time.Sleep(time.Millisecond * 1000)  #sleep 1000毫秒
+   time.Sleep(time.Second * 1) #sleep 1秒
+12.fmt
+    万能格式:%v  
+    字符串： %s 
+    十进制： %d
+    浮点数： %f  保留2位小数 %0.2f
+    二进制： %b
+    Boolen:  %t
+    
+        fmt.Fprintf(os.Stdout, "%08b\n", 32) // 00100000
+        fmt.Printf("%v", "hello world")              // hello world  直接格式化打印
+        fmt.Print(fmt.Sprintf("%v", "hello world"))  // hello world  Sprintf 返回格式化后的变量
+        fmt.Print(fmt.Errorf("%08b\n", 32))  // 00100000
+        fmt.Fprint(os.Stdout, "A")
+        fmt.Fprintln(os.Stdout, "A") // A
+        fmt.Println("B")             // B
+        fmt.Print(fmt.Sprintln("C")) // C  
+
+13.函数不定参数 
+func sum (nums ...int) {
+    fmt.Print(nums, " ")  //输出如 [1, 2, 3] 之类的数组
+    total := 0
+    for _, num := range nums { //要的是值而不是下标
+        total += num
+    }
+    fmt.Println (total)
+}
+a:=[]int{1,2,3,4,5} //可传slice …
+sum(a…)
+
+14.执行命令行
+import "os/exec"
+         func main () {
+            //cmd := exec.Command("ps", "-aux")
+                cmd := exec.Command ("ls", "/root")
+                out, err := cmd.Output ()
+                if err!=nil {
+                    println ("Command Error!", err.Error ())
+                    return
+                }
+                fmt.Println (string (out))
+            }
+            或者（正规一点）
+            func main () {
+                cmd := exec.Command ("tr", "a-z", "A-Z")
+                cmd.Stdin = strings.NewReader ("some input")
+                var out bytes.Buffer
+                cmd.Stdout = &out
+                err := cmd.Run ()
+                if err != nil {
+                    log.Fatal (err)
+                }
+                fmt.Printf("in all caps: %q\n", out.String ())
+            }
+            
+            输出:in all caps: "SOME INPUT"
+
+//命令行参数 （可用flag包）
+func main () {
+            args := os.Args
+            fmt.Println (args) //带执行文件的
+ }    
+$go run args.go aaa bbb ccc ddd
+
+15.生成随机数
+r := rand.New(rand.NewSource(time.Now().UnixNano())) //使用时间作为种子
+ 
+16.结构体的初始化方法
+        rect1 := new(Rect)
+        rect2 := &Rect{}
+        rect3 := &Rect{0, 0, 100, 200}
+        rect4 := &Rect{width:100, height:200}
+        var rect5 *Rect=new(Rect)
+        注意这几个变量全部为指向Rect结构的指针(指针变量)，因为使用了new()函数和&操作符
+        a := Rect{}
+        则表示这个是一个Rect{}类型
+17.md5
+
+import (
+    "crypto/md5"
+    "encoding/hex"
+)
+
+func GetMd5String(s string) string {
+    h := md5.New()
+    h.Write([]byte(s))
+    return hex.EncodeToString(h.Sum(nil))
+}
+
+18.urlencode
+import "net/url"
+url.QueryEscape("strings")
+
+19.log 记日志
+logfile, _ := os.OpenFile("./pro.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0777)
+defer logfile.Close()
+
+logger := log.New(logfile, "", 0)
+logger.Printf("%v%v", err, ret)
+20.判断文件是否存在
+func main() {
+    f, err := os.Open("dotcoo.com.txt")
+    defer f.Close()
+    if err != nil && os.IsNotExist(err) {
+        fmt.Printf("file not exist!\n")
+        return
+    }
+    fmt.Printf("file exist!\n")
+   }
+
+21.string如果里面有"或换行，可以使用`来进行包含
+
+jsonString := ` 
+     { 
+    "development":{ 
+        "connector":[ 
+             {"id":"connector-server-1", "host":"127.0.0.1", "port":4050, "wsPort":3050}
+                     ], 
+        "gate":[ 
+          {"id": "gate-server-1", "host": "127.0.0.1", "wsPort": 3014} 
+     ] 
+    } 
+    }`
+
+22.path.Clean
+path.Clean用于对路径 ../../等进行过滤，在创建修改文件的时候需要使用到，否则会有漏洞
+ 
+
+23.import包命名
+
+import的包可以给它命名import l4g "code.google.com/p/log4go"
+
+24.判断当前用户是否是root用户
+os.Geteuid() != 0
+
+25.break 
+//退出指定的循环体  如果在某个条件下，你需要从 for-select 中退出，就需要使用标签
+sum := 0
+MyForLable:
+    for {
+        for i := 0; i < 10; i++ {
+            if sum > 200 {
+                break MyForLable //将退出循环体for{}
+            }
+            sum += i
+        }
+    }
+    fmt.Println(sum)
+
+26.golang中的类型判断
+
+
+var a interface{}
+   a=12
+   newA,ok:=a.(string)
+   如果ok 是 true 则说明 变量a 是字符串类型,而newA就是string类型的变量，a的实际值   
+    a.(type) 返回的是 a的 类型, 注意他返回的不是一个 字符串表示 string int 这样表示a的类型
+        a.(type)是和switch 搭配使用的
+        switch vtype:=v.(type){
+            case string:          
+            case int:         
+            case  []interface{}:            
+            default:
+        }
+
+27.json简单的encode,decode 
+
+
+import  "encoding/json"
+ 
+   type MyData struct {
+    Name   string    `json:"item"`
+    Other  float32   `json:"amount"`
+   }
+    detail:=&MyData{"Name":"hello","Other":2}
+    userinfo, _ := json.Marshal(detail)
+    fmt.Println(string(userinfo))
+   //`json:"item"` 就是Name字段在从结构体实例编码到JSON数据格式的时候，使用item作为名字。算是一种重命名的方式。
+   //输出：{"item":"hello","amount":2}
+   userinfo,_:=json.Marshal(detail)
+   ObjUser := make(map[string]interface{})
+   json.Unmarshal([]byte(userinfo), &ObjUser)
+
+28.panic和恢复recover用法 
+
+defer func() {
+    if re := recover(); re != nil {
+        fmt.Printf("%v", re)
+    }
+}()
+ 
+
+29.从文件中json解析 
+
+尽量使用os.OpenFile直接获取reader，然后再从reader中使用Decoder来解析json
+package main
+ 
+import (
+    "fmt"
+    "encoding/json"
+    "os")
+
+func main() {
+    pathToFile := "jsondata.txt"
+ 
+    file, err := os.OpenFile(pathToFile, os.O_RDONLY, 0644)
+    if err != nil {
+        fmt.Println(err)
+        os.Exit(1)
+    }
+ 
+    configs := make(map[string]map[string][]Service, 0)
+    err = json.NewDecoder(file).Decode(&configs)
+    if err != nil {
+        fmt.Println(err)
+        os.Exit(1)
+    }}
+
+30.lock 并发小例
+import (
+    "fmt"
+    "sync"
+    "time"
+)
+
+var l sync.Mutex
+
+func main() {
+    l.Lock()
+    defer l.Unlock()
+    m := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+    ch := make(chan int)
+    defer close(ch)
+    for i := 0; i < 30; i++ {
+        time.Sleep(time.Second)
+        go func(x int) {
+            for {
+                if len(m) == 0 {
+                    break
+                } else {
+                    l.Unlock()
+                    fmt.Println(x, m[0:1])
+                    m = m[1:len(m)]
+                    l.Lock()
+                }
+                time.Sleep(time.Second)
+
+            }
+            ch <- x
+
+        }(i)
+    }
+    for i := 0; i < 30; i++ {
+        fmt.Println(<-ch)
+    }
+
+}
+
+31.future小例
+package main
+
+import (
+    "fmt"
+)
+
+//一个查询结构体
+type query struct {
+    //参数Channel
+    sql chan string
+    //结果Channel
+    result chan string
+}
+
+//执行Query
+func execQuery(q query) {
+    //启动协程
+    go func() {
+        //获取输入
+        sql := <-q.sql
+        //访问数据库，输出结果通道
+        q.result <- "get " + sql
+    }()
+
+}
+
+func main() {
+    //初始化Query
+    q :=
+        query{make(chan string, 1), make(chan string, 1)}
+    //执行Query，注意执行的时候无需准备参数
+    execQuery(q)
+
+    //准备参数
+    q.sql <- "select * from table"
+    //获取结果
+    fmt.Println(<-q.result)
+}
+
+32.反射小例
+
+package main
+import (
+    "errors"
+    "fmt"
+    "reflect"
+)
+
+func foo() {
+    fmt.Println("hello")
+
+}
+func bar(a, b, c int) {
+    fmt.Println(a, b, c)
+}
+
+func Call(m map[string]interface{}, name string, params ...interface{}) (result []reflect.Value, err error) {
+    f := reflect.ValueOf(m[name])
+    if len(params) != f.Type().NumIn() {
+        err = errors.New("The number of params is not adapted.")
+        return
+    }
+    in := make([]reflect.Value, len(params))
+    for k, param := range params {
+        in[k] = reflect.ValueOf(param)
+    }
+    result = f.Call(in)
+    return
+}
+
+func main() {
+    funcs := map[string]interface{}{"foo": foo, "bar": bar}
+    Call(funcs, "foo")
+    Call(funcs, "bar", 1, 2, 3)
+}
+
+33.快速搭建服务器
+func main(){
+    http.HandleFunc( "/",Handler)
+    http.HandleFunc( "/valueget",valueget)
+    s := &http.Server{
+        Addr:           ":80",
+        ReadTimeout:    30 * time.Second,
+        WriteTimeout:   30 * time.Second,
+        MaxHeaderBytes: 1 << 20,
+    }
+    log.Fatal(s.ListenAndServe())
+}
+
+func valueget(w http.ResponseWriter, r *http.Request) {
+    params := r.URL.Query()
+    user := params.Get("user")
+    fmt.Fprintf(w, "you are get user %s", user)
+}
+ 
+go “静态目录服务” http.FileServer
+
+
+//对目录提供静态映射服务
+http.Handle("/", http.FileServer(http.Dir("/tmp")))
+
+http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, r.URL.Path[1:])
+
+})
+
+ 
+
+34.go语言中导入另外一个库结果调用时出错：cannot refer to unexported name
+解决方法 :go，模块中要导出的函数，必须首字母大写。
+ 
+
+34.goto
+func main() {
+    defer fmt.Println("cc")
+    goto L
+    defer fmt.Println("dd")
+    fmt.Println("aa")
+L:
+    fmt.Println("bb")
+}
+
+输出
+bb
+cc
+
+
+35.hook
+package main
+
+import (
+    "fmt"
+)
+
+var hooks []hookfunc //hook function slice to store the hookfunc
+
+type hookfunc func() error //hook function to run
+
+func initOne() error {
+    fmt.Println("hello world 1")
+    return nil
+}
+func initTwo() error {
+    fmt.Println("hello world 2")
+    return nil
+}
+func AddHook(hf hookfunc) {
+    hooks = append(hooks, hf)
+}
+
+func main() {
+    AddHook(initOne)
+    AddHook(initTwo)
+
+    // do hooks function
+    for _, hk := range hooks {
+        err := hk()
+        if err != nil {
+            panic(err)
+        }
+    }
+}
+
+
+36.signalpackage main
+import (
+    "fmt"
+    "os"
+    "os/signal"
+    "syscall"
+    "time"
+)
+
+func main() {
+    go signalHandle()
+    time.Sleep(time.Second * 50)
+}
+
+func signalHandle() {
+    for {
+        ch := make(chan os.Signal)
+        signal.Notify(ch, syscall.SIGINT, syscall.SIGUSR1, syscall.SIGUSR2, syscall.SIGHUP)
+        sig := <-ch
+        switch sig {
+        default:
+            fmt.Println("default")
+        case syscall.SIGHUP:
+            fmt.Println("SIGHUP")
+        case syscall.SIGINT:
+            fmt.Println("SIGINT")
+        case syscall.SIGUSR1:
+            fmt.Println("SIGUSR1")
+        case syscall.SIGUSR2:
+            fmt.Println("SIGUSR2")
+
+        }
+    }
+}
+
+37.闭包
+package main
+import "fmt"
+
+func adder() func(int) int {
+     sum := 0
+     return func(x int) int {
+          sum += x
+          return sum
+     }
+}
+
+func main() {
+     pos, neg := adder(), adder()
+     for i := 0; i < 10; i++ {
+          fmt.Println(
+               pos(i),
+               neg(-2*i),
+          )
+     }
+	 
+}
+	
+}
+HTTP请求{
+package main
+1.最简单的请求
+	import (
+		"fmt"
+		"io/ioutil"
+		"net/http"
+	)
+
+	func main() {
+		response, _ := http.Get("http://3ms.huawei.com/")
+		defer response.Body.Close()
+		body, _ := ioutil.ReadAll(response.Body)
+		fmt.Println(string(body))
+	}
+
+2.定制化请求
+//最简单的带头域的get、post请求
+	package main
+
+	import (
+		"fmt"
+		"io/ioutil"
+		"net/http"
+		"strings"
+	)
+
+	func main() {
+		fmt.Println(getstat())
+		fmt.Println(putconf())
+	}
+
+	//curl -k -v -X GET -H "Authorization:Basic cHJvdmlkZXI6UHYmODlJam4="  -H "beginDate:2015-09-01 12:00:00" -H "endDate:2017-09-08 12:00:00"
+	// 'http://10.175.102.220:9580/rest/invoke/statistics?pageSize=200&pageIndex=1'
+	func getstat() string {
+		client := &http.Client{}
+		reqest, _ := http.NewRequest("GET", "http://10.175.102.220:9580/rest/invoke/statistics?pageSize=1&pageIndex=1", nil) //新建请求样式
+		//set部分可不要
+		reqest.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+		reqest.Header.Set("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3")
+		reqest.Header.Set("Accept-Encoding", "gzip,deflate,sdch")
+		reqest.Header.Set("Accept-Language", "zh-CN,zh;q=0.8")
+		reqest.Header.Set("Cache-Control", "max-age=0")
+		reqest.Header.Set("Connection", "keep-alive")
+		//add部分必须参数
+		reqest.Header.Add("Authorization", "Basic cHJvdmlkZXI6UHYmODlJam4=")
+		reqest.Header.Add("beginDate", "2015-09-01 12:00:00")
+		reqest.Header.Add("endDate", "2017-09-08 12:00:00")
+
+		response, err := client.Do(reqest) //发送定制化后的请求
+		if response.StatusCode == 200 {
+			body, _ := ioutil.ReadAll(response.Body)
+			bodystr := string(body)
+			return bodystr
+		}
+		return err.Error()
+	}
+
+	//curl -v -k -X PUT http://127.0.0.1:9763/rest/configuration -H "Authorization:Basic cHJvdmlkZXI6UHYmODlJam4=" -H "Content-Type:application/json;CHARSET=UTF-8"
+	//-d '{"params": [{"name": "trace.message", "value": "on"}]}'
+	func putconf() string {
+		//postbody := strings.NewReader("{'params': [{'name':'trace.message','value':'on'}]}")
+		postbody := strings.NewReader(`{"params": [{"name": "trace.message", "value": "on"}]}`)
+		client := &http.Client{}
+		reqest, _ := http.NewRequest("PUT", "http://10.175.102.220:9580/rest/configuration", postbody) //新建请求样式
+		fmt.Println(reqest)
+		//add部分必须参数
+		reqest.Header.Add("Authorization", "Basic cHJvdmlkZXI6UHYmODlJam4=")
+		reqest.Header.Add("Content-Type", "application/json;CHARSET=UTF-8")
+		fmt.Println(reqest.Header)
+		fmt.Println("======2")
+		//fmt.Println(reqest.Body.Read([]byte(`{"params": [{"name": "trace.message", "value": "on"}]}`)))
+		response, err := client.Do(reqest) //发送定制化后的请求
+		fmt.Println(err)
+		fmt.Println(response.StatusCode)
+		if response.StatusCode == 200 {
+			body, _ := ioutil.ReadAll(response.Body)
+			bodystr := string(body)
+			return bodystr
+		}
+		return err.Error()
+	}
+
+}
+HTTP代理{
+1.带密码的代理
+	package main
+
+	import (
+		"fmt"
+		"io/ioutil"
+		"net/http"
+		"net/url"
+		"os"
+	)
+
+	///这种方式在window上跑不过：An attempt was made to access a socket in a way forbidden by its access permissions.是因为isafe的限制
+	//但在linux上 url.Parse("http://name:passwd@172.18.32.134:8080") 是可以的 go run go例子7_代理.go
+	func main() {
+
+		proxy := func(ht *http.Request) (*url.URL, error) {
+			/*
+				auserinfo := url.UserPassword("name", "passwd")
+				fmt.Println("auserinfo:", auserinfo)
+				fmt.Print("QueryUnescape:")
+				fmt.Println(url.QueryUnescape(auserinfo.String()))
+				name, _ := url.QueryUnescape("name")
+				pass, _ := url.QueryUnescape("passwd")
+				auserinfo1 := url.UserPassword(name, pass)
+				fmt.Println("auserinfo1:", auserinfo1)
+
+				aurl := &url.URL{
+					Scheme: "http",
+					Host:   "172.18.32.134:8080",
+					Opaque: "name:passwd",
+					//User :auserinfo,
+
+				}
+				//RawQuery:
+				//User :auserinfo,
+				//Host :url.QueryEscape("http://name:passwd@172.18.32.134:8080"),
+				//Host :"172.18.32.134:8080",
+				//Scheme:"http",//格式
+				//Opaque:"http://name:passwd@172.18.32.134:8080",//不透明
+
+				fmt.Println("====:", aurl.String())
+			*/
+			return url.Parse("http://name:passwd@172.18.32.134:8080") //根据定义Proxy func(*Request) (*url.URL, error)这里要返回url.URL
+			//return url.Parse(aurl.String())
+		}
+		//proxies = {"http": "http://name:qwer!4321@172.18.32.134:8080","https": "https://name:qwer!4321@172.18.32.134:8080"}
+		transport := &http.Transport{
+			Proxy: proxy,
+		}
+		client := &http.Client{Transport: transport}
+		resp, err := client.Get("http://www.cnblogs.com/") //请求并获取到对象,使用代理
+		//resp, err := client.Get("http://3ms.huawei.com/") //请求并获取到对象,使用代理
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		dataproxy, err := ioutil.ReadAll(resp.Body) //取出主体的内容
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(string(dataproxy))
+		}
+		defer resp.Body.Close()
+		fmt.Println("使用代理:%s", proxy) //打印
+	}
+
+	func Env_proxy() {
+		//go theproxy()
+		fmt.Println("Hello World")
+		goPath := os.Getenv("GOPATH")
+		fmt.Printf("The goPath is: %s\n", goPath)
+		//proxies = {"http": "http://name:passwd@172.18.32.134:8080","https": "https://name:passwd@172.18.32.134:8080"}
+		os.Setenv("HTTP_PROXY", "http://name:passwd@172.18.32.134:8080")
+		os.Setenv("HTTP_PROXYS", "https://name:passwd@172.18.32.134:8080")
+		//fmt.Println(os.Environ())
+		fmt.Println("==================1")
+		transport := &http.Transport{
+			Proxy: http.ProxyFromEnvironment,
+		}
+		client1 := &http.Client{Transport: transport}
+		resp, err := client1.Get("http://www.cnblogs.com/") //请求并获取到对象,使用代理
+		fmt.Println("==================2")
+		if err != nil {
+			fmt.Println(err)
+		}
+		dataproxy, err := ioutil.ReadAll(resp.Body) //取出主体的内容
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(string(dataproxy))
+		}
+		fmt.Println("==================3")
+		defer resp.Body.Close()
+	}
+
+	
+}
+
+
+
+
+
+
+
