@@ -1700,7 +1700,6 @@ next(iterator[, default]) : 接收一个迭代器，返回迭代器中的数值�
 reversed(sequence) ： 生成一个反转序列的迭代器并返回。 reversed('abc') >>> ['c','b','a']  ,list(reversed([1,2,3,4,5])),list(reversed((1,2,3,4,5)))
 } 
 
-
 IDLE编辑器快捷键{
 自动补全代码        Alt+/（查找编辑器内已经写过的代码来补全)
 补全提示              Ctrl+Shift+space(默认与输入法冲突，修改之)
@@ -4379,7 +4378,8 @@ TypeError: must be str, not int
 
 }
 
-base64{
+#base64
+{
 
 import base64
 >>> base64.decodebytes(b'c3Vic2NyaWJlcjpTc01pbmkxQA==').decode('utf8')
@@ -4502,7 +4502,8 @@ loop.close()
 
 
 }
-queue 队列
+
+#queue 队列
 {
 
 
@@ -4576,7 +4577,7 @@ p2.start()
 #2.在子进程中执行shell后返回结果到父进程 在不使用subprocess的情况下，进程间怎么交互数据
 ####################################################################################################
 
-1.os.popen() 调用的是subprocess 库，找到subprocess.Popen('dwad',shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+#os.popen() 调用的是subprocess 库，找到subprocess.Popen('dwad',shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 {
 def __init__(self, args, bufsize=-1, executable=None,
                  stdin=None, stdout=None, stderr=None,
@@ -4779,7 +4780,7 @@ else:
 }
 
 #异步执行
-os.fork() 
+#os.fork() 
 {
 
 import os
@@ -4906,7 +4907,6 @@ root     116565 116523  0 16:11 pts/11   00:00:00 grep --color=auto python
 '''
 
 }
-
 
 #Python进程间通信之匿名管道
 {
@@ -5055,7 +5055,6 @@ Parent got: "Child 7265 got: [Hello 2 from parent 7264]"
 
 }
 
-
 #伪终端tty\pty
 {
 import os
@@ -5169,6 +5168,7 @@ jobs（查看后台作业）
 
 }
 
+#try ... except
 {
 try ... except 语句可以带有一个 else子句 ，该子句只能出现在 有 except 子句之
 后。 try语句没有出现异常时，还想要行执行一些代码，可以使这个子句。例 :
@@ -5205,6 +5205,42 @@ print(dome())
 
 }
 
+#双通道
+{
+#!/usr/bin/python
+import time
+import os
 
+def child(wpipe,rpipe1):
+	print("""child's pid:""", os.getpid())
+	for x in range(100):
+		print("子程序读取到:",os.read(rpipe1,1024))
+		msg = (str(x)+'from son\n').encode()
+		print("子进程发送:")
+		os.write(wpipe, msg)
+		time.sleep(1)
+
+def parent():
+	rpipe, wpipe = os.pipe() #子进程的写，和父进程的读
+	rpipe1, wpipe1 = os.pipe() #父进程的写，和子进程的读
+	pid = os.fork()
+	if pid == 0:
+		os.close(rpipe)
+		os.close(wpipe1)
+		child(wpipe,rpipe1)
+		assert False, 'fork child process error!'
+	else:
+		os.close(wpipe)
+		os.close(rpipe1)
+		print("""parent,child's pid:""", os.getpid(), pid)
+		fobj = os.fdopen(rpipe, 'r')
+		for x in range(100):
+			print("父进程发送:")
+			os.write(wpipe1,(str(x)+'from father\n').encode())
+			print("父进程读取:")
+			print (fobj.readline())
+			
+parent()
+}
 }
 
