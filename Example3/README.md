@@ -10,6 +10,7 @@ http://3ms.huawei.com/hi/blog/1067341_2454203.html?for_statistic_from=interfix_b
 #exec包执行外部命令，它将os.StartProcess进行包装使得它更容易映射到stdin和stdout，并且利用pipe连接i/o．
 
 封装的顺序:
+
 os.StartProcess
 
 syscall.StartProcess
