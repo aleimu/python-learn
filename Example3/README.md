@@ -11,8 +11,11 @@ http://3ms.huawei.com/hi/blog/1067341_2454203.html?for_statistic_from=interfix_b
 
 封装的顺序:
 os.StartProcess
+
 syscall.StartProcess
+
 CreateProcess
+
 syscall.Syscall12
 
 文件系统和golang api索引很好用，结合起来可以定位到实现。
