@@ -1549,7 +1549,82 @@ func main() {
 
 */
 
+//////// 限制struct 的格式 ----> ServerName 为空时，解析后的b中不会有ServerName缺省后的默认值
+/*
+针对JSON的输出，我们在定义struct tag的时候需要注意几点：
+字段的tag是“-”，那么这个字段不会输出到JSON
+tag中带有自定义名称，那么这个自定义名称会出现在JSON的字段名中，例如上面例子中的serverName
+tag中如果带有“omitempty”选项，那么如果该字段值为空，就不会输出到JSON串中
+如果字段类型是bool,string,int,int64等，而tag中带有“,string”选项，那么这个字段在输出到JSON的时候会把该字段对应的值转换成JSON字符串
+*/
+package main
+ 
+import (
+    "encoding/json"
+    "os"
+)
+ 
+type Server struct {
+    //ID不会导出到JSON
+    ID int `json:"-"`
+ 
+    //ServerName的值会进行二次JSON编码
+    ServerName  bool `json:"serverName,omitempty"`
+    ServerName2 string `json:"serverName2, string"`
+ 
+    //如果ServerIP为空，则不输出到JSON中
+    ServerIP    string `json:"serverIP,omitempty"`
+    Description string `json:"description,string"`
+}
+ 
+func main() {
+ 
+    s := Server{
+        ID:          3,
+        ServerName2: `Go "1.0"`,
+        ServerIP:    ``,
+        Description: "描述信息",
+    }
+ 
+    b, _ := json.Marshal(s)
+    os.Stdout.Write(b)
+ 
+}
 	
+//{"serverName2":"Go \"1.0\"","description":"\"描述信息\""} 
+}
+
+//解固定格式的json
+//解析查询app已订阅api的返回
+func Sub_json(SubscribeApisInfo  []byte, n int )(return_str [12]string){
+    	type apiList_struct struct {
+				Id 		string   `json:"id"`
+				Name 	string      `json:"name"`
+				Context string `json:"context"` 
+				Version string   `json:"version"`
+				Status  string `json:"status"` 
+				Quota 	string `json:"quota"` 
+				Catalog string      `json:"catalog"`								
+				}		
+		type Res_struct struct {
+				ResultCode   int   `json:"resultCode"`
+				ResultMsg    string      `json:"resultMsg"`
+				TotalSize    int   `json:"totalSize"`
+				PageSize 	 int      `json:"pageSize"`
+				PageIndex    int   `json:"pageIndex"`
+				ApiList 	 []apiList_struct
+				}
+
+		//json str 转struct
+		var get Res_struct
+		if err := json.Unmarshal(SubscribeApisInfo, &get); err == nil {
+		//common.PrintlnCyan("================json str to struct==")
+return_str=[12]string{strconv.Itoa(get.ResultCode),get.ResultMsg,strconv.Itoa(get.TotalSize),strconv.Itoa(get.PageSize),strconv.Itoa(get.PageIndex),get.ApiList[n].Id,get.ApiList[n].Name,get.ApiList[n].Context,get.ApiList[n].Version,get.ApiList[n].Status,get.ApiList[n].Quota,get.ApiList[n].Catalog}
+				//common.PrintlnCyan(return_str)
+			}					
+	return
+}
+
 }
 
 管道原来可以这样用{
@@ -2347,9 +2422,426 @@ HTTP代理{
 	
 }
 
+bee学习{
+//GOPATH环境变量添加时：
+添加D:\gosms路径之后，GOPATH字符串后面多了一个;，去掉;，并cmd重启，可解决。
+GOPATH ：E:\\GoWork
+GOROOT ：C:\Go\
+Path ：C:\Go\bin;E:\GoWork\bin
+
+#上面都配好后
+>bee new hello
+>bee run hello
+
+//在浏览器中打开 http://localhost:8080/ 进行访问
+
+//LiteIDE 在 Windows 下为 Go 语言添加智能提示代码补全
+http://www.cnblogs.com/liuning8023/p/4512524.html
+
+我的实践：
+E:\soft\gocode-master\gocode-master\
+下执行 go build	
+生成gocode-master.exe改名成gocode.exe 替换到C:\liteide\bin下
+重启IDE就行了
+估计是 LiteIDE 自带的 gocode.exe 比较旧的原因
+
+}
+
+关于switch{
+	func main(){
+    list := []string{"a", "b", "c", "d", "e", "f"}
+    for _,y:=range list{
+        switch y {
+            case "a":
+                fmt.Println("a")
+                goto end
+            case "b":
+                fmt.Println("b")
+            case "c":
+                fmt.Println("c")
+            case "d":
+                fmt.Println("d")
+            case "e":
+                fmt.Println("e")
+            
+        }
+     
+        
+    }
+    end:
+}
+
+func main(){
+    list := []string{"a", "b", "c", "d", "e", "f"}
+    var bb =false
+    for _,y:=range list{
+        if bb==true{
+            break
+        }
+        switch y {
+            case "a":
+                fmt.Println("a")
+                bb=true
+            case "b":
+                fmt.Println("b")
+            case "c":
+                fmt.Println("c")
+            case "d":
+                fmt.Println("d")
+            case "e":
+                fmt.Println("e")
+      
+        }
+     
+        
+    }
+}
+
+
+func main(){
+    
+    b:=aa()
+    fmt.Println("aaaa",b)
+}
+
+func aa()string{
+    list := []string{"a", "b", "c", "d", "e", "f"}
+    for _,y:=range list{
+        switch y {
+            case "a":
+                fmt.Println("a")
+                           
+            case "b":
+                fmt.Println("b")
+                return "a"         
+                break
+            case "c":
+                fmt.Println("c")
+            case "d":
+                fmt.Println("d")
+            case "e":
+                fmt.Println("e")
+            
+        }
+        
+   
+        
+    }
+    return ""
+}
+
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"strconv"
+	//"strings"
+)
+
+//很好的解析json的方法，直接返回key对应的value，无论多深的json，但在key存在重复时，请注意可能出现异常
+func EasyJson(key string, str string) string {
+	b := []byte(str)
+	var f interface{}
+	var ret string
+	err := json.Unmarshal(b, &f)
+	if err != nil {
+		fmt.Println("解析json失败:", err)
+		return ""
+	}
+	switch f.(type) {
+	case map[string]interface{}:
+		m := f.(map[string]interface{})
+		for k, v := range m {
+			if k == key {
+				switch vv := v.(type) {
+				case bool:
+					ret = strconv.FormatBool(vv)
+					goto end
+				case string:
+					ret = vv
+					goto end
+				case float64:
+					ret = strconv.FormatFloat(vv, 'f', -1, 64)
+					goto end
+				case []interface{}:
+					by, _ := json.Marshal(vv)
+					fmt.Println(k, "is array1", string(by))
+					ret = string(by)
+					goto end
+				case map[string]interface{}:
+					by, _ := json.Marshal(vv)
+					fmt.Println(k, "is map1", string(by))
+					ret = string(by)
+					goto end
+				default:
+					fmt.Println(k, "is of a err1 type")
+				}
+			}
+			switch vv2 := v.(type) {
+			case []interface{}:
+				by, _ := json.Marshal(vv2)
+				fmt.Println(k, "is array1", string(by))
+				ret = EasyJson(key, string(by))
+			case map[string]interface{}:
+				by, _ := json.Marshal(vv2)
+				fmt.Println(k, "is map1", string(by))
+				ret = EasyJson(key, string(by))
+			default:
+				fmt.Println(k, "is of a err2 type")
+			}
+		}
+	case []interface{}:
+		by, _ := json.Marshal(f)
+		fmt.Println(by, "is array1", string(by))
+		ret = EasyJson(key, string(by))
+	}
+end:
+	return ret
+}
+
+func main() {
+	a := `{
+		    "Title": "Go语言编程",
+		    "Authors": ["XuShiwei", "HughLv", "Pandaman", "GuaguaSong", "HanTuo", "BertYuan","XuDaoli",{"cmap":{"a":1,"b":"b","c":0.11}}],
+		    "Publisher": "ituring.com.cn",
+		    "IsPublished": true,
+		    "Price": 9.99,
+		    "Sales": 1000000,
+			"amap":{"a":1,"b":2,"c":3},
+			"bmap":{"a":1,"b":"b","c":0.11}
+		}`
+
+	atype := EasyJson("amap", a)
+	fmt.Println("解析结果是:", atype)
+}
+
+
+	
+}
+
+关于贝叶斯算法与机器学习{
+	
+http://www.cnblogs.com/LeftNotEasy/archive/2010/08/29/1812101.html
+http://www.cnblogs.com/kesalin/p/bayes_rule.html
+http://www.cnblogs.com/elaron/archive/2012/10/26/2741511.html
+http://www.cnblogs.com/Finley/p/5334987.html
+http://www.cnblogs.com/netuml/p/5725650.html
+http://www.cnblogs.com/marc01in/p/4775440.html
+
+//摘要:
+通常，事件 A 在事件 B 发生的条件下的概率，与事件 B 在事件 A 发生的条件下的概率是不一样的；然而，这两者是有确定关系的，贝叶斯定理就是这种关系的陈述。
+贝叶斯公式的用途在于通过己知三个概率来推测第四个概率。它的内容是：在 B 出现的前提下，A 出现的概率等于 A 出现的前提下 B 出现的概率乘以 A 出现的概率再除以 B 出现的概率。通过联系 A 与 B，计算从一个事件发生的情况下另一事件发生的概率，即从结果上溯到源头（也即逆向概率）。
+
+通俗地讲就是当你不能确定某一个事件发生的概率时，你可以依靠与该事件本质属性相关的事件发生的概率去推测该事件发生的概率。用数学语言表达就是：支持某项属性的事件发生得愈多，则该事件发生的的可能性就愈大。这个推理过程有时候也叫贝叶斯推理。
+
+P(B|A) = P(A|B) * P(B) / [P(A|B) * P(B) + P(A|~B) * P(~B) ]
+
+收缩起来就是：
+
+P(B|A) = P(AB) / P(A)
+
+其实这个就等于：
+
+P(A∩B) = P(A)*P(B|A)=P(B)*P(A|B)
+
+难怪拉普拉斯说概率论只是把常识用数学公式表达了出来。
+
+然而，后面我们会逐渐发现，看似这么平凡的贝叶斯公式，背后却隐含着非常深刻的原理。
+}
+
+beego的dome{
+#项目名  mypro2
+//////////////main.go	
+package main
+
+import (
+	"fmt"
+
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
+
+	_ "mypro2/routers"
+
+	_ "github.com/go-sql-driver/mysql"
+)
+
+//数据库的配置
+const (
+	DRIVER_NAME   = "mysql"
+	DATA_SOURCE   = "root:root@tcp(10.120.189.164:15432)/golang?charset=utf8" //使用golang数据库
+	MAX_IDLE_CONN = 5
+	MAX_OPEN_CONN = 30
+)
+
+func init() {
+	// 注册驱动
+	orm.RegisterDriver("mysql", orm.DRMySQL)
+	// 注册默认数据库
+	// 备注：此处第一个参数必须设置为“default”（因为我现在只有一个数据库），否则编译报错说：必须有一个注册DB的别名为 default
+	orm.RegisterDataBase("default", DRIVER_NAME, DATA_SOURCE, MAX_IDLE_CONN, MAX_OPEN_CONN)
+}
+
+func main() {
+	fmt.Println("开始运行!")
+	// 开启 orm 调试模式：开发过程中建议打开，release时需要关闭,只在本函数中生效，可以显示建表过程
+	orm.Debug = true
+	// 自动建表
+	orm.RunSyncdb("default", false, true)
+	beego.Run()
+}
+//////////////models.go	
+package models
+
+import (
+	"github.com/astaxie/beego/orm"
+)
+
+type User struct {
+	Id   int
+	Name string
+	Age  string
+	Sex  string
+}
+
+//Profile *Profile `orm:"rel(one)"` // OneToOne relation
+/*
+type Profile struct {
+	Id   int
+	Age  int16
+	User *User `orm:"reverse(one)"` // 设置反向关系（可选）
+}
+*/
+//数据库中自动建立 user 表和其中的键
+func init() {
+	// 需要在 init 中注册定义的 model
+	//orm.RegisterModel(new(User), new(Profile))
+	orm.RegisterModel(new(User))
+}
+
+//////////////controllers.go	
+package controllers
+
+import (
+	"fmt"
+	"mypro2/models"
+
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
+)
+
+type MainController struct {
+	beego.Controller
+}
+
+//默认的
+func (c *MainController) Gets() {
+	c.Data["Website"] = "beego.me"
+	c.Data["Email"] = "astaxie@gmail.com"
+	//定义首页模板
+	c.TplName = "index.tpl"
+}
+
+func (c *MainController) Add() {
+	orm.Debug = true //只在本函数中生效，可以显示增加api的过程
+
+	var id int
+	var name string
+	var age string
+	var sex string
+	err := c.Ctx.Input.Bind(&id, ":id")
+	//c.Ctx.Input.Bind(&name, "name")
+	//c.Ctx.Input.Bind(&age, "age")
+	//c.Ctx.Input.Bind(&sex, "sex")
+	name, age, sex = c.Input().Get("name"), c.Input().Get("age"), c.Input().Get("sex")
+	if err != nil {
+		fmt.Println("add err:", err)
+	}
+	user := new(models.User)
+	user.Name = name
+	user.Sex = sex
+	user.Age = age
+	fmt.Println("增加API:", user)
+
+	// 创建一个 ormer 对象
+	o := orm.NewOrm()
+	o.Using("default")
+	// insert
+	o.Insert(user)
+}
+
+func (c *MainController) Get() {
+	orm.Debug = true
+
+	var id int
+	err := c.Ctx.Input.Bind(&id, ":id")
+	if err != nil {
+		fmt.Println("add err:", err)
+	}
+	// 创建一个 ormer 对象
+	o := orm.NewOrm()
+	o.Using("default")
+
+	user := new(models.User)
+	_, err = o.QueryTable("User").Filter("id", id).All(&user)
+
+	if err != nil {
+		fmt.Println("GetApi sql error ")
+	}
+	fmt.Println("查询API:", user)
+
+}
+
+func (c *MainController) Delete() {
+	orm.Debug = true
+
+	var id int
+	// 创建一个 ormer 对象
+	o := orm.NewOrm()
+	o.Using("default")
+
+	err := c.Ctx.Input.Bind(&id, ":id")
+	if err != nil {
+		fmt.Println("add err:", err)
+	}
+	// delete
+	o.Delete(&models.User{Id: id})
+	fmt.Println("删除API:", &models.User{Id: id})
+}
+
+//////////////routers.go	
+package routers
+
+import (
+	"mypro2/controllers"
+
+	"github.com/astaxie/beego"
+)
+
+func init() {
+	beego.Router("/", &controllers.MainController{}, "get:Gets")
+}
+
+func init() {
+
+	var MyApis controllers.MainController
+
+	//添加api
+	beego.Router("/api/:id:int", &MyApis, "put:Add")
+	//删除api
+	beego.Router("/api/:id:int", &MyApis, "delete:Delete")
+	//api查找
+	beego.Router("/api/:id:([0-9]+)", &MyApis, "get:Get")
+
+}
+
+/*
+curl -k -v -X PUT "http://10.177.241.210:8080/api/1?name=lgj&age=18&sex=20"
+curl -k -v -X GET "http://10.177.241.210:8080/api/1"
+curl -k -v -X PUT "http://10.177.241.210:8080/api/1"
+*/
 
 
 
 
-
-
+}
