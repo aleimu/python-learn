@@ -1,4 +1,5 @@
 //Go学习总结--2017/3/20	
+//https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md
 //基础语法
 1.变量的定义{
 
@@ -677,7 +678,7 @@ Go 默认使用按值传递来传递参数，也就是传递参数的副本。�
 
 在函数调用时，像切片（slice）、字典（map）、接口（interface）、通道（channel）这样的引用类型都是默认使用引用传递（即使没有显式的指出指针）。
 }
-23.结构体与方法{
+23.结构体与方法{	
 	//定义一个矩形类型：
 	type Rect struct { 
     x, y float64 
@@ -762,6 +763,38 @@ Go 默认使用按值传递来传递参数，也就是传递参数的副本。�
 			fmt.Println("......")
 		}
 	}
+}
+24.结构体的初始化{
+	type Rect struct { 
+        x, y float64 
+        width, height float64 //小写的对外不可见
+    } 
+    rect1 := new(Rect)
+    rect2 := &Rect{}
+    rect3 := &Rect{0, 0, 100, 200}
+    rect4 := &Rect{width:100, height:200}
+    var rect5 *Rect=new(Rect)
+    //注意这几个变量全部为指向Rect结构的指针(指针变量)，因为使用了new()函数和&操作符
+    rect6 := Rect{} //则表示这个是一个Rect{}类型
+     fmt.Println("rect1:",rect1)
+     fmt.Println("rect2:",rect2)
+     fmt.Println("rect3:",rect3)
+     fmt.Println("rect4:",rect4)
+     fmt.Println("rect5:",rect5)
+     fmt.Println("rect6:",rect6)
+    /*
+    rect1: &{0 0 0 0}
+    rect2: &{0 0 0 0}
+    rect3: &{0 0 100 200}
+    rect4: &{0 0 100 200}
+    rect5: &{0 0 0 0}
+    rect6: {0 0 0 0}
+    &{0 0 0 100}
+    */
+    rect1.height=100
+    fmt.Println(rect1)//&{0 0 0 100}
+	*rect1=Rect{100, 100, 100, 200}
+    fmt.Println(rect1) //&{100 100 100 200}
 }
 
 //进阶部分
@@ -1595,7 +1628,7 @@ func main() {
 }
 
 //解固定格式的json
-//解析查询app已订阅api的返回
+ //`json:"id"` 就是id字段在从结构体实例编码到JSON数据格式的时候，使用id作为名字。算是一种重命名的方式。
 func Sub_json(SubscribeApisInfo  []byte, n int )(return_str [12]string){
     	type apiList_struct struct {
 				Id 		string   `json:"id"`
@@ -2725,6 +2758,7 @@ package controllers
 import (
 	"fmt"
 	"mypro2/models"
+	"strconv"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -2742,32 +2776,60 @@ func (c *MainController) Gets() {
 	c.TplName = "index.tpl"
 }
 
-func (c *MainController) Add() {
+func (c *MainController) Add() (err error) {
 	orm.Debug = true //只在本函数中生效，可以显示增加api的过程
 
 	var id int
 	var name string
 	var age string
 	var sex string
-	err := c.Ctx.Input.Bind(&id, ":id")
-	//c.Ctx.Input.Bind(&name, "name")
-	//c.Ctx.Input.Bind(&age, "age")
-	//c.Ctx.Input.Bind(&sex, "sex")
-	name, age, sex = c.Input().Get("name"), c.Input().Get("age"), c.Input().Get("sex")
+	err = c.Ctx.Input.Bind(&id, ":id")                                                 //此方法只能获取url的context中的参数
+	name, age, sex = c.Input().Get("name"), c.Input().Get("age"), c.Input().Get("sex") //获取url中固定参数
 	if err != nil {
 		fmt.Println("add err:", err)
+		return err
 	}
 	user := new(models.User)
 	user.Name = name
-	user.Sex = sex
-	user.Age = age
-	fmt.Println("增加API:", user)
-
-	// 创建一个 ormer 对象
-	o := orm.NewOrm()
-	o.Using("default")
-	// insert
-	o.Insert(user)
+	user.Sex, err = strconv.ParseBool(sex)
+	if err != nil {
+		fmt.Println("sex`s type is err", err)
+		return err
+	}
+	user.Age, err = strconv.Atoi(age)
+	if err != nil {
+		fmt.Println("age`s type is err", err)
+		return err
+	}
+	//建立连接
+	norm := orm.NewOrm()
+	//开始事务
+	if err = norm.Begin(); err != nil {
+		fmt.Println("开始事务失败:", err)
+		return err
+	}
+	//插入缓存
+	_, err = norm.Insert(user)
+	if err == nil {
+		//提交修改
+		err = norm.Commit()
+		if err == nil {
+			fmt.Println("创建API成功:", user.Id)
+		} else {
+			fmt.Println("创建API失败:", err)
+			return err
+		}
+	} else {
+		fmt.Println("插入数据库失败:", err)
+		return err
+		//回退
+		err1 := norm.Rollback()
+		if err1 != nil {
+			fmt.Println("事务回退失败:", err1)
+			return err
+		}
+	}
+	return
 }
 
 func (c *MainController) Get() {
@@ -2780,7 +2842,7 @@ func (c *MainController) Get() {
 	}
 	// 创建一个 ormer 对象
 	o := orm.NewOrm()
-	o.Using("default")
+	//o.Using("default")
 
 	user := new(models.User)
 	_, err = o.QueryTable("User").Filter("id", id).All(&user)
@@ -2808,6 +2870,7 @@ func (c *MainController) Delete() {
 	o.Delete(&models.User{Id: id})
 	fmt.Println("删除API:", &models.User{Id: id})
 }
+
 
 //////////////routers.go	
 package routers
@@ -2845,3 +2908,39 @@ curl -k -v -X PUT "http://10.177.241.210:8080/api/1"
 
 
 }
+
+
+包导入{
+	
+1 相对路径
+
+import ".model"  //<--是与当前文件同一目录的model目录,但是不建议使用这种方式来导包
+
+2 绝对路径
+
+import "shortcut/model" //<--加载gopath/src/shortulr/model模块
+
+3 点操作
+我们有时候会看到如下的方式导入包
+
+import(. " fmt")
+
+这个点操作的含义就是这个包导入之后在你调用这个包的函数时， 你可以省略前缀的包名， 也就是前面你调用的fmt. Println("hello world") 可以省略的写成Println("hello world"),无闻的视频上建议不要使用这样的方式,可读性太差
+
+4 别名操作
+别名操作顾名思义我们可以把包命名成另一个我们用起来容易记忆的名字
+import(f " fmt")
+别名操作的话调用包函数时前缀变成了 我们的前缀， 即f. Println("hello world"),个人不喜欢这种方式,好好的系统包调用名字你给改了,其他人读代码多不爽
+
+5 _操作
+import (
+" database/ sql"
+_ " github. com/ z iutek/ mymysql/ godrv"//<----很重要 感谢天感谢地可算知道这破玩意是啥意思了
+)
+_操作其实是引入该包， 而不直接使用包里面的函数， 而是调用了该包里面的init函数
+	
+}
+
+
+
+
