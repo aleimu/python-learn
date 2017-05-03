@@ -5,8 +5,8 @@ dirname
 basename
 #“”和‘’与 ` ` 在shell变量中的区别       
 “ ” 允许通过$符引用其他变量
-‘’禁止引用其他变量符，视为普通字符
-`` 将命令执行的结果输出给变量
+''  禁止引用其他变量符，视为普通字符
+``  将命令执行的结果输出给变量
 
 #执行一个命令，但不保存在命令历史记录中
 <space>command
@@ -15,7 +15,11 @@ man ascii
 HISTSIZE=1000
 export HISTSIZE
 
+chkconfig -l ##查看系统服务，见下面
+
 read命令带描述 read -p "uname:" name
+
+egrep 支持所有的正则匹配，比 grep支持的多。
 ls | egrep 'lsit1.sh|tools.sh' #可以同时查找多个
 
 修改linux登录后信息:
@@ -29,7 +33,12 @@ root     pts/7        Feb 24 16:44 (10.177.241.210)
 #并行执行的命令之间添加&，多条命令就可以并行执行。
 ls & echo 'aaaaaaaa' & echo 'fesfsfse'
 #串行执行命令“&&”。如果要查看一个程序所执行的时间，可以使用命令date&&./需要执行的程序&&date来查看
-#shell1 && shell2 ,如果是用&&符连接的，那只有在shell1返回0（即正常）时，shell2才会执行，否则shell2根本就不执行，所以前面说得最后一种cd&&rm的这种做法是可行的，而且是安全的。那||呢，对于shell1||shell2，只有在shell1执行失败时，shell2才会执行，否则shell2是不执行得
+#shell1 && shell2 ,如果是用&&符连接的，那只有在shell1返回0（即正常）时，shell2才会执行，否则shell2根本就不执行，所以前面说得最后一种cd&&rm的这种做法是可行的，而且是安全的。
+#那||呢，对于shell1||shell2，只有在shell1执行失败时，shell2才会执行，否则shell2是不执行得
+
+mv myfile myfile2 && echo 'if you are seeing this then mv was success!'
+mv myfile myfile2 || echo 'if you are seeing this then mv was filed!'
+
 常用的 for 循环{
 #for循环
 a="a b c d e f"
@@ -172,13 +181,13 @@ chsh -l #查看系统支持哪些shell解释器
 		env                     # 查看环境变量
 		env | grep "name"       # 查看定义的环境变量
 		set                     # 查看环境变量和本地变量
+		unset name              # 变量清除
 		read name               # 输入变量
 		readonly name           # 把name这个变量设置为只读变量,不允许再次设置
 		readonly                # 查看系统存在的只读文件
 		export name             # 变量name由本地升为环境
 		export name="RedHat"    # 直接定义name为环境变量
 		export Stat$nu=2222     # 变量引用变量赋值
-		unset name              # 变量清除
 		export -n name          # 去掉只读变量
 		shift                   # 用于移动位置变量,调整位置变量,使$3的值赋给$2.$2的值赋予$1
 		name + 0                # 将字符串转换为数字
@@ -187,6 +196,30 @@ chsh -l #查看系统支持哪些shell解释器
 		for x in seq $a; do kill $x; done #删除node的所有进程
 	}	
 }
+#bc在脚本中的用法
+你可以使用反引号或者$()来运行bc命令并将输出赋给一个变量。基本格式是这样的： 
+variable = `echo "options; expression" | bc` 
+第一部分options允许你来设置变量。如果你需要设置不止一个变量，可以用分号来分开它们。
+expression变量定义了通过bc执行的数学表达式。例子： 
+#!/bin/bash 
+var1=`echo "scale=4; 3.44 / 5" | bc` 
+echo The answer is $var1 
+
+linux-yOfzZv:~ # echo `echo "scale=5; 3.44 / 5" | bc`
+.68800
+linux-yOfzZv:~ # echo `echo "scale=1; 3.44 / 5" | bc`
+.6
+#数学运算
+linux-yOfzZv:~ # echo $[1 * 2]
+2
+linux-yOfzZv:~ # echo $[1 / 2]
+0
+linux-yOfzZv:~ # echo $[1 - 2]
+-1
+linux-yOfzZv:~ # echo $[1 + 2]
+3
+
+
 #=======常用命令========
 #每次执行循环，getopts 就检查下一个命令行参数，并判断它是否合法，即检查参数是否以“-”开头，后面跟一个包含在“options”中的字母。
 #!/bin/bash
@@ -318,9 +351,8 @@ echo ${array2[2]}
 array3=( [9]=nine [11]=11 ) 
 echo ${array3[9]} 
 echo ${array3[11]} 
-#读取键盘输入，空格隔开，换行结束 
+#重键盘输入读取数组，空格隔开，换行结束 
 read -a array4 
-exit 0
 2.操作
 !/bin/bash 
 array=( apple bat cat dog elephant frog ) 
@@ -414,7 +446,8 @@ du
 -k 以K为单位显示
 -h 以合适的单位显示
  常用：
-du –hs ./*
+du -hs / #根目录的大小
+linux-yOfzZv:~ # du -hSs ./  //当前目录不包括子目录的大小
 }
 sed
 {
@@ -430,33 +463,34 @@ sed 's/str1/str2/g' fileName      #把fileName中str1替换成str2（替换所�
 sed 'y/abc/ABC/g' fileName      #把fileName中所有的a替换成Ａ，b替换成Ｂ，
  参数-e：执行一条命令。可以用-e参数给一行一次执行多条命令以提高效率
 sed –e 'command1' –e 'command2' …… fileName    #文件中的每一行执行命令：command1 #command2 ......
- ^：行的开头
+
+^：行的开头
 $：行的结尾
 sed 's/^str1/str2/' fileName     #把fileName中每行开头的str1替换成str2
 sed –e 's/^str1/str2/' –e 's/str1$/str2/' fileName
  
-一些常用场景介绍：
+#一些常用场景介绍：
 1．行的匹配
- sed -n '2p' /etc/passwd 打印出第2行
- sed -n '1,3p' /etc/passwd 打印出第1到第3行
- sed -n '$p' /etc/passwd   打印出最后一行
+ sed -n '2p' /etc/passwd	 打印出第2行
+ sed -n '1,3p' /etc/passwd 	 打印出第1到第3行
+ sed -n '$p' /etc/passwd     打印出最后一行
  sed -n '/user/'p /etc/passwd 打印出含有user的行
  sed -n '/\$/'p /etc/passwd 打印出含有$元字符的行，$意为最后一行
 2．插入文本和附加文本(插入新行)
  sed -n '/FTP/p' /etc/passwd 打印出有FTP的行
  ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
- sed '/FTP/ a\ 456' /etc/passwd 在含有FTP的行后面新插入一行，内容为456
- sed '/FTP/ i\ 123' /etc/passwd在含有FTP的行前面新插入一行，内容为123
- sed '/FTP/ i\ "123"' /etc/passwd在含有FTP的行前面新插入一行，内容为"123"
+ sed '/FTP/ a\ 456' /etc/passwd 	在含有FTP的行后面新插入一行，内容为456
+ sed '/FTP/ i\ 123' /etc/passwd在	含有FTP的行前面新插入一行，内容为123
+ sed '/FTP/ i\ "123"' /etc/passwd	在含有FTP的行前面新插入一行，内容为"123"
  sed '5 a\ 123' /etc/passwd         在第5行后插入一新行，内容为123
- sed '5 i\ “12345”' /etc/passwd   在第5行前插入一新行，内容为“12345”
+ sed '5 i\ “12345”' /etc/passwd     在第5行前插入一新行，内容为“12345”
 3．删除文本
- sed '1d' /etc/passwd 删除第1行
- sed '1,3d' /etc/passwd 删除第1至3行
- sed '/user/d' /etc/passwd 删除带有user的行
+ sed '1d' /etc/passwd 		删除第1行
+ sed '1,3d' /etc/passwd 	删除第1至3行
+ sed '/user/d' /etc/passwd  删除带有user的行
  sed -i '/^$/d' ver_info.txt #删除空行
  sed 's/remote_gateway_hostname.*/remote_gateway_hostname=/' config.ini  #很有用
-4． 替换文本,替换命令用替换模式替换指定模式，格式为：
+4．替换文本,替换命令用替换模式替换指定模式，格式为：
 [ a d d r e s s [，address]] s/ pattern-to-find /replacement-pattern/[g p w n]
  sed 's/user/USER/' /etc/passwd     将第1个user替换成USER,g表明全局替换
  sed 's/user/USER/g' /etc/passwd    将所有user替换成USER
@@ -466,27 +500,27 @@ sed –e 's/^str1/str2/' –e 's/str1$/str2/' fileName
  sed 's/user/11111111111111&/' /etc/passwd 这里是将&放后面
 5. 快速一行命令
  下面是一些一行命令集。（[ ]表示空格，[ ]表示t a b键）
-'s / \ . $ / / g' 删除以句点结尾行
-'-e /abcd/d' 删除包含a b c d的行
-'s / [ ] [ ] [ ] * / [ ] / g' 删除一个以上空格，用一个空格代替
-'s / ^ [ ] [ ] * / / g' 删除行首空格
-'s / \ . [ ] [ ] * / [ ] / g' 删除句点后跟两个或更多空格，代之以一个空格
-'/ ^ $ / d' 删除空行
-'s / ^ . / / g' 删除第一个字符
-'s /COL \ ( . . . \ ) / / g' 删除紧跟C O L的后三个字母
-'s / ^ \ / / / g' 从路径中删除第一个\
-'s / [ ] / [ ] / / g' 删除所有空格并用t a b键替代
-'S / ^ [ ] / / g' 删除行首所有t a b键
-'s / [ ] * / / g' 删除所有t a b键
+'s / \ . $ / / g'	 删除以句点结尾行
+'-e /abcd/d' 	删除包含a b c d的行
+'s / [ ] [ ] [ ] * / [ ] / g' 	删除一个以上空格，用一个空格代替
+'s / ^ [ ] [ ] * / / g' 	删除行首空格
+'s / \ . [ ] [ ] * / [ ] / g' 	删除句点后跟两个或更多空格，代之以一个空格
+'/ ^ $ / d' 	删除空行
+'s / ^ . / / g' 	删除第一个字符
+'s /COL \ ( . . . \ ) / / g' 	删除紧跟C O L的后三个字母
+'s / ^ \ / / / g' 	从路径中删除第一个\
+'s / [ ] / [ ] / / g' 	删除所有空格并用t a b键替代
+'S / ^ [ ] / / g' 	删除行首所有t a b键
+'s / [ ] * / / g' 	删除所有t a b键
  如果使用sed对文件进行过滤，最好将问题分成几步，分步执行，且边执行边测试结果。
 }
 sed
 {
-			引用外部变量{
-			sed -n ''$a',10p'
-			sed -n ""$a",10p"
+		引用外部变量{
+		sed -n ''$a',10p'
+		sed -n ""$a",10p"
 		}
-		sed 10q                                       # 显示文件中的前10行 (模拟"head")											实例
+		sed 10q                                       # 显示文件中的前10行 (模拟"head")	
 		sed -n '$='                                   # 计算行数(模拟 "wc -l")
 		sed -n '5,/^no/p'                             # 打印从第5行到以no开头行之间的所有行
 		sed -i "/^$f/d" a     　　                  　# 删除匹配行
@@ -599,14 +633,28 @@ pathname: find命令所查找的目录路径。例如用.来表示当前目录�
 3、find命令选项
 -name 
 按照文件名查找文件。
-让当前目录中文件属主具有读、写权限，并且文件所属组的用户和其他用户具有读权限的文件；
-$ find . -type f -perm 644 -exec ls -l {  } \;
-为了查找系统中所有文件长度为0的普通文件，并列出它们的完整路径；
-$ find / -type f -size 0 -exec ls -l {  } \;
-查找/var/logs目录中更改时间在7日以前的普通文件，并在删除之前询问它们；
-$ find /var/logs -type f -mtime +7 -ok rm {  } \;
+#让当前目录中文件属主具有读、写权限，并且文件所属组的用户和其他用户具有读权限的文件；
+find . -type f -perm 644 -exec ls -l {} \;
+#为了查找系统中所有文件长度为0的普通文件，并列出它们的完整路径；
+find / -type f -size 0 -exec ls -l {} \;
+#查找/var/logs目录中更改时间在7日以前的普通文件，并在删除之前询问它们；
+find /var/logs -type f -mtime +7 -ok rm {} \;
+
 find命令配合使用exec和xargs可以使用户对所匹配到的文件执行几乎所有的命令
 find . -type f -print | xargs file
+
+#替换当前目录下面所有符合html后缀文件里面的"NAN.html"成"NAN.htm"
+find . -type f -name "*.html" -exec sed -i 's/\bNAN.html\b/NAN.htm/i' {} +
+#copy找到的文件到指定目录
+find /path/to/search/ -type f -name "regular-expression-to-find-files" | xargs cp -t /target/path/
+#查到当前目录下文件里的lgj字段
+find . -name "*" | xargs grep -i "lgj"
+#查找当前文件中 sh文件权限不是700的文件
+find ./ -type f  -name "*.sh" ! -perm 700 -exec ls -l {} \;
+#查找当前文件中 log文件权限不是600的文件
+find ./ -type f  -name "*.log" ! -perm 600 -exec ls -l {} \;
+
+xargs 参数{
 -0 当sdtin含有特殊字元时候，将其当成一般字符，
 例如：root@localhost:~/test#echo "//"|xargs  echo 
       root@localhost:~/test#echo "//"|xargs -0 echo 
@@ -623,12 +671,8 @@ find . -type f -print | xargs file
 -d delim 分隔符，默认的xargs分隔符是回车，argument的分隔符是空格，这里修改的是xargs的分隔符（例九）
 -x exit的意思，主要是配合-s使用。
 -P 修改最大的进程数，默认是1，为0时候为as many as it can ，这个例子我没有想到，应该平时都用不到的吧。
-#替换当前目录下面所有符合html后缀文件里面的"NAN.html"成"NAN.htm"
-find . -type f -name "*.html" -exec sed -i 's/\bNAN.html\b/NAN.htm/i' {} +
-#copy找到的文件到指定目录
-find /path/to/search/ -type f -name "regular-expression-to-find-files" | xargs cp -t /target/path/
-#查到当前目录下文件里的lgj字段
-find . -name "*" | xargs grep -i "lgj"
+}
+
 例子{
 查找文件：find . -type f -name "*.sh*" 
 查找文件中的内容：find . -type f -name "*.xml*" | xargs grep -r "172.21.4.95"
@@ -646,44 +690,45 @@ find . -name "*20111209*" | awk '{print "rm "$1}'
 执行删除：find . -name "*20111124*"| awk '{print "rm" $1}' | ksh
 find . -name "*vou*.unl" | awk '{print $1}' | wc -l
 查找端口号：find -name "*" | xargs grep -i 端口号
-忽略某个目录：$ find /apps -name "/apps/bin" -prune -o -print
-在系统根目录下查找更改时间在5日以内的文件：$ find/ mtime 5 print
-在/var/adm目录下查找更改时间在3日以前的文件：$ find /var/adm mtime +3 print
-在当前目录下查找文件长度大于1M字节的文件：$find . -size +1000000c -print
-用ls-l命令列出所匹配到的文件，可以把ls-l命令放在find命令的-exec选项中：$ find . -type f -exec ls-l {} \;
+忽略某个目录：find /apps -name "/apps/bin" -prune -o -print
+在系统根目录下查找更改时间在5日以内的文件 find / mtime 5 print
+在/var/adm目录下查找更改时间在3日以前的文件：find /var/adm mtime +3 print
+在当前目录下查找文件长度大于1M字节的文件 find . -size +1000000c -print
+用ls-l命令列出所匹配到的文件，可以把ls-l命令放在find命令的-exec选项中：find . -type f -exec ls-l {} \;
 命令在当前目录中查找所有文件名以.LOG结尾、更改时间在5日以上的文件，并
 删除它们，只不过在删除之前先给出提示。
-$ find . -name “*.LOG” -mtime +5 -ok rm {} \; -- <rm … ./nets.LOG> ?y
+
+find . -name “*.LOG” -mtime +5 -ok rm {} \;
+ -- <rm … ./nets.LOG> ?y
 }
 }
 
 grep{
-		-c    # 显示匹配到得行的数目，不显示内容
-		-h    # 不显示文件名
-		-i    # 忽略大小写
-		-l    # 只列出匹配行所在文件的文件名
-		-n    # 在每一行中加上相对行号
-		-s    # 无声操作只显示报错，检查退出状态
-		-v    # 反向查找
-		-e    # 使用正则表达式
-		-A3   # 打印匹配行和下三行
-		-w    # 精确匹配
-		-wc   # 精确匹配次数
-		-o    # 查询所有匹配字段
-		-P    # 使用perl正则表达式
-		grep -v "a" txt                              # 过滤关键字符行
-		grep -w 'a\>' txt                            # 精确匹配字符串
-		grep -i "a" txt                              # 大小写敏感
-	}
+	-c    # 显示匹配到得行的数目，不显示内容
+	-h    # 不显示文件名
+	-i    # 忽略大小写
+	-l    # 只列出匹配行所在文件的文件名
+	-n    # 在每一行中加上相对行号
+	-s    # 无声操作只显示报错，检查退出状态
+	-v    # 反向查找
+	-e    # 使用正则表达式
+	-A3   # 打印匹配行和下三行
+	-w    # 精确匹配
+	-wc   # 精确匹配次数
+	-o    # 查询所有匹配字段
+	-P    # 使用perl正则表达式
+	grep -v "a" txt                              # 过滤关键字符行
+	grep -w 'a\>' txt                            # 精确匹配字符串
+	grep -i "a" txt                              # 大小写敏感
+	
 grep{
 使用：grep  [选项] 模式  [文件...]
 
-  .   匹配任意一个字符
+  . 匹配任意一个字符
   * 匹配0个或多个*前的字符
   ^ 匹配行开头
   $ 匹配行结尾
-  [] 匹配[ ]中的任意一个字符，[]中可用 - 表示范围，
-   例如[a-z]表示字母a 至z 中的任意一个
+  [] 匹配[ ]中的任意一个字符，[]中可用 - 表示范围，例如[a-z]表示字母a 至z 中的任意一个
   \ 转意字符 
   
 -? 
@@ -716,6 +761,8 @@ grep{
 显示软件版本信息。
 
 }
+}
+
 日常杂货{
 nohup命令：如果你正在运行一个进程，而且你觉得在退出帐户时该进程还不会结束，那么可以使用nohup命令。该命令可以在你退出帐户/关闭终端之后继续运行相应的进程。nohup就是不挂断的意思( no hang up)。
 该命令的一般形式为：nohup command &
@@ -759,6 +806,7 @@ input=$(sed "s/[;\`\"\$\' ]//g" <<< $input)
 # For reading number, then you can escape other characters 
 input=$(sed 's/[^0-9]*//g' <<< $input)
 }
+
 sftp与scp{
 下载远程文件或目录到本地,如果想上传或想下载目录，最佳的办法是采用tar压缩一下，是最明智的选择.
 scp user@host:/path/file /localpath       下载文件到本地                                                            
@@ -769,6 +817,7 @@ scp -r localdir user@host:/dirpath
 如果使用SFTP不是默认端口号22： sftp -oPort=<port> <user>@<host>
 例：sftp -oPort=29 hpcrf@10.64.208.58
 }
+
 if (判断){
 if [ -d ./srvTestResult ];then
         rm -rf ./srvTestResult 
@@ -849,14 +898,14 @@ date{
  date +%Y%m%d -d "2 year ago" 
  date -d "yesterday"
  
- 昨天的命令是： 
+昨天的命令是： 
 yesterdayformat=`date --date='yesterday' "+%Y-%m-%d_%H:%M:%S"` 
- echo $yesterdayformat 
+echo $yesterdayformat 
 输出格式是： 
 2006-03-30_08:39:54 
 明天的命令是： 
 tomorrowformat=`date --date='tomorrow' "+%Y-%m-%d_%H:%M:%S"` 
- echo $tomorrowformat 
+echo $tomorrowformat 
 输出格式是： 
 2006-04-01_08:41:29 
 在Linux下，得到N天以前或以后的日期格式： 
@@ -905,6 +954,12 @@ seq{
 		seq -f 'dir%03g' 1 10 | xargs mkdir   # 创建dir001-010
 	}
 chmod {
+敏感文件不得大于600（rw------） 
+日志文件不得大于640（rw-r-----） 
+不可执行文件不得大于640（rw-r-----） 
+可执行文件不得大于750（rwx-wx---） 
+目录不得大于750（rwx-wx---）
+
 chgrp ：改变档案所属群组 
 chown ：改变档案拥有者 
 chmod ：改变档案的权限, SUID, SGID, SBIT 等等
@@ -919,7 +974,15 @@ groupadd ：创建用户组
 r:4 
 w:2 
 x:1 
+[-][rwx][r-x][r--] 
+    421  4 1  4
+754	
 
+#查找当前文件中 sh文件权限不是700的文件
+find ./ -type f  -name "*.sh" ! -perm 700 -exec ls -l {} \;
+#查找当前文件中 log文件权限不是600的文件
+find ./ -type f  -name "*.log" ! -perm 600 -exec ls -l {} \;
+ 
 语法：chmod [who] [+ | - | =] [mode] 文件名
 -c, --changes 
 只有在文件的权限确实改变时才进行详细的说明 
@@ -1377,15 +1440,7 @@ awk是一种文本处理工具，同时也是一种程序设计语言，作为�
 var=3.14 
 var=`echo "$var 2"|awk '{printf("%g",sin($1/$2))}'` 
 echo $var 
-输出结果为1 
-
-
-
-
-
-
- 
-
+输出结果为1
 }
 
 快速排序{
