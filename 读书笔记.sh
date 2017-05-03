@@ -32,3 +32,5 @@
 
 
 FATA[0000] Error response from daemon: Cannot start container 9fbee55b224451febaef74ccf7a2be4e2ca467bb765bb94ee6c704b2fcfc21f4: [8] System error: mountpoint for devices not found
+
+我的解决办法：apt install cgroup-lite 先安装这个cgoup-lite，然后开启服务：service cgroup-lite start
