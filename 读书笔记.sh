@@ -29,3 +29,6 @@
 与圣战、兴建新庙，他们从中感受到的意义，都只是错觉与幻想。
 这么说来，所谓的快乐，很可能只是让个人对意义的错觉和现行的集体错觉达成同步而已。只要我自己的想法能和身边的人的想法达成一
 致，我就能说服自己、觉得自己的生命有意义，而且也能从这个信念中得到快乐。
+
+
+FATA[0000] Error response from daemon: Cannot start container 9fbee55b224451febaef74ccf7a2be4e2ca467bb765bb94ee6c704b2fcfc21f4: [8] System error: mountpoint for devices not found
