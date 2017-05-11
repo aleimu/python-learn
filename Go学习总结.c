@@ -1,5 +1,7 @@
 //Go学习总结--2017/3/20	
 //https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md
+//https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/preface.md
+
 //基础语法
 1.变量的定义{
 
@@ -118,7 +120,10 @@ Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间
 	*[1000]float64    // 数组的指针 
 	[3][5]int     // 二维数组 
 	[2][2][2]float64    // 等同于[2]([2]([2]float64))  
-
+	a := [3]int{1, 2}              // 未初始化元素值为 0。
+	b := [...]int{1, 2, 3, 4}      // 通过初始化值确定数组长度。------> ... 可以推断数组长度
+	c := [5]int{2: 100, 4:200}     // 使用索引号初始化元素。
+	//总结就是 数组是有固定长度的，切片长度不固定。
 10.2.遍历：
 	for i := 0; i < len(array); i++ { 
 		fmt.Println("Element", i, "of array is", array[i]) 
@@ -210,9 +215,11 @@ Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间
 		fmt.Printf("a:%p\nb:%p\nc:%p\n", &a, &b, &c)
 		change1(a)
 		fmt.Println("a值传递使用后:", a)
+        fmt.Println(a,b,c)
 		change2(&a)
 		fmt.Println("a引用使用后:", a)
 		fmt.Printf("a:%p\nb:%p\nc:%p\n", &a, &b, &c)
+        fmt.Println(a,b,c)
 		//循环的次数已经在传入时确定，改变a，也不会影响循环
 		//闭包传引用
 		for i, _ := range c {
@@ -220,6 +227,7 @@ Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间
 		}
 		fmt.Println("range是引用类型,c引用使用后:", c)
 		fmt.Printf("a:%p\nb:%p\nc:%p\n", &a, &b, &c)
+        fmt.Println(a,b,c)
 	}
 	//函数传值
 	func change1(a [3]int) [3]int {
@@ -231,30 +239,34 @@ Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间
 		return *a
 	}
 
+
 //值类型和引用类型的区别,就在于当函数参数传递的时候.
 //值类型是把自己的值复制一份传递给别的函数操作.无论复制的值怎么被改变.其自身的值是不会改变的
 //而引用类型是把自己的内存地址传递给别的函数操作.操作的就是引用类型值的本身.所以值被函数改变了.
 
 /*
 a在被使用前： [0 1 2]
-a:0x122c60e0
-b:0x122c6100
-c:0x122c6110
+a:0xc04203c3c0
+b:0xc04203c3e0
+c:0xc04203c400
 a值传递使用后: [0 1 2]
+[0 1 2] [0 1 2] [0 1 2]
 a引用使用后: [10 1 2]
-a:0x122c60e0
-b:0x122c6100
-c:0x122c6110
+a:0xc04203c3c0
+b:0xc04203c3e0
+c:0xc04203c400
+[10 1 2] [10 1 2] [0 1 2]
 range是引用类型,c引用使用后: [10 10 10]
-a:0x122c60e0
-b:0x122c6100
-c:0x122c6110
+a:0xc04203c3c0
+b:0xc04203c3e0
+c:0xc04203c400
+[10 1 2] [10 1 2] [10 10 10]
 */
 	}
 12.2例子2{
 	package main
 	import "fmt"
-	import "reflect"
+	//import "reflect"
 	func main() {
 		alist := []int{1, 2, 3, 4}//切片->直接传入
 		blist := [4]int{1, 2, 3, 4}//数组1->直接传入
@@ -270,7 +282,7 @@ c:0x122c6110
 	//内建变量与引用型变量传入函数的区别
 	func demo(la []int, lb [4]int, lc *[4]int, c int, d *int) {
 		la[0] = 10
-		lb[0] = 10
+		lb[0] = 10  // *lb[0] = 10 这样是错误的
 		lc[0] = 10 //在函数中使用不用加*
 		c = 1000
 		*d = 1000 //非引用型变量在函数中使用需要加 * 才能被使用
@@ -325,6 +337,7 @@ func echoArray(a interface{}){
 	+ string 	string(xb)  string(xi)  string(xr) 
 	+ float32  																float32(i)
 	+ int 														int(f) 
+	
 	//例子
 	b := []byte{'h','e','l','l','o'}   复合声明
 	s := string(b)
@@ -795,6 +808,26 @@ Go 默认使用按值传递来传递参数，也就是传递参数的副本。�
     fmt.Println(rect1)//&{0 0 0 100}
 	*rect1=Rect{100, 100, 100, 200}
     fmt.Println(rect1) //&{100 100 100 200}
+}
+25.new、make{
+//有三种方式建立一个指向bytes.Buffer类型值为0的指针p，结果相同：
+{
+// 分配足够的内存空间存放bytes.Buffer类型的value，返回指向value地址的指针
+var buf bytes.Buffer
+p := &buf
+
+// 使用一个复合字面量分配内存给value，返回指向value地址的指针
+p := &bytes.Buffer{}
+
+// 使用new函数实现上面的功能
+p := new(bytes.Buffer)
+
+}	
+内建函数make(T, args)与new(T)的使用目的不同。它仅用于初始化slices、maps、channels，并返回一个初始化（非零）的T类型（不是T）值。
+造成这种差异的原因是，这三种类型，表层下面，代表的是对数据结构的引用，以至于使用前必须初始化。
+	date2 := make([]byte, 11)
+	date2 := []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} //等效于make
+
 }
 
 //进阶部分
@@ -2272,6 +2305,7 @@ func main() {
 }
 	
 }
+
 HTTP请求{
 package main
 1.最简单的请求
@@ -2356,6 +2390,7 @@ package main
 	}
 
 }
+
 HTTP代理{
 1.带密码的代理
 	package main
@@ -2909,7 +2944,6 @@ curl -k -v -X PUT "http://10.177.241.210:8080/api/1"
 
 }
 
-
 包导入{
 	
 1 相对路径
@@ -2935,9 +2969,849 @@ import(f " fmt")
 5 _操作
 import (
 " database/ sql"
-_ " github. com/ z iutek/ mymysql/ godrv"//<----很重要 感谢天感谢地可算知道这破玩意是啥意思了
+_ " github. com/ziutek/mymysql/godrv"//<----很重要 感谢天感谢地可算知道这破玩意是啥意思了
 )
-_操作其实是引入该包， 而不直接使用包里面的函数， 而是调用了该包里面的init函数
+_ 操作其实是引入该包， 而不直接使用包里面的函数， 而是调用了该包里面的init函数
+	
+}
+
+godoc与go doc{
+	
+	http://www.cnblogs.com/phpgo/p/6442208.html
+	godoc -http=:9090 -index
+	
+	
+}
+
+//再进阶部分
+
+go flag 包{
+	//命令行解析
+	http://www.cnblogs.com/phpgo/p/6732297.html
+}
+
+readpasswd不回显{
+//读取passwd不回显	，仅linux上
+package main
+
+import (
+	"fmt"
+	//"os"
+	//"os/exec"
+	"io"
+	"syscall"
+	"unsafe"
+)
+
+func main() {
+	fmt.Println("Enter password: ")
+	password, err := ReadPassword(0)
+	if err == nil {
+		fmt.Println("Password typed: " + string(password))
+	}
+	fmt.Println("err:", err)
+}
+
+func ReadPassword(fd int) ([]byte, error) {
+	var oldState syscall.Termios
+	//ioctlWriteTermios := uintptr(syscall.TCGETS)
+	//ioctlReadTermios := uintptr(syscall.TCSETS)
+	//uintptr(syscall.TCGETS) 是读取
+	if _, _, err := syscall.Syscall6(syscall.SYS_IOCTL, uintptr(fd), uintptr(syscall.TCGETS), uintptr(unsafe.Pointer(&oldState)), 0, 0, 0); err != 0 {
+		return nil, err
+	}
+
+	newState := oldState
+	newState.Lflag &^= syscall.ECHO
+	newState.Lflag |= syscall.ICANON | syscall.ISIG
+	newState.Iflag |= syscall.ICRNL
+	//uintptr(syscall.TCGETS) 是输出
+	if _, _, err := syscall.Syscall6(syscall.SYS_IOCTL, uintptr(fd), uintptr(syscall.TCSETS), uintptr(unsafe.Pointer(&newState)), 0, 0, 0); err != 0 {
+		return nil, err
+	}
+
+	defer func() {
+		syscall.Syscall6(syscall.SYS_IOCTL, uintptr(fd), uintptr(syscall.TCSETS), uintptr(unsafe.Pointer(&oldState)), 0, 0, 0)
+	}()
+
+	var buf [16]byte
+	var ret []byte
+	for {
+		n, err := syscall.Read(fd, buf[:])
+		if err != nil {
+			return nil, err
+		}
+		if n == 0 {
+			if len(ret) == 0 {
+				return nil, io.EOF
+			}
+			break
+		}
+		if buf[n-1] == '\n' {
+			n--
+		}
+		ret = append(ret, buf[:n]...)
+		if n < len(buf) {
+			break
+		}
+	}
+
+	return ret, nil
+}
+
+/*
+root@api:/home/lgj/Go# go run readpasswd.go 
+Enter password: 
+Password typed: dwaoidhoihruofg
+err: <nil>
+root@api:/home/lgj/Go# 
+*/
+	
+}
+
+pipe{
+//例子1	
+func main() {
+	date1 := []byte("hello1")
+	//date2 := make([]byte, 11)
+	date2 := []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} //等效于make
+	r, w := io.Pipe()
+	go Write(w, date1)
+	Read(r, date2)
+	fmt.Println("date2:", string(date2))
+}
+
+func Read(r *io.PipeReader, date []byte) int {
+	n, err := r.Read(date)
+	if err == nil {
+		fmt.Println("read:", n)
+	}
+	return n
+}
+
+func Write(w *io.PipeWriter, date []byte) int {
+	n, err := w.Write(date)
+	if err == nil {
+		fmt.Println("write:", n)
+	}
+	return n
+}
+
+
+//例子2
+func main() {
+    reader, writer := io.Pipe()
+    inputData := []byte("1234567890ABCD")
+    go writer.Write(inputData)
+    outputData := make([]byte, 11)
+    n, _ := reader.Read(outputData)
+    fmt.Println("read number", n)
+    fmt.Println(string(outputData))
+
+}
+//例子3
+func main() {
+    
+    reader, writer ,_ := os.Pipe()
+    inputData := []byte("1234567890ABCD")
+    go writer.Write(inputData)
+    outputData := make([]byte, 11)
+    n, _ := reader.Read(outputData)
+    fmt.Println("read number", n)
+    fmt.Println(string(outputData))
+
+}
+
+
+//例子4
+package main
+
+import(
+	"fmt"
+    "io"
+    "time"
+    "math/rand"
+    
+)
+
+var r = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+func generate(writer *io.PipeWriter) {
+    arr := make([]byte, 32)
+    for {
+        for i := 0; i < 32; i++ {
+            arr[i] = byte(r.Uint32() >> 24)
+        }
+        _, err := writer.Write(arr)
+        if nil != err {
+            fmt.Println(err)
+        }
+        time.Sleep(200 * time.Millisecond)
+    }
+}
+
+func main() {
+    rp, wp := io.Pipe()
+    for i := 0; i < 20; i++ {
+        go generate(wp)
+    }
+    time.Sleep(1 * time.Second)
+    data := make([]byte, 64)
+    for {
+        n, err := rp.Read(data)
+        if nil != err {
+            fmt.Println(err)
+        }
+        if 0 != n {
+            fmt.Println("main loop", n, string(data))
+        }
+        time.Sleep(1 * time.Second)
+    }
+}
+
+
+	
+}
+
+并发写文件{
+//例子1	
+package main
+
+import(
+	"fmt"
+    "os"
+    //"sync"
+    "time"
+)
+//var lock sync.Mutex
+func main(){
+    
+    f, e := os.OpenFile("C:\\Users\\lWX307086\\Desktop\\三月下扬州\\go例子\\测试\\print.log", os.O_RDWR, 0)
+    fmt.Println(e)
+    for i := 0; i < 5; i++ {
+        fmt.Println("wirting")
+        go bb(f)
+    }
+    f.Sync()
+    defer f.Close()
+    time.Sleep(60) //不加的话主程序会提前退出，文件写入不完整，当然这种方法不推荐
+    
+      
+}
+func bb(f *os.File){
+    //lock.Lock()
+    f.WriteString("hello\n")   
+    //lock.Unlock()
+}
+
+//例子2
+package main
+
+import(
+	"fmt"
+    "os"
+    "sync"
+)
+//调度器不能保证多个 goroutine 执行次序，且进程退出时不会等待它们结束。
+//可使用环境变量或标准库函数 runtime.GOMAXPROCS 修改，让调度器执行多个线程实现多核并行，而不仅仅是并发。
+func main(){
+    wg := new(sync.WaitGroup) //WaitGroup 会将main goroutine阻塞直到所有的goroutine运行结束，从而达到并发控制的目的
+    wg.Add(7) //不加的话主程序会提前退出，文件写入不完整，需要和for中的个数统一
+    f, e := os.OpenFile("C:\\Users\\lWX307086\\Desktop\\三月下扬州\\go例子\\测试\\print.log", os.O_RDWR, 0)
+    fmt.Println(e)
+    for i:=0;i<7;i++{
+    go func(f *os.File) {
+        defer wg.Done()
+        f.WriteString("hell11111o\n")
+    }(f)
+    }
+    wg.Wait()   
+}
+
+//例子3
+package main
+import (
+    "fmt"
+    "runtime"
+)
+func say(s string) {
+    for i := 0; i < 5; i++ {
+        runtime.Gosched() //runtime.Gosched()表示让CPU把时间片让给别人,下次某个时候继续恢复执行该goroutine。 
+        fmt.Println(s)
+    }
+}
+func main() {
+    go say("world") //开一个新的Goroutines执行
+    say("hello") //当前Goroutines执行
+    fmt.Println(runtime.GOMAXPROCS(6)) //设置环境变量GOMAXPROCS的值来控制使用多少个CPU核心---设置为6但只成功4个
+    fmt.Println(string(runtime.CPUProfile()))
+    fmt.Println(runtime.NumCPU())//获得核心数
+}
+
+//例子4
+package main
+
+import (
+        "fmt"
+        "net/http"
+        "sync"
+)
+
+func main() {
+        var wg sync.WaitGroup
+        var urls = []string{
+                "http://www.golang.org/",
+                "http://www.google.com/",
+                "http://www.somestupidname.com/",
+        }
+        for _, url := range urls {
+                // Increment the WaitGroup counter.
+                wg.Add(1)
+                // Launch a goroutine to fetch the URL.
+                go func(url string) {
+                        // Decrement the counter when the goroutine completes.
+                        defer wg.Done()
+                        // Fetch the URL.
+                        http.Get(url)
+                        fmt.Println("我先干活, 主程序等着我")
+                }(url)
+        }
+        // Wait for all HTTP fetches to complete.
+        wg.Wait()
+        fmt.Println("应该最后才出来")
+
+}	
+/*
+type WaitGroup               //相当于一个箱子，将main goroutine 保护到里面
+func (*WaitGroup) Add   //调用一次为箱子加一把锁（当然，你愿意也可以多把）
+func (*WaitGroup) Done  // 调用一次开一把锁（only one！） 
+func (*WaitGroup) Wait    //箱子的盖子，没锁了自动打开
+*/
+
+//例子5
+package main
+
+//阻塞，直到WaitGroup中的所以过程完成。
+import (
+    "fmt"
+    "sync"
+)
+
+func wgProcess(wg *sync.WaitGroup, id int) {
+    fmt.Printf("process:%d is going!\n", id)
+    wg.Done()
+}
+
+func main() {
+    //var wg sync.WaitGroup
+    wg := new(sync.WaitGroup)
+    for i := 0; i < 3; i++ {
+        wg.Add(1)
+        go wgProcess(wg, i)
+    }
+    wg.Wait()
+    fmt.Println("after wait group")
+}
+
+
+}
+
+打开文件的flag{
+
+func OpenFile(name string, flag int, perm FileMode) (file *File, err error)　
+//指定文件权限和打开方式打开name文件或者create文件，其中flag标志如下:
+O_RDONLY：只读模式(read-only)
+O_WRONLY：只写模式(write-only)
+O_RDWR：读写模式(read-write)
+O_APPEND：追加模式(append)
+O_CREATE：文件不存在就创建(create a new file if none exists.)
+O_EXCL：与 O_CREATE 一起用，构成一个新建文件的功能，它要求文件必须不存在(used with O_CREATE, file must not exist)
+O_SYNC：同步方式打开，即不使用缓存，直接写入硬盘
+O_TRUNC：打开并清空文件
+
+至于操作权限perm，除非创建文件时才需要指定，不需要创建新文件时可以将其设定为０.虽然go语言给perm权限设定了很多的常量，
+但是习惯上也可以直接使用数字，如0666(具体含义和Unix系统的一致).	
+	
+}
+
+os包{
+package main
+
+import (
+    "fmt"
+    "io/ioutil"
+    "os"
+    "reflect"
+    "time"
+)
+
+func main() {
+    dir, _ := os.Getwd()
+    fmt.Println("dir:", dir)
+    err := os.Chdir("d:/project/test2")
+    dir, _ = os.Getwd()
+    fmt.Println("dir:", dir)
+
+    //参数不区分大小写
+    //不存在环境变量就返回空字符串 len(path) = 0
+    path := os.Getenv("gopath")
+    fmt.Println(path)
+
+    //返回有效group id
+    egid := os.Getegid()
+    fmt.Println("egid:", egid)
+
+    //返回有效UID
+    euid := os.Geteuid()
+    fmt.Println("euid:", euid)
+
+    gid := os.Getgid()
+    fmt.Println("gid:", gid)
+
+    uid := os.Getuid()
+    fmt.Println("uid:", uid)
+
+    //err:getgroups: not supported by windows
+    g, err := os.Getgroups()
+    fmt.Println(g, "error", err)
+
+    pagesize := os.Getpagesize()
+    fmt.Println("pagesize:", pagesize)
+
+    ppid := os.Getppid()
+    fmt.Println("ppid", ppid)
+
+    //filemode, err := os.Stat("main.go")
+    //不存在文件返回GetFileAttributesEx test2: The system cannot find the file specified.
+    filemode, err := os.Stat("main.go")
+    if err == nil {
+        fmt.Println("Filename:", filemode.Name())
+        fmt.Println("Filesize:", filemode.Size())
+        fmt.Println("Filemode:", filemode.Mode())
+        fmt.Println("Modtime:", filemode.ModTime())
+        fmt.Println("IS_DIR", filemode.IsDir())
+        fmt.Println("SYS", filemode.Sys())
+    } else {
+        fmt.Println("os.Stat error", err)
+    }
+
+    //Chmod is not supported under windows.
+    //在windows变化是这样子的 -rw-rw-rw- => -r--r--r--
+    err = os.Chmod("main.go", 7777)
+    fmt.Println("chmod:", err)
+    filemode, err = os.Stat("main.go")
+    fmt.Println("Filemode:", filemode.Mode())
+
+    //access time modification time
+    err = os.Chtimes("main.go", time.Now(), time.Now())
+    fmt.Println("Chtime error:", err)
+
+    //获取全部的环境变量
+    data := os.Environ()
+    for _, val := range data {
+        fmt.Println(val)
+    }
+    fmt.Println("---------end---environ----------------------")
+
+    mapping := func(s string) string {
+        m := map[string]string{"xx": "sssssssssssss",
+            "yy": "ttttttttttttttt"}
+        return m[s]
+    }
+    datas := "hello $xx blog address $yy"
+    //这个函数感觉还蛮有用处
+    expandStr := os.Expand(datas, mapping)
+    fmt.Println(expandStr)
+    datas = "GOBIN PATH $gopaTh" //不区分大小写
+    fmt.Println(os.ExpandEnv(datas))
+
+    hostname, err := os.Hostname()
+    fmt.Println("hostname:", hostname)
+
+    _, err = os.Open("WWWW.XX")
+    if err != nil {
+        fmt.Println(os.IsNotExist(err))
+        fmt.Println(err)
+    }
+
+    f, err := os.Open("WWWW.XX")
+    if err != nil && !os.IsExist(err) {
+        fmt.Println(f, "not exist")
+    }
+
+    //windows 下两个都是true
+    fmt.Println(os.IsPathSeparator('/'))
+    fmt.Println(os.IsPathSeparator('\\'))
+    fmt.Println(os.IsPathSeparator('.'))
+
+    //判断返回的error 是否是因为权限的问题
+    //func IsPermission(err error) bool
+
+    // not supported by windows
+    err = os.Link("main.go", "newmain.go")
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    var pathSep string
+    if os.IsPathSeparator('\\') {
+        pathSep = "\\"
+    } else {
+        pathSep = "/"
+    }
+    fmt.Println("PathSeparator:", pathSep)
+    //MkdirAll 创建的是所有下级目录，如果没有就创建他
+    //Mkdir 创建目录，如果是多级目录遇到还未创建的就会报错
+    err = os.Mkdir(dir+pathSep+"md"+pathSep+"md"+pathSep+"md"+pathSep+"md"+pathSep+"md", os.ModePerm)
+    if err != nil {
+        fmt.Println(os.IsExist(err), err)
+    }
+
+    err = os.RemoveAll(dir + "md\\md\\md\\md\\md")
+    fmt.Println("removall", err)
+
+    //rename 实际上通过movefile来实现的
+    err = os.Rename("main.go", "main1.go")
+	//文件相同判断
+    f1, _ := os.Stat("main.go")
+    f2, _ := os.Stat("main1.go")
+    if os.SameFile(f1, f2) {
+        fmt.Println("the sanme")
+    } else {
+        fmt.Println("not same")
+    }
+
+    //os.Setenv 这个函数是设置环境变量的很简单
+    evn := os.Getenv("WD_PATH")
+    fmt.Println("WD_PATH:", evn)
+    err = os.Setenv("WD_PATH", "D:/project")
+    if err != nil {
+        fmt.Println(err)
+    }
+	//临时目录
+    tmp, _ := ioutil.TempDir(dir, "tmp")
+    fmt.Println(tmp)
+    tmp = os.TempDir()
+    fmt.Println(tmp)
+
+    cf, err := os.Create("golang.go")
+    defer cf.Close()
+    fmt.Println(err)
+    fmt.Println(reflect.ValueOf(f).Type())
+
+    of, err := os.OpenFile("golang.goss", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0777)
+    defer of.Close()
+    fmt.Println("os.OpenFile:", err)
+
+    oof, err := os.Open("golang.goss")
+    defer oof.Close()
+    fmt.Println("os.Open file:", oof.Fd())
+    fmt.Println("os.Open err:", err)
+    oof.Close()
+
+    r, w, err := os.Pipe()
+    w.Write([]byte("1111"))
+    var buf = make([]byte, 4)
+    r.Read(buf)
+    fmt.Println(buf)
+    w.Write([]byte("2222"))
+    r.Read(buf) // 如果没有调用w.Write(),r.Read()就会阻塞
+    fmt.Println("ssss--", buf)
+
+    b := make([]byte, 100)
+    ff, _ := os.Open("main.go")
+    n, _ := ff.Read(b)
+    fmt.Println(n)
+    fmt.Println(string(b[:n]))
+
+    //第二个参数，是指，从第几位开始读取
+    n, _ = ff.ReadAt(b, 20)
+    fmt.Println(n)
+    fmt.Println(string(b[:n]))
+
+    //获取文件夹下文件的列表
+    dirs, err := os.Open("md")
+    if err != nil {
+        fmt.Println(err)
+    }
+    defer dirs.Close()
+    //参数小于或等去0，表示读取所有的文件
+    //另外一个只读取文件名的函数
+    //fs, err := dirs.Readdirname(0)
+    fs, err := dirs.Readdir(-1)
+    if err == nil {
+        for _, file := range fs {
+            fmt.Println(file.Name())
+        }
+    } else {
+        fmt.Println("Readdir:", err)
+    }
+
+    //func (f *File) WriteString(s string) (ret int, err error)
+    //写入字符串函数原型，哪个个函数比较快呢？？
+
+    //p, _ := os.FindProcess(628)
+    //fmt.Println(p)
+    //p.Kill()
+    attr := &os.ProcAttr{
+        Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
+    }
+    //参数也可以这么写 `c:\windows\system32\notepad.EXE`  用的是反单引号
+    p, err := os.StartProcess("c:\\windows\\system32\\notepad.EXE", []string{"c:\\windows\\system32\\notepad.EXE", "d:/1.txt"}, attr)
+    p.Release()
+    time.Sleep(1000000000)
+    p.Signal(os.Kill)
+    os.Exit(10)
+
+}
+}
+
+调用系统API{
+
+syscall.Syscall系列方法
+当前共5个方法
+
+syscall.Syscall
+syscall.Syscall6
+syscall.Syscall9
+syscall.Syscall12
+syscall.Syscall15
+分别对应 3个/6个/9个/12个/15个参数或以下的调用
+
+参数都形如
+syscall.Syscall(trap, nargs, a1, a2, a3)
+第二个参数, nargs 即参数的个数,一旦传错, 轻则调用失败,重者直接APPCARSH
+多余的参数, 用0代替
+
+
+//例子1
+package main
+
+import(
+	"fmt"
+    "unsafe"
+    "syscall"
+)
+//获取磁盘空间
+func main(){
+fmt.Println("Hello World")
+//首先,准备输入参数, GetDiskFreeSpaceEx需要4个参数, 可查MSDN
+lpFreeBytesAvailable := int64(0) //注意类型需要跟API的类型相符
+lpTotalNumberOfBytes := int64(0)
+lpTotalNumberOfFreeBytes := int64(0)
+
+//获取方法的引用
+kernel32, err := syscall.LoadLibrary("Kernel32.dll") // 严格来说需要加上 defer syscall.FreeLibrary(kernel32)
+fmt.Println(err)
+GetDiskFreeSpaceEx, err := syscall.GetProcAddress(syscall.Handle(kernel32), "GetDiskFreeSpaceExW")
+fmt.Println(err)
+
+//执行之. 因为有4个参数,故取Syscall6才能放得下. 最后2个参数,自然就是0了
+r, _, err := syscall.Syscall6(uintptr(GetDiskFreeSpaceEx), 4,
+            uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr("C:"))),
+            uintptr(unsafe.Pointer(&lpFreeBytesAvailable)),
+            uintptr(unsafe.Pointer(&lpTotalNumberOfBytes)),
+            uintptr(unsafe.Pointer(&lpTotalNumberOfFreeBytes)), 0, 0)
+
+// 注意, errno并非error接口的, 不可能是nil
+// 而且,根据MSDN的说明,返回值为0就fail, 不为0就是成功
+fmt.Println(err)
+if r != 0 {
+    fmt.Printf("Free %dmb", lpTotalNumberOfFreeBytes/1024/1024)
+}
+}
+
+
+	
+	
+}
+
+调用系统命令{
+	
+//例子1
+package main
+
+import (
+	"os"
+	"os/exec"
+)
+
+func main() {
+	run1()
+	run2()
+	run3()
+	run4()
+}
+
+func run1() {
+	cmd := exec.Command("echo", "hello")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Start()
+	cmd.Run()
+	cmd.Wait()
+}
+
+func run2() {
+	c1 := exec.Command("ls")
+	c2 := exec.Command("wc", "-l")
+	c2.Stdin, _ = c1.StdoutPipe()
+	c2.Stdout = os.Stdout
+	c2.Stderr = os.Stderr
+	c2.Start()
+	c1.Run()
+	c2.Wait()
+}
+//利用管道可以把命令之间的输入输出联系起来
+func run3() {
+	c1 := exec.Command("ps", "-eaf")
+	c2 := exec.Command("grep", "node")
+	c3 := exec.Command("grep", "-v", `"grep"`)
+	c4 := exec.Command("awk", "{print $2}")
+	//依次把上个命令的输出作为下一个命令的输入
+	c2.Stdin, _ = c1.StdoutPipe()
+	c3.Stdin, _ = c2.StdoutPipe()
+	c4.Stdin, _ = c3.StdoutPipe()
+	//将最后的输出打印到屏幕
+	c4.Stdout = os.Stdout
+	c4.Stderr = os.Stderr
+
+	c4.Start()
+	c3.Start()
+	c2.Start()
+	c1.Run()
+	c4.Wait()
+}
+//效果同上
+func run4() {
+	cmd := exec.Command("/bin/sh", "-c", `ps -eaf|grep "node"|grep -v "grep"|awk '{print $2}'`)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Start()
+	cmd.Run()
+	cmd.Wait()
+}	
+
+
+//例子2
+package main
+
+import(
+	"fmt"
+    "os/exec"
+    "os"
+)
+//将cmd中执行结果写入文件
+func main(){
+    cmd2()
+}
+
+//通过 输入管道 连续执行命令 并将结果重定向到文件
+func cmd1(){
+    f, e := os.OpenFile("C:\\Users\\lWX307086\\Desktop\\三月下扬州\\go例子\\测试\\print.log", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0)
+    defer f.Close()
+    fmt.Println(e)
+    //设置输入输出管道，这样可以连续执行命令
+    cmd := exec.Command("cmd", "args")
+    //stdout, _ := cmd.StdoutPipe()
+    stdint,_ :=cmd.StdinPipe()
+    //将输出定向到文件
+    cmd.Stdout=f
+	cmd.Stderr=f
+    stdint.Write([]byte("help\n"))
+    stdint.Write([]byte("ipconfig\n"))
+    stdint.Write([]byte("exit\n"))
+    cmd.Run() //执行并等待命令完返回
+    
+    //cmd.Start() //只执行，不等待返回
+    //cmd.Wait() //等待返回再停止main，配合start使用
+}
+
+//直接执行系统命令并重定向到文件
+func cmd2(){
+    f, e := os.OpenFile("C:\\Users\\lWX307086\\Desktop\\三月下扬州\\go例子\\测试\\print1.log", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0)
+    defer f.Close()
+    fmt.Println(e)
+    //直接执行系统命令
+    cmd := exec.Command("help")
+    //将输出定向到屏幕
+    cmd.Stdout=f
+	cmd.Stderr=f
+    cmd.Run() //执行并等待命令完返回
+    
+}
+//例子3
+package main
+
+import(
+    "os/exec"
+    "os"
+)
+//将shell中执行结果写入文件
+func main(){
+	//文件读+不存在就创建+打开后清空 ,0666的权限
+	f, _ := os.OpenFile("./print.log", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666) 
+    defer f.Close()
+	cmd:=exec.Command("/bin/bash")
+    //设置输入输出管道，这样可以连续执行命令
+    //stdout, _ := cmd.StdoutPipe()
+    stdint,_ :=cmd.StdinPipe()
+    //将输出定向到文件
+    cmd.Stdout=f
+	cmd.Stderr=f
+    stdint.Write([]byte("help\n")) //想要这样可以输入必须在cmd定义时使用Command("/bin/bash") 命令集
+    stdint.Write([]byte("ifconfig\n"))
+    stdint.Write([]byte("ls\n"))
+	stdint.Write([]byte("who\n"))
+    //cmd.Run() //执行并等待命令完返回
+	cmd.Start()
+	//cmd.Wait()
+	panic("Hello from panic\n")  //此处的错误没能打印到日志中,因为这是main程序的错误 方法见例子4 
+     
+}
+//例子4
+package main
+
+import ( 
+    "fmt" 
+    "os" 
+    "syscall" 
+)
+//syscall.Dup2 仅在linux中有效
+func main() { 
+    logFile, _ := os.OpenFile("./print.log", os.O_WRONLY|os.O_CREATE|os.O_SYNC, 0755) 
+	fmt.Println("Hello from main") //此句会被打印到屏幕
+    syscall.Dup2(int(logFile.Fd()), 1) //将主屏幕的输入输出定向到log
+    syscall.Dup2(int(logFile.Fd()), 2) 
+    fmt.Printf("Hello from fmt\n")  //词句会被打印到log
+    panic("Hello from panic\n")  //此处的错误被定向到了log中
+}
+
+//例子5
+package main
+
+import ( 
+    "fmt" 
+    "os" 
+    "io"
+)
+
+//win上将主屏幕重定向到文件，copy报错 :read /dev/stderr: Access is denied. 还需要再找找方法
+func main() { 
+    logFile, _ := os.OpenFile("C:\\Users\\lWX307086\\Desktop\\三月下扬州\\go例子\\测试\\print1.log", os.O_WRONLY|os.O_CREATE|os.O_SYNC, 0755)
+    defer logFile.Close()
+    fmt.Printf("Hello from fmt\n") 
+    if _, err := io.Copy(logFile,os.Stdout); err != nil {
+        fmt.Println(err)
+    }
+    if _, err := io.Copy(logFile,os.Stderr); err != nil {
+        fmt.Println(err)
+    }
+    fmt.Printf("Hello from fmt\n") 
+    panic("Hello from panic\n") 
+}
+
+
 	
 }
 
