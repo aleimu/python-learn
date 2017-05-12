@@ -1,4 +1,4 @@
-//Go学习总结--2017/3/20	
+//Go学习总结--2017/3/20 建议notepad++打开折叠	
 //https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md
 //https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/preface.md
 
@@ -856,6 +856,7 @@ p := new(bytes.Buffer)
 	//c := w.(*bytes.Buffer) //异常
 
 }
+
 常用包{
 	buffio ：实现带缓存的IO操作
 	bytes：实现了针对byte slice的各种操作，和strings包具有类似的功能
@@ -878,6 +879,7 @@ p := new(bytes.Buffer)
 	sync：实现了同步操作的原语，例如锁
 	time：实现了针对时间的各种够计算和显示
 }
+
 读写文件{
 #readfile
 	{
@@ -929,6 +931,7 @@ p := new(bytes.Buffer)
 	}
 	
 }
+
 go的并发机制{
 //常用的定义chan的方式	
 var chanName chan ElementType 
@@ -1117,6 +1120,7 @@ ch6 := chan<- int(ch4) // ch6 是一个单向的写入channel
 
 
 }
+
 同步锁{
 Go语言包中的sync包提供了两种锁类型：sync.Mutex 和 sync.RWMutex。Mutex是最简单的一种锁类型，同时也比较暴力，当一个goroutine获得了Mutex后，其他goroutine就只能乖乖等到这个goroutine释放该Mutex。
 RWMutex相对友好些，是经典的单写多读模型。在读锁占用的情况下，会阻止写，但不阻止读，也就是多个goroutine可同时获取读锁
@@ -1129,6 +1133,7 @@ RWMutex相对友好些，是经典的单写多读模型。在读锁占用的情�
 	}   
 
 }
+
 json解析到interface/map{
 /*
 JSON中的布尔值将会转换为Go中的bool类型；
@@ -1293,6 +1298,7 @@ Attach to a running container：进入一个正在运行的容器
     version   Show the Docker version information
 	wait      Block until a container stops, then print its exit code
 }
+
 strconv包中最常用方法{
 
 // Itoa 相当于 FormatInt(i, 10)
@@ -1322,6 +1328,7 @@ func main() {
 // 如果 base 为 0，则根据字符串的前缀判断进位制（0x:16，0:8，其它:10）
 	
 }
+
 执行系统命令{
 	import "os/exec"
 	cmd := exec.Command("/bin/ls", "-l")
@@ -3092,7 +3099,6 @@ godoc与go doc{
 }
 
 //再进阶部分
-
 go flag 包{
 	//命令行解析
 	http://www.cnblogs.com/phpgo/p/6732297.html
