@@ -1024,30 +1024,97 @@ fmt.Println(len(d2), cap(d2))    // 1  3
 		}
 	}
 	
+//channel实现超时机制
 
-	select { 
-	 case <-chan1: 
-	 // 如果chan1成功读到数据，则进行该case处理语句 
-	 case chan2 <- 1: 
-	 // 如果成功向chan2写入数据，则进行该case处理语句 
-	  default: 
-	 // 如果上面都没有成功，则进入default处理流程 
-	} 
+//虽然select机制不是专为超时而设计的，却能很方便地解决超时问题。因为select的特点是只要其中一个case已经完成，程序就会继续往下执行，而不会考虑其他case的情况。
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	// 首先，我们实现并执行一个匿名的超时等待函数
+	timeout := make(chan bool, 1)
+	ch := make(chan bool, 1)
+	go func() {
+		time.Sleep(2e9) // 等待2秒钟
+		timeout <- true
+	}()
+	fmt.Println("start")
+	// 然后我们把timeout这个channel利用起来
+	select {
+	case <-ch:
+		// 从ch中读取到数据
+	case <-timeout:
+		// 一直没有从ch中读取到数据，但从timeout中读取到了数据
+	}
+	fmt.Println("end")
+} 
+
+//进阶版
+
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+func main() {
+	sth := make(chan int)
+	result := make(chan int)
+	go func() {
+		id := rand.Intn(100)
+        time.Sleep(1 * time.Second)
+		for {
+			sth <- id
+		}
+	}()
+	go func() {
+		for {
+            time.Sleep(1 * time.Second)
+			tmp := <-sth
+			result <- tmp
+		}
+	}()
+	select {
+	case c := <-result:
+		fmt.Println("Get result:", c)
+    case e := <-time.After(2 * time.Second):
+		fmt.Println("指定时间内都没有得到结果:",e)
+	}
 	
-// 首先，我们实现并执行一个匿名的超时等待函数 
-	timeout := make(chan bool, 1) 
-	go func() { 
-		time.Sleep(1e9) // 等待1秒钟 
-		timeout <- true 
-	}() 
-	 
-	// 然后我们把timeout这个channel利用起来 
-	select { 
-	 case <-ch: 
-	  // 从ch中读取到数据 
-	 case <-timeout: 
-	  // 一直没有从ch中读取到数据，但从timeout中读取到了数据 
-	} 
+	NewTicker()
+}
+
+func NewTicker() {
+    concurrencyCount := runtime.NumCPU()
+    for i := 0; i < concurrencyCount; i++ {
+        go func(index int) {
+            for {
+                 time.Sleep(1 * time.Second)
+            }
+        }(i)
+    }
+    t := time.NewTicker(2*time.Second)  
+    for {
+        select {
+        case <-t.C:
+            fmt.Println("周期执行")
+            // 计算并打印实时数据
+        }
+    } 
+}
+
+/*
+ch4 := make(chan int)
+ch5 := <-chan int(ch4) // ch5就是一个单向的读取channel
+ch6 := chan<- int(ch4) // ch6 是一个单向的写入channel
+*/
+
 
 }
 同步锁{
@@ -1428,6 +1495,47 @@ select与并发{
 	os.Args 返回命令⾏参数，os.Exit 终止进程。
 	要获取正确的可执行文件路径，可用  ﬁlepath.Abs(exec.LookPath(os.Args[0]))。
 	*/
+//超时与并发
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+func main() {
+	sth := make(chan int)
+	result := make(chan int)
+	go func() {
+		id := rand.Intn(100)
+        time.Sleep(1 * time.Second)
+		for {
+			sth <- id
+		}
+	}()
+	go func() {
+		for {
+            time.Sleep(1 * time.Second)
+			tmp := <-sth
+			result <- tmp
+		}
+	}()
+	
+	select {
+	case c := <-result:
+		fmt.Println("Get result:", c)
+    case e := <-time.After(2 * time.Second): //主程序等待2秒，没有消息就继续
+		fmt.Println("指定时间内都没有得到结果:",e)
+	}
+}
+
+/*
+ch4 := make(chan int)
+ch5 := <-chan int(ch4) // ch5就是一个单向的读取channel
+ch6 := chan<- int(ch4) // ch6 是一个单向的写入channel
+*/
+
 
 	
 }
@@ -3173,7 +3281,7 @@ func main() {
 	
 }
 
-并发写文件{
+并发写文件之死锁{
 //例子1	
 package main
 
@@ -3256,7 +3364,7 @@ import (
         "net/http"
         "sync"
 )
-
+//想要完整执行url ，这几句缺一不可 
 func main() {
         var wg sync.WaitGroup
         var urls = []string{
@@ -3265,11 +3373,11 @@ func main() {
                 "http://www.somestupidname.com/",
         }
         for _, url := range urls {
-                // Increment the WaitGroup counter.
+                // 遍历，执行一个增加一个等待
                 wg.Add(1)
                 // Launch a goroutine to fetch the URL.
                 go func(url string) {
-                        // Decrement the counter when the goroutine completes.
+                        // defer是必须的
                         defer wg.Done()
                         // Fetch the URL.
                         http.Get(url)
@@ -3282,10 +3390,10 @@ func main() {
 
 }	
 /*
-type WaitGroup               //相当于一个箱子，将main goroutine 保护到里面
+type WaitGroup          //相当于一个箱子，将main goroutine 保护到里面
 func (*WaitGroup) Add   //调用一次为箱子加一把锁（当然，你愿意也可以多把）
 func (*WaitGroup) Done  // 调用一次开一把锁（only one！） 
-func (*WaitGroup) Wait    //箱子的盖子，没锁了自动打开
+func (*WaitGroup) Wait  //箱子的盖子，没锁了自动打开
 */
 
 //例子5
@@ -3313,21 +3421,151 @@ func main() {
     fmt.Println("after wait group")
 }
 
+//例子6 
 
+//最方便的方式 chan
+
+package main
+
+import(
+	"fmt"
+)
+
+var complete chan int = make(chan int)
+
+func loop() {
+    for i := 0; i < 10; i++ {
+        fmt.Printf("%d ", i)
+    }
+    complete <- 0 // 执行完毕了，发个消息
+}
+
+func main() {
+    go loop()
+    <- complete // 直到线程跑完, 取到消息. main在此阻塞住
+}
+
+//例子7
+//进阶版
+package main
+
+import(
+	"fmt"
+    "os"
+)
+
+var complete chan int = make(chan int)
+
+func loop(f *os.File) {
+    for i := 0; i < 10; i++ {
+        f.WriteString("测试字符\n")
+    }
+    complete <- 0 // 执行完毕了，发个消息
+}
+
+func main() {
+    f, e := os.OpenFile("C:\\Users\\lWX307086\\Desktop\\三月下扬州\\go例子\\测试\\print.log", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0)
+    if e!=nil{
+        fmt.Println(e)
+    }
+    go loop(f)
+    go loop(f)
+	//go loop(f) //-->fatal error: all goroutines are asleep - deadlock! 死锁 注释掉此句，主程序知道不会等到complete返回了，所以不再等待goroutines。
+    <- complete // 直到线程跑完, 取到消息. main在此阻塞住
+    <- complete // 直到线程跑完, 取到消息. main在此阻塞住
+}
+
+//为什么会死锁？非缓冲信道上如果发生了流入无流出，或者流出无流入，也就导致了死锁。或者这样理解 Go启动的所有goroutine里的非缓冲信道一定要一个线里存数据，一个线里取数据，要成对才行 。
+
+//例子8
+//缓冲信道 如何产生死锁
+package main
+
+import(
+	"fmt"
+)
+
+var ch chan int = make(chan int)
+
+func foo(id int) { //id: 这个routine的标号
+    ch <- id
+}
+
+func main() {
+    // 开启5个routine
+    for i := 0; i < 5; i++ {
+        go foo(i)
+    }
+
+    // 取出信道中的数据
+    for i := 0; i < 6 ; i++ { //只有5个进程，多取一个都会死锁，少取并不会
+        fmt.Print(<- ch)
+    }
+}
+
+}
+
+并行测试{
+	
+//例子1
+package main
+
+import (
+    "fmt"
+    "runtime"
+)
+//并行测试
+//当一个goroutine发生阻塞，Go会自动地把与该goroutine处于同一系统线程的其他goroutines转移到另一个系统线程上去，以使这些goroutines不阻塞
+var quit chan int = make(chan int)
+
+func loop(id int) { // id: 该goroutine的标号
+    for i := 0; i < 10; i++ { //打印10次该goroutine的标号
+        fmt.Printf("%d,%d  ", id,i)
+    }
+    quit <- 0
+}
+
+func main() {
+    runtime.GOMAXPROCS(2) // 最多同时使用2个核
+	//runtime.GOMAXPROCS(1) // 最多同时使用1个核，结果如下:
+	//2,0  2,1  2,2  2,3  2,4  2,5  2,6  2,7  2,8  2,9  0,0  0,1  0,2  0,3  0,4  0,5  0,6  0,7  0,8  0,9  1,0  1,1  1,2  1,3  1,4  1,5  1,6  1,7  1,8  1,9 
+    for i := 0; i < 3; i++ { //开三个goroutine
+        go loop(i)
+    }
+
+    for i := 0; i < 3; i++ {
+        <- quit
+    }
+}
+
+//0,0  0,1  0,2  0,3  0,4  0,5  0,6  2,0  2,1  2,2  2,3  2,4  2,5  2,6  2,7  2,8  2,9  1,0  1,1  1,2  0,7  0,8  0,9  1,3  1,4  1,5  1,6  1,7  1,8  1,9  
+
+/*
+1. 有时会发生抢占式输出(说明Go开了不止一个原生线程，达到了真正的并行)
+2. 有时会顺序输出, 打印完3再打印4, 再打印5(说明Go开一个原生线程，单线程上的goroutine不阻塞不松开CPU)
+3. 还会观察到一个现象，无论是抢占地输出还是顺序的输出，都会有那么两个数字表现出这样的现象:
+一个数字的所有输出都会在另一个数字的所有输出之前
+原因是， 3个goroutine分配到至多2个线程上，就会至少两个goroutine分配到同一个线程里，单线程里的goroutine 不阻塞不放开CPU, 也就发生了顺序输出。
+
+第三个结论和观察不符，，不是每次都出现，需要后面讨论。但和多线程设计思路相同
+*/
+	
+//例子2	
+	
 }
 
 打开文件的flag{
 
 func OpenFile(name string, flag int, perm FileMode) (file *File, err error)　
 //指定文件权限和打开方式打开name文件或者create文件，其中flag标志如下:
-O_RDONLY：只读模式(read-only)
-O_WRONLY：只写模式(write-only)
-O_RDWR：读写模式(read-write)
-O_APPEND：追加模式(append)
-O_CREATE：文件不存在就创建(create a new file if none exists.)
-O_EXCL：与 O_CREATE 一起用，构成一个新建文件的功能，它要求文件必须不存在(used with O_CREATE, file must not exist)
-O_SYNC：同步方式打开，即不使用缓存，直接写入硬盘
-O_TRUNC：打开并清空文件
+O_RDONLY :只读模式(read-only)
+O_WRONLY :只写模式(write-only)
+O_RDWR :读写模式(read-write)
+O_APPEND :追加模式(append)
+O_CREATE :文件不存在就创建(create a new file if none exists.)
+O_EXCL :与 O_CREATE 一起用，构成一个新建文件的功能，它要求文件必须不存在(used with O_CREATE, file must not exist)
+O_SYNC :同步方式打开，即不使用缓存，直接写入硬盘
+O_TRUNC :打开并清空文件
 
 至于操作权限perm，除非创建文件时才需要指定，不需要创建新文件时可以将其设定为０.虽然go语言给perm权限设定了很多的常量，
 但是习惯上也可以直接使用数字，如0666(具体含义和Unix系统的一致).	
@@ -3371,6 +3609,9 @@ func main() {
     uid := os.Getuid()
     fmt.Println("uid:", uid)
 
+	ppid := os.Getppid()
+    fmt.Println("ppid", ppid)
+	
     //err:getgroups: not supported by windows
     g, err := os.Getgroups()
     fmt.Println(g, "error", err)
@@ -3378,8 +3619,7 @@ func main() {
     pagesize := os.Getpagesize()
     fmt.Println("pagesize:", pagesize)
 
-    ppid := os.Getppid()
-    fmt.Println("ppid", ppid)
+
 
     //filemode, err := os.Stat("main.go")
     //不存在文件返回GetFileAttributesEx test2: The system cannot find the file specified.
@@ -3706,7 +3946,7 @@ func main(){
     cmd2()
 }
 
-//通过 输入管道 连续执行命令 并将结果重定向到文件
+//通过 输入管道 连续执行多个命令 并将结果重定向到文件
 func cmd1(){
     f, e := os.OpenFile("C:\\Users\\lWX307086\\Desktop\\三月下扬州\\go例子\\测试\\print.log", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0)
     defer f.Close()
@@ -3727,7 +3967,7 @@ func cmd1(){
     //cmd.Wait() //等待返回再停止main，配合start使用
 }
 
-//直接执行系统命令并重定向到文件
+//直接执行单个系统命令并重定向到文件
 func cmd2(){
     f, e := os.OpenFile("C:\\Users\\lWX307086\\Desktop\\三月下扬州\\go例子\\测试\\print1.log", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0)
     defer f.Close()
@@ -3777,6 +4017,7 @@ import (
     "os" 
     "syscall" 
 )
+//linux上将主屏幕定向到文件
 //syscall.Dup2 仅在linux中有效
 func main() { 
     logFile, _ := os.OpenFile("./print.log", os.O_WRONLY|os.O_CREATE|os.O_SYNC, 0755) 
@@ -3793,22 +4034,25 @@ package main
 import ( 
     "fmt" 
     "os" 
-    "io"
 )
 
-//win上将主屏幕重定向到文件，copy报错 :read /dev/stderr: Access is denied. 还需要再找找方法
+//win上将主屏幕重定向到文件，copy报错 :read /dev/stderr: Access is denied.
 func main() { 
-    logFile, _ := os.OpenFile("C:\\Users\\lWX307086\\Desktop\\三月下扬州\\go例子\\测试\\print1.log", os.O_WRONLY|os.O_CREATE|os.O_SYNC, 0755)
-    defer logFile.Close()
-    fmt.Printf("Hello from fmt\n") 
-    if _, err := io.Copy(logFile,os.Stdout); err != nil {
-        fmt.Println(err)
-    }
-    if _, err := io.Copy(logFile,os.Stderr); err != nil {
-        fmt.Println(err)
-    }
-    fmt.Printf("Hello from fmt\n") 
-    panic("Hello from panic\n") 
+    f, e := os.OpenFile("C:\\Users\\lWX307086\\Desktop\\三月下扬州\\go例子\\测试\\print1.log", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0)
+    defer f.Close()
+    fmt.Println("hello world1") //----打印到屏幕
+	fmt.Println(os.Stdout.Fd()) //260
+    fmt.Println(f.Fd()) //212
+    //将输出定向到屏幕
+    os.Stdin=f
+    os.Stdout=f
+    os.Stderr=f
+    f, e = os.OpenFile("C:\\Users\\lWX307086\\Desktop\\三月下扬州\\go例子\\测试\\pri\\nt1.log", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0)//尝试触发一个错误
+    fmt.Println(e) //----打印文件
+    fmt.Println("hello world2") //----打印到文件
+     
+    panic("Hello from panic\n") //----打印到屏幕 ----不知道这个怎么重定向
+    
 }
 
 
