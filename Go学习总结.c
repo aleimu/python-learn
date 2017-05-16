@@ -1,4 +1,4 @@
-//Go学习总结--2017/3/20 建议notepad++打开折叠	
+//Go学习总结--2017/3/20	
 //https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md
 //https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/preface.md
 
@@ -932,7 +932,7 @@ p := new(bytes.Buffer)
 	
 }
 
-go的并发机制{
+go的并发机制与超时{
 //常用的定义chan的方式	
 var chanName chan ElementType 
 var ch chan int 
@@ -1094,22 +1094,24 @@ func main() {
 }
 
 func NewTicker() {
-    concurrencyCount := runtime.NumCPU()
-    for i := 0; i < concurrencyCount; i++ {
-        go func(index int) {
-            for {
-                 time.Sleep(1 * time.Second)
-            }
-        }(i)
-    }
-    t := time.NewTicker(2*time.Second)  
-    for {
-        select {
-        case <-t.C:
-            fmt.Println("周期执行")
-            // 计算并打印实时数据
-        }
-    } 
+	//耗时间的操作
+	concurrencyCount := runtime.NumCPU()
+	for i := 0; i < concurrencyCount; i++ {
+		go func(index int) {
+			for {
+				time.Sleep(1 * time.Second)
+			}
+		}(i)
+	}
+	//ticker
+	t := time.NewTicker(2 * time.Second)
+	for {
+		select {
+		case <-t.C:
+			fmt.Println("周期执行")
+			// 计算并打印实时数据
+		}
+	}
 }
 
 /*
@@ -4064,6 +4066,599 @@ func main() {
 
 	
 }
+
+信号监听的使用技巧{
+	
+
+os.Signal是信号类型：
+type Signal interface {
+	String() string
+	Signal() // to distinguish from other Stringers
+}
+signal.Notify函数用于监听通道的信号：
+func Notify(c chan<- os.Signal, sig ...os.Signal)
+下面程序简单演示了如何监听信号。
+package main
+
+import (
+       "fmt"
+       "os"
+       "os/signal"
+)
+
+func main() {
+       sigs := make(chan os.Signal, 0)
+       signal.Notify(sigs)
+
+       s := <-sigs
+       fmt.Println("Got signal:", s)
+}
+程序运行后，ps -a命令找出程序进程的PID，然后执行命令kill -SIGUSR1 PID，给程序发信号，程序输出：
+Got signal: user defined signal 1
+也可以指定监听的信号类型：
+package main
+
+import "fmt"
+import "os"
+import "os/signal"
+import "syscall"
+
+func main() {
+       go SignalProc()
+       select {}
+
+}
+
+func SignalProc() {
+       sigs := make(chan os.Signal)
+       signal.Notify(sigs, syscall.SIGINT, syscall.SIGUSR1, syscall.SIGUSR2, syscall.SIGHUP, os.Interrupt)
+
+       for {
+              msg := <-sigs
+              fmt.Println("Recevied signal:", msg)
+
+              switch msg {
+              default:
+                     fmt.Printf("get sig=%v\n", msg)
+              case syscall.SIGHUP:
+                     fmt.Println("get sighup\n")
+              case syscall.SIGUSR1:
+                     fmt.Println("SIGUSR1 test")
+              case syscall.SIGUSR2:
+                     fmt.Println("SIGUSR2 test")
+              }
+       }
+}
+
+输入：kill -SIGUSR1 PID
+输出：
+Recevied signal: user defined signal 1
+SIGUSR1 test
+以下是借用go的信号监听机制实现的配置数据热加载程序，其中用sync.RWMutex实现了对配置数据的互诉访问，也用到了json包的解析能力。
+package main
+
+import (
+       "encoding/json"
+       "fmt"
+       "io/ioutil"
+       "log"
+       "os"
+       "os/signal"
+       "sync"
+       "syscall"
+)
+
+type Config struct {
+       Name string `json:"Name"`
+       Age  int    `json:"Age"`
+}
+
+var (
+       config     *Config
+       configLock = new(sync.RWMutex)
+)
+
+func loadConfig() bool {
+       f, err := ioutil.ReadFile("config.json")
+
+       if err != nil {
+              fmt.Println("load config error: ", err)
+              return false
+       }
+
+       temp := new(Config)
+       err = json.Unmarshal(f, &temp)
+       if err != nil {
+              fmt.Println("Para config failed: ", err)
+              return false
+       }
+
+       configLock.Lock()
+       config = temp
+       configLock.Unlock()
+       return true
+}
+
+func GetConfig() *Config {
+       configLock.RLock()
+       defer configLock.RUnlock()
+       return config
+}
+
+func init() {
+       if !loadConfig() {
+              os.Exit(1)
+       }
+
+       fmt.Printf("%v\n", *GetConfig())
+
+       //热更新配置可能有多种触发方式，这里使用系统信号量sigusr1实现
+       s := make(chan os.Signal, 1)
+       signal.Notify(s, syscall.SIGUSR1)
+       go func() {
+              for {
+                     <-s
+                     log.Println("Reloaded config:", loadConfig())
+                     fmt.Printf("%v\n", *GetConfig())
+              }
+       }()
+}
+
+func main() {
+       select {}
+}
+
+准备好json文件config.json内容：
+{"Name":"taozs","Age":18}
+程序启动后的输出：
+{taozs 18}
+修改json文件config.json内容：
+{"Name":"taozs","Age":28}
+同样用ps -a找出进程的PID，然后使用命令：kill -SIGUSR1 PID给程序发信号，程度输出：
+2017/03/18 08:58:44 Reloaded config: true
+{taozs 28}
+}
+
+HTTPS双向认证{
+//http://www.cnblogs.com/sevenyuan/p/4544492.html
+//https://github.com/bigwhite/experiments/tree/master/gohttps	
+
+以下通过从增加IP别名、生成证书和key文件、服务端和客户端代码的完整过程给大家演示如何用Go语言实现双向认证，请遵从下面指定的目录结构。
+1、增加IP别名
+/etc/hosts文件中增加两行：
+127.0.0.1       server
+127.0.0.1       client
+2、生成证书和key文件
+文件存放目录：./src/key，另外需要安装openssl。
+（1）生成CA的key和证书文件
+openssl genrsa -out ca.key 2048
+#这里可以使用 -subj 不用进行交互 当然还可以添加更多的信息
+openssl req -x509 -new -nodes -key ca.key -subj "/CN= server" -days 5000 -out ca.crt
+（2）生成服务端的key和证书文件
+openssl genrsa -out server.key 2048
+#这里的/cn可以是必须添加的 是服务端的域名 或者是etc/hosts中的ip别名
+openssl req -new -key server.key -subj "/CN=server" -out server.csr
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 5000
+（3）生成客户端的key和证书文件
+openssl genrsa -out client.key 2048
+openssl req -new -key client.key -subj "/CN=client" -out client.csr
+echo extendedKeyUsage=clientAuth > extfile.cnf
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile extfile.cnf -out client.crt -days 5000
+ 
+3、服务端代码
+//文件路径：./src/server/server.go
+package main
+
+import (
+       "crypto/tls"
+       "crypto/x509"
+       "fmt" 
+       "io/ioutil"
+       "net/http"
+)
+
+type myhandler struct {
+}
+
+func (h *myhandler) ServeHTTP(w http.ResponseWriter,r *http.Request) {
+       fmt.Fprintf(w,"Hi, This is an example of https service in golang!\n")
+}
+
+func main() {
+       pool := x509.NewCertPool()
+       caCertPath := "../key/ca.crt"
+
+       caCrt, err := ioutil.ReadFile(caCertPath)
+       if err != nil {
+              fmt.Println("ReadFile err:", err)
+              return
+       }
+       pool.AppendCertsFromPEM(caCrt)
+
+       s := &http.Server{
+              Addr:    ":8081",
+              Handler: &myhandler{},
+              TLSConfig: &tls.Config{
+                     ClientCAs:  pool,
+                     ClientAuth: tls.RequireAndVerifyClientCert,
+              },
+       }
+
+       err = s.ListenAndServeTLS("../key/server.crt", "../key/server.key")
+       if err != nil {
+              fmt.Println("ListenAndServeTLS err:", err)
+       }
+}
+4、客户端代码
+//文件路径：./src/client/client.go
+package main
+
+import (
+       "crypto/tls"
+       "crypto/x509"
+       "fmt"
+       "io/ioutil"
+       "net/http"
+)
+
+func main() {
+       pool := x509.NewCertPool()
+       caCertPath := "../key/ca.crt"
+
+       caCrt, err := ioutil.ReadFile(caCertPath)
+       if err != nil {
+              fmt.Println("ReadFile err:", err)
+              return
+       }
+       pool.AppendCertsFromPEM(caCrt)
+
+       cliCrt, err := tls.LoadX509KeyPair("../key/client.crt", "../key/client.key")
+       if err != nil {
+              fmt.Println("Loadx509keypair err:", err)
+              return
+       }
+
+       tr := &http.Transport{
+              TLSClientConfig: &tls.Config{
+                     RootCAs:      pool,
+                     Certificates: []tls.Certificate{cliCrt},
+              },
+       }
+       client := &http.Client{Transport: tr}
+       resp, err := client.Get("https://server:8081")
+       if err != nil {
+              fmt.Println("Get error:", err)
+              return
+       }
+       defer resp.Body.Close()
+       body, err := ioutil.ReadAll(resp.Body)
+       fmt.Println(string(body))
+}
+
+//cat client.crt client.key |tee client.pem
+//curl -key ./client/client.pem  --cert ./client/client.pem  -v -X get https://server:8081 
+
+/*
+-E/--cert <cert[:passwd]>      客户端证书文件和密码 (SSL)
+--cert-type <type>              证书文件类型 (DER/PEM/ENG) (SSL)
+--key <key>                    私钥文件名 (SSL)
+--key-type <type>              私钥文件类型 (DER/PEM/ENG) (SSL)
+--pass  <pass>                  私钥密码 (SSL)
+--engine <eng>                  加密引擎使用 (SSL). "--engine list" for list
+--cacert <file>                CA证书 (SSL)
+--capath <directory>            CA目   (made using c_rehash) to verify peer against (SSL)
+--ciphers <list>                SSL密码
+*/
+
+
+5、注意事项
+（1）https的TLS协议刚开始通信要先握手（handshake），双方互相发送自己的证书（crt文件），本地需要有证书机构的根证书（ca.crt），用于验证对方发来的证书的合法性。
+（2）每一次对话（session），客户端和服务器端都生成一个“对话密钥”（session key），用它来加密信息。由于“对话密钥"是对称加密，所以运算速度非常快，而服务器公钥只用于加密“对话密钥”本身，这样就减少了加密运算的消耗时间。请参考：http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html
+（3）生成证书需要有CA的key和证书，生成key不需要。
+（4）go语言是区分服务端和客户端的，代码不同，客户端生成crt也不同，需要增加单独的文件告知。
+}
+
+几种HTTPS认证{
+// http
+{
+
+//http的server
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hi, This is an example of http service in golang!")
+}
+
+func main() {
+	http.HandleFunc("/", handler)
+	http.ListenAndServe(":8080", nil)
+}
+
+}
+//https-1
+{
+	
+//server
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hi, This is an example of http service in golang!")
+}
+
+func main() {
+	http.HandleFunc("/", handler)
+	http.ListenAndServeTLS(":8081", "server.crt", "server.key", nil)
+}
+
+/*
+openssl genrsa -out server.key 2048 // private key
+openssl req -new -x509 -key server.key -out server.crt -days 365 //self-signed certificate
+*/
+
+//client-1
+//不带证书访问--报错
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	resp, err := http.Get("https://localhost:8081")
+	if err != nil {
+		fmt.Println("error:", err)
+		return
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}
+//client-2
+//忽略证书访问--ok
+package main
+
+import (
+	"crypto/tls"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+	resp, err := client.Get("https://localhost:8081")
+
+	if err != nil {
+		fmt.Println("error:", err)
+		return
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}
+
+
+}
+
+//https-2
+{
+//客户端校验服务端证书
+//server
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w,
+		"Hi, This is an example of http service in golang!")
+}
+
+func main() {
+	http.HandleFunc("/", handler)
+	http.ListenAndServeTLS(":8081","server.crt", "server.key", nil)
+}
+
+/*
+openssl genrsa -out ca.key 2048 
+openssl req -x509 -new -nodes -key ca.key -subj "/CN=tonybai.com" -days 5000 -out ca.crt
+
+openssl genrsa -out server.key 2048 
+openssl req -new -key server.key -subj "/CN=localhost" -out server.csr
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 5000
+
+*/
+
+
+//client
+package main
+
+import (
+	"crypto/tls"
+	"crypto/x509"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	pool := x509.NewCertPool()
+	caCertPath := "ca.crt"
+
+	caCrt, err := ioutil.ReadFile(caCertPath)
+	if err != nil {
+		fmt.Println("ReadFile err:", err)
+		return
+	}
+	pool.AppendCertsFromPEM(caCrt)
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{RootCAs: pool},
+	}
+	client := &http.Client{Transport: tr}
+	resp, err := client.Get("https://localhost:8081")
+	if err != nil {
+		fmt.Println("Get error:", err)
+		return
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}
+
+	
+}
+
+//https-3
+{
+//双向校验
+//server
+package main
+
+import (
+	"crypto/tls"
+	"crypto/x509"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+type myhandler struct {
+}
+
+func (h *myhandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hi, This is an example of http service in golang!\n")
+}
+
+func main() {
+	pool := x509.NewCertPool()
+	caCertPath := "ca.crt"
+
+	caCrt, err := ioutil.ReadFile(caCertPath)
+	if err != nil {
+		fmt.Println("ReadFile err:", err)
+		return
+	}
+	pool.AppendCertsFromPEM(caCrt)
+
+	s := &http.Server{
+		Addr:    ":8081",
+		Handler: &myhandler{},
+		TLSConfig: &tls.Config{
+			ClientCAs:  pool,
+			ClientAuth: tls.RequireAndVerifyClientCert,
+		},
+	}
+
+	err = s.ListenAndServeTLS("server.crt", "server.key")
+	if err != nil {
+		fmt.Println("ListenAndServeTLS err:", err)
+	}
+}
+
+/*
+ca:
+openssl genrsa -out ca.key 2048 
+openssl req -x509 -new -nodes -key ca.key -subj "/CN=tonybai.com" -days 5000 -out ca.crt
+
+server:
+openssl genrsa -out server.key 2048 
+openssl req -new -key server.key -subj "/CN=localhost" -out server.csr
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 5000
+
+client:
+openssl genrsa -out client.key 2048 
+openssl req -new -key client.key -subj "/CN=tonybai_cn" -out client.csr
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 5000
+//http://www.cnblogs.com/sevenyuan/p/4544492.html 参考本文
+1、创建文件client.ext
+内容：
+extendedKeyUsage=clientAuth
+2、重建client.crt
+client:
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile client.ext -out client.crt -days 5000
+*/
+//client
+package main
+
+import (
+	"crypto/tls"
+	"crypto/x509"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	pool := x509.NewCertPool()
+	caCertPath := "ca.crt"
+
+	caCrt, err := ioutil.ReadFile(caCertPath)
+	if err != nil {
+		fmt.Println("ReadFile err:", err)
+		return
+	}
+	pool.AppendCertsFromPEM(caCrt)
+
+	cliCrt, err := tls.LoadX509KeyPair("client.crt", "client.key")
+	if err != nil {
+		fmt.Println("Loadx509keypair err:", err)
+		return
+	}
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{
+			RootCAs:      pool,
+			Certificates: []tls.Certificate{cliCrt},
+		},
+	}
+	client := &http.Client{Transport: tr}
+	resp, err := client.Get("https://localhost:8081")
+	if err != nil {
+		fmt.Println("Get error:", err)
+		return
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}
+	
+	
+}
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
