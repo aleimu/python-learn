@@ -1413,8 +1413,9 @@ Python里一切都是对象
 动态语言里，一旦创建了对象，对象就会和操作集绑定
 在计算机内存中，统一使用Unicode编码，当需要保存到硬盘或者需要传输的时候，就转换为UTF-8编码。
 用记事本编辑的时候，从文件读取的UTF-8字符被转换为Unicode字符到内存里，编辑完成后，保存的时候再把Unicode转换为UTF-8保存到文件。
-
-为了避免乱码问题，应当始终坚持使用UTF-8编码对str和bytes进行转换
+##http://www.cnblogs.com/yuanchenqi/articles/5956943.html 很好的文章，解释得很清楚
+Unicode与utf8的关系：一言以蔽之，Unicode是内存编码表示方案（是规范），而UTF是如何保存和传输Unicode的方案（是实现）这也是UTF与Unicode的区别。
+为了避免乱码问题，应当始终坚持使用UTF-8编码对str和bytes进行转换 
 
 写的文本基本上全部是英文的话，用Unicode编码比ASCII编码需要多一倍的存储空间，在存储和传输上就十分不划算。所以，又出现了把Unicode编码转化为“可变长编码”的UTF-8编码。UTF-8编码把一个Unicode字符根据不同的数字大小编码成1-6个字节，常用的英文字母被编码成1个字节，汉字通常是3个字节，只有很生僻的字符才会被编码成4-6个字节。如果你要传输的文本包含大量英文字符，用UTF-8编码就能节省空间
 
@@ -5328,7 +5329,7 @@ jobs（查看后台作业）
 }
 
 
-try {
+try ... except {
 try ... except 语句可以带有一个 else子句 ，该子句只能出现在 有 except 子句之
 后。 try语句没有出现异常时，还想要行执行一些代码，可以使这个子句。例 :
 for arg in sys.argv[1:]:
@@ -5361,6 +5362,23 @@ print(dome())
 3
 7
 '''
+
+#####
+try:
+    x = int(input('input x:'))
+    y = int(input('input y:'))
+    print('x/y = ',x/y)
+except ZeroDivisionError: #捕捉除0异常
+    print("ZeroDivision")
+except (TypeError,ValueError) as e: #捕捉多个异常，并将异常对象输出
+    print(e)
+except: #捕捉其余类型异常
+    print("it's still wrong")
+else: #没有异常时执行
+    print('it works well')
+finally: #不管是否有异常都会执行
+    print("Cleaning up")
+	
 
 }
 
@@ -5716,5 +5734,173 @@ if __name__ == '__main__':
 }
 
 
+}
+
+with open {
+
+为了保证无论是否出错都能正确地关闭文件，我们可以使用try ... finally来实现：
+try:
+    f = open('/path/to/file', 'r')
+    print(f.read())
+finally:
+    if f:
+        f.close()
+		
+但是每次都这么写实在太繁琐，所以，Python引入了with语句来自动帮我们调用close()方法：
+
+with open('/path/to/file', 'r') as f:
+    for line in f:
+		print(line.strip()) # 把末尾的'\n'删掉
+这和前面的try ... finally是一样的，但是代码更佳简洁，并且不必调用f.close()方法。
+
+
+
+
+
+
+
+
+
+}
+
+字符编码{
+http://www.cnblogs.com/yuanchenqi/articles/5956943.html
+Unicode与utf8的关系：一言以蔽之，Unicode是内存编码表示方案（是规范），而UTF是如何保存和传输Unicode的方案（是实现）这也是UTF与Unicode的区别。
+虽然在我们内存中的数据都是unicode，但当数据要保存到磁盘或者用于网络传输时，直接使用unicode就远不如utf8省空间啦！
+py3也有两种数据类型：str和bytes；str类型存unicode数据，bytse类型存bytes数据，Python 3不会以任意隐式的方式混用str和bytes，正是这使得两者的区分特别清晰。
+
+}
+
+深浅拷贝{
+浅拷贝：对一个对象进行浅拷贝其实是新创建一个类型跟原对象一样，其内容是原来对象的引用。有以下几种方式实施（1）完全切片操作[:];(2)利用工厂函数，比如list(),dict()等；（3）使用copy模块的copy函数。
+深拷贝: 希望拷贝的对象是独立的，修改时不要影响其它值，这种我们称为深拷贝。实现深拷贝我们需要引用一个copy模块，copy模块有两个函数可用，一个是copy浅拷贝；另一个是deepcopy深拷贝。
+#http://www.cnblogs.com/wilber2013/p/4645353.html
+Python中对象的赋值都是进行对象引用（内存地址）传递
+使用copy.copy()，可以进行对象的浅拷贝，它复制了对象，但对于对象中的元素，依然使用原始的引用.
+如果需要复制一个容器对象，以及它里面的所有元素（包含元素的子元素），可以使用copy.deepcopy()进行深拷贝
+对于非容器类型（如数字、字符串、和其他'原子'类型的对象）没有被拷贝一说
+如果元祖变量只包含原子类型对象，则不能深拷贝，看下面的例子
+
+}
+
+dis与字节码阅读{
+dis模块主要是用来分析字节码的一个内置模块，经常会用到的方法是dis.dis([bytesource])，参数为一个代码块，可以得到这个代码块对应的字节码指令序列。
+dis 也可以作为模块使用.  可以解析模块，类，方法，函数，生成器，代码对象，源代码字符串或原始字节码的字节序列。
+#查看PYTHON的指令码
+import opcode  
+for op in range(len(opcode.opname)):  
+    print('0x%.2X(%.3d): %s' % (op, op, opcode.opname[op]))  
+#http://www.cnblogs.com/fortwo/archive/2013/05/13/3076780.html  #api文档中也有，方便查看！
+python3的指令集和说明 ------牛的一逼
+dis模块获得了两个新的函数来检查代码，code_info（）和show_code（）。 两者都提供了提供的功能，方法，源代码字符串或代码对象的详细代码对象信息。 前者返回一个字符串，后者打印出来：
+打印所提供函数，方法，源代码字符串或代码对象到文件的详细代码对象信息（如果未指定文件，则打印sys.stdout）
+>>> import dis, random
+>>> dis.show_code(random.choice)
+Name:              choice
+Filename:          /Library/Frameworks/Python.framework/Versions/3.2/lib/python3.2/random.py
+Argument count:    2
+Kw-only arguments: 0
+Number of locals:  3
+Stack size:        11
+Flags:             OPTIMIZED, NEWLOCALS, NOFREE
+Constants:
+   0: 'Choose a random element from a non-empty sequence.'
+   1: 'Cannot choose from an empty sequence'
+Names:
+   0: _randbelow
+   1: len
+   2: ValueError
+   3: IndexError
+Variable names:
+   0: self
+   1: seq
+   2: i
+
+   
+>>> dis.dis('3*x+1 if x%2==1 else x//2')
+  1           0 LOAD_NAME                0 (x)
+              2 LOAD_CONST               0 (2)
+              4 BINARY_MODULO
+              6 LOAD_CONST               1 (1)
+              8 COMPARE_OP               2 (==)
+             10 POP_JUMP_IF_FALSE       24
+             12 LOAD_CONST               2 (3)
+             14 LOAD_NAME                0 (x)
+             16 BINARY_MULTIPLY
+             18 LOAD_CONST               1 (1)
+             20 BINARY_ADD
+             22 RETURN_VALUE
+        >>   24 LOAD_NAME                0 (x)
+             26 LOAD_CONST               0 (2)
+             28 BINARY_FLOOR_DIVIDE
+             30 RETURN_VALUE
+>>>    
+}
+
+timeit代码性能测试{
+#例子1
+>>> print (timeit.timeit(stmt="[i for i in range(1000)]", number=100000))
+7.60359542902799
+>>> foooo = """
+sum = []
+for i in range(1000):
+    sum.append(i)
+"""
+>>> print (timeit.timeit(stmt=foooo, number=100000))
+21.626627965286076
+
+测试一段代码的运行时间，在python里面有个很简单的方法，就是使用timeit模块，使用起来超级方便，下面简单介绍一个timeit模块中的函数
+主要就是这两个函数：
+1,  timeit(stmt='pass', setup='pass', timer=<defaulttimer>, number=1000000)
+       返回：
+            返回执行stmt这段代码number遍所用的时间，单位为秒，float型
+       参数：
+            stmt ：要执行的那段代码
+            setup ：执行代码的准备工作，不计入时间，一般是import之类的
+            timer ：这个在win32下是time.clock()，linux下是time.time()，默认的，不用管
+            number ：要执行stmt多少遍
+2,  repeat(stmt='pass', setup='pass', timer=<defaulttimer>, repeat=3, number=1000000)
+       这个函数比timeit函数多了一个repeat参数而已，表示重复执行timeit这个过程多少遍，返回一个列表，表示执行每遍的时间
+
+#例子2
+import timeit
+print timeit.timeit("sum(x)","x=(i for i in range(100))")
+0.114394682716
+
+def test():
+    L = [i for i in range(100)]
+#在setup中导入自定义函数
+if __name__ == '__main__':
+    import timeit
+    print(timeit.timeit("test()", setup="from __main__ import test",number=10000))
+
+0.0800761957937
+
+#例子3
+import timeit
+t = timeit.Timer('char in text', setup='text = "I love FishC.com!"; char = "o"')
+t.timeit()
+0.054789127320191255
+t.repeat()
+[0.05562128719998327, 0.046032358580077926, 0.044957160393096274]	
+
+#命令行调用
+python -m timeit [-n N] [-r N] [-s S] [-t] [-c] [-h] [statement...]
+
+-n N 执行指定语句的次数
+-r N 重复测量的次数(默认3次)
+-s S 指定初始化代码活构建环境的导入语句(默认pass)
+python 3.3新增
+-t 使用time.time() (不推荐)
+-c 使用time.clock() (不推荐)
+-v 打印原始计时结果
+-h 帮助
+
+$ python -m timeit '"-".join(str(n) for n in range(100))'
+10000 loops, best of 3: 40.3 usec per loop
+$ python -m timeit '"-".join([str(n) for n in range(100)])'
+10000 loops, best of 3: 33.4 usec per loop
+$ python -m timeit '"-".join(map(str, range(100)))'
+10000 loops, best of 3: 25.2 usec per loop   
 }
 
