@@ -190,7 +190,36 @@ Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间
 	
 }
 12.函数参数传值、闭包传引用{
+	
+什么叫传引用?
+比如有以下代码:
+var a Object
+doSomething(a) // 修改a的值
+print(a)
+
+//如果函数doSomething修改a的值, 然后print打印出来的也是修改后的值, 那么就可以认为doSomething是通过引用的方式使用了参数a.
+
 //可以参考 22.值语义与引用语义	
+//http://www.cnblogs.com/dasn/articles/5826923.html
+//http://3ms.huawei.com/hi/group/2029033/thread_3979985.html?mapId=2928431
+总结：
+函数参数传值, 闭包传引用!
+slice 含 values/count/capacity 等信息, 是按值传递
+按值传递的 slice 只能修改values指向的数据, 其他都不能修改
+slice 是结构体和指针的混合体
+引用类型和传引用是两个概念
+
+//但是因为slice和map/chan底层结构的差异, 又导致了它们传值的影响并不完全等同.-->ps:我的理解-->复制传入函数的那一份中指针部分和原版是相同的，当随后函数中修改的部分是指针部分时就会影响原来的值，所以, 引用类型一般都是底层指针实现, 只是在上层加上的语法糖而已
+重点归纳如下:
+GoSpec: the parameters of the call are passed by value!
+map/slice/chan 都是传值, 不是传引用
+map/chan 对应指针, 和引用类似
+slice 是结构体和指针的混合体
+slice 含 values/count/capacity 等信息, 是按值传递
+slice 中的 values 是指针, 按值传递
+按值传递的 slice 只能修改values指向的数据, 其他都不能修改
+以指针或结构体的角度看, 都是值传递!
+
 12.1例子1{
 	package main
 
@@ -4645,6 +4674,110 @@ func main() {
 	
 	
 }
+
+闭包和go func{
+	
+
+//闭包函数引用局部变量时，传递的是指针而不是实际的值，因此局部变量的值变化，能随时反映到闭包函数里面
+func main() {
+    strs := []string{"one", "two", "three"}
+    ch:=make(chan int)
+    for _, s := range strs {
+        fmt.Println("s1:",s,&s)
+        go func() {           
+            fmt.Println("s2:",s,&s)
+            ch <- 1
+            
+        }()
+    }
+    <- ch
+    <- ch
+    <- ch
+}
+/*
+s1: one 0xc04200c280
+s1: two 0xc04200c280
+s1: three 0xc04200c280
+s2: three 0xc04200c280
+s2: three 0xc04200c280
+s2: three 0xc04200c280
+*/
+
+//闭包函数引用局部变量时，传递的是指针而不是实际的值，因此局部变量的值变化，能随时反映到闭包函数里面
+func main() {
+    strs := []string{"one", "two", "three"}
+    ch:=make(chan int)
+    for _, s := range strs {
+        fmt.Println("s1:",s,&s)
+        go func(s string) {           
+            fmt.Println("s2:",s,&s)
+            ch <- 1
+            
+        }(s)
+    }
+    <- ch
+    <- ch
+    <- ch
+}
+/*
+s1: one 0xc04203a1d0
+s1: two 0xc04203a1d0
+s1: three 0xc04203a1d0
+s2: three 0xc04203a260
+s2: two 0xc04203a290
+s2: one 0xc04207a000
+*/	
+//闭包函数引用局部变量时，传递的是指针而不是实际的值，因此局部变量的值变化，能随时反映到闭包函数里面。
+继续测试：
+func main() {
+     for i := 0; i < 5; i++ {
+         go func() {
+             fmt.Printf("i=%d\n", i)
+         }()
+     }
+     time.Sleep(2 * time.Second)
+ }
+ 
+测试结果：
+i=4
+i=4
+i=5
+i=5
+i=5
+ 
+测试结果分析： int类型的局部变量也是使用指针传递的go func 时, 多次使用局部变量，因为传递的是指针，所以在func真正执行时，取到的值是后面修改掉的局部变量的值。
+
+//如果要让i值使用当时的值，一般情况下可以通过增加参数： 
+func main() {
+    for i := 0; i < 5; i++ {
+        go func(x int) {
+            fmt.Printf("i=%d\n", x)
+        }(i)
+    }
+    time.Sleep(2 * time.Second)
+}
+2. go func 时, 多次使用局部变量，因为传递的是指针，所以在func真正执行时，
+取到的值是后面修改掉的局部变量的值。怎么做才能使用当时的局部变量，但是又不想使用参数传递？因此如果没有参数，可以做到非常方便调用闭包函数答案是有！ 只需要定义一个var变量，就搞定啦 
+ 
+测试代码：
+func main() {
+     for i := 0; i < 5; i++ {
+        var xx = i
+        go func() {
+            fmt.Printf("i=%d\n", xx)
+        }()
+    }
+    time.Sleep(2 * time.Second)
+ }
+测试结果：
+i=1
+i=3
+i=2
+i=4
+i=0
+//参考 上面基础部分的闭包传引用说明	
+}
+
 
 
 
