@@ -12,9 +12,12 @@ http://www.cnblogs.com/hongten/tag/python/default.html?page=2
 http://www.cnblogs.com/wupeiqi/p/4493506.html
 http://www.cnblogs.com/wupeiqi/p/4766801.html
 http://www.cnblogs.com/huyuedong/p/5851082.html
+
 c:\python33添加到你的PATH 环境变量中，你可以在DOS 窗口中
 输入以下命令:set path=%path%;C:\python33
+
 id() 方法的返回值就是对象的内存地址。
+
 在#! 行（首行）后插入至少一行特殊的注释行来定义源文件的编码。
 # -*- coding: encoding -*-
 sys.modules['模块名'] #查看模块的文件位置
@@ -26,7 +29,7 @@ sys.prefix 	#查看python的安装位置
 python -c 'import pty; pty.spawn("/bin/sh")'
 python3.4 -c 'import pty; pty.spawn("/bin/bash")'
 
-新学习内容{
+获取当前脚本路径{
 #获取当前脚本路径
 sys.path 会返回python脚本的  当前路径  和加载的库文件路径
 ['C:\\Users\\name\\Desktop\\10月金秋', 'C:\\Python34\\Lib\\idlelib', 'C:\\Python34\\lib\\site-packages\\pip-8.1.2-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\xlwt-1.1.2-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\xlutils-2.0.0-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\pymysql-0.7.6-py3.4.egg', 'C:\\Windows\\system32\\python34.zip', 'C:\\Python34\\DLLs', 'C:\\Python34\\lib', 'C:\\Python34', 'C:\\Python34\\lib\\site-packages']
@@ -55,6 +58,116 @@ help(sequence)
 >>> import builtins
 >>> dir (builtins)
 ['ArithmeticError', 'AssertionError', 'AttributeError', 'BaseException', 'BufferError', 'BytesWarning', 'DeprecationWarning', 'EOFError', 'Ellipsis', 'EnvironmentError', 'Exception', 'False', 'FloatingPointError', 'FutureWarning', 'GeneratorExit', 'IOError', 'ImportError', 'ImportWarning', 'IndentationError', 'IndexError', 'KeyError', 'KeyboardInterrupt', 'LookupError', 'MemoryError', 'NameError', 'None', 'NotImplemented', 'NotImplementedError', 'OSError', 'OverflowError', 'PendingDeprecationWarning', 'ReferenceError', 'RuntimeError', 'RuntimeWarning', 'StopIteration', 'SyntaxError', 'SyntaxWarning', 'SystemError', 'SystemExit', 'TabError', 'True', 'TypeError', 'UnboundLocalError', 'UnicodeDecodeError', 'UnicodeEncodeError', 'UnicodeError', 'UnicodeTranslateError', 'UnicodeWarning', 'UserWarning', 'ValueError', 'Warning', 'WindowsError', 'ZeroDivisionError', '__build_class__', '__debug__', '__doc__', '__import__', '__name__', '__package__', 'abs', 'all', 'any', 'ascii', 'bin', 'bool', 'bytearray', 'bytes', 'chr', 'classmethod', 'compile', 'complex', 'copyright', 'credits', 'delattr', 'dict', 'dir', 'divmod', 'enumerate', 'eval', 'exec', 'exit', 'filter', 'float', 'format', 'frozenset', 'getattr', 'globals', 'hasattr', 'hash', 'help', 'hex', 'id', 'input', 'int', 'isinstance', 'issubclass', 'iter', 'len', 'license', 'list', 'locals', 'map', 'max', 'memoryview', 'min', 'next', 'object', 'oct', 'open', 'ord', 'pow', 'print', 'property', 'quit', 'range', 'repr', 'reversed', 'round', 'set', 'setattr', 'slice', 'sorted', 'staticmethod', 'str', 'sum', 'super', 'tuple', 'type', 'vars', 'zip']
+
+
+系统内建函数{
+--------------------------------------------------------------------------------
+ cmp(obja,objb)
+比较两个对象的大小，返回值根据a,b的值的大小关系为正数，负数或者0
+repr(obj)或者'obj'
+返回一个对象的字符串表示， 适合用于eval()求值
+str(obj)
+返回对象适合可读性好的字符串表示，适合用户print输出
+type()
+返回对象的类型。
+isinstance()
+确认一个对象的类型。
+if isinstance(num,(int,long,float,complex)): num是属于int,long,float,complex（复数）中的一种
+pow（x,y）
+x的y次方
+字符串操作
+--------------------------------------------------------------------------------
+strip()
+用法：string.strip()
+当()中没有参数时，默认删除空白符（包括'\n', '\r',  '\t',  ' ')
+当（）中有参数时，
+声明：s为字符串，rm为要删除的字符序列
+s.strip(rm)       删除s字符串中开头、结尾处，位于 rm删除序列的字符
+s.lstrip(rm)      删除s字符串中开头处，位于 rm删除序列的字符
+s.rstrip(rm)      删除s字符串中结尾处，位于 rm删除序列的字符
+注意：删除序列，例如strip(ab)和strip(ba)的效果是一样的。
+列表
+--------------------------------------------------------------------------------
+list.append()
+在列表最后增加一个列
+>>>all=[]
+>>>all.append('test')
+>>>all
+>>>'test'
+工厂函数
+--------------------------------------------------------------------------------
+int(), 
+long(), 
+float(), 
+complex()
+str(), 
+unicode(), 
+basestring()
+list(), 
+tuple()
+type()
+dict()
+bool()
+set(),
+frozenset()
+object()
+classmethod()
+staticmethod()
+super()
+property()
+file()
+}
+
+Python3常用内置函数{
+
+#数学相关
+abs(a) : 求取绝对值。abs(-1)
+max(list) : 求取list最大值。max([1,2,3]),max(1,2,3,4),max((1,2,3,4)),max({1,2,3,4})
+min(list) : 求取list最小值。min([1,2,3]),同上
+sum(list) : 求取list元素的和。 sum([1,2,3]) >>> 6  ,sum((1,2,3,4)),sum({1,2,3,4})
+sorted(list) : 排序，返回排序后的list。sorted({1,6,3,4}),sorted((1,6,3,4)),sorted([1,6,3,4])
+len(list) : list长度,len([1,2,3])
+divmod(a,b): 获取商和余数。 divmod(5,2) >>> (2,1)
+pow(a,b) : 获取乘方数。pow(2,3) >>> 8
+round(a,b) : 获取指定位数的小数。a代表浮点数，b代表要保留的位数。round(3.1415926,2) >>> 3.14
+range(a[,b]) : 生成一个a到b的数组,左闭右开。 range(1,10) >>> [1,2,3,4,5,6,7,8,9]
+
+#类型转换
+int(str) : 转换为int型。int('1') >>> 1
+float(int/str) : 将int型或字符型转换为浮点型。float('1') >>> 1.0
+str(int) : 转换为字符型。str(1) >>> '1'
+bool(int) : 转换为布尔类型。 str(0) >>> False str(None) >>> False
+bytes(str,code) : 接收一个字符串，与所要编码的格式，返回一个字节流类型。bytes('abc', 'utf-8') >>> b'abc' bytes(u'爬虫', 'utf-8') >>> b'\xe7\x88\xac\xe8\x99\xab'
+list(iterable) : 转换为list。 list((1,2,3)) >>> [1,2,3]
+iter(iterable)： 返回一个可迭代的对象。 iter([1,2,3]) >>> <list_iterator object at 0x0000000003813B00>
+dict(iterable) : 转换为dict。 dict([('a', 1), ('b', 2), ('c', 3)]) >>> {'a':1, 'b':2, 'c':3} >>> dict(zip([23,345,65,42,234],[1,2,34,345,675,45]))  >>> dict(enumerate([1,34,43,54,64,43]))
+enumerate(iterable) : 返回一个枚举对象。
+tuple(iterable) : 转换为tuple。 tuple([1,2,3]) >>>(1,2,3)
+set(iterable) : 转换为set。 set([1,4,2,4,3,5]) >>> {1,2,3,4,5} set({1:'a',2:'b',3:'c'}) >>> {1,2,3}
+hex(int) : 转换为16进制。hex(1024) >>> '0x400'
+oct(int) : 转换为8进制。 oct(1024) >>> '0o2000'
+bin(int) : 转换为2进制。 bin(1024) >>> '0b10000000000'
+chr(int) : 转换数字为相应ASCI码字符。 chr(65) >>> 'A'
+ord(str) : 转换ASCI字符为相应的数字。 ord('A') >>> 65
+
+#相关操作
+eval() : 执行一个表达式，或字符串作为运算。 eval('1+1') >>> 2
+exec() : 执行python语句。 exec('print("Python")') >>> Python
+filter(func, iterable) : 通过判断函数fun，筛选符合条件的元素。 filter(function or None, iterable) --> filter object   filter(lambda x: x>3, [1,2,3,4,5,6]) >>> #很有用的函数
+map(func, *iterable) : 将func用于每个iterable对象。 map(lambda a,b: a+b, [1,2,3,4], [5,6,7]) >>> [6,8,10]
+zip(*iterable) : 将iterable分组合并。返回一个zip对象。 list(zip([1,2,3],[4,5,6])) >>> [(1, 4), (2, 5), (3, 6)]
+type()：返回一个对象的类型。
+id()： 返回一个对象的唯一标识值。
+hash(object)：返回一个对象的hash值，具有相同值的object具有相同的hash值。 hash('python') >>> 7070808359261009780
+help()：调用系统内置的帮助系统。
+isinstance()：判断一个对象是否为该类的一个实例。
+issubclass()：判断一个类是否为另一个类的子类。
+globals() : 返回当前全局变量的字典。
+locals() : 更新并返回包含当前作用域的局部变量的字典。
+next(iterator[, default]) : 接收一个迭代器，返回迭代器中的数值，如果设置了default，则当迭代器中的元素遍历后，输出default内容。
+reversed(sequence) ： 生成一个反转序列的迭代器并返回。 reversed('abc') >>> ['c','b','a']  ,list(reversed([1,2,3,4,5])),list(reversed((1,2,3,4,5)))
+} 
+
 }
 #数学运算
 {
@@ -138,11 +251,9 @@ fsock.close()
  
 这样会打印到IDE的“交互窗口”中（或终端，如果你从命令行运行这一脚本）。
 始终在重定向 stdout 之前保存它，这样你可以在后面将其设回正常。
-打开一个新文件用于写入。 
-将所有后续的输出重定向到我们刚打开的新文件上。
+打开一个新文件用于写入。 将所有后续的输出重定向到我们刚打开的新文件上。
 这样只会将输出结果“打印”到日志文件中；在IDE窗口中或在屏幕上不会看到输出结果。
-在我们将 stdout 搞乱之前，让我们把它设回原来的方式。
-关闭日志文件。
+在我们将 stdout 搞乱之前，让我们把它设回原来的方式。关闭日志文件。
  
 #重定向 stderr 完全以相同的方式进行，用 sys.stderr 代替 sys.stdout
 import sys
@@ -466,6 +577,12 @@ python之 {
 4、当你要导入一个模块时，python会依次在这些目录里寻找与你要导入的模块名称一致的py文件
 5、并不是所有的模块都是以py文件存在的，比如内置模块，它们的py源代码并不可见，因为它们不适用python写成的
 6、每个模块都有__name__属性，当模块被导入使用时，它的值为模块名；而当模块是被直接运行时，它便是__main__
+
+#http://www.cnblogs.com/duex/p/6703009.html  导入自定义模块的三种方式
+# 1. py执行文件和模块同属于同个目录（父级目录）直接import
+# 2. 先导入sys模块，然后通过sys.path.append(path) 函数来导入自定义模块所在的目录，导入自定义模块。
+#import sys，sys.path.append(r"C:\Users\Pwcong\Desktop\python")，import pwcong
+#3. 系统变量，python会扫描path变量的路径来导入模块，可以在系统path里面添加
  
 #python 之控制结构--其中1,2,3语句后都需要带冒号
 1、if  语法为 if elif  else
@@ -520,64 +637,6 @@ python之 {
 3、raise   ：预定义的异常或自定义的异常类型，即一个Error 或 Exception 类的子类
 4、finally ：无论是否发生异常，finally 从句都会在程序退出之前被执行，
              如果你想在一个 try 块下同时使用 except 从句和 finally 从句的话，需要把一个嵌入另外一个
-}
-
-系统内建函数{
---------------------------------------------------------------------------------
- cmp(obja,objb)
-比较两个对象的大小，返回值根据a,b的值的大小关系为正数，负数或者0
-repr(obj)或者'obj'
-返回一个对象的字符串表示， 适合用于eval()求值
-str(obj)
-返回对象适合可读性好的字符串表示，适合用户print输出
-type()
-返回对象的类型。
-isinstance()
-确认一个对象的类型。
-if isinstance(num,(int,long,float,complex)): num是属于int,long,float,complex（复数）中的一种
-pow（x,y）
-x的y次方
-字符串操作
---------------------------------------------------------------------------------
-strip()
-用法：string.strip()
-当()中没有参数时，默认删除空白符（包括'\n', '\r',  '\t',  ' ')
-当（）中有参数时，
-声明：s为字符串，rm为要删除的字符序列
-s.strip(rm)       删除s字符串中开头、结尾处，位于 rm删除序列的字符
-s.lstrip(rm)      删除s字符串中开头处，位于 rm删除序列的字符
-s.rstrip(rm)      删除s字符串中结尾处，位于 rm删除序列的字符
-注意：删除序列，例如strip(ab)和strip(ba)的效果是一样的。
-列表
---------------------------------------------------------------------------------
-list.append()
-在列表最后增加一个列
->>>all=[]
->>>all.append('test')
->>>all
->>>'test'
-工厂函数
---------------------------------------------------------------------------------
-int(), 
-long(), 
-float(), 
-complex()
-str(), 
-unicode(), 
-basestring()
-list(), 
-tuple()
-type()
-dict()
-bool()
-set(),
-frozenset()
-object()
-classmethod()
-staticmethod()
-super()
-property()
-file()
 }
 
 十二种常用操作集锦：{
@@ -888,7 +947,7 @@ from外网{
 4、for循环的区间是半开区间：range(1,5,2)给出[1,3]。记住，range 向上延伸到第二个数，即它不包含第二个数。 
 5、print语句的结尾使用了一个 逗号 来消除每个print语句自动打印的换行符。 
 6、列表的sort方法来对列表排序。需要理解的是，这个方法影响列表本身，而不是返回一个修改后的列表——这与字符串工作的方法不同。 
-   这就是我们所说的列表是 可变的 而字符串是 不可变的 。 #sorted(a)不改变a，a.sort()改变a
+   这就是我们所说的列表是 可变的 而字符串是 不可变的 。 
 7、因为从文件读到的内容已经以换行符结尾，所以我们在print语句上使用逗号来消除自动换行。最后，我们用close关闭这个文件。 
 8、安全使用  and-or  技巧: (1 and [a] or [b] )[0]   
    由于 [a] 是一个非空列表，所以它决不会为假。即使 a 是 0 或者 '' 或者其它假值，列表 [a] 也为真，因为它有一个元素。 
@@ -1651,56 +1710,6 @@ format(0.0015,'.2e')
 }
 }
 
-Python3常用内置函数{
-
-#数学相关
-abs(a) : 求取绝对值。abs(-1)
-max(list) : 求取list最大值。max([1,2,3]),max(1,2,3,4),max((1,2,3,4)),max({1,2,3,4})
-min(list) : 求取list最小值。min([1,2,3]),同上
-sum(list) : 求取list元素的和。 sum([1,2,3]) >>> 6  ,sum((1,2,3,4)),sum({1,2,3,4})
-sorted(list) : 排序，返回排序后的list。sorted({1,6,3,4}),sorted((1,6,3,4)),sorted([1,6,3,4])
-len(list) : list长度,len([1,2,3])
-divmod(a,b): 获取商和余数。 divmod(5,2) >>> (2,1)
-pow(a,b) : 获取乘方数。pow(2,3) >>> 8
-round(a,b) : 获取指定位数的小数。a代表浮点数，b代表要保留的位数。round(3.1415926,2) >>> 3.14
-range(a[,b]) : 生成一个a到b的数组,左闭右开。 range(1,10) >>> [1,2,3,4,5,6,7,8,9]
-
-#类型转换
-int(str) : 转换为int型。int('1') >>> 1
-float(int/str) : 将int型或字符型转换为浮点型。float('1') >>> 1.0
-str(int) : 转换为字符型。str(1) >>> '1'
-bool(int) : 转换为布尔类型。 str(0) >>> False str(None) >>> False
-bytes(str,code) : 接收一个字符串，与所要编码的格式，返回一个字节流类型。bytes('abc', 'utf-8') >>> b'abc' bytes(u'爬虫', 'utf-8') >>> b'\xe7\x88\xac\xe8\x99\xab'
-list(iterable) : 转换为list。 list((1,2,3)) >>> [1,2,3]
-iter(iterable)： 返回一个可迭代的对象。 iter([1,2,3]) >>> <list_iterator object at 0x0000000003813B00>
-dict(iterable) : 转换为dict。 dict([('a', 1), ('b', 2), ('c', 3)]) >>> {'a':1, 'b':2, 'c':3} >>> dict(zip([23,345,65,42,234],[1,2,34,345,675,45]))  >>> dict(enumerate([1,34,43,54,64,43]))
-enumerate(iterable) : 返回一个枚举对象。
-tuple(iterable) : 转换为tuple。 tuple([1,2,3]) >>>(1,2,3)
-set(iterable) : 转换为set。 set([1,4,2,4,3,5]) >>> {1,2,3,4,5} set({1:'a',2:'b',3:'c'}) >>> {1,2,3}
-hex(int) : 转换为16进制。hex(1024) >>> '0x400'
-oct(int) : 转换为8进制。 oct(1024) >>> '0o2000'
-bin(int) : 转换为2进制。 bin(1024) >>> '0b10000000000'
-chr(int) : 转换数字为相应ASCI码字符。 chr(65) >>> 'A'
-ord(str) : 转换ASCI字符为相应的数字。 ord('A') >>> 65
-
-#相关操作
-eval() : 执行一个表达式，或字符串作为运算。 eval('1+1') >>> 2
-exec() : 执行python语句。 exec('print("Python")') >>> Python
-filter(func, iterable) : 通过判断函数fun，筛选符合条件的元素。 filter(function or None, iterable) --> filter object   filter(lambda x: x>3, [1,2,3,4,5,6]) >>> #很有用的函数
-map(func, *iterable) : 将func用于每个iterable对象。 map(lambda a,b: a+b, [1,2,3,4], [5,6,7]) >>> [6,8,10]
-zip(*iterable) : 将iterable分组合并。返回一个zip对象。 list(zip([1,2,3],[4,5,6])) >>> [(1, 4), (2, 5), (3, 6)]
-type()：返回一个对象的类型。
-id()： 返回一个对象的唯一标识值。
-hash(object)：返回一个对象的hash值，具有相同值的object具有相同的hash值。 hash('python') >>> 7070808359261009780
-help()：调用系统内置的帮助系统。
-isinstance()：判断一个对象是否为该类的一个实例。
-issubclass()：判断一个类是否为另一个类的子类。
-globals() : 返回当前全局变量的字典。
-locals() : 更新并返回包含当前作用域的局部变量的字典。
-next(iterator[, default]) : 接收一个迭代器，返回迭代器中的数值，如果设置了default，则当迭代器中的元素遍历后，输出default内容。
-reversed(sequence) ： 生成一个反转序列的迭代器并返回。 reversed('abc') >>> ['c','b','a']  ,list(reversed([1,2,3,4,5])),list(reversed((1,2,3,4,5)))
-} 
-
 IDLE编辑器快捷键{
 自动补全代码        Alt+/（查找编辑器内已经写过的代码来补全)
 补全提示              Ctrl+Shift+space(默认与输入法冲突，修改之)
@@ -1862,13 +1871,12 @@ path3 = "c:/windows/temp/readme.txt"
 #内置的装饰器有三个，分别是staticmethod、classmethod和property，作用分别是把类中定义的实例方法变成 静态方法、类方法和类属性
 #装饰器 的作用就是为已经存在的函数或对象添加额外的功能。
 
-类中各种方法、各种变量和 装饰器
+类中各种方法、各种变量和装饰器
 {
 
 1.静态方法，可以认为是一种全局方法，因为它不需要类实例化就能访问，和模块内的方法没什么区别，可以通过类和实例进行调用，它不能访问实例变量。当然，但能够通过类名访问类变量，如MyClass.val1。
 2.类方法，类似是个全局方法，它也能如静态方法那样被类调用，也能被实例调用，不同的是它通过实例来访问类变量，有类变量cls传入，并且有子类继承时，调用该类方法时，传入的类变量cls是子类，而非父类，如x.val1。
-3.实例方法，实例方法只能通过实例访问，它能够访问实例变量（公有）和类变量。
-私有方法，无法被类和实例调用。
+3.实例方法，实例方法只能通过实例访问，它能够访问实例变量（公有）和类变量。私有方法，无法被类和实例调用。
 4.类变量，能够被类、类方法、实例和实例方法等访问。且在类和实例中进行传递（不停累加），如val4。
 5.实例变量（公有），能被实例和实例方法访问，但不能被类和类方法访问。
 6.实例变量（私有），不能被任何实例访问，但我们可以通过装饰器对其增加get/set方法来进行操作，具体在下面介绍。
@@ -3844,6 +3852,7 @@ setup(
 }
 
 #http://www.cnblogs.com/youhui/articles/3772001.html#Python_Imaging_Library_.2BTi1lh2JLUYw-
+
 #http://wenku.baidu.com/view/35feb8bf1a37f111f1855b9d.html?from=search
 
 PIL库的例子{
@@ -4371,6 +4380,49 @@ os.unlink(path)                 # 删除文件路径
 os.utime(path, times)           # 返回指定的path文件的访问和修改的时间。
 os.walk(top[, topdown=True[, onerror=None[, followlinks=False]]])  # 输出在文件夹中的文件名通过在树中游走，向上或者向下。
 os.write(fd, str)               # 写入字符串到文件描述符 fd中. 返回实际写入的字符串长度
+}
+
+sys方法合集{
+#sys模块用于提供对python解释器的相关操作。
+
+sys.argv   命令行参数List，第一个元素是程序本身路径
+sys.modules 返回系统导入的模块字段，key是模块名，value是模块
+sys.exit(n)        退出程序，正常退出时exit(0)
+sys.version        获取Python解释程序的版本信息
+sys.maxint         最大的Int值
+sys.path           返回模块的搜索路径，初始化时使用PYTHONPATH环境变量的值
+sys.platform       返回操作系统平台名称
+sys.stdout.write('please:')
+val = sys.stdin.readline()[:-1]
+sys.modules.keys() 返回所有已经导入的模块名
+sys.modules.values() 返回所有已经导入的模块
+sys.exc_info()     获取当前正在处理的异常类,exc_type、exc_value、exc_traceback当前处理的异常详细信息
+sys.exit(n)        退出程序，正常退出时exit(0)
+sys.hexversion     获取Python解释程序的版本值，16进制格式如：0x020403F0
+sys.version        获取Python解释程序的
+sys.api_version    解释器的C的API版本
+sys.version_info
+‘final’表示最终,也有’candidate’表示候选，serial表示版本级别，是否有后继的发行
+sys.displayhook(value)      如果value非空，这个函数会把他输出到sys.stdout，并且将他保存进__builtin__._.指在python的交互式解释器里，’_’ 代表上次你输入得到的结果，hook是钩子的意思，将上次的结果钩过来
+sys.getdefaultencoding()    返回当前你所用的默认的字符编码格式
+sys.getfilesystemencoding() 返回将Unicode文件名转换成系统文件名的编码的名字
+sys.setdefaultencoding(name)用来设置当前默认的字符编码，如果name和任何一个可用的编码都不匹配，抛出 LookupError，这个函数只会被site模块的sitecustomize使用，一旦别site模块使用了，他会从sys模块移除
+sys.builtin_module_names    Python解释器导入的模块列表
+sys.executable              Python解释程序路径
+sys.getwindowsversion()     获取Windows的版本
+sys.copyright      记录python版权相关的东西
+sys.byteorder      本地字节规则的指示器，big-endian平台的值是’big’,little-endian平台的值是’little’
+sys.exc_clear()    用来清除当前线程所出现的当前的或最近的错误信息
+sys.exec_prefix    返回平台独立的python文件安装的位置
+sys.stderr         错误输出
+sys.stdin          标准输入
+sys.stdout         标准输出
+sys.platform       返回操作系统平台名称
+sys.path           返回模块的搜索路径，初始化时使用PYTHONPATH环境变量的值
+sys.maxunicode     最大的Unicode值
+sys.maxint         最大的Int值
+sys.version        获取Python解释程序的版本信息
+sys.hexversion     获取Python解释程序的版本值，16进制格式如：0x020403F0
 }
 
 python虚拟串口和终端{
@@ -5148,7 +5200,7 @@ how are you
 how are you
 
 #如果要与子进程进行双向通信,只有一个pipe管道是不够的,需要2个pipe管道才行.以下示例在父进程新建了2个管道,然后再fork子进程.os.dup2()实现输出和输入的重定向.spawn功能类似于subprocess.Popen(),既能发送消息给子进程,由能从子子进程获取返回数据. 
-​
+?
 
 #!/usr/bin/python
 #coding=utf-8
@@ -5733,6 +5785,273 @@ if __name__ == '__main__':
 }
 }
 
+几个常用库{
+import random
+
+print(random.random())#大于0且小于1之间的小数
+print(random.randint(1,3))  #大于等于1且小于等于3之间的整数
+print(random.randrange(1,3)) #大于等于1且小于3之间的整数
+print(random.choice([1,'23',[4,5]]))
+print(random.sample([1,'23',[4,5]],2))#列表元素任意2个组合
+print(random.uniform(1,3))#大于1小于3的小数
+
+
+item=[1,3,5,7,9]
+random.shuffle(item) #打乱item的顺序,相当于"洗牌"
+print(item)
+
+#os模块是与操作系统交互的一个接口
+
+os.access(path, mode)           # 检验权限模式
+os.chdir(path)                  # 改变当前工作目录
+os.chflags(path, flags)         # 设置路径的标记为数字标记。
+os.chmod(path, mode)            # 更改权限
+os.chown(path, uid, gid)        # 更改文件所有者
+os.chroot(path)                 # 改变当前进程的根目录
+os.close(fd)                    # 关闭文件描述符 fd
+os.closerange(fd_low, fd_high)  # 关闭所有文件描述符，从 fd_low (包含) 到 fd_high (不包含), 错误会忽略
+os.curdir                       # 返回当前目录：（'.'）
+os.dup(fd)                      # 复制文件描述符 fd
+os.dup2(fd, fd2)                # 将一个文件描述符 fd 复制到另一个 fd2
+os.environ                      # 获取系统环境变量
+os.fchdir(fd)                   # 通过文件描述符改变当前工作目录
+os.fchmod(fd, mode)             # 改变一个文件的访问权限，该文件由参数fd指定，参数mode是Unix下的文件访问权限。
+os.fchown(fd, uid, gid)         # 修改一个文件的所有权，这个函数修改一个文件的用户ID和用户组ID，该文件由文件描述符fd指定。
+os.fdatasync(fd)                # 强制将文件写入磁盘，该文件由文件描述符fd指定，但是不强制更新文件的状态信息。
+os.fdopen(fd[, mode[, bufsize]])  # 通过文件描述符 fd 创建一个文件对象，并返回这个文件对象
+os.fpathconf(fd, name)          # 返回一个打开的文件的系统配置信息。name为检索的系统配置的值，它也许是一个定义系统值的字符串，这些名字在很多标准中指定（POSIX.1, Unix 95, Unix 98, 和其它）。
+os.fstat(fd)                    # 返回文件描述符fd的状态，像stat()。
+os.fstatvfs(fd)                 # 返回包含文件描述符fd的文件的文件系统的信息，像 statvfs()
+os.fsync(fd)                    # 强制将文件描述符为fd的文件写入硬盘。
+os.ftruncate(fd, length)        # 裁剪文件描述符fd对应的文件, 所以它最大不能超过文件大小。
+os.getcwd()                     # 返回当前工作目录
+os.getcwdu()                    # 返回一个当前工作目录的Unicode对象
+os.isatty(fd)                   # 如果文件描述符fd是打开的，同时与tty(-like)设备相连，则返回true, 否则False。
+os.lchflags(path, flags)        # 设置路径的标记为数字标记，类似 chflags()，但是没有软链接
+os.lchmod(path, mode)           # 修改连接文件权限
+os.lchown(path, uid, gid)       # 更改文件所有者，类似 chown，但是不追踪链接。
+os.link(src, dst)               # 创建硬链接，名为参数 dst，指向参数 src
+os.listdir(path)                # 返回path指定的文件夹包含的文件或文件夹的名字的列表。
+os.lseek(fd, pos, how)          # 设置文件描述符 fd当前位置为pos, how方式修改: SEEK_SET 或者 0 设置从文件开始的计算的pos; SEEK_CUR或者 1 则从当前位置计算; os.SEEK_END或者2则从文件尾部开始. 在unix，Windows中有效
+os.lstat(path)                  # 像stat(),但是没有软链接
+os.linesep                      # 当前平台使用的行终止符，win下为"\t\n",Linux下为"\n"
+os.major(device)                # 从原始的设备号中提取设备major号码 (使用stat中的st_dev或者st_rdev field)。
+os.makedev(major, minor)        # 以major和minor设备号组成一个原始设备号
+os.makedirs(path[, mode])       # 递归文件夹创建函数。像mkdir(), 但创建的所有intermediate-level文件夹需要包含子文件夹。
+os.minor(device)                # 从原始的设备号中提取设备minor号码 (使用stat中的st_dev或者st_rdev field )。
+os.mkdir(path[, mode])          # 以数字mode的mode创建一个名为path的文件夹.默认的 mode 是 0777 (八进制)。
+os.mkfifo(path[, mode])         # 创建命名管道，mode 为数字，默认为 0666 (八进制)
+os.mknod(filename[, mode=0600, device])  # 创建一个名为filename文件系统节点（文件，设备特别文件或者命名pipe）。
+os.open(file, flags[, mode])    # 打开一个文件，并且设置需要的打开选项，mode参数是可选的
+os.openpty()                    # 打开一个新的伪终端对。返回 pty 和 tty的文件描述符。
+os.pathconf(path, name)         # 返回相关文件的系统配置信息。
+os.pathsep                      # 用于分割文件路径的字符串
+os.pardir                       # 获取当前目录的父目录字符串名：('..')
+os.pipe()                       # 创建一个管道. 返回一对文件描述符(r, w) 分别为读和写
+os.popen(command[, mode[, bufsize]])  # 从一个 command 打开一个管道
+os.path.abspath(path)           # 返回path规范化的绝对路径
+os.path.split(path)             # 将path分割成目录和文件名二元组返回
+os.path.dirname(path)           # 返回path的目录。其实就是os.path.split(path)的第一个元素
+os.path.basename(path)          # 返回path最后的文件名。如何path以／或\结尾，那么就会返回空值。即os.path.split(path)的第二个元素
+os.path.exists(path)            # 如果path存在，返回True；如果path不存在，返回False
+os.path.isabs(path)             # 如果path是绝对路径，返回True
+os.path.isfile(path)            # 如果path是一个存在的文件，返回True。否则返回False
+os.path.isdir(path)             # 如果path是一个存在的目录，则返回True。否则返回False
+os.path.join(path1[, path2[, ...]])  # 将多个路径组合后返回，第一个绝对路径之前的参数将被忽略
+os.path.getatime(path)          # 返回path所指向的文件或者目录的最后存取时间
+os.path.getmtime(path)          # 返回path所指向的文件或者目录的最后修改时间
+os.name                         # 字符串指示当前使用平台。win->'nt'; Linux->'posix'
+os.read(fd, n)                  # 从文件描述符 fd 中读取最多 n 个字节，返回包含读取字节的字符串，文件描述符 fd对应文件已达到结尾, 返回一个空字符串。
+os.readlink(path)               # 返回软链接所指向的文件
+os.remove(path)                 # 删除路径为path的文件。如果path 是一个文件夹，将抛出OSError; 查看下面的rmdir()删除一个 directory。
+os.removedirs(path)             # 递归删除目录。若目录为空，则删除，并递归到上一级目录，如若也为空，则删除，依此类推
+os.rename(src, dst)             # 重命名文件或目录，从 src 到 dst
+os.renames(old, new)            # 递归地对目录进行更名，也可以对文件进行更名。
+os.rmdir(path)                  # 删除path指定的空目录，如果目录非空，则抛出一个OSError异常。
+os.sep                          # 操作系统特定的路径分隔符，win下为"\\",Linux下为"/"
+os.stat(path)                   # 获取path指定的路径的信息，功能等同于C API中的stat()系统调用。
+os.stat_float_times([newvalue]) # 决定stat_result是否以float对象显示时间戳
+os.statvfs(path)                # 获取指定路径的文件系统统计信息
+os.symlink(src, dst)            # 创建一个软链接
+os.system("bash command")       # 运行shell命令，直接显示
+os.tcgetpgrp(fd)                # 返回与终端fd（一个由os.open()返回的打开的文件描述符）关联的进程组
+os.tcsetpgrp(fd, pg)            # 设置与终端fd（一个由os.open()返回的打开的文件描述符）关联的进程组为pg。
+os.tempnam([dir[, prefix]])     # 返回唯一的路径名用于创建临时文件。
+os.tmpfile()                    # 返回一个打开的模式为(w+b)的文件对象 .这文件对象没有文件夹入口，没有文件描述符，将会自动删除。
+os.tmpnam()                     # 为创建一个临时文件返回一个唯一的路径
+os.ttyname(fd)                  # 返回一个字符串，它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联，则引发一个异常。
+os.unlink(path)                 # 删除文件路径
+os.utime(path, times)           # 返回指定的path文件的访问和修改的时间。
+os.walk(top[, topdown=True[, onerror=None[, followlinks=False]]])  # 输出在文件夹中的文件名通过在树中游走，向上或者向下。
+os.write(fd, str)               # 写入字符串到文件描述符 fd中. 返回实际写入的字符串长度
+
+
+#sys模块用于提供对python解释器的相关操作。
+
+sys.argv   命令行参数List，第一个元素是程序本身路径
+sys.modules 返回系统导入的模块字段，key是模块名，value是模块
+sys.exit(n)        退出程序，正常退出时exit(0)
+sys.version        获取Python解释程序的版本信息
+sys.maxint         最大的Int值
+sys.path           返回模块的搜索路径，初始化时使用PYTHONPATH环境变量的值
+sys.platform       返回操作系统平台名称
+sys.stdout.write('please:')
+val = sys.stdin.readline()[:-1]
+sys.modules.keys() 返回所有已经导入的模块名
+sys.modules.values() 返回所有已经导入的模块
+sys.exc_info()     获取当前正在处理的异常类,exc_type、exc_value、exc_traceback当前处理的异常详细信息
+sys.exit(n)        退出程序，正常退出时exit(0)
+sys.hexversion     获取Python解释程序的版本值，16进制格式如：0x020403F0
+sys.version        获取Python解释程序的
+sys.api_version    解释器的C的API版本
+sys.version_info
+‘final’表示最终,也有’candidate’表示候选，serial表示版本级别，是否有后继的发行
+sys.displayhook(value)      如果value非空，这个函数会把他输出到sys.stdout，并且将他保存进__builtin__._.指在python的交互式解释器里，’_’ 代表上次你输入得到的结果，hook是钩子的意思，将上次的结果钩过来
+sys.getdefaultencoding()    返回当前你所用的默认的字符编码格式
+sys.getfilesystemencoding() 返回将Unicode文件名转换成系统文件名的编码的名字
+sys.setdefaultencoding(name)用来设置当前默认的字符编码，如果name和任何一个可用的编码都不匹配，抛出 LookupError，这个函数只会被site模块的sitecustomize使用，一旦别site模块使用了，他会从sys模块移除
+sys.builtin_module_names    Python解释器导入的模块列表
+sys.executable              Python解释程序路径
+sys.getwindowsversion()     获取Windows的版本
+sys.copyright      记录python版权相关的东西
+sys.byteorder      本地字节规则的指示器，big-endian平台的值是’big’,little-endian平台的值是’little’
+sys.exc_clear()    用来清除当前线程所出现的当前的或最近的错误信息
+sys.exec_prefix    返回平台独立的python文件安装的位置
+sys.stderr         错误输出
+sys.stdin          标准输入
+sys.stdout         标准输出
+sys.platform       返回操作系统平台名称
+sys.path           返回模块的搜索路径，初始化时使用PYTHONPATH环境变量的值
+sys.maxunicode     最大的Unicode值
+sys.maxint         最大的Int值
+sys.version        获取Python解释程序的版本信息
+sys.hexversion     获取Python解释程序的版本值，16进制格式如：0x020403F0
+
+
+#configparser用于配置文件解析，可以解析特定格式的配置文件，多数此类配置文件名格式为XXX.ini，例如mysql的配置文件。
+
+配置文件如下：
+[section1]
+k1 = v1
+k2:v2
+user=egon
+age=18
+is_admin=true
+salary=31
+
+[section2]
+k1 = v1
+
+
+import configparser
+
+config=configparser.ConfigParser()
+config.read('a.cfg')
+
+#查看所有的标题
+res=config.sections() #['section1', 'section2']
+print(res)
+
+#查看标题section1下所有key=value的key
+options=config.options('section1')
+print(options) #['k1', 'k2', 'user', 'age', 'is_admin', 'salary']
+
+#查看标题section1下所有key=value的(key,value)格式
+item_list=config.items('section1')
+print(item_list) #[('k1', 'v1'), ('k2', 'v2'), ('user', 'egon'), ('age', '18'), ('is_admin', 'true'), ('salary', '31')]
+
+#查看标题section1下user的值=>字符串格式
+val=config.get('section1','user')
+print(val) #egon
+
+#查看标题section1下age的值=>整数格式
+val1=config.getint('section1','age')
+print(val1) #18
+
+#查看标题section1下is_admin的值=>布尔值格式
+val2=config.getboolean('section1','is_admin')
+print(val2) #True
+
+#查看标题section1下salary的值=>浮点型格式
+val3=config.getfloat('section1','salary')
+print(val3) #31.0
+
+
+import configparser
+
+config=configparser.ConfigParser()
+config.read('a.cfg')
+
+
+#删除整个标题section2
+config.remove_section('section2')
+
+#删除标题section1下的某个k1和k2
+config.remove_option('section1','k1')
+config.remove_option('section1','k2')
+
+#判断是否存在某个标题
+print(config.has_section('section1'))
+
+#判断标题section1下是否有user
+print(config.has_option('section1',''))
+
+
+#添加一个标题
+config.add_section('egon')
+
+#在标题egon下添加name=egon,age=18的配置
+config.set('egon','name','egon')
+config.set('egon','age',18) #报错,必须是字符串
+
+
+#最后将修改的内容写入文件,完成最终的修改
+config.write(open('a.cfg','w'))
+
+
+#hashlib
+用于加密相关的操作，代替了md5模块和sha模块，主要提供SHA1，SHA224，SHA256，SHA384，SHA512,MD5算法。
+在python3中已经废弃了md5和sha模块。
+
+摘要算法又称为哈希算法，散列算法。它通过一个函数，把任意长度的数据转换为一个长度固顶的数据串（通常用16进制的字符串表示）用于加密相关的操作。
+
+MD5 算法 三个特点：
+1.内容相同则hash运算结果相同，内容稍微改变则hash值则变；
+2.不可逆推；
+3.相同算法：无论校验多长的数据，得到的哈希值长度固定。
+
+
+
+md5加密
+import hashlib
+hash = hashlib.md5()
+hash.update('admin'.encode('utf-8'))
+print(hash.hexdigest())
+
+sha256加密
+import hashlib
+hash = hashlib.sha256()
+hash.update('admin'.encode('utf-8'))
+print(hash.hexdigest())
+
+以上加密算法虽然很厉害，但仍然存在缺陷，通过撞库可以反解。所以必要对加密算法中添加自定义key再来做加密。
+
+‘加盐’加密
+import hashlib
+hash = hashlib.md5('exin'.encode('utf-8'))　　#加盐
+hash.update('admin'.encode('utf-8'))
+print(hash.hexdigest())
+
+hmac加密
+hmac内部对我们创建的key和内容进行处理后在加密
+
+import hmac
+h = hmac.new('python'.encode('utf-8'))
+h.update('helloworld'.encode('utf-8'))
+print(h.hexdigest())
+
+
+}
 
 }
 
@@ -5904,3 +6223,23 @@ $ python -m timeit '"-".join(map(str, range(100)))'
 10000 loops, best of 3: 25.2 usec per loop   
 }
 
+notepad++配置运行python{
+
+cmd /k cd "$(CURRENT_DIRECTORY)" &  python "$(FULL_CURRENT_PATH)" & ECHO. & PAUSE & EXIT
+然后点击“保存”，随意取一个名字，比如“RunPython”，为方便，配置一下快捷键（比如 Ctrl + F5），点OK即可。
+之后运行Python文件只要按配置的快捷键或者在运行菜单上点“RunPython”即可。
+}
+
+user配置package control配置{
+#解决安装包插件自动消失
+{
+	"auto_upgrade": false,
+	"bootstrapped": true,
+	"install_missing": false,
+	"installed_packages":
+	[
+		"Package Control"
+	],
+	"remove_orphaned": false
+}
+}
