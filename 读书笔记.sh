@@ -39,3 +39,6 @@ FATA[0000] Error response from daemon: Cannot start container 9fbee55b224451feba
 一般通过大量的刷题+记录+快速迭代，可以不断的熟悉自己原先不熟的知识点，但真正的能力不是表面经验，而是对内部逻辑的反复理解而形成的习惯。
 
 
+如何快速去除桌面图标上的小箭头
+单击 开始->运行->输入regedit 打开注册表编辑器，进入HKEY_CLASSES_ROOT\LNKFILE子键分支，在此子键分支中查找到键名IsShortcut，其类型为REG__SZ，将此值删除
+，就能去除快捷方式图标上的箭头，注销当前用户并重新启动计算机后设置就生效；或者kill explorer进程并重建。
