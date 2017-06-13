@@ -42,3 +42,22 @@ FATA[0000] Error response from daemon: Cannot start container 9fbee55b224451feba
 如何快速去除桌面图标上的小箭头
 单击 开始->运行->输入regedit 打开注册表编辑器，进入HKEY_CLASSES_ROOT\LNKFILE子键分支，在此子键分支中查找到键名IsShortcut，其类型为REG__SZ，将此值删除
 ，就能去除快捷方式图标上的箭头，注销当前用户并重新启动计算机后设置就生效；或者kill explorer进程并重建。
+
+
+Seven times have I despised my soul:
+——Kahlil Gibran
+The first time when I saw her being meek that she might attain height.
+The second time when I saw her limping before the crippled.
+The third time when she was given to choose between the hard and the easy, and she chose the easy.
+The fourth time when she committed a wrong, and comforted herself that others also commit wrong.
+The fifth time when she forbore for weakness, and attributed her patience to strength.
+The sixth time when she despised the ugliness of a face, and knew not that it was one of her own masks.
+And the seventh time when she sang a song of praise, and deemed it a virtue.
+
+第一次，当它本可进取时，却故作谦卑；
+第二次，当它在空虚时，用爱欲来填充；
+第三次，在困难和容易之间，它选择了容易；
+第四次，它犯了错，却借由别人也会犯错来宽慰自己；
+第五次，它自由软弱，却把它认为是生命的坚韧；
+第六次，当它鄙夷一张丑恶的嘴脸时，却不知那正是自己面具中的一副；
+第七次，它侧身于生活的污泥中，虽不甘心，却又畏首畏尾。
