@@ -1,4 +1,38 @@
 #原来点击新建文件就可以了，呵呵
+
+环境搭建{
+#配置java环境 可运行javac
+JAVA_HOME	E:\soft\java\jdk
+CLASSPATH	.%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;
+Path	%JAVA_HOME%\bin
+
+{
+"cmd": ["javac", "-d", ".", "$file"],
+"file_regex": "^(...?):([0-9]):?([0-9]*)",
+"selector": "source.java",
+"encoding": "GBK",
+//执行完上面的命令就结束
+// 下面的命令需要按Ctrl+Shift+b来运行
+"variants": [{
+"name": "Run",
+"shell": true,
+"cmd": ["start", "cmd", "/c", "java ${file_base_name} &echo. & pause"],
+// /c是执行完命令后关闭cmd窗口,
+// /k是执行完命令后不关闭cmd窗口。
+// echo. 相当于输入一个回车
+// pause命令使cmd窗口按任意键后才关闭
+"working_dir": "${file_path}",
+"encoding": "GBK"
+}]
+}
+
+遇到 错误: 找不到或无法加载主类 时先 ctrl+b 后再 ctrl+shift+b
+///http://www.cnblogs.com/final/p/5348350.html
+//http://www.cnblogs.com/wuqiyunxi/p/6057039.html
+	
+}
+
+
 基础{
 http://www.cnblogs.com/skywang12345/p/java_threads_category.html   Java多线程系列目录(共43篇)
 http://www.cnblogs.com/dahe007/p/6265554.html  时间复杂度的计算
