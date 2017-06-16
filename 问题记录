@@ -1,1 +1,19 @@
 
+Python 3.6.0 (v3.6.0:41df79263a11, Dec 23 2016, 07:18:10) [MSC v.1900 32 bit (Intel)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+>>> import socketserver
+>>> from werkzeug.serving import run_simple
+Traceback (most recent call last):
+  File "C:\Python36-32\lib\site-packages\werkzeug\serving.py", line 65, in <module>
+    from SocketServer import ThreadingMixIn, ForkingMixIn
+ModuleNotFoundError: No module named 'SocketServer'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "C:\Python36-32\lib\site-packages\werkzeug\serving.py", line 68, in <module>
+    from socketserver import ThreadingMixIn, ForkingMixIn
+ImportError: cannot import name 'ForkingMixIn'
+>>>
