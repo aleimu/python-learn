@@ -37,9 +37,10 @@ def template1():
 
 #虚拟环境env http://www.cnblogs.com/chaosimple/p/4475958.html
 # E:\下载\Flask_dome\myblog
-
 # virtualenv env #创建
-
 # env\Scripts\activate #激活
-
 #deactivate 离开
+
+
+https://github.com/helloflask/todo.git
+https://github.com/miguelgrinberg/flasky.git 
