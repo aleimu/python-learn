@@ -44,3 +44,54 @@ sublime text3中文文件名显示为框框，怎么解决?
     "font_size": 22,
     "dpi_scale":1.0    //这里是关键中的关键。
 }
+
+
+
+
+https_proxy=CHINA\name:lgj@1234@openproxy.qq.com:8080
+git config --global http.proxy http://name:lgj@1234@openproxy.qq.com:8080
+git config --global http.proxy http://name:lgj@1234@openproxy.qq.com:8080
+git config --global https.proxy https://name:lgj@1234@openproxy.qq.com:8080
+git config --global http.proxy http://name:lgj@1234@openproxy.qq.com:8080
+
+git clone https://github.com/lgjabc/python_learn.git
+
+在Git命令行中输入以下命令：
+http代理
+git config --global http.proxy http://china\\name:lgj\@1234@openproxy.qq.com:8080
+https代理
+git config --global https.proxy https://china\\name:lgj\@1234@openproxy.qq.com:8080
+
+然后就可以执行git 了（下面举例用的是https.proxy的代理）
+
+git clone https://github.com/dotcloud/docker.git
+
+若报这个错
+可以先执行如下命令
+git config --global  http.sslVerify false
+再执行clone 命令就可以了
+
+查看代理
+git config --get --global http.proxy
+
+如果某一天你不喜欢她了，需要删除代理设置，那么可以使用：
+git config --system (或 --global 或 --local) --unset http.proxy
+
+使用 git config --global -e 打开命令行，出现vi界面，使用vi方式直接修改保存。
+
+
+
+用万能的互联网，找到密码中特殊字符的Unicode，例如"@"的Unicode是40。那么设置时应该输入：
+export http_proxy=http://username:p%40ssword@proxy.url:8080
+
+git config --global http.proxy http://china\\name:lgj%401234@openproxy.qq.com:8080
+git config --global https.proxy http://china\\name:lgj%401234@openproxy.qq.com:8080
+
+set http_proxy=http://openproxy.qq.com:8080
+set http_proxy_user=name
+set http_proxy_pass= lgj@1234
+set https_proxy=https://openproxy.qq.com:8080
+set https_proxy_user=name
+set https_proxy_pass= lgj@1234
+
+还是没解决问题啊
