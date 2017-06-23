@@ -1,0 +1,562 @@
+推荐博客
+http://www.cnblogs.com/suoning/p/5614372.html
+http://www.cnblogs.com/suoning/p/5625582.html
+
+1.展示信息的html元素
+
+
+
+<html>
+<head>
+    <title>常用元素标签</title>
+    <style type="text/css">
+    /*CSS样式一般写在这儿,这是CSS注释*/
+    body{
+        color:red;
+    }
+    </style>
+</head>
+<body>
+    <!-- html中的注释格式 -->
+    <h1>1级标题</h1>
+    <h2>2级标题</h2>
+    <h3>3级标题</h3>
+    <h4>4级标题</h4>
+    <h5>5级标题</h5>
+    <h6>6级标题</h6>
+    <em>斜体文字(一般歪果仁强调语义的字体)</em>
+    <br /><!-- 换行符(空标签) -->
+    <strong>粗体文字(一般中果仁强调语义的字体)</strong>
+    <p>段落</p>
+    <q>简单的引用</q>
+    <blockquote>对长文本引用,左右会有缩进的效果</blockquote>
+    <span>没有语义,用于表示特殊的样式</span>
+    <!-- html代码忽略回车,以及1个以上的空格,多个空格应使用"&nbsp;",例子如下 -->
+    <p>没想到输入&nbsp;空格&nbsp;这么麻烦,23333</p>
+    <hr /><!-- 不华丽的分割线(空标签) -->
+    <address>电子邮件,住址,签名,文档的作者身份</address>
+    <code>加入一行代码,var = "hello world";</code>
+    <!-- pre元素,保留语言代码段,保留空格,回车,例子如下 -->
+    <pre>
+    foreach(var item in strArray){
+        Console.writeLine(item);
+    }
+    </pre>
+    <ul>
+        <li>ul-li,无序的信息列表
+        </li>
+        <li>ul-li,无序的信息列表
+        </li>
+    </ul>
+    <ol>
+        <li>ol-li,有序的信息列表:1
+        </li>
+        <li>ol-li,有序的信息列表:2
+        </li>
+    </ol>
+    <table summary="HakunaMatata摘要是不会显示出来的)">
+        <caption>表格标题</caption>
+　　　　 <tbody>
+　　　　 <tr>
+　　　　     <th>名字</th>
+            <th>爱好</th>
+        </tr>
+        <tr>
+            <td>彭彭</td>
+            <td>吃</td>
+        </tr>
+        <tr>
+            <td>丁满</td>
+            <td>跳舞</td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- target="_blank" 使用新页面打开 -->
+    <a href="http://www.baidu.com" title="鼠标滑过显示" target="_blank">打开百度</a>
+    <!-- mailto可以发邮件,关键字有,cc(抄送地址),bcc(蜜饯抄送地址),;(多个隔开),
+         subject(邮件主题),body(邮件内容)
+    第一个关键字用?分割,后面的用&分割-->
+    <a href="mailto:yy@imooc.com?subject=观了不起的盖茨比有感。body=你好，对此评论有些想法。">对此影评有何感想，发送邮件给我</a>
+    <img src="图片http地址" alt="图片无法显示,用此文字替代" title="电影介绍" >
+
+</body>
+</html>
+
+2.表单(与后台交互)
+
+
+
+<html>
+<head>
+    <title>表单</title>
+</head>
+<body>
+    <!-- method可以选择"get/post"2种,action是提交表单后执行交互的页面 -->
+    <form method="post" action="save.php">
+        <!-- label标签的for属性,与其他控件的name进行关联,在点击label时,把焦点移到与之关联的控件上 -->
+        <label for="username">用户名:</label>
+        <!-- id属性,是后台获取值时使用的. type是控件类型 -->
+        <input type="text" name="username" id="username" value="" />
+        <label for="pass">密码:</label>
+        <input type="password" name="pass" id="pass" value="" />
+        <!-- 表单有2个按钮,submit确定,reset重置 -->
+        <input type="submit" value="确定" name="submit" />
+        <input type="reset" value="重置" name="reset" />
+        <textarea cols="50" rows="10">在文本域中输入内容,在这里输入内容...</textarea>
+        <!-- 单选,注意name标签,一定要一致 -->
+        <input type="radio" name="loveChoose" value="喜欢" checked="checked">
+        <input type="radio" name="loveChoose" value="不喜欢">
+        <input type="radio" name="loveChoose" value="无所谓">
+        <!-- 多选 -->
+        <input type="checkbox" name="checkbox1" value="跑步" checked="checked">
+        <input type="checkbox" name="checkbox2" value="游泳">
+        <input type="checkbox" name="checkbox3" value="拳击" checked="checked">
+        <!-- 下拉列表框 -->
+        <select>
+            <option value="看书">看书</option>
+            <option value="旅游" selected="selected">旅游</option>
+            <option value="运动">运动</option>
+            <option value="购物">购物</option>
+        </select>
+        <!-- 下拉列表框,按住ctrl可多选,不直观,鬼知道要按ctrl -->
+        <select multiple="multiple">
+            <option value="看书">看书</option>
+            <option value="旅游">旅游</option>
+            <option value="运动">运动</option>
+            <option value="购物">购物</option>
+        </select>
+    </form>
+</body>
+</html>
+
+3.CSS样式的3种写法
+
+
+
+<html>
+<head>
+    <title>CSS的3种写法</title>
+    <!-- 关于3中CSS写法的优先级,本例子中,内联式 > 嵌入式 > 外部式;
+    总结:距离被设置元素越近的,优先级越高 -->
+    <!-- 写法1"外部式CSS样式":href可修改,文件后缀.css,其他都是固定写法 -->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <!-- 写法2"嵌入式CSS样式" -->
+    <style type="text/css">
+    p{
+        font-size:20px;/*设置文字字号*/
+    }
+    </style>
+</head>
+<body>
+    <p>好好学习,天天开心</p>
+    <br />
+    <!-- 写法3"内联式CSS样式" -->
+    <p style="color:blue">好好学习,天天向上</p>
+</body>
+</html>
+
+4.CSS选择器
+
+
+
+<html>
+<head>
+    <title>CSS的选择器</title>
+    <style type="text/css">
+    /*
+    CSS的选择器一般使用下面的这种格式
+    选择符{
+    属性1:值;
+    属性2:值;
+    }
+    */
+    /*例1,匹配<p>元素*/
+    p{
+        font-size:20px;/*设置文字字号*/
+    }
+    /*例2,类选择器,匹配class为"apple1"的元素*/
+    .apple1{
+        color:red;/*设置文字颜色*/
+    }
+    .apple2{
+        font-size:50px;
+    }
+    /*例3,ID选择器,匹配id为"potato"的元素*/
+    #potato{
+        font-size:15px;
+    }
+    /*例4,子选择器,用>符号,匹配first第一代后代生效,第二代之后不生效*/
+    span{
+        color:red; /*给span一个默认的样式*/
+    }
+    .first>span{
+        color:blue; /*只有first类的第一代span才有的蓝色样式*/
+    }
+    /*例5,包含选择器,用空格符号,匹配"second"类下的所有"span"元素*/
+    .second span{
+        border:1px solid red;/*添加边框样式（粗细为1px， 颜色为红色的实线）*/
+    }
+    /*例6,通用选择器,匹配html中的所有标签元素*/
+    *{
+        color:green;/*绿色*/
+    }
+    /*例7,伪类选择符,用:符号,如在超链接鼠标滑过时改变css样式*/
+    a:hover{
+        color:pink;
+        font-size:30px;
+    }
+    /*例8,分组选择符,用逗号,匹配".firstDiv"类,"secondDiv"元素*/
+    .firstDiv,.secondDiv{
+        color:purple;
+    }
+    </style>
+</head>
+<body>
+    <p>匹配到(例1)</p>
+    <p class="apple1">匹配到(例2)</p>
+    <span class="apple1 apple2">类选择器词列表方法(例2)</span>
+    <p id="potato">匹配到(例3)</p>
+    <p class="first">
+        <span>蓝一代(例4)
+            <span>红二代(例4)
+            </span>
+        </span>
+    </p>
+    <p class="second">
+        <span>第一代(例5)
+            <span>第二代(例5)
+            </span>
+        </span>
+    </p>
+    <a href="http:www.baidu.com">百度(例7)</a>
+    <div class="firstDiv">分组匹配,firstDiv类(例8)</div>
+    <div class="secondDiv">分组匹配,secondDiv类(例8)</div>
+</body>
+</html>
+
+5.继承
+
+
+
+
+<html>
+<head>
+<style type="text/css">
+/*有的CSS样式是可以继承的,有的是不可以的*/
+p{
+    color:red;
+    border:1px solid red;
+}
+</style>
+</head>
+<body>
+<!-- (继承例子)<p>的字体为红色,也有红色边框,但是对于<p>标签内的<span>,只有字体为红色被继承了 -->
+<p>我今早起床睡意浓,睡眼尚迷蒙;<span>我忽然想起今日是</span>,假日好时光</p>
+</body>
+</html>
+
+
+
+6.权值的优先级
+
+
+<style type="text/css">
+/*权值大的优先,权值相等的就进,这个没有例子,哈哈,自行体会.*/
+p{color:red;} /*权值为1*/
+p span{color:green;} /*权值为1+1=2*/
+.warning{color:white;} /*权值为10*/
+p span.warning{color:purple;} /*权值为1+1+10=12*/
+#footer .note p{color:yellow;} /*权值为100+10+1=111*/
+p{color:red!important;} /*使用!important,获得最高权值*/
+</style>
+
+<!-- 7.字体的CSS
+
+<style type="text/css">
+/*字体*/
+body{
+ font-family:"Microsoft Yahei";
+ /*或者用这个,font-family:"微软雅黑"*/
+ font-size:12px; /*字体大小(像素)*/
+ color:#654; /*颜色为:#665544,左边是简写*/
+ font-weight:bold; /*粗体*/
+ font-style:italic;/*斜体*/
+ text-decoration:underline;/*下划线*/
+ text-decoration:line-through;/*删除线*/
+}
+p{
+ text-indent:2em;/*缩进*/
+ line-height:2em;/*行高*/
+ word-spacing:50px;/*单词间隔*/
+ letter-spacing:50px;/*字母或汉字间隔*/
+}
+</style> -->
+
+8.CSS盒模型
+
+<html>
+<head>
+    <style type="text/css">
+    a{
+        /*将内敛元素a转化为,块级元素,这
+        样<a>就有块级元素的特点了*/
+        display:block;
+    }
+    /*模型盒-样式-缩写*/
+    .border1{
+        border:2px solid red;
+    }
+    .border2{
+        border-width:2px; /*边框宽度(像素)*/
+        /*border-style(边框样式)常见样式有:dashed(虚线)|dotted(点线)|solid(实线)*/
+      border-style:solid;
+      border-color:red; /*边框颜色*/
+    }
+    .border3{
+        background-color:pink; /*border3,粉色背景*/
+        /*填充,上右下左的顺序*/
+        padding: 20px 10px 15px 30px; /*内填充*/
+        /*边界,上右下左的顺序*/
+        margin:20px 10px 15px 30px; /*外边距*/
+    }
+    .border4{
+        background-color:blue; /*border3,粉色背景*/
+        /*也可以这样填充*/
+        padding-top:20px; /*上方内填充*/
+        padding-right:10px; /*右*/
+        padding-bottom:15px; /*下*/
+        padding-left:30px; /*左*/
+        /*也可以这样边距*/
+        margin-top:20px; /*上方外边距*/
+        margin-right:10px; /*右*/
+        margin-bottom:15px; /*下*/
+        margin-left:30px; /*左*/
+    }
+    .border5{
+        /*为一个方向上的边框设置样式*/
+        border-bottom:1px dotted #ccc;
+    }
+    </style>
+</head>
+<body>
+    <a href="http://www.baidu.com">打开百度(超级链接变为块级元素)</a>
+    <div class="border1">模型盒缩写形式</div>
+    <div class="border2">模型盒完整形式</div>
+    <div class="border3">border3,粉色背景</div>
+    <div class="border4">border4,蓝色背景</div>
+    <div class="border5">border5,仅设置一个方向上的边</div>
+</body>
+</html>
+
+9.CSS布局模型
+
+10.简写与数值
+
+
+<style type="text/css">
+/*盒模型代码简写:*/
+.divBoxCss{
+    margin:10px 15px 12px 14px;
+    padding:10px 15px 12px 14px;
+}
+/*有3种简写情况:*/
+.div1{
+    /*1.如果top、right、bottom、left的值相同，如下面代码：*/
+    margin:10px 10px 10px 10px;
+    margin:10px;
+}
+.div2{
+    /*2.如果top和bottom值相同、left和 right的值相同，如下面代码：*/
+    margin:10px 20px 10px 20px;
+    margin:10px 20px;
+}
+.div3{
+    /*3.如果left和right的值相同，如下面代码：*/
+    margin:10px 20px 30px 20px;
+    margin:10px 20px 30px;
+}
+
+/*颜色值缩写*/
+/*例子1*/
+p{color:#000000;}
+p{color: #000;}
+/*例子2*/
+p{color: #336699;}
+p{color: #369;}
+
+/*字体缩写*/
+/*一般写法*/
+body{
+    font-style:italic;
+    font-variant:small-caps;
+    font-weight:bold;
+    font-size:12px;
+    line-height:1.6em;
+    font-family:"宋体",sans-serif;
+}
+/*缩写*/
+body{
+    font:italic  small-caps  bold  12px/1.5em  "宋体",sans-serif;
+}
+/*
+注意：
+1、使用这一简写方式你至少要指定 font-size 和 font-family 属性，其他的
+属性(如 font-weight、font-style、font-varient、line-height)如未指定将自动使用默认值。
+2、在缩写时 font-size 与 line-height 中间要加入“/”斜扛。
+*/
+
+/*一般中文网站的字体缩写*/
+body{
+    font:12px/1.5em  "宋体",sans-serif;/*sans-serif无衬线字体,一个字体种类*/
+}
+
+/*颜色值*/
+/*1、英文命令颜色:*/
+p{color:red;}
+/*2、RGB颜色*/
+p{color:rgb(133,45,200);}
+p{color:rgb(20%,33%,25%);}
+/*3、十六进制颜色*/
+p{color:#00ffff;}
+
+/*长度值*/
+/*1.像素px,显示器上的小点*/
+/*
+2.em,本元素给定font-size值
+假如font-size:12px,
+则1em=12px
+0.5em=6px
+*/
+</style>
+
+
+<!-- 11. 盒子模型 -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <!--<script type="text/javascript" src='jquery-1.9.1.js'></script>-->
+      <style>
+    *{
+      margin: 0;
+      padding: 0;
+      text-align: right;
+      color: #FFF;
+    }
+    #container{
+      position: absolute;
+      left: 20px;
+      margin-top: 10px;
+      width: 600px;
+      height: 600px;
+      background-color: green;
+    }
+    #bigest{
+      position: static;
+      left: 20px;
+      margin-top: 20px;
+      width: 500px;
+      height: 500px;
+      background-color: #ab2;
+    }
+    #biger{
+      position: static;
+      left: 20px;
+      margin-top: 30px;
+      width: 400px;
+      height: 400px;
+      background-color: #00f;
+    }
+    #big{
+      position: relative;
+      left: 20px;
+      margin-top: 40px;
+      width: 300px;
+      height: 300px;
+      background-color: #000;
+    }
+    #normal{
+      position: static;
+      margin-left: 20px;
+      margin-top: 50px;
+      width: 200px;
+      height: 200px;
+      background-color: #aaa;
+    }
+    #middle{
+      position: absolute;
+      left: 20px;
+      margin-top: 60px;
+      width: 100px;
+      height: 100px;
+      background-color: #aaa;
+    }
+    #small{
+      position: fixed;
+      left: 20px;
+      margin-top: 70px;
+      height: 50px;
+      width: 50px;
+      background-color: #f00;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="bigest">
+        <div id="biger">
+          <div id="big">
+            <div id="normal">
+              <div id="middle">
+                <div id="small">small
+                </div>middle
+              </div>normal
+            </div>big
+          </div>biger
+        </div>bigest
+      </div>container
+    </div>
+</body>
+</html>
+
+<!-- A标签的css样式 -->
+
+    a:link，定义正常链接的样式；
+    a:visited，定义已访问过链接的样式；
+    a:hover，定义鼠标悬浮在链接上时的样式；
+    a:active，定义鼠标点击链接时的样式。
+
+示例：
+
+    a:link {
+    color:#FF0000;
+    text-decoration:underline;
+    }
+    a:visited {
+    color:#00FF00;
+    text-decoration:none;
+    }
+    a:hover {
+    color:#000000;
+    text-decoration:none;
+    }
+    a:active {
+    color:#FFFFFF;
+    text-decoration:none;
+    }
+
+示例：
+    #sidebar a:link,
+    #sidebar a:visiteid  {
+    color:#FF0000;
+    text-decoration:none;
+    }
+    #sidebar a:hover,
+    #sidebar a:active  {
+    color:#000000;
+    text-decoration:underline;
+    }
+
+  调用方法：
+  <div id="sidebar"><a href="aa.aspx" target="_blank">链接到aa页面<a></div>
