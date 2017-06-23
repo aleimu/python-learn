@@ -1,0 +1,679 @@
+<!-- 当同一个 HTML 元素被不止一个样式定义时，会使用哪个样式呢？ -->
+一般而言，所有的样式会根据下面的规则层叠于一个新的虚拟样式表中，其中数字 4 拥有最高的优先权。
+1.浏览器缺省设置
+2.外部样式表
+3.内部样式表 （位于 <head> 标签内部）
+4.内联样式（在 HTML 元素内部）
+
+因此，内联样式（在 HTML 元素内部）拥有最高的优先权，这意味着它将优先于以下的样式声明：<head> 标签中的样式声明，外部样式表中的样式声明，或者浏览器中的样式声明（缺省值）。
+
+外部样式表
+当样式需要被应用到很多页面的时候，外部样式表将是理想的选择。使用外部样式表，你就可以通过更改一个文件来改变整个站点的外观。
+<head>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+
+内部样式表
+当单个文件需要特别样式时，就可以使用内部样式表。你可以在 head 部分通过 <style> 标签定义内部样式表。
+<head>
+<style type="text/css">
+body {background-color: red}
+p {margin-left: 20px}
+</style>
+</head>
+
+内联样式
+当特殊的样式需要应用到个别元素时，就可以使用内联样式。 使用内联样式的方法是在相关的标签中使用样式属性。样式属性可以包含任何 CSS 属性。以下实例显示出如何改变段落的颜色和左外边距。
+<p style="color: red; margin-left: 20px">
+This is a paragraph
+</p>
+
+
+<!-- 设置背景颜色 -->
+<html>
+<head>
+
+<style type="text/css">
+
+body {background-color: yellow}
+h1 {background-color: #ff0000}
+h2 {background-color: transparent} /* 透明 */
+p {background-color: rgb(250,0,255)}
+
+p.no2 {background-color: gray; padding: 20px;}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>这是标题 1</h1>
+<h2>这是标题 2</h2>
+<p>这是段落</p>
+<p class="no2">这个段落设置了内边距。</p>
+
+</body>
+</html>
+
+<!-- 设置文字背景颜色  可以看出类的名字和方法随便取-->
+
+<html>
+<head>
+<style type="text/css">
+span.highlight
+{
+background-color:yellow
+}
+wenbenbeijingse.suibian
+{
+background-color:red
+}
+</style>
+</head>
+
+<body>
+<p>
+<span class="highlight">这是文本。</span>
+<wenbenbeijingse class="suibian">这是文本。</wenbenbeijingse>
+</p>
+</body>
+</html>
+
+<!--  设置背景图片  -->
+<html>
+<head>
+
+<style type="text/css">
+body {background-image:url(/i/eg_bg_02.gif);}
+</style>
+
+</head>
+
+<body>
+<h1> 设置背景图片 </h1>
+</body>
+
+</html>
+
+<!--  设置背景图片的位置  -->
+<html>
+<head>
+<style type="text/css">
+body
+{
+background-image: url('/i/eg_bg_03.gif');
+background-repeat: no-repeat;
+background-attachment:fixed;
+background-position:center;
+/* background-position: 40% 50%;
+background-position: 50px 100px;
+ */
+}
+</style>
+</head>
+
+<body>
+<p><b>注释：</b>为了在 Mozilla 中实现此效果，background-attachment 属性必须设置为 "fixed"。 40%是指左右的比例
+<p>background-repeat 图像是否重复 </p>
+<p>background-attachment 图像是否随页面滚动 </p>
+<p>background-position 居中、百分比位置、像素位置 都可以定位图像的位置 </p>
+</p>
+</body>
+</html>
+
+
+<!-- 字体 -->
+<html>
+<head>
+<style type="text/css">
+p.serif{font-family:"Times New Roman",Georgia,Serif}
+p.sansserif{font-family:Arial,Verdana,Sans-serif}
+</style>
+</head>
+
+<body>
+<h1>CSS font-family</h1>
+<p class="serif">This is a paragraph, shown in the Times New Roman font.</p>
+<p class="sansserif">This is a paragraph, shown in the Arial font.</p>
+
+</body>
+</html>
+
+<!-- 字体尺寸 -->
+<html>
+<head>
+<style type="text/css">
+h1 {font-size: 300%}
+h2 {font-size: 200%}
+p {font-size: 100%}
+</style>
+</head>
+
+<body>
+<h1>This is header 1</h1>
+<h2>This is header 2</h2>
+<p>This is a paragraph</p>
+</body>
+
+</html>
+
+<!-- 设置样式、宽度 -->
+<html>
+<head>
+<style type="text/css">
+p
+{
+border-style:solid;
+border-bottom-color:#ff0000;
+border-bottom-width: thin;
+border-bottom-width: 15px;
+border-bottom-style:dashed;
+border-top-style:dotted;
+/* border-bottom-style:none
+border-bottom-style:dotted
+border-bottom-style:dashed
+border-bottom-style:solid
+border-bottom-style:double
+border-bottom-style:groove
+border-bottom-style:ridge
+border-bottom-style:inset
+border-bottom-style:outset */
+}
+</style>
+</head>
+
+<body>
+<p>This is some text in a paragraph.</p>
+</body>
+
+</html>
+
+
+
+<!-- 设置边框四边的颜色 -->
+<html>
+<head>
+
+<style type="text/css">
+p.one
+{
+border-style: solid;
+border-color: #0000ff
+}
+p.two
+{
+border-style: solid;
+border-color: #ff0000 #0000ff
+}
+p.three
+{
+border-style: solid;
+border-color: #ff0000 #00ff00 #0000ff
+}
+p.four
+{
+border-style: solid;
+border-color: #ff0000 #00ff00 #0000ff rgb(250,0,255)
+}
+</style>
+
+</head>
+
+<body>
+
+<p class="one">One-colored border!</p>
+
+<p class="two">Two-colored border!</p>
+
+<p class="three">Three-colored border!</p>
+
+<p class="four">Four-colored border!</p>
+
+<p><b>注释：</b>"border-width" 属性如果单独使用的话是不会起作用的。请首先使用 "border-style" 属性来设置边框。</p>
+
+</body>
+</html>
+
+
+
+<!-- 尺寸 -->
+<html>
+<head>
+<style type="text/css">
+img.normal
+{
+height: auto
+}
+
+img.big
+{
+height: 160px
+}
+
+img.small
+{
+height: 30px
+}
+</style>
+</head>
+<body>
+
+<img class="normal" src="/i/eg_smile.gif" />
+<br />
+<img class="big" src="/i/eg_smile.gif" />
+<br />
+<img class="small" src="/i/eg_smile.gif" />
+
+</body>
+</html>
+
+
+<!-- 导航栏 -->
+<!DOCTYPE html>
+<html>
+<body>
+<ul>
+<li><a href="#home">Home</a></li>
+<li><a href="#news">News</a></li>
+<li><a href="#contact">Contact</a></li>
+<li><a href="#about">About</a></li>
+</ul>
+
+<p><b>注释：</b>我们使用在测试链接中使用了 href="#"。在真实的网站中，应该是真实的 URL。</p>
+
+</body>
+</html>
+
+<!-- 一个完整的导航栏 -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+ul
+{
+/* list-style-type:none - 删除圆点。导航栏不需要列表项标记。 */
+list-style-type:none;
+/* 把外边距和内边距设置为 0 可以去除浏览器的默认设定。 */
+margin:0;
+padding:0;
+overflow:hidden;
+}
+li
+{
+
+/* display:inline; - 默认地，<li> 元素是块元素。在这里，我们去除了每个列表项前后的换行，以便让它们在一行中显示。
+float:left; 也能使导航栏同行显示*/
+float:left;
+}
+a:link,a:visited
+{
+/* display:block - 把链接显示为块元素可使整个链接区域可点击（不仅仅是文本），同时也允许我们规定宽度。
+width:60px - 块元素默认占用全部可用宽度。我们需要规定 60 像素的宽度。 */
+
+/* float:left - 使用 float 来把块元素滑向彼此。
+display:block - 把链接显示为块元素可使整个链接区域可点击（不仅仅是文本），同时也允许我们规定宽度。
+width:60px - 由于块元素默认占用全部可用宽度，链接无法滑动至彼此相邻。我们需要规定 60 像素的宽度。 */
+
+display:block;
+width:120px;
+font-weight:bold;
+color:#FFFFFF;
+background-color:#bebebe;
+text-align:center;
+padding:4px;
+text-decoration:none;
+text-transform:uppercase;
+}
+/* 放置、点击时变色
+a:link {color: #FF0000}      未访问的链接
+a:visited {color: #00FF00}   已访问的链接
+a:hover {color: #FF00FF}    鼠标移动到链接上
+a:active {color: #0000FF}    选定的链接
+*/
+
+a:hover,a:active
+{
+background-color:#cc0000;
+}
+
+</style>
+</head>
+
+<body>
+<ul>
+<li><a href="#home">Home</a></li>
+<li><a href="#news">News</a></li>
+<li><a href="#contact">Contact</a></li>
+<li><a href="#about">About</a></li>
+</ul>
+</body>
+
+<body>
+<h2>导航栏的设置 </h2>
+</body>
+</html>
+
+
+<!-- 外边距 (margin) -->
+<html>
+<head>
+<style type="text/css">
+p.margin {margin: 2cm 4cm 3cm 4cm}
+</style>
+</head>
+
+<body>
+
+<p>这个段落没有指定外边距。</p>
+
+<p class="margin">这个段落带有指定的外边距。这个段落带有指定的外边距。这个段落带有指定的外边距。这个段落带有指定的外边距。这个段落带有指定的外边距。</p>
+
+<p>这个段落没有指定外边距。</p>
+
+</body>
+
+</html>
+
+
+
+<!--
+
+margin  简写属性。在一个声明中设置所有外边距属性。
+margin-bottom   设置元素的下外边距。
+margin-left 设置元素的左外边距。
+margin-right    设置元素的右外边距。
+margin-top  设置元素的上外边距。
+
+-->
+
+<!-- 边框 -->
+<html>
+<head>
+<style type="text/css">
+p.border
+{
+border-style:solid;
+border-top:thick double #ff0000;
+}
+</style>
+</head>
+
+<body>
+<p class="border"> 带样式的上边框 </p>
+</body>
+<body>
+<p>没有样式的边框，因为没有class </p>
+</body>
+</html>
+
+
+<!-- 内边距 (padding) -->
+
+<html>
+<head>
+<style type="text/css">
+td.test1 {padding: 1.5cm}
+td.test2 {padding: 0.5cm 2.5cm}
+</style>
+</head>
+
+<body>
+<table border="1">
+
+<tr>
+<td class="test1">
+这个表格单元的每个边拥有相等的内边距。
+</td>
+</tr>
+</table>
+<br />
+<table border="5">
+
+<tr>
+<td class="test2">
+这个表格单元的上和下内边距是 0.5cm，左和右内边距是 2.5cm。
+</td>
+</tr>
+
+<tr>
+<td >
+没有内边距
+</td>
+
+<td >
+在上面元素的右边
+</td>
+</tr>
+
+</table>
+</body>
+
+</html>
+
+
+
+
+<!-- HTML <!DOCTYPE> 标签 -->
+定义和用法
+<!DOCTYPE> 声明位于文档中的最前面的位置，处于 <html> 标签之前。此标签可告知浏览器文档使用哪种 HTML 或 XHTML 规范。
+该标签可声明三种 DTD 类型，分别表示严格版本、过渡版本以及基于框架的 HTML 文档。
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>
+JavaScript 能够直接写入 HTML 输出流中：
+</p>
+
+<script>
+document.write("<h1>This is a heading</h1>");
+document.write("<p>This is a paragraph.</p>");
+</script>
+
+<p>
+您只能在 HTML 输出流中使用 <strong>document.write</strong>。
+如果您在文档已加载后使用它（比如在函数中），会覆盖整个文档。
+</p>
+
+</body>
+</html>
+
+<!-- html中运行script -->
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>
+JavaScript 能够直接写入 HTML 输出流中：
+</p>
+
+<script>
+document.write("<h1>This is a heading</h1>");
+document.write("<p>This is a paragraph.</p>");
+</script>
+
+<p>
+您只能在 HTML 输出流中使用 <strong>document.write</strong>。
+如果您在文档已加载后使用它（比如在函数中），会覆盖整个文档。
+</p>
+
+</body>
+</html>
+
+
+
+
+
+<!-- 一些例子 -->
+
+
+<form class="form-horizontal">
+            <div class="form-group">
+              <label for="userName" class="control-label col-sm-2">用户名</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="userName" placeholder="请输入用户名"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="control-label col-sm-2">密码</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" name="password" placeholder="请输入密码"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox">记住密码</input>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-info">确定</button>
+              </div>
+            </div>
+      </form>
+
+<p><ins>ins标签表示插入文本</ins></p>
+<u>u标签表示加上下划线</u>
+<p><del>用del标签来删除这段话</del></p>
+<p><s>用s标签来删除这段话</s></p>
+<mark>标记</mark>
+<small>这是小号文本</small>
+<strong>这是加强字体，用strong</strong>
+<em>这是斜体，用em</em>
+<p class="text-lowercase">LowerCase HahaHa</p>
+<p class="text-uppercase">UpperCase Hahaha</p>
+<p class="text-capitalize">capitalize haHaha</p>
+<p class="lead">
+bootstrap是一个高度集成化的开发框架 <abbr title="这里显示了缩略语的内容">此处有缩略</abbr><br />
+bootstrap是一个高度集成化的开发框架 <abbr class="initialism" title="这里加了类.initialism所以变小了">此处有缩略</abbr>
+</p>
+<ul class="list-unstyled">
+          <li>这里是列表</li>
+          <li>这里是列表</li>
+            <ul>
+              <li>这里是二级列表</li>
+              <li>这里是二级列表</li>
+              <li>这里是二级列表</li>
+              <li>这里是二级列表</li>
+            </ul>
+          <li>这里是列表</li>
+          <li>这里是列表</li>
+          <li>这里是列表</li>
+</ul>
+
+<ul>
+          <li>这里是列表</li>
+          <li>这里是列表</li>
+            <ul class="list-inline">
+              <li>这里是二级列表</li>
+              <li>这里是二级列表</li>
+              <li>这里是二级列表</li>
+              <li>这里是二级列表</li>
+            </ul>
+          <li>这里是列表</li>
+          <li>这里是列表</li>
+          <li>这里是列表</li>
+</ul>
+
+<var>a=1</var>
+
+<label class="checkbox-inline">
+<input type="checkbox">选择1
+</label>
+
+<label class="checkbox-inline">
+<input type="checkbox">选择2
+</label>
+
+<label class="checkbox-inline">
+<input type="checkbox">选择3
+</label>
+
+<div class="form-group">
+<label class="radio-inline">
+  <input type="radio" name="myradio">选择1
+</label>
+<label class="radio-inline">
+  <input type="radio" name="myradio">选择2
+</label>
+<label class="radio-inline">
+  <input type="radio" name="myradio">选择3
+</label>
+</div>
+
+
+<p><strong>Caution:</strong> 两种加粗字体的方式.</p>
+<p>This recipe calls for <b>bacon</b> and <b>baconnaise</b>.</p>
+<!-- 两种倾斜 -->
+<p>I <em>love</em> Chicago!</p>
+<p>The name <i>Shay</i> means a gift.</p>
+
+
+<audio src="test.mp3" controls loop></audio>
+<video src="test.mp4" controls poster="test.jpg"></video>
+
+<form> action="No8-5.html" method="post">
+    日期：<input type="date" />
+    <br>
+    颜色：<input type="color"/>
+    <br>
+    范围：<input type="range"/>
+</form>
+
+<form action="No8-6.html" method="post">
+    哪天？
+    <input type="radio" name="day" value="Friday" checked>Friday
+    <input type="radio" name="day" value="Saturday" >Saturday
+    <input type="radio" name="day" value="Sunday" >Sunday
+</form>
+
+<form action="No8-6.html" method="post">
+    可以多选哦
+<input type="checkbox" name="day" value="Friday" checked> Friday
+<input type="checkbox" name="day" value="Saturday"> Saturday
+<input type="checkbox" name="day" value="Sunday"> Sunday
+</form>
+
+<p>下拉列表</p>
+<select name="day">
+
+    <option value="Friday" selected>Friday</option>
+    <option vlaue="Saturday">Saturday</option>
+    <option value="Sunday">Sunday</option>
+</select>
+
+<p>多选下拉列表</p>
+<select name="day" multiple>
+    <option value="Friday" selected>Friday</option>
+    <option vlaue="Saturday">Saturday</option>
+    <option value="Sunday">Sunday</option>
+</select>
+
+<p>两种登陆按钮</p>
+<button type="submit">
+    <strong>Send us</strong> a message
+</button>
+
+<input type="button" value="submit">
+
+<p>登陆菜单</p>
+<fieldset>
+    <legend>登录</legend>
+    <label>
+        Username
+        <input type="text" name="username">
+    </label>
+    <label>
+        Password
+        <input type="text" name="password">
+    </label>
+    <input type="button" value="确定">
+</fieldset>
