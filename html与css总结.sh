@@ -492,4 +492,174 @@ a        { color: rgba(120,100,100,0.7); }
 				<p>Nick </p>
 			</div>　
 
+css常用属性
+ 
+1. 颜色属性:
 
+color 
+
+	HEX（十六进制色:color: #FFFF00 --> 缩写:#FF0）
+	RGB（红绿蓝，使用方式:color:rgb(255,255,0)或者color:rgb(100%,100%,0%)）
+	RGBA（红绿蓝透明度，A是透明度在0~1之间取值。使用方式:color:rgba(255,255,0,0.5)）
+	HSL（CSS3有效,H表示色调，S表示饱和度，L表示亮度，使用方式:color:hsl(360,100%,50%)）
+	HSLA（和HSL相似，A表示Alpha透明度，取值0~1之间。）
+transparent
+
+	全透明，使用方式:color: transparent;
+
+opacity
+
+	元素的透明度，语法:opacity: 0.5;
+	属性值在0.0到1.0范围内，0表示透明，1表示不透明。
+	filter滤镜属性（只适用于早期的IE浏览器，语法:filter:alpha(opacity:20);）。
+ 
+
+2. 字体属性:
+
+	font-style: 用于规定斜体文本
+		normal  文本正常显示
+		italic  文本斜体显示
+		oblique  文本倾斜显示
+	font-weight: 设置文本的粗细
+		normal（默认）
+		bold（加粗）
+		bolder（相当于<strong>和<b>标签）
+		lighter （常规）
+		100 ~ 900 整百（400=normal，700=bold）
+	font-size: 设置字体的大小
+
+		默认值:medium
+		<absolute-size>可选参数值:xx-small、 x-small、 small、 medium、 large、 x-large、 xx-large
+		<relative-size>相对于父标签中字体的尺寸进行调节。可选参数值:smaller、 larger
+		<percentage>百分比指定文字大小。
+		<length>用长度值指定文字大小，不允许负值。
+	font-family:字体名称
+
+		使用逗号隔开多种字体（优先级从前向后，如果系统中没有找到当前字体，则往后面寻找）
+		font:简写属性
+		语法:font:字体大小/行高 字体;（字体要在最后）
+ 
+
+3. 文本属性:
+
+	white-space: 设置元素中空白的处理方式
+		normal:默认处理方式。
+		pre:保留空格，当文字超出边界时不换行
+		nowrap:不保留空格，强制在同一行内显示所有文本，直到文本结束或者碰到br标签
+		pre-wrap:保留空格，当文字碰到边界时换行
+		pre-line:不保留空格，保留文字的换行，当文字碰到边界时换行
+	direction: 规定文本的方向 	
+		ltr 默认，文本方向从左到右。
+		rtl 文本方向从右到左。
+	text-align: 文本的水平对齐方式 
+		left
+		center
+		right
+	line-height: 文本行高
+		normal 默认
+	vertical-align: 文本所在行高的垂直对齐方式
+		baseline 默认
+		sub 垂直对齐文本的下标，和<sub>标签一样的效果
+		super 垂直对齐文本的上标，和<sup>标签一样的效果
+		top 对象的顶端与所在容器的顶端对齐
+		text-top 对象的顶端与所在行文字顶端对齐
+		middle 元素对象基于基线垂直对齐
+		bottom 对象的底端与所在行的文字底部对齐
+		text-bottom 对象的底端与所在行文字的底端对齐
+	text-indent: 文本缩进
+	letter-spacing: 添加字母之间的空白
+	word-spacing: 添加每个单词之间的空白
+	
+	text-transform: 属性控制文本的大小写
+		capitalize 文本中的每个单词以大写字母开头。
+		uppercase 定义仅有大写字母。
+		lowercase 定义仅有小写字母。
+	text-overflow: 文本溢出样式
+		clip 修剪文本。
+		ellipsis 显示省略符号...来代表被修剪的文本。
+		string 使用给定的字符串来代表被修剪的文本。
+
+	text-decoration: 文本的装饰
+
+		none 默认。
+		underline 下划线。
+		overline 上划线。
+		line-through 中线。
+	text-shadow:文本阴影
+
+		第一个参数是左右位置
+		第二个参数是上下位置
+		第三个参数是虚化效果
+		第四个参数是颜色
+		text-shadow: 5px 5px 5px #888;
+	word-wrap:自动换行
+		word-wrap: break-word;
+		
+4. 背景属性 
+
+	background-color: 背景颜色
+	background-image 设置图像为背景
+		url("http://images.cnblogs.com/cnblogs_com/suoning/845162/o_ns.png");  图片地址
+		background-image:linear-gradient(green,blue,yellow,red,black); 颜色渐变效果
+	
+	background-position 设置背景图像的位置坐标
+		background-position: center center; 图片置中，x轴center，y轴center
+		1px -195px  截取图片某部分，分别代表坐标x，y轴
+	
+	background-repeat 设置背景图像不重复平铺
+
+		no-repeat 设置图像不重复，常用
+		round 自动缩放直到适应并填充满整个容器
+		space 以相同的间距平铺且填充满整个容器
+	background-attachment 背景图像是否固定或者随着页面的其余部分滚动
+
+		background 简写
+		background: url("o_ns.png") no-repeat 0 -196px;
+		background: url("o_ns.png") no-repeat center bottom 15px;
+		background: url("o_ns.png") no-repeat left 30px bottom 15px;
+
+ 
+
+5. 列表属性
+
+	list-style-type: 列表项标志的类型
+
+		none 去除标志
+		decimal-leading-zero;  02.
+		square;  方框
+		circle;  空心圆
+		upper-alph; & disc; 实心圆
+	list-style-image:将图象设置为列表项标志
+	list-style-position:列表项标志的位置
+		inside
+		outside
+	list-style:缩写
+
+页面布局
+1. 边框 
+
+	border-style：边框样式
+
+		solid 默认，实线
+		double 双线
+		dotted 点状线条
+		dashed 虚线
+  border-color：边框颜色
+  border-width：边框宽度
+  border-radius：圆角
+
+		1个参数：四个角都应用
+		2个参数：第一个参数应用于 左上、右下；第二个参数应用于 左下、右上
+		3个参数：第一个参数应用于 左上；第二个参数应用于 左下、右上；第三个参数应用于右下
+		4个参数：左上、右上、右下、左下（顺时针） 例子 border-radius: 20px 35px 50px 60px;
+	border: 简写
+	border: 2px yellow solid; 
+	box-shadow：边框阴影
+
+		第一个参数是左右位置
+		第二个参数是上下位置
+		第三个参数是虚化效果
+		第四个参数是颜色
+		box-shadow: 10px 10px 5px #888;
+
+这部分图片比较多，建议去博客上看后面不再补充
