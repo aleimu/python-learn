@@ -1,0 +1,82 @@
+<!-- 禁止复制 -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>user-select_示例</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<style>
+.test{padding:10px;-webkit-user-select:none;-moz-user-select:none;-o-user-select:none;user-select:none;background:#eee;}
+</style>
+</head>
+<body>
+<div class="test" onselectstart="return false;" unselectable="on">选择我试试，你会发现怎么也选择不到我，哈哈哈哈</div>
+</body>
+</html>
+
+<!-- 说明：
+unselectable针对IE
+onselectstart针对Chrome、Safari
+-moz-user-select是firefox专有的  -->
+
+<!-- 禁止右键 -->
+<script type="text/javascript">document.oncontextmenu=function(e){return false;}</script>
+<body onselectstart="return false">
+</body>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>局部禁止</title>
+</head>
+
+<style type="text/css">  
+h1 {  
+    -webkit-touch-callout: none;  
+    -webkit-user-select: none;  
+    -khtml-user-select: none;  
+    -moz-user-select: none;  
+    -ms-user-select: none;  
+    user-select: none;  
+}  
+</style>  
+<script langauge="javascript">  
+document.oncontextmenu=function(e){return false;}  
+</script>   
+</head>  
+  
+<body onselectstart="return false">
+<h1> 禁止了右键和复制</h1>
+
+<h2> 这里可以复制,但不是很好选中</h2>
+<h2> 这里可以复制,但不是很好选中</h2>
+
+</body>
+</html>
+
+
+<!-- 禁止复制|黏贴|选中 -->
+<style type="text/css">
+/* 最简单的实现禁止复制的方法，采用css方式禁止文字选择，当然这只兼容webkit内核浏览器 */
+* { -webkit-user-select: none; }
+p {font-family: 'Microsoft Yahei';font-size: 28px;}
+input {width: 80%; padding: 10px 20px;}
+</style>
+<h1>本代码在UC手机浏览器上不生效，其它手机浏览器暂未发现问题、PC全部没问题。</h1>
+<p>这是一段示例文字，我无法被选中，也无法按下鼠标右键，即使被选中你也无法复制！</p>
+<input type="text" value="文本框中的文字可以选中，但是无法复制粘贴"/>
+<script type="text/javascript">
+// 禁止右键菜单
+document.oncontextmenu = function(){ return false; };
+// 禁止文字选择
+document.onselectstart = function(){ return false; };
+// 禁止复制
+document.oncopy = function(){ return false; };
+// 禁止剪切
+document.oncut = function(){ return false; };
+// 禁止粘贴
+document.onpaste = function(){ return false; };
+</script>
+
+
