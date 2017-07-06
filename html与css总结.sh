@@ -493,10 +493,10 @@ a        { color: rgba(120,100,100,0.7); }
 			</div>　
 
 css常用属性
- 
+
 1. 颜色属性:
 
-color 
+color
 
 	HEX（十六进制色:color: #FFFF00 --> 缩写:#FF0）
 	RGB（红绿蓝，使用方式:color:rgb(255,255,0)或者color:rgb(100%,100%,0%)）
@@ -512,7 +512,7 @@ opacity
 	元素的透明度，语法:opacity: 0.5;
 	属性值在0.0到1.0范围内，0表示透明，1表示不透明。
 	filter滤镜属性（只适用于早期的IE浏览器，语法:filter:alpha(opacity:20);）。
- 
+
 
 2. 字体属性:
 
@@ -538,7 +538,7 @@ opacity
 		使用逗号隔开多种字体（优先级从前向后，如果系统中没有找到当前字体，则往后面寻找）
 		font:简写属性
 		语法:font:字体大小/行高 字体;（字体要在最后）
- 
+
 
 3. 文本属性:
 
@@ -548,10 +548,10 @@ opacity
 		nowrap:不保留空格，强制在同一行内显示所有文本，直到文本结束或者碰到br标签
 		pre-wrap:保留空格，当文字碰到边界时换行
 		pre-line:不保留空格，保留文字的换行，当文字碰到边界时换行
-	direction: 规定文本的方向 	
+	direction: 规定文本的方向
 		ltr 默认，文本方向从左到右。
 		rtl 文本方向从右到左。
-	text-align: 文本的水平对齐方式 
+	text-align: 文本的水平对齐方式
 		left
 		center
 		right
@@ -569,7 +569,7 @@ opacity
 	text-indent: 文本缩进
 	letter-spacing: 添加字母之间的空白
 	word-spacing: 添加每个单词之间的空白
-	
+
 	text-transform: 属性控制文本的大小写
 		capitalize 文本中的每个单词以大写字母开头。
 		uppercase 定义仅有大写字母。
@@ -594,18 +594,18 @@ opacity
 		text-shadow: 5px 5px 5px #888;
 	word-wrap:自动换行
 		word-wrap: break-word;
-		
-4. 背景属性 
+
+4. 背景属性
 
 	background-color: 背景颜色
 	background-image 设置图像为背景
 		url("http://images.cnblogs.com/cnblogs_com/suoning/845162/o_ns.png");  图片地址
 		background-image:linear-gradient(green,blue,yellow,red,black); 颜色渐变效果
-	
+
 	background-position 设置背景图像的位置坐标
 		background-position: center center; 图片置中，x轴center，y轴center
 		1px -195px  截取图片某部分，分别代表坐标x，y轴
-	
+
 	background-repeat 设置背景图像不重复平铺
 
 		no-repeat 设置图像不重复，常用
@@ -618,7 +618,7 @@ opacity
 		background: url("o_ns.png") no-repeat center bottom 15px;
 		background: url("o_ns.png") no-repeat left 30px bottom 15px;
 
- 
+
 
 5. 列表属性
 
@@ -636,7 +636,7 @@ opacity
 	list-style:缩写
 
 页面布局
-1. 边框 
+1. 边框
 
 	border-style：边框样式
 
@@ -644,16 +644,16 @@ opacity
 		double 双线
 		dotted 点状线条
 		dashed 虚线
-  border-color：边框颜色
-  border-width：边框宽度
-  border-radius：圆角
+    border-color：边框颜色
+    border-width：边框宽度
+    border-radius：圆角
 
 		1个参数：四个角都应用
 		2个参数：第一个参数应用于 左上、右下；第二个参数应用于 左下、右上
 		3个参数：第一个参数应用于 左上；第二个参数应用于 左下、右上；第三个参数应用于右下
 		4个参数：左上、右上、右下、左下（顺时针） 例子 border-radius: 20px 35px 50px 60px;
 	border: 简写
-	border: 2px yellow solid; 
+	border: 2px yellow solid;
 	box-shadow：边框阴影
 
 		第一个参数是左右位置
@@ -663,3 +663,303 @@ opacity
 		box-shadow: 10px 10px 5px #888;
 
 这部分图片比较多，建议去博客上看后面不再补充
+
+
+
+2.★ 盒子模型
+一个标准的盒子模型：
+padding:用于控制内容与边框之间的距离;
+margin: 用于控制元素与元素之间的距离; 
+padding、margin
+表示上右下左都应用
+padding-top、margin-top
+上
+padding-right、margin-right
+右
+padding-bottom、margin-bottom
+下
+padding-left、margin-left
+左
+一个参数，应用于四边。
+两个参数，第一个用于上、下，第二个用于左、右。
+三个参数，第一个用于上，第二个用于左、右，第三个用于下。
+边框在默认情况下会定位于浏览器窗口的左上角，但是并没有紧贴着浏览器的窗口的边框，这是因为body本身也是一个盒子，外层还有html，
+在默认情况下，body距离html会有若干像素的margin，所以body中的盒子不会紧贴浏览器窗口的边框了。
+解决方法：
+body {
+    margin: 0;
+}
+浏览器窗口最外层边框缝隙
+3.★ display
+none 不显示。
+block 显示为块级元素。
+inline 显示为内联元素。
+inline-block 行内块元素（会保持块元素的高宽）。
+list-item 显示为列表元素。
+4. visibility
+visible 元素可见
+hidden 元素不可见
+collapse 当在表格元素中使用时，此值可删除一行或一列，不会影响表格的布局。
+5.★ float 浮动
+让一行显示两个块级标签，会脱离文档流
+none
+left 左浮动
+right 右浮动
+clear 清除浮动：
+none : 默认值。允许两边都可以有浮动对象
+left : 不允许左边有浮动对象
+right : 不允许右边有浮动对象
+both : 不允许两边有浮动对象
+6. clip 剪裁图像
+rect 剪裁定位元素：
+auto 默认值，无剪切
+上-右-下-左（顺时针）的顺序提供四个偏移值
+区域外的部分是透明的
+必须指定 position:absolute;
+例：clip:rect(0px,60px,200px,0px);
+7. overflow 设置当对象的内容超过其指定高度及宽度时如何显示内容
+visible 默认值，内容不会被修剪，会呈现在元素框之外。
+hidden 内容会被修剪，并且其余内容是不可见的。
+scroll 内容会被修剪，但是浏览器会显示滚动条以便查看其余的内容。
+auto 如果内容被修剪，则浏览器会显示滚动条以便查看其余的内容。
+8.★ position 规定元素的定位类型
+static
+默认值，没有定位，遵从正常的文档流
+relative
+相对定位元素，相对于其正常位置进行定位，遵从正常的文档流
+absolute
+绝对定位元素，脱离正常文档流
+fixed
+绝对定位元素，固定在浏览器某处
+通过以下四种属性进行定位：
+left
+top
+right
+bottom
+z-index
+9. z-index 元素层叠顺序
+z-index 仅在定位元素上有效（例：position:absolute;）
+可以指定负数属性值（例：-1;）
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .z-index1 {
+            width: 100px;
+            height: 100px;
+            background-color: yellow;
+            position: absolute;
+            z-index: -1;
+        }
+        .z-index2 {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <div class="z-index1"></div>
+    <div class="z-index2"></div>
+</body>
+</html>
+10. outline 边框轮廓
+outline-width 轮廓宽度
+outline-color 轮廓颜色
+outline-style 轮廓样式
+11. zoom 缩放比例 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .zoom1 {
+            zoom: 100%;
+        }
+        .zoom2 {
+            zoom: 150%;
+        }
+        .zoom3 {
+            zoom: 200%;
+        }
+    </style>
+</head>
+<body>
+    <div class="zoom1">Nick 100%</div>
+    <div class="zoom2">Nick 200%</div>
+    <div class="zoom3">Nick 300%</div>
+</body>
+</html>
+12. cursor 鼠标的类型形状
+鼠标放在以下单词上，There will be a miracle：
+url: 自定义光标
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<link href="cc2.css" rel="stylesheet" type="text/css">-->
+    <style>
+        body {
+            cursor: url("mouse.png"), auto;
+            /*图片地址：http://images.cnblogs.com/cnblogs_com/suoning/845162/o_mouse.png*/
+        }
+    </style>
+</head>
+<body>
+    <div><img src="http://images.cnblogs.com/cnblogs_com/suoning/845162/o_ns.png" height="100%" width="100%"></div>
+</body>
+</html>
+自定义光标实例
+Auto: 默认
+Default: 默认
+e-resize
+ne-resize
+nw-resize
+n-resize
+se-resize
+sw-resize
+s-resize
+w-resize
+Crosshair
+Pointer
+Move
+text
+wait
+help
+not-allowed
+13. transform、transition 动画效果
+transform 转换，变形
+origin 定义旋转基点（left top center right bottom 坐标值） transform-origin: 50px 50px; transform-origin: left;。
+rotate 旋转 transform:rotate(50deg) 旋转角度可以为负数，需要先定义origin。
+skew 扭曲 transform:skew(50deg,50deg) 分别为相对x轴倾斜,相对y轴倾斜。
+scale 缩放 transform:scale(2,3) 横向放大2倍，纵向放大3倍；transform:scale(2) 横竖都放大2倍。 
+translate 移动 transform:translate(50px, 50px) 分别为相对x轴移动,相对y轴移动。
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>nick</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        div {
+            border: 1px solid black;
+            height: 30px;
+            width: 30px;
+            background-color: yellow;
+            /*transform-origin: 50px 50px;*/
+            transform-origin: left;
+            transform: rotate(50deg);
+            /*transform: skew(50deg,50deg);*/
+            /*transform: translate(50px,50px);*/
+            /*transform: scale(2);*/
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+</body>
+</html>
+Transition 平滑过渡
+transition-property： 变换的属性（none(没有属性改变)、all(所有属性改变)、具体属性）
+transition-duration： 变换持续时间
+transition-timing-function： 变换的速率（ease:(逐渐变慢)、linear:(匀速)、ease-in:(加速)、ease-out:(减速)、ease-in-out:(加速然后减速)、cubic-bezier:(自定义时间曲线））
+transition-delay： 变换延迟时间
+transition： 缩写
+#property 指定属性对应类型
+1、color： 通过红、绿、蓝和透明度组件变换（每个数值单独处理），如：background-color，border-color，color，outline-color等CSS属性；
+2、length：真实的数字，如：word-spacing，width，vertical- align，top，right，bottom，left，padding，outline-width，margin，min-width，min- height，max-width，max-height，line-height，height，border-width，border- spacing，background-position等属性；
+3、percentage：真实的数字，如：word-spacing，width，vertical- align，top，right，bottom，left，min-width，min- height，max-width，max-height，line-height，height，background-position等属性；
+4、integer 离散步骤（整个数字），在真实的数字空间，以及使用floor()转换为整数时发生，如：outline-offset，z-index等属性；
+5、number真实的（浮点型）数值，如：zoom，opacity，font-weight等属性；
+6、transform list。
+7、rectangle：通过x、 y、 width和height（转为数值）变换，如：crop；
+8、visibility：离散步骤，在0到1数字范围之内，0表示“隐藏”，1表示完全“显示”,如：visibility；
+9、shadow：作用于color、x、y、和blur（模糊）属性，如：text-shadow；
+10、gradient：通过每次停止时的位置和颜色进行变化。它们必须有相同的类型（放射状的或是线性的）和相同的停止数值以便执行动画，如：background-image；
+11、paint server (SVG)：只支持下面的情况：从gradient到gradient以及color到color，然后工作与上面类似；
+12、space-separated list of above：如果列表有相同的项目数值，则列表每一项按照上面的规则进行变化，否则无变化；
+13、a shorthand property：如果缩写的所有部分都可以实现动画，则会像所有单个属性变化一样变化。
+property 指定属性对应类型
+#支持执行transition效果的属性
+Property Name    Type
+background-color    as color
+background-position    as repeatable list of simple list of length, percentage, or calc
+border-bottom-color    as color
+border-bottom-width    as length
+border-left-color    as color
+border-left-width    as length
+border-right-color    as color
+border-right-width    as length
+border-spacing    as simple list of length
+border-top-color    as color
+border-top-width    as length
+bottom    as length, percentage, or calc
+clip    as rectangle
+color    as color
+font-size    as length
+font-weight    as font weight
+height    as length, percentage, or calc
+left    as length, percentage, or calc
+letter-spacing    as length
+line-height    as either number or length
+margin-bottom    as length
+margin-left    as length
+margin-right    as length
+margin-top    as length
+max-height    as length, percentage, or calc
+max-width    as length, percentage, or calc
+min-height    as length, percentage, or calc
+min-width    as length, percentage, or calc
+opacity    as number
+outline-color    as color
+outline-width    as length
+padding-bottom    as length
+padding-left    as length
+padding-right    as length
+padding-top    as length
+right    as length, percentage, or calc
+text-indent    as length, percentage, or calc
+text-shadow    as shadow list
+top    as length, percentage, or calc
+vertical-align    as length
+visibility    as visibility
+width    as length, percentage, or calc
+word-spacing    as length
+z-index    as integer
+transition 支持的属性
+鼠标放在以下图片上，There will be a miracle：
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>nick</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        .img-see-2016-7-2 {
+            background-image: url("http://images.cnblogs.com/cnblogs_com/suoning/845162/o_sea.jpg");
+            background-size: 660px;
+            background-repeat: no-repeat;
+            height: 300px;
+            width: 600px;
+            transition-duration: 30s;
+            transition-timing-function: ease;
+            transition-property: background-size;
+        }
+        .img-see-2016-7-2:hover {
+            background-size: 2000px;
+        }
+    </style>
+</head>
+<body>
+    <div class="img-see-2016-7-2"></div>
+</body>
+</html>
+上效果图代码
