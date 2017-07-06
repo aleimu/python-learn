@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用transitions功能实现多个属性的平滑过渡</title>
+    <style>
+		div
+			{
+            background-color: #ffff00;
+            color: #000000;
+            width: 300px;
+			transition-timing-function: linear;
+			/* Safari 和 Chrome  只写了这两种浏览器的方式，其他相似*/
+			-webkit-transition-property:width,color,background-color;
+			-webkit-transition-duration:1s;
+			-webkit-transition-timing-function:linear;
+			}
+
+        div:hover {
+            background-color: #003366;
+            color: #ffffff;
+            width: 400px
+        }
+    </style>
+</head>
+<body>
+<div>渐变与过度</div>
+</body>
+</html>
+
+下面简写
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用transitions功能实现多个属性的平滑过渡</title>
+    <style>
+        div {
+            background-color: #ffff00;
+            color: #000000;
+            width: 300px;
+            -webkit-transition: background-color 1s linear, color 1s linear, width 1s linear;
+            -moz-transition: background-color 1s linear, color 1s linear, width 1s linear;
+            -o-transition: background-color 1s linear, color 1s linear, width 1s linear;
+        }
+        div:hover {
+            background-color: #003366;
+            color: #ffffff;
+            width: 400px
+        }
+    </style>
+</head>
+<body>
+<div>渐变与过度</div>
+</body>
+</html>
