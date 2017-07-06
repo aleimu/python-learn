@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Dome3</title>
+<style type="text/css">
+/***********body的样式********/
+body {
+	margin: 0px;
+
+	padding: 0px;
+	line-height: 5px;
+	/*一般不要轻易在这里设置全局的格式会影响布局啊*/
+}
+/***********列的样式********/
+ul
+{
+float:left;
+width:100%;
+padding:0;
+margin:0;
+list-style-type:none;
+}
+/***********超链接的样式********/
+a:link {text-decoration:none;}    /* 未被访问的链接 */
+a:visited {text-decoration:none;} /* 已被访问的链接 */
+a:hover {text-decoration:underline;}   /* 鼠标指针移动到链接上 */
+a:active {text-decoration:underline;}  /* 正在被点击的链接 */
+/*
+one 链接改变颜色
+two 链接改变字体尺寸
+three 链接改变背景色
+four 链接改变字体
+five 链接改变文本的装饰
+*/
+a.one:link {color:#ff0000;}
+a.one:visited {color:#0000ff;}
+a.one:hover {color:#ffcc00;}
+
+a.two:link {color:#ff0000;}
+a.two:visited {color:#0000ff;}
+a.two:hover {font-size:150%;}
+
+a.three:link {color:#FFF;}
+a.three:visited {color:#FFF;}
+a.three:hover {background:#66ff66;}
+
+a.four:link {color:#ff0000;}
+a.four:visited {color:#0000ff;}
+a.four:hover {font-family:'微软雅黑';}
+
+a.five:link {color:#ff0000;text-decoration:none;}
+a.five:visited {color:#0000ff;text-decoration:none;}
+a.five:hover {text-decoration:underline;}
+
+</style>
+<script src="SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+<script src="SpryAssets/SpryValidationPassword.js" type="text/javascript"></script>
+<link href="SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
+<link href="SpryAssets/SpryValidationPassword.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<div style="line-height: 20px; margin:0; margin-left:2px; width: 100%;"> 代码改变世界 </div>
+
+
+<div style="line-height: 15px; margin:0" >
+<img style="float:left;" src="image/logo_small.gif" width="142" height="55" alt="logo" />
+<div style="margin:0px; line-height:50px; float:right;>
+<form action=; margin-top: 5px; margin-right: 20px;"" method="get">
+  <span id="sprytextfield1">
+  <label for="user">用户名</label>
+  <input name="user" type="text" id="user" size="10" maxlength="10" />
+  <span class="textfieldRequiredMsg">需要提供一个值。</span></span>
+  <span id="sprypassword1">
+  <label for="passwd">密码</label>
+  <input name="passwd" type="password" id="passwd" size="10" maxlength="10" />
+  <span class="passwordRequiredMsg">需要输入一个值。</span><span class="passwordMinCharsMsg">不符合最小字符数要求。</span><span class="passwordMaxCharsMsg">已超过最大字符数。</span></span>
+  <input name="sub" type="button" value="登陆" />
+</form>
+</div>
+</div>
+<div style="line-height: 30px; background-color: #2b6695; margin-bottom:15px; margin-top:60px; width: 100%;"> 
+<a class="three" href="#">园子</a>  
+<a class="three" href="#">新闻 </a>
+<a class="three" href="#">博问</a>  
+<a class="three" href="#">闪存</a>  
+<a class="three" href="#">小组</a>  
+<a class="three" href="#">收藏</a>  
+<a class="three" href="#">招聘</a> 
+<a class="three" href="#">知识库</a> 
+<a class="three" href="#">找找看</a>   
+</div>
+<!--
+<h5 style="margin:0px"> 代码改变世界</h5>
+<h5 style="margin:0px"> 代码改变世界</h5>
+background: #fff;
+color:#000;
+white-space:pre;
+-->
+<div  style="margin: 0px; margin-left:5px; line-height:30px; background-color:#eeeeee; height:500px; width:7%; float:left; padding:1px; line-height: 30px; list-style-type:none; text-shadow: 5px 5px 5px #888;">
+<li><a href="#">网站分类 </a>
+<li><a href="#">.NET技术 </a>
+<li><a href="#">编程语言 </a>
+<li><a href="#">软件设计</a>
+<li><a href="#">Web前端 </a>
+<li><a href="#">企业信息化</a>
+<li><a href="#">手机开发</a>
+<li><a href="#">软件工程 </a>
+<li><a href="#">数据库技术</a>
+<li><a href="#">操作系统 </a>
+<li><a href="#">其他分类 </a>
+<li><a href="#">所有随笔 </a>
+<li><a href="#">所有评论</a>
+</div>
+
+
+<div  style="margin: 0px; margin-left:5px; line-height:30px; background-color:#eeeeee; width:84%; float:left; padding:1px; line-height: 30px; list-style-type:none; text-shadow: 5px 5px 5px #888; height: 1000px;">
+
+</div>
+
+
+
+<div style="margin: 0px; margin-left:5px; line-height:30px; background-color:#eeeeee; height:500px; width:7%; float:left; padding:1px; line-height: 30px; list-style-type:none; text-shadow: 5px 5px 5px #888;">
+<form action="" method="get">
+<input type="text" size="12" /><input name="soso" type="button" value="找一找" />
+<input type="text" size="12" /><input name="soso" type="button" value="百度一下" />
+
+</form>
+<span>
+<li><a class="two" href="#">网站分类 </a>
+<li><a class="two" href="#">.NET技术 </a>
+<li><a class="two" href="#">编程语言 </a>
+<li><a class="two" href="#">软件设计</a>
+<li><a class="two" href="#">Web前端 </a>
+<li><a class="two" href="#">企业信息化</a>
+<li><a class="two" href="#">手机开发</a>
+<li><a class="two" href="#">软件工程 </a>
+</span>
+</div>
+<script type="text/javascript">
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1");
+var sprypassword1 = new Spry.Widget.ValidationPassword("sprypassword1", {minChars:6, maxChars:10});
+</script>
+<script src="./jquery.js" type="text/javascript"></script>
+<script src="./canvas-particle.js" type="text/javascript"></script>
+</body>
+
+
+</html>
