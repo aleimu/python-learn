@@ -1,0 +1,276 @@
+
+<!doctype html>
+<title>纯CSS多级菜单by 司徒正美</title>
+<meta charset="utf-8"/>
+<meta name="keywords" content="纯CSS多级菜单 by 司徒正美" />
+<meta name="description" content="纯CSS多级菜单 by 司徒正美" />
+</head>
+<body>
+  <style type="text/css">
+    * {
+      margin:0;
+      padding:0;
+    }
+    .menu {
+      font-size:12px;
+    }
+    .menu li {/*水平菜单*/
+      float:left;
+      list-style:none;
+      position:relative;/*把包含块移动li元素*/
+    }
+    .menu a {
+      display:block;
+      height:32px;
+      width:100px;
+      line-height:32px;
+      background:#a9ea00;
+      color:#ff8040;
+      text-decoration:none;
+      text-align:center;
+      overflow:hidden;/*★★★★*/
+    }
+    .menu a:hover {
+      background:#369;
+      color:#fff;
+    }
+    /*新增的二级菜单部分*/
+    .menu ul ul {
+      visibility:hidden;/*隐藏所有子菜单（二级的,三级的）*/
+      position:absolute;
+      left:0px;
+      top:32px;
+    }
+    /*指定是显示二级子菜单*/
+    .menu ul li:hover ul.second,/*非IE6*/
+    .menu ul a:hover ul.second{/*IE6*/
+      visibility:visible;
+    }
+
+    .menu ul ul li {
+      clear:both;/*垂直显示*/
+      text-align:left;
+    }
+    .menu .third,.menu .fourth,.menu .fifth,.menu .sixth{
+      top:0px;/*重设子菜单相对于包含块哪个位置出现*/
+      left:100px;
+    }
+    /*指定是显示三级子菜单*/
+    .menu ul ul li:hover ul.third,
+    .menu ul ul a:hover ul.third{
+      visibility:visible;
+    }
+    /*指定是显示四级子菜单*/
+    .menu ul ul ul li:hover ul.fourth,
+    .menu ul ul ul a:hover ul.fourth{
+      visibility:visible;
+    }
+    /*指定是显示五级子菜单*/
+    .menu ul ul ul ul li:hover ul.fifth,
+    .menu ul ul ul ul a:hover ul.fifth{
+      visibility:visible;
+    }
+    /*指定是显示六级子菜单*/
+    .menu ul ul ul ul ul li:hover ul.sixth,
+    .menu ul ul ul ul ul a:hover ul.sixth{
+      visibility:visible;
+    }
+    /*重设子菜单在鼠标滑过时的样式，有多少个ul就表明当前是多少级子菜单*/
+    /*二级子菜单*/
+    .menu ul ul a:hover{
+      background:black;
+      color:white;
+    }
+    /*三级子菜单*/
+    .menu ul ul ul a:hover{
+      background:#B45B3E;
+      color:#369;
+    }
+    .menu ul ul ul ul a:hover{
+      background:#FFE8AA;
+      color:#68DFFB;
+    }
+    .menu ul ul ul ul ul a:hover{
+      background:#8080C0;
+      color:#F8F8F8;
+    }
+    .menu ul ul ul ul ul ul a:hover{
+      background:#f00;
+      color:#000;
+    }
+    .menu table{
+      border-collapse:collapse;
+    }
+  </style>
+  <h3>纯CSS多级菜单 by 司徒正美</h3>
+  <p>这是六级菜单，只要页面够长，十级也能弄出来！</p>
+  <div class="menu">
+    <ul>
+      <li>
+        <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+        <a href="http://www.cnblogs.com/rubylouvre/">菜单一</a>
+        <ul class="second">
+          <li>
+            <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+            <a href="http://www.cnblogs.com/rubylouvre/">二级菜单_11</a>
+            <ul class="third">
+              <li>
+                <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+                <a href="http://www.cnblogs.com/rubylouvre/">三级菜单_11</a>
+                <ul class="fourth">
+                  <li>
+                    <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+                    <a href="http://www.cnblogs.com/rubylouvre/">四级菜单_11</a>
+                    <ul class="fifth">
+                      <li>
+                        <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+                        <a href="http://www.cnblogs.com/rubylouvre/">五级菜单_11</a>
+                        <ul class="sixth">
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_11</a></li>
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_12</a></li>
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_13</a></li>
+                        </ul>
+                        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                      </li>
+                      <li>
+                        <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+                        <a href="http://www.cnblogs.com/rubylouvre/">五级菜单_11</a>
+                        <ul class="sixth">
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_11</a></li>
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_12</a></li>
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_13</a></li>
+                        </ul>
+                        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                      </li>
+                      <li>
+                        <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+                        <a href="http://www.cnblogs.com/rubylouvre/">五级菜单_11</a>
+                        <ul class="sixth">
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_11</a></li>
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_12</a></li>
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_13</a></li>
+                        </ul>
+                        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                      </li>
+                    </ul>
+                    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                  </li>
+                  <li><!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+                    <a href="http://www.cnblogs.com/rubylouvre/">五级菜单_12</a>
+                    <ul class="sixth">
+                      <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_11</a></li>
+                      <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_12</a></li>
+                      <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_13</a></li>
+                    </ul>
+                  <!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+                </ul>
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+              </li>
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_12</a></li>
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_13</a></li>
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_14</a></li>
+            </ul>
+            <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+          </li>
+          <li>
+            <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+            <a href="http://www.cnblogs.com/rubylouvre/">二级菜单_12</a>
+            <ul class="third">
+              <li>
+                <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+                <a href="http://www.cnblogs.com/rubylouvre/">三级菜单_21</a>
+                <ul class="fourth">
+                  <li><a href="http://www.cnblogs.com/rubylouvre/">四级菜单_21</a></li>
+                  <li><a href="http://www.cnblogs.com/rubylouvre/">四级菜单_22</a></li>
+                </ul>
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+              </li>
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_22</a></li>
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_23</a></li>
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_24</a></li>
+            </ul>
+            <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+          </li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+      </li>
+      <li>
+        <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+        <a href="http://www.cnblogs.com/rubylouvre/">菜单二</a>
+        <ul class="second">
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_21</a></li>
+          <li>
+            <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+            <a href="http://www.cnblogs.com/rubylouvre/">二级菜单_22</a>
+            <ul class="third">
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_21</a></li>
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_22</a></li>
+              <li>
+                <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+                <a href="http://www.cnblogs.com/rubylouvre/">三级菜单_23</a>
+                <ul class="fourth">
+                  <li><a href="http://www.cnblogs.com/rubylouvre/">四级菜单_21</a></li>
+                  <li><a href="http://www.cnblogs.com/rubylouvre/">四级菜单_22</a></li>
+                  <li>
+                    <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+                    <a href="http://www.cnblogs.com/rubylouvre/">四级菜单_23</a>
+                    <ul class="fifth">
+                      <li><a href="http://www.cnblogs.com/rubylouvre/">五级菜单_21</a></li>
+                      <li><a href="http://www.cnblogs.com/rubylouvre/">五级菜单_22</a></li>
+                      <li>
+                        <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+                        <a href="http://www.cnblogs.com/rubylouvre/">五级菜单_23</a>
+                        <ul class="sixth">
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_21</a></li>
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_22</a></li>
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_23</a></li>
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_24</a></li>
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_25</a></li>
+                          <li><a href="http://www.cnblogs.com/rubylouvre/">六级菜单_26</a></li>
+                        </ul>
+                        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                      </li>
+                    </ul>
+                    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                  </li>
+                </ul>
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+              </li>
+            </ul>
+            <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+          </li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+      </li>
+      <li>
+        <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+        <a href="http://www.cnblogs.com/rubylouvre/">菜单三</a>
+        <ul class="second">
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_31</a></li>
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_32</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+      </li>
+      <li>
+        <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+        <a href="http://www.cnblogs.com/rubylouvre/">菜单四</a>
+        <ul class="second">
+          <li>
+            <!--[if lte IE 6]><a href=""><table><tr><td><![endif]-->
+            <a href="http://www.cnblogs.com/rubylouvre/">二级菜单_41</a>
+            <ul class="third">
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_41</a></li>
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_42</a></li>
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_43</a></li>
+              <li><a href="http://www.cnblogs.com/rubylouvre/">三级菜单_44</a></li>
+            </ul>
+            <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+          </li>
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_42</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
