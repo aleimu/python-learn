@@ -1,0 +1,88 @@
+/* 渐变动画 http://www.cnblogs.com/coco1s/p/6603403.html */
+div {
+    background: linear-gradient(90deg,  #ffc700 0%, #e91e1e 33%, #6f27b0 66%, #00ff88 100%);
+    background-position: 100% 0;
+    animation: bgSize 5s infinite ease-in-out alternate;
+
+}
+
+@keyframes bgSize {
+    0% {
+        background-size: 300% 100%;
+    }
+    100% {
+        background-size: 100% 100%;
+    }
+}
+
+
+
+
+div {
+    background: linear-gradient(90deg,  #ffc700 0%, #e91e1e 50%, #6f27b0 100%);
+    background-size: 200% 100%;
+    background-position: 0 0;
+    animation: bgposition 2s infinite linear alternate;
+}
+
+@keyframes bgposition {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+/* 实现原理 ：先做一个渐变背景，然后通过animation 改变位移，从而实现背景颜色的连续渐变*/
+<html>
+<head>
+
+<style type="text/css">
+div {
+    background: linear-gradient(90deg,  #ffc700 0%, #e91e1e 33%, #6f27b0 66%, #00ff88 100%);
+    background-position: 100% 0;
+    animation: bgSize 5s infinite ease-in-out alternate;
+
+}
+
+@keyframes bgSize {
+    0% {
+        background-size: 400% 100%;
+    }
+    100% {
+        background-size: 100% 100%;
+    }
+}
+h1{background: linear-gradient(90deg,  #ffc700 0%, #e91e1e 33%, #6f27b0 66%, #00ff88 100%);}
+
+</style>
+
+</head>
+
+<body>
+<h1> 固定的渐变色背景</h>
+<div> 连续变化的渐变色背景 </div>
+<div> 连续变化的渐变色背景 </div>
+<div> 连续变化的渐变色背景 </div>
+</body>
+</html>
+
+/* 控制整个 3D 效果的展示 */
+<!-- 最外层容器，控制图形的位置及在整个页面上的布局-->
+<div class="container">
+    <!-- 舞台层，设置 preserve-3d 与 perspective 视距  -->
+    <div class="stage">
+        <!-- 控制层，动画的控制层，通过这一层可以添加旋转动画或者触摸动画 -->
+        <div class="control">
+            <!-- 图片层，装入我们要拼接的图片 -->
+            <div class="imgWrap">
+                <div class="img img1"></div>
+                <div class="img img2"></div>
+                <div class="img img3"></div>
+                <div class="img img4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
