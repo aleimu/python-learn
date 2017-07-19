@@ -1596,4 +1596,76 @@ chkconfig mysqld on        #设定mysqld在各等级为on，“各等级”包�
 3.chkconfig --level 35 mysqld on
     修改服务的默认启动等级。
 }
+linux释放内存{
 
+sync
+echo 1 > /proc/sys/vm/drop_caches
+echo 2 > /proc/sys/vm/drop_caches
+echo 3 > /proc/sys/vm/drop_caches
+}
+
+端口转发{
+curl -k -v -X POST -H "Content-type:application/x-www-form-urlencoded;charset=UTF-8" 'http://10.175.102.225:9443/sysmgt/api/v1/env/login' -d 'username=topus&password=cnp200@HW'
+
+curl -k -v -X POST -H "Content-type:application/x-www-form-urlencoded;charset=UTF-8" 'http://10.175.102.225:9580/sysmgt/api/v1/env/login' -d 'username=topus&password=cnp200@HW'
+
+curl -k -v -X POST -H "Content-type:application/x-www-form-urlencoded;charset=UTF-8" 'http://10.175.102.226:9580/sysmgt/api/v1/env/login' -d 'username=topus&password=cnp200@HW'
+
+curl -k -v -X POST -H "Content-type:application/x-www-form-urlencoded;charset=UTF-8" 'http://10.175.102.225:8000/sysmgt/api/v1/env/login' -d 'username=topus&password=cnp200@HW'
+
+
+
+将与 80 端口的 TCP 连接转接到本地的 8080 端口上。使用 DNAT (Destination Network Address Translation) 技术可以满足这一要求。因为 iptables 在处理本地连接和远程连接的方法不同，所以需要分开处理。下面假设本机的 IP 是 192.168.4.177。
+#远程连接
+远程连接指的是由另外一台机器连接到这台机器上。这种连接的数据包在 iptables 会首先经过 PREROUTING 链，所以只需在 PREROUTING 链中作 DNAT。
+
+iptables -t nat -A PREROUTING -p tcp -i eth0 -d 192.168.4.177 --dport 80 -j DNAT --to 192.168.4.177:8080 
+
+#本地连接
+本地连接指的是在本机上，用 127.0.0.1 或者本机 IP 来访问本机的端口。本地连接的数据包不会通过网卡，而是由内核处理后直接发给本地进程。这种数据包在 iptables 中只经过 OUTPUT 链，而不会经过 PREROUTING 链。所以需要在 OUTPUT 链中进行 DNAT。除了对 127.0.0.1 之外，对本机 IP (即 192.168.4.177) 的访问也属于本地连接。
+
+iptables -t nat -A OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j DNAT --to 127.0.0.1:8080
+iptables -t nat -A OUTPUT -p tcp -d 192.168.4.177 --dport 80 -j DNAT --to 127.0.0.1:8080 
+
+#将对10.175.102.225:8001的访问转发到127.0.0.1:9443上
+#成功案例，8001之前是不存在的，执行命令后netstat -anop|grep 8001 也不存在
+#本地 ---成功
+iptables -t nat -A OUTPUT -p tcp -d 10.175.102.225 --dport 8001 -j DNAT --to 127.0.0.1:9443
+
+#远程----都没有成功
+iptables -t nat -A PREROUTING -d 10.175.102.225 -p tcp -i eth1 --dport 8001 -j DNAT --to-destination 127.0.0.1:9443
+iptables -t nat -A PREROUTING -d 10.175.102.225 -p tcp --dport 8001 -j DNAT --to 127.0.0.1:9443
+iptables -t nat -A PREROUTING -d 10.175.102.225 -p tcp --dport 8001 -j DNAT --to-destination 127.0.0.1:9443
+iptables -t nat -A PREROUTING -p tcp -i eth1 -d 10.175.102.225 --dport 8001 -j DNAT --to 127.0.0.1:9443
+iptables -t nat -I POSTROUTING -d 10.175.102.225 -p tcp --dport 8001 -j SNAT --to-source 127.0.0.1:9443
+
+
+curl -k -v  POST -H "Content-type:application/x-www-form-urlencoded;charset=UTF-8" 'http://10.175.102.225:8001/sysmgt/api/v1/env/login' -d 'username=topus&password=cnp200@HW'
+
+
+
+# echo 1 > /proc/sys/net/ipv4/ip_forward 
+
+在进行试验时，如果要重新设置 iptables，需要首先清空 nat 表：
+iptables -F -t nat 
+
+用iptables 实现本地端口转发
+设定本机2121端口转发到21端口
+iptables -t nat -A PREROUTING -p tcp -i eth0 -d 10.136.57.57 --dport 2121 -j DNAT --to 10.136.57.57:21
+iptables -t nat -I POSTROUTING -d 10.136.57.57 -p tcp --dport 2121 -j SNAT --to-source 10.136.57.57
+cat /porc/sys/net/ipv4/ip_forward 开是否是1
+echo 1 > /porc/sys/net/ipv4/ip_forward #这是个暂时的做法，重启后就会失效，好的做法是：
+vim /etc/sysctl.conf
+修改其中的net.ipv4.ip_forward = 1
+然后要让它立即生效，需要执行命令：
+sysctl -p
+
+
+
+ssh -L <local port>:<remote host>:<remote port> <SSH hostname>
+
+ssh -L 127.0.0.1:9443:10.175.102.225:8580 root@127.0.0.1
+ssh -f -N -L 0.0.0.0:6004:192.168.222.135:5005 root@192.168.222.135
+ssh -f -N -L 0.0.0.0:6005:192.168.222.135:5005 root@127.0.0.1
+ssh -L 127.0.0.1:9443:0.0.0.0:111 root@127.0.0.1
+}
