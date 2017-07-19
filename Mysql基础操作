@@ -99,3 +99,152 @@ create table user(
 　　　　Revoke all on *.* from 'xiaoxi'@'%';　　#表示为xiaoxi用户取消所有数据库所有权限
 　　刷新权限：
 　　　　flush privileges;
+
+
+#mysql--增删改查
+{
+
+#修改表名
+
+#创建用户表
+CREATE TABLE IF NOT EXISTS user7(
+id  SMALLINT UNSIGNED KEY AUTO_INCREMENT,
+username VARCHAR(50) NOT NULL UNIQUE,
+password CHAR(20) NOT NULL,
+email VARCHAR(20) NOT NULL DEFAULT '592681026@qq.com',
+age TINYINT UNSIGNED DEFAULT 18,
+sex ENUM('男','女','保密') NOT NULL DEFAULT '男',
+addr VARCHAR(50) NOT NULL DEFAULT '上海',
+salary FLOAT(6,2),#这个是浮点型    6位数，保留两位小数
+regTime INT UNSIGNED,
+face CHAR(100) NOT NULL DEFAULT 'default.jpg'
+);
+
+INSERT user6(id,username,password,regTime) VALUES(1,'付志强','dazhi',1994);
+
+
+#重命名表名：user7变为user8
+ALTER TABLE user7 RENAME TO user8;
+ALTER TABLE user8 RENAME AS user7;#TO  和     AS   都可以省略
+ALTER TABLE user8 RENAME user7;
+
+RENAME TABLE 原表名 TO 新表名;#这个TO不能省略
+
+添加和删除字段
+
+#添加字段，删除字段
+#添加：ALTER TABLE tbl_name ADD 字段名称  字段类型[完整性约束条件][FIRST|AFTER 字段名称]（加在首部或者某个字段之后）   和写字段差不多  最后可以字段的位置
+#添加card字段 CHAR(18)
+ALTER TABLE user7 ADD card CHAR(18);
+ALTER TABLE user7 ADD test1 VARCHAR(100) NOT NULL UNIQUE;
+ALTER TABLE user7 ADD test2 VARCHAR(100) NOT NULL UNIQUE FIRST;
+
+
+#一次添加多个字段     选中一个表，完成多个操作
+ALTER TABLE user7
+
+ADD test5 VARCHAR(100) NOT NULL UNIQUE AFTER sex,
+ADD test6 SET('A','B','C');
+
+
+#删除指定字段   ALTER TABLE tab_name DROP 字段名称
+ ALTER TABLE user7 DROP test6;
+ 
+ #一次性的删除test1，test2，test3，test4，test5
+ ALTER TABLE user7
+ DROP test1, 
+ DROP test2,
+ DROP test3,
+ DROP test4;
+
+ #添加test字段 删除addr字段
+ ALTER TABLE user7
+ 
+ ADD test INT UNSIGNED NOT NULL DEFAULT 10 AFTER sex,
+ DROP addr;
+
+修改字段
+
+#修改字段      ALTER TABLE tab_name MODIFY  字段名称  字段类型[完整性约束条件][FIRST|AFTER 字段名称]
+ #MODIFY   修改字段类型  将email 修改位VARCHAR(200)
+ ALTER TABLE user7 MODIFY email VARCHAR(200);#这个修改的时候最好是带上全部的完整性约束条件
+ ALTER TABLE user7 MODIFY email VARCHAR(50) NOT NULL DEFAULT '592681026@qq.com';#带上完整的约束性
+ 
+ #将card字段移动到test字段之后
+ ALTER TABLE user7 MODIFY card CHAR(18) AFTER test;#这里要带上card的完整的约束性条件
+ 
+ #将test字段修改位CHAR(32) NOT NULL DEFAULT '123' 移动到第一个位置
+ ALTER TABLE user7 MODIFY test CHAR(32) NOT NULL DEFAULT '1234' FIRST;
+ 
+ #修改字段的名称（也能完成MODIFY的功能）      ALTER TABLE tab_name   原字段名称   新字段名称   字段类型  
+ #将test字段改为test1
+ ALTER TABLE user7 CHANGE test test1 CHAR(32) NOT NULL ;
+
+添加删除默认值
+#添加删除默认值
+ ALTER TABLE 表名 ALTER 字段名称 SET DEFAULT 默认值
+ ALTER TABLE 表名 ALTER 字段名称 DROP DEFAULT
+添加删除主键
+
+#添加和删除主键
+ ALTER TABLE 表名 ADD [CONSTRAINT] PRIMARY KEY (字段名称,...)#...表示括号里面可以是多个字段，那就是复合主键了，如果是一个，那就是单一主键了
+ ALTER TABLE 表名 DROP PRIMARY KEY
+ 
+CREATE TABLE test12(
+id INT
+ );
+ALTER TABLE test12 ADD PRIMARY KEY (id);
+
+CREATE TABLE test13(
+id INT,
+card VARCHAR(50) NOT NULL
+);
+ALTER TABLE test13 ADD PRIMARY KEY (id,card);
+
+ALTER TABLE test13 DROP PRIMARY KEY;#删除
+ALTER TABLE test12 DROP PRIMARY KEY;#删除
+
+#注意：这里如果建表的时候自增长和主键同时存在的时候，你不能直接删除主键，而是应该先是删除AOTU_INCREMENT，然后再删除主键
+ALTER TABLE 表名 MODIFY id UNSIGNED NOT NULL;#这样自增长就没有了 
+
+添加删除唯一
+
+#添加测试索引
+ALTER TABLE 表名 ADD UNIQUE(username);
+ALTER TABLE 表名 ADD  CONSTRAINT symbol UNIQUE  uni_id(username);#这里的uni_id 是一个索引的名称，如果不写这个系统会让字段名称变成默认的索引名称
+ALTER TABLE 表名 ADD  CONSTRAINT symbol UNIQUE  aa(card，username);#复合索引唯一
+
+#删除索引唯一
+ALTER TABLE 表名 DROP {INDEX|KEY} 唯一名称;
+
+#修改表的引擎
+ALTER TABLE 表名 ENGINE=MyISAM;
+
+#修改自增长值
+ALTER TABLE 表名 AUTO_INCREMENT=100;
+
+删除数据表
+
+#删除数据表     
+DROP TABLE [IF  EXISTS]表名;#可以一次删除多个  也可以删除一个    类似于添加。
+当然手动删除也是可以的。必须先关闭mysql，在关闭mysql服务，最后在文件中手动删除数据表，
+
+#当我们进入mysql想登录的同时直接打开某个数据库的时候：
+mysql -uroot -p -D 数据库名称。
+
+更新删除   应用order by 和limit
+　　
+
+#更新用户名为4位的用户，让其已有的年龄-3
+UPDATE cms_user SET age=age-3 WHERE username LIKE '____';
+
+#更新前三条记录 ，让已有年龄+10
+UPDATE cms_user SET age=age+10 LIMIT 3;
+UPDATE cms_user SET age=age+10 LIMIT 0,3;
+
+#按照id降序排列 更新前三条
+UPDATE cms_user SET age=age+10 ORDER BY id DESC LIMIT 3;
+
+#删除用户性别为男的用户，按照年龄降序排序，删除前一条记录
+DELETE  FROM cms_user WHERE sex='男' ORDER BY age DESC LIMIT 1; 
+}
