@@ -1,0 +1,127 @@
+
+<!doctype html>
+<title>纯CSS两级菜单 </title>
+<meta charset="utf-8"/>
+<meta name="keywords" content="纯CSS两级菜单 " />
+<meta name="description" content="纯CSS两级菜单 " />
+</head>
+<body>
+  <style type="text/css">
+    * {
+      margin:0;
+      padding:0;
+    }
+    .menu {
+      font-size:12px;
+    }
+    .menu li {/*水平菜单*/
+      float:left; /* 左浮动 */
+      list-style:none; /* 去掉列表后的园点 */
+      position:relative;/*相对定位，把包含块移动li元素*/
+    }
+    .menu a {
+      display:block; /*  Display(显示) and Visibility（可见性） */
+      /*position:relative;发现放在a元素中，
+      在标准游览器中惨不忍睹，
+      和纯CSS相册3的第一个运行框在chrome中遇到的bug一样*/
+      height:32px;
+      width:100px;
+      line-height:32px;
+      background:#a9ea00;
+      color:#ff8040;
+      text-decoration:none; /* 去掉下划线 */
+      text-align:center; /* 居中 */
+    }
+    .menu a:hover {
+      background:#369;
+      color:#fff;
+    }
+    /*新增的二级菜单部分*/
+    .menu ul ul {
+      visibility:hidden;/*开始时是隐藏的*/
+      position:absolute;
+      left:0px;
+      top:32px;
+    }
+    .menu ul li:hover ul,/*非IE6*/
+    .menu ul a:hover ul{/*IE6*/
+      visibility:visible; /* 显示 */
+    }
+    .menu ul ul li {
+      clear:both;/*垂直显示*/
+      text-align:left;
+    }
+/* 一个小扩展，让二级菜单变色方式和一级不同
+    .menu ul ul li a:hover {
+  background:red;
+  color:yellow;
+} */
+  </style>
+  <h1>纯CSS两级菜单 </h1>
+  <div class="menu">
+    <ul>
+      <li>
+        <a href="http://www.cnblogs.com/rubylouvre/">菜单一 </a>
+        <ul>
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_11</a></li>
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_12</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="http://www.cnblogs.com/rubylouvre/">菜单二</a>
+        <ul>
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_21</a></li>
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_22</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="http://www.cnblogs.com/rubylouvre/">菜单三 </a>
+        <ul>
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_31</a></li>
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_32</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="http://www.cnblogs.com/rubylouvre/">菜单四</a>
+        <ul>
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_41</a></li>
+          <li><a href="http://www.cnblogs.com/rubylouvre/">二级菜单_42</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
+
+
+<!-- 上面代码的一些解析
+
+Display(显示) and Visibility （可见性）
+
+display:block;
+块元素是一个元素，占用了全部宽度，在前后都是换行符。
+块元素的例子:
+<h1>
+<p>
+<div>
+内联元素只需要必要的宽度，不强制换行。
+
+内联元素的例子：
+<span>
+<a>
+
+display的一些常用属性:
+none 此元素不会被显示。
+block 此元素将显示为块级元素，此元素前后会带有换行符。
+inline 默认。此元素会被显示为内联元素，元素前后没有换行符。
+inline-block 行内块元素。（CSS2.1 新增的值）
+
+
+
+visibility 属性。
+visible 默认值。元素是可见的。
+hidden 元素是不可见的。
+collapse 当在表格元素中使用时，此值可删除一行或一列，但是它不会影响表格的布局。被行或列占据的空间会留给其他内容使用。如果此值被用在其他的元素上，会呈现为 "hidden"。
+inherit 规定应该从父元素继承 visibility 属性的值。
+
+ -->
