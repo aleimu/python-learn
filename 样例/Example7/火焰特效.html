@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- 双斜角横线菜单 -->
+<style type="text/css">
+    * {
+      margin:40px;
+      padding:10px;
+      /* float: left; */
+    }
+
+
+.circle1{
+            width: 20px;
+            height: 20px;
+            background-color: Gainsboro;
+            border-radius: 20%;
+            box-shadow:2px 2px 5px Gainsboro;
+            transform: rotate(45deg);
+
+            position:relative;
+            animation:move1 2s;
+            -webkit-animation:move1 2s; /* Safari and Chrome */
+            animation-timing-function:ease-in-out ; /* 速度 */
+            -webkit-animation-name:move1;
+            -webkit-animation-duration:2s; /* 规定动画完成一个周期所花费的秒或毫秒。默认是 0。 */
+            -webkit-animation-timing-function:ease-in-out ; /* 速度 */
+            -webkit-animation-iteration-count:infinite; /* 无限播放 */
+            -webkit-animation-direction:alternate;
+        }
+
+.circle2{
+            width: 50px;
+            height: 50px;
+            background-color: OrangeRed;
+            border-radius: 20%;
+            box-shadow:2px 2px 5px OrangeRed;
+            transform: rotate(45deg);
+
+            position:relative;
+            animation:move2 2s;
+            -webkit-animation:move2 2s; /* Safari and Chrome */
+            animation-timing-function:ease-in-out;
+            -webkit-animation-name:move2;
+            -webkit-animation-duration:2s; /* 规定动画完成一个周期所花费的秒或毫秒。默认是 0。 */
+            -webkit-animation-timing-function:ease-in-out ; /* 速度 */
+            -webkit-animation-iteration-count:infinite; /* 无限播放 */
+            -webkit-animation-direction:alternate;
+
+        }
+
+.circle3{
+            width: 80px;
+            height: 80px;
+            background-color: Gold;
+            border-radius: 10%;
+            box-shadow:2px 2px 5px Gold;
+            transform: rotate(45deg);
+            position:relative;
+            animation:move3 2s;
+            -webkit-animation:move3 2s; /* Safari and Chrome */
+            animation-timing-function:ease-in-out;
+            -webkit-animation-name:move3;
+            -webkit-animation-duration:2s; /* 规定动画完成一个周期所花费的秒或毫秒。默认是 0。 */
+            -webkit-animation-timing-function:ease-in-out ; /* 速度 */
+            -webkit-animation-iteration-count:infinite; /* 无限播放 */
+            -webkit-animation-direction:alternate;
+            -webkit-animation-delay:1s;
+
+        }
+
+.circle4{
+            width: 100px;
+            height: 100px;
+            background-color: Yellow;
+            border-radius: 10%;
+            box-shadow:2px 2px 5px Yellow;
+            transform: rotate(45deg);
+            position:relative;
+            animation:move4 5s;
+            -webkit-animation:move4 5s; /* Safari and Chrome */
+            animation-timing-function:ease-in-out;
+            -webkit-animation-name:move4;
+            -webkit-animation-duration:5s; /* 规定动画完成一个周期所花费的秒或毫秒。默认是 0。 */
+            -webkit-animation-timing-function:ease-in-out ; /* 速度 */
+            -webkit-animation-iteration-count:infinite; /* 无限播放 */
+            -webkit-animation-direction:alternate;
+            -webkit-animation-delay:1s;
+
+        }
+.muchai{
+            position:absolute;
+            float: left;
+            margin: 100px 100px 100px 100px;
+            padding:10px;
+            width: 50px;
+            height: 300px;
+            background-color: Sienna;
+            border-radius: 10%;
+            box-shadow:2px 2px 5px Sienna;
+            transform: rotate(75deg);
+            -ms-transform: rotate(75deg);       /* IE 9 */
+            -webkit-transform: rotate(75deg);   /* Safari and Chrome */
+      }
+
+
+
+
+@keyframes move1
+{
+0%   {left:0px; top:0px; width:20px; height:20px;}
+25%  {left:10px; top:25px; width:15px; height:15px;}
+50%  {left:30px; top:-35px; width:10px; height:10px;}
+75%  {left:-30px; top:-25px; width:5px; height:5px;}
+100% {left:0px; top:0px; width:1px; height:1px; }
+}
+
+@keyframes move2
+{
+0%   {left:10px; top:20px; width:40px; height:40px;}
+25%  {left:0px; top:25px; width:30px; height:35px;}
+50%  {left:20px; top:45px; width:20px; height:20px;}
+75%  {left:-25px; top:25px; width:30px; height:30px;}
+100% {left:0px; top:20px; width:45px; height:45px; }
+}
+
+@keyframes move3
+{
+0%   {left:0px; top:20px;}
+25%  {left:0px; top:45px;}
+50%  {left:15px; top:55px;}
+75%  {left:0px; top:35px;}
+100% {left:-10px; top:20px;}
+}
+
+@keyframes move4
+{
+0%   {left:0px; top:0px;}
+25%  {left:0px; top:20px;}
+50%  {left:10px; top:50px;}
+75%  {left:0px; top:20px;}
+100% {left:0px; top:0px;}
+}
+</style>
+
+
+
+</head>
+<body>
+
+<div class="circle1"></div>
+<div class="circle2"></div>
+<div class="circle3"></div>
+<div class="circle4"></div>
+
+<div class="muchai" style="left:35px;top:350px;"></div>
+<div class="muchai" style="transform: rotate(-75deg);left:100px;top:350px;"></div>
+</body>
+</html>
+
