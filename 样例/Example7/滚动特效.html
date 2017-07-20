@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- 双斜角横线菜单 -->
+<style type="text/css">
+    * {
+      margin:10px;
+      padding:10px;
+      float: left;
+    }
+
+
+.circle1{
+            width: 50px;
+            height: 50px;
+            background-color: GoldenRod;
+            border-radius: 50%;
+            box-shadow:2px 2px 5px GoldenRod;
+
+            position:relative;
+            animation:move1 5s;
+            -webkit-animation:move1 5s; /* Safari and Chrome */
+            animation-timing-function:ease-in-out ; /* 速度 */
+            -webkit-animation-name:move1;
+            -webkit-animation-duration:5s; /* 规定动画完成一个周期所花费的秒或毫秒。默认是 0。 */
+            -webkit-animation-timing-function:ease-in-out ; /* 速度 */
+            -webkit-animation-iteration-count:infinite; /* 无限播放 */
+            -webkit-animation-direction:alternate;
+        }
+
+.circle2{
+            width: 50px;
+            height: 50px;
+            background-color: blue;
+            border-radius: 50%;
+            box-shadow:2px 2px 5px blue;
+
+            position:relative;
+            animation:move2 5s;
+            -webkit-animation:move2 5s; /* Safari and Chrome */
+            animation-timing-function:ease-in-out;
+            -webkit-animation-name:move2;
+            -webkit-animation-duration:5s; /* 规定动画完成一个周期所花费的秒或毫秒。默认是 0。 */
+            -webkit-animation-timing-function:ease-in-out ; /* 速度 */
+            -webkit-animation-iteration-count:infinite; /* 无限播放 */
+            -webkit-animation-direction:alternate;
+
+        }
+
+.circle3{
+            width: 50px;
+            height: 50px;
+            background-color: GreenYellow;
+            border-radius: 50%;
+            box-shadow:2px 2px 5px GreenYellow;
+
+            position:relative;
+            animation:move3 5s;
+            -webkit-animation:move3 5s; /* Safari and Chrome */
+            animation-timing-function:ease-in-out;
+            -webkit-animation-name:move3;
+            -webkit-animation-duration:5s; /* 规定动画完成一个周期所花费的秒或毫秒。默认是 0。 */
+            -webkit-animation-timing-function:ease-in-out ; /* 速度 */
+            -webkit-animation-iteration-count:infinite; /* 无限播放 */
+            -webkit-animation-direction:alternate;
+            -webkit-animation-delay:1s;
+
+        }
+
+.circle4{
+            width: 50px;
+            height: 50px;
+            background-color: DarkCyan;
+            border-radius: 50%;
+            box-shadow:2px 2px 5px DarkCyan;
+
+            position:relative;
+            animation:move4 5s;
+            -webkit-animation:move4 5s; /* Safari and Chrome */
+            animation-timing-function:ease-in-out;
+            -webkit-animation-name:move4;
+            -webkit-animation-duration:5s; /* 规定动画完成一个周期所花费的秒或毫秒。默认是 0。 */
+            -webkit-animation-timing-function:ease-in-out ; /* 速度 */
+            -webkit-animation-iteration-count:infinite; /* 无限播放 */
+            -webkit-animation-direction:alternate;
+            -webkit-animation-delay:2.5s;
+
+        }
+
+
+@keyframes move1
+{
+0%   {left:0px; top:0px;}
+25%  {left:90px; top:0px;}
+50%  {left:180px; top:0px;}
+75%  {left:270px; top:0px;}
+100% {left:360px; top:0px;}
+}
+
+@keyframes move2
+{
+0%   {left:0px; top:0px;}
+25%  {left:0px; top:70px;}
+
+75%  {left:0px; top:-70px;}
+100% {left:0px; top:0px;}
+}
+
+@keyframes move3
+{
+0%   {left:0px; top:0px;}
+25%  {left:0px; top:70px;}
+
+75%  {left:0px; top:-70px;}
+100% {left:0px; top:0px;}
+}
+
+@keyframes move4
+{
+0%   {left:0px; top:0px;}
+25%  {left:0px; top:70px;}
+
+75%  {left:0px; top:-70px;}
+100% {left:0px; top:0px;}
+}
+</style>
+
+
+
+</head>
+<body>
+
+<div class="circle1"></div>
+<div class="circle2"></div>
+<div class="circle3"></div>
+<div class="circle4"></div>
+
+</body>
+</html>
+
