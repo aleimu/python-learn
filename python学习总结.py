@@ -2722,6 +2722,100 @@ if __name__ == '__main__':
     print("完成的时间为：" + str(end - start))
 
 
+	
+	
+	
+#!/usr/bin/python3.4
+# -*- coding: utf-8 -*-
+# 听歌不占用时间、写代码和吃辣条需要时间互斥,上面的实例是先写代码写完再吃零食,下面修改锁的位置,使写代码和吃零食相交运行
+import time
+import threading
+
+# 打开线程锁
+lock = threading.Lock()
+
+
+class MyThread(threading.Thread):
+    def __init__(self, func, args, name=''):
+        threading.Thread.__init__(self)
+        self.name = name
+        self.func = func
+        self.args = args
+        #self.counter = counter
+
+    def run(self):
+        # 某某线程要开始了
+        print(self.name + "开始了##################")
+
+        if self.name == "听歌线程":
+            matter1(music)
+        elif self.name == "打码线程":
+            matter2(number)
+        elif self.name == "零食线程":
+            matter3(snacks)
+        print(self.name + "结束了##################")
+
+
+def matter1(music):
+    for i in range(0, len(music)):
+        print("第" + str(i + 1) + "首歌是：" + str(music[i]))
+        # 假设每一首歌曲的时间是2秒
+        time.sleep(6)
+        print("切换下一首歌...")
+
+
+def matter2(number):
+    j = 0
+    while j <= number:
+        lock.acquire()  # 加锁，锁住相应的资源
+        print("正在写第" + str(j + 1) + "行代码")
+        j = j + 1
+        # 假设每写一行代码的时间为1秒
+        time.sleep(0.5)
+        lock.release()  # 解锁，离开该资源
+        print("第" + str(j) + "行代码写好了!")
+
+
+def matter3(snacks):
+
+    for k in range(0, len(snacks)):
+        lock.acquire()  # 加锁，锁住相应的资源
+        print("我正在听着歌吃" + str(snacks[k]) + "零食")
+        # 每吃一袋零食间隔5秒
+        time.sleep(5)
+        lock.release()  # 解锁，离开该资源
+        print("吃完了一包零食")
+
+
+if __name__ == '__main__':
+    # 设定我要听的歌为
+    music = ["music1", "music2", "music3", "music4"]
+
+    # 设定我要打码的行数
+    number = 10
+
+    # 设定我想吃的零食
+    snacks = ["咪咪", "辣条", "可乐", "火腿", "花生"]
+
+    # 开始时间
+    start = time.time()
+
+    thing1 = MyThread(matter1, music, "听歌线程")
+    thing2 = MyThread(matter2, number, "打码线程")
+    thing3 = MyThread(matter3, snacks, "零食线程")
+    thing1.start()
+    thing2.start()
+    thing3.start()
+    thing1.join()
+    thing2.join()
+    thing3.join()
+
+    # 结束时间
+    end = time.time()
+    print("完成的时间为：" + str(end - start))
+	
+	
+	
 }
 
 #线程不安全的样例
@@ -2945,49 +3039,65 @@ Child process end.
 ####进程间通信 #######
 #!/usr/bin/python
 # -*- coding: utf-8 -*
-__author__ = 'zni.feng'
-import  sys
-reload (sys)
-sys.setdefaultencoding('utf-8')
 from multiprocessing import Process, Queue, Lock
-import os, time, random
-#写数据进程
+import os
+import time
+import random
+# 写数据进程
+
+
 def write(q, lock, name):
-    print 'Child Process %s starts' % name
-    #加锁
+    print('Child Process %s starts' % name)
+    # 加锁
     lock.acquire()
-    for value in ['A' , 'B', 'C']:
-        print 'Put %s to queue...' % value
+    for value in ['A', 'B', 'C']:
+        print('Put %s to queue...' % value)
         q.put(value)
         time.sleep(random.random())
-    #释放锁
+    # 释放锁
     lock.release()
-    print 'Child Process %s ends' % name
+    print('Child Process %s ends' % name)
 
-#读数据进程
+# 读数据进程
+
+
 def read(q, lock, name):
-    print 'Child Process %s starts' % name
-    while True: #持续地读取q中的数据
-        value =q.get()
-        print 'Get %s from queue.' % value
-    print 'Child Process %s ends' % name
+    print('Child Process %s starts' % name)
+    while True:  # 持续地读取q中的数据
+        value = q.get()
+        print('Get %s from queue.' % value)
+    print('Child Process %s ends' % name)
 
 if __name__ == "__main__":
-    #父进程创建queue，并共享给各个子进程
-    q= Queue()
-    #创建锁
+    # 父进程创建queue，并共享给各个子进程
+    q = Queue()
+    # 创建锁
     lock = Lock()
-    pw = Process(target = write , args=(q, lock, 'WRITE', ))
-    pr = Process(target = read, args=(q,lock, 'READ',))
-    #启动子进程pw,写入：
+    pw = Process(target=write, args=(q, lock, 'WRITE', ))
+    pr = Process(target=read, args=(q, lock, 'READ',))
+    # 启动子进程pw,写入：
     pw.start()
-    #启动子进程pr，读取：
+    # 启动子进程pr，读取：
     pr.start()
-    #等待pw结束：
+    # 等待pw结束：
     pw.join()
-    #pr是个死循环，通过terminate杀死：
+    # pr是个死循环，通过terminate杀死：
     pr.terminate()
-    print 'Test finish.'	
+    print('Test finish.')
+
+	
+	
+root@api:/home/lgj/testfile# python3 pppp.py 
+Child Process WRITE starts
+Put A to queue...
+Child Process READ starts
+Get A from queue.
+Put B to queue...
+Get B from queue.
+Put C to queue...
+Get C from queue.
+Child Process WRITE ends
+Test finish.	
 }
 
 正则表达式学习{
@@ -3031,14 +3141,24 @@ proxies = {
   "https": "https://name:passwd@openproxy.huawei.com:8080",
 }
 
-#使用公司代理登陆博客园  在window上由于8080端口被占用导致报错10013，在179上可以访问成功
-bky_url='http://www.cnblogs.com/'
-proxies = {"http": "http://name:passwd@ip:8080","https": "https://name:passwd@ip:8080"}
-r3 =requests.get(bky_url,proxies=proxies)
-print(r3.status_code)
+#使用公司代理登陆博客园  window上也是可以的
+import requests
+proxies = {
+    "http": "http://china\\lwx307086:lgj%401234@openproxy.huawei.com:8080/",
+    "https": "https://china\\lwx307086:lgj%401234@openproxy.huawei.com:8080/",
+}
+# 上下两种都可以
+# proxies ={
+# "http" : r"http://lwx307086:lgj@1234@openproxy.huawei.com:8080",
+# "https" : r"https://lwx307086:lgj@1234@openproxy.huawei.com:8080",
+# }
+r = requests.get("https://www.cnblogs.com/",
+                 proxies=proxies, verify=False,)
+print(r.status_code)
+print(r.text)
+
 
 bky_url2="https://passport.cnblogs.com/user/signin" #登陆界面
-
 cookies={"SERVERID":'9ffd301069c1081a14d128e0c97deda8|1476261710|1476261492',
 '_ga':'GA1.2.458476210.1474601742',
 '__utmz':'226521935.1474888410.1.1.utmccn=(referral)|utmcsr=zzk.cnblogs.com|utmcct=/s|utmcmd=referral',
@@ -3719,6 +3839,10 @@ set https_proxy=CHINA\namename:passwd@ip:8080
 export http_proxy=CHINA\name:passwd@ip:8080
 export https_proxy=CHINA\namename:passwd@ip:8080
 
+公司所在网络需要使用代理服务器进行安装，命令如下：
+python -m pip --proxy "http://user:password@proxyaddress:proxyPort" install -U pip
+其中user是w3用户名，password是w3密码，@后面是代理服务器地址和端口号。
+
 #cmd中的grep
 netstat -aon|findstr "8080"
 
@@ -4141,9 +4265,135 @@ print(hello(a=1,b=2))
 
 }
 
+from functools import wraps的用处{
+
+from functools import wraps
+
+def html_tags(tag_name):
+    print ('begin 1')
+    def wrapper_(func):
+        print ('begin 2')
+        #@wraps(func)   不使用functools.wraps(装饰包装器的装饰器)
+        def wrapperssss(*args, **kwargs):
+            content = func(*args, **kwargs)
+            print ("<{tag}>{content}</{tag}>".format(tag=tag_name, content=content))
+        print ('end 2')
+        return wrapperssss
+    print ('end 1')
+    return wrapper_
+
+@html_tags('b')
+def hello(name='Toby'):
+    print( 'Hello {}!'.format(name))
+
+print("------------")
+hello()
+print("------------")
+hello()
+
+help(hello)
+
+help(hello)的返回:
+Help on function wrapperssss in module __main__:
+
+wrapperssss(*args, **kwargs)
+    #@wraps(func)
+
+#对比组	
+	
+from functools import wraps
+
+def html_tags(tag_name):
+    print ('begin 1')
+    def wrapper_(func):
+        print ('begin 2')
+        @wraps(func) #使用装饰器的装饰
+        def wrapperssss(*args, **kwargs):
+            content = func(*args, **kwargs)
+            print ("<{tag}>{content}</{tag}>".format(tag=tag_name, content=content))
+        print ('end 2')
+        return wrapperssss
+    print ('end 1')
+    return wrapper_
+
+@html_tags('b')
+def hello(name='Toby'):
+    print( 'Hello {}!'.format(name))
+
+print("------------")
+hello()
+print("------------")
+hello()
+
+help(hello)
+
+help(hello)的返回:
+Help on function hello in module __main__:
+
+hello(name='Toby')	
+
+#另一个例子
+
+# -*-coding=utf-8 -*-
+
+import functools, time
+'''
+一个函数执行前打印开始执行，执行完后打印执行完成，记录执行时间
+'''
+
+def log(text):
+    if callable(text):  # 参数如果是函数，说明装饰器不带参传过来,text是一个函数
+        @functools.wraps(text)
+        def wrapper(*args, **kwargs):
+            start = time.clock()
+            print ('这是不带参数的装饰器,开始执行')
+            f = text(*args, **kwargs)  #执行本身的函数 text（）
+            end = time.clock()
+            print ("结束执行:", end - start)
+            return f  # 返还原函数
+        return wrapper
+
+    elif not callable(text):  # text是参数，不是函数
+        def decarator(func):
+            @functools.wraps(func)
+            def warpper(*args, **kwargs):
+                start = time.clock()
+                print ('这是带参数的装饰器,开始执行,参数为：'+text)
+                print ('这里我们尝试修改一下被装饰函数的参数值')
+                print(type(args)) # tuple不可修改.........,所以我们直接赋值
+                args=(5,5)
+                f = func(*args, **kwargs)
+                end=time.clock()
+                print ("结束执行:",end-start)
+                return f  #返还原函数
+            return warpper
+        return decarator
+    else:
+        print ('请检查是否正确')
+
+#先拆解装饰器的参数,再拆解被装饰的函数,再拆解被装饰函数的参数(一般这一步没有)
+
+@log
+def add1(x,y):
+    print (x+y)
+
+@log('222')
+def add2(x,y):
+    print  (x+y)
+
+add1(1,2)
+add2(2,3)
+
+help(add1)
+help(add2)
+
+	
+
+}
+
 多种装饰器的总结{
 
-# 1. 普通装饰漆，单功能附加，任意参数，需要2个return
+# 1. 普通装饰器，单功能附加，任意参数，需要2个return
 def debug(func):
     def wrapper(*args, **kwargs):  # 指定宇宙无敌参数
         print ("[DEBUG]: enter {}()".format(func.__name__))
@@ -4226,7 +4476,7 @@ def hello(name='Toby'):
 
 #print(hello())
 
-#上面的包装方式，少了一个return，包装时代参数后被包装的函数有返回值时被包装后会被改变成无返回值的函数
+#上面的包装方式，少了一个return，包装时代参数后被包装的函数有返回值时被包装后会被改变成无返回值的函数,原函数就有一个return
 #两层包装
 
 def a_b(tag_name):
@@ -5380,8 +5630,10 @@ jobs（查看后台作业）
 
 }
 
-
 try ... except {
+
+#http://www.cnblogs.com/ybwang/p/4738621.html 执行顺序
+#http://www.cnblogs.com/xu-rui/p/6477271.html with的内部实现
 try ... except 语句可以带有一个 else子句 ，该子句只能出现在 有 except 子句之
 后。 try语句没有出现异常时，还想要行执行一些代码，可以使这个子句。例 :
 for arg in sys.argv[1:]:
@@ -5431,6 +5683,192 @@ else: #没有异常时执行
 finally: #不管是否有异常都会执行
     print("Cleaning up")
 	
+
+1. 如果没有异常发生， try中有return 语句， 这个时候else块中的代码是没有办法执行到的， 但是finally语句中如果有return 语句会修改最终的返回值， 我个人理解的是try中return 语句先将要返回的值放在某个 CPU寄存器，然后运行finally语句的时候修改了这个寄存器的值，最后在返回到try中的return语句返回修改后的值。
+2. 如果没有异常发生， try中没有return语句，那么else块的代码是执行的，但是如果else中有return， 那么也要先执行finally的代码， 返回值的修改与上面一条一致。
+3. 如果有异常发生，try中的return语句肯定是执行不到， 在捕获异常的 except语句中，如果存在return语句，那么也要先执行finally的代码，finally里面的代码会修改最终的返回值，然后在从 except 块的retrun 语句返回最终修改的返回值， 和第一条一致。	
+
+# 探索with的处理过程
+# http://www.cnblogs.com/chenny7/p/4213447.html
+# http://www.cnblogs.com/xu-rui/p/6477271.html
+
+
+class Context:
+    def __init__(self, name):
+        self.name = name
+
+    def __enter__(self):
+        print("Begin.__enter__")
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print("End.__exit__")
+
+    def context(self):
+        print("This is context ...{}".format(self.name))
+
+# 如果带上 as 变量,那么__enter__()方法必须得返回一个东西,要不然会报错..
+with Context("xurui") as context:
+    print("1...........")
+    context.context()
+    print("2...........")
+with Context("xurui"):
+    print("3...........")
+    Context("xurui").context()
+    print("4...........")
+
+
+# 不能对Python的任意符号使用with语句，它仅能工作于支持上下文管理协议（context management protocol）的对象
+# file
+# decimal.Context
+# thread.LockType
+# threading.Lock
+# threading.RLock
+# threading.Condition
+# threading.Semaphore
+# threading.BoundedSemaphore
+
+# 当我们需要自定义一个上下文管理器类型的时候，就需要实现__enter__和__exit__方法，这对方法就称为上下文管理协议
+# __enter__ 方法将在进入代码块前被调用。
+# __exit__ 方法则在离开代码块之后被调用(即使在代码块中遇到了异常)。
+
+
+# 进阶
+print("python库中还有一个模块contextlib，使你不用构造含有__enter__, __exit__的类就可以使用with")
+from contextlib import contextmanager
+
+
+@contextmanager
+def context():
+    print('entering the zone')
+    try:
+        yield
+    except (Exception, e):
+        print('with an error %s' % e)
+        raise e
+    else:
+        print('with no error')
+
+with context():
+    print('----in context call------')
+
+
+print("python库中还有一个模块contextlib，使你不用构造含有__enter__, __exit__的类就可以使用with")
+import queue
+import contextlib
+
+
+@contextlib.contextmanager
+def worker_state(xxx, val):
+    xxx.append(val)
+    # print(xxx)
+    try:
+        yield
+    finally:
+        xxx.remove(val)
+        # print(xxx)
+
+
+q = queue.Queue()
+li = []
+q.put("xurui")
+with worker_state(li, 1):
+    print("before", li)
+    q.get()
+print("after", li)
+
+
+print("python库中还有一个模块contextlib，使你不用构造含有__enter__, __exit__的类就可以使用with")
+import contextlib
+
+
+@contextlib.contextmanager
+def MyOpen(filename, mode):
+    try:
+        print("create file begin")
+        # 如果open filename失败就会立即执行Exception不会执行 print("create file end")
+        f = open(filename, mode, encoding='utf')
+        print("create file end")
+    except Exception as e:
+        print("open异常就会立即执行这句话 create file filed:", e)
+    else:
+        print("没有出现异常就会执行else中的语句")
+        yield f  # f return 给 as f的f    ----不是很懂啊,这里换成return就失败,哦,运行到这里会被暂停,等待f的调用,yield是生成的意思，但是在python中则是作为生成器理解，生成器的用处主要可以迭代
+        # return f
+    finally:
+        print("最后都会执行 close file 这句 print,但下一句f.close() 会不会执行就要看f创建成功没有")
+        f.close()
+
+
+with MyOpen("1.py", 'w+') as f:
+    ret = f.readlines()
+    print("这里会在finally前执行,主要是yield的原因:", ret)
+
+	
+}
+
+python yield用法总结
+{
+def fab(max):
+    n, a, b = 0, 0, 1
+    while n < max:
+        yield b
+        # print b
+        a, b = b, a + b
+        n = n + 1
+
+for n in fab(5):
+    print(n)
+
+
+# 简单地讲，yield 的作用就是把一个函数变成一个 generator，带有 yield 的函数不再是一个普通函数，
+# Python 解释器会将其视为一个 generator，调用 fab(5) 不会执行 fab 函数，而是返回一个 iterable 对象！在 for 循环执行时，
+# 每次循环都会执行 fab 函数内部的代码，执行到 yield b 时，fab 函数就返回一个迭代值，下次迭代时，代码从 yield b 的下一条语句继续执行，
+# 而函数的本地变量看起来和上次中断执行前是完全一样的，于是函数继续执行，直到再次遇到 yield。
+
+# python yield用法总结
+# http://www.cnblogs.com/python-life/articles/4549996.html
+
+def read_file(fpath):
+    BLOCK_SIZE = 5
+    with open(fpath, 'rb') as f:
+        while True:
+            block = f.read(BLOCK_SIZE)
+            if block:
+                yield block
+            else:
+                return
+
+for x in read_file("./1.py"):
+    print(x)
+
+# 当一个函数中含有yield时, 它不再是一个普通的函数, 而是一个生成器.当该函数被调用时不会自动执行, 而是暂停,
+# 调用函数.next()才会被执行,如一个函数中出现多个yield则next()会停止在下一个yield前
+
+>> > def fun():
+... print 'start...'
+...  a, b = 1, 1
+...  m = yield 5
+... print m
+... print 'middle...'
+...  d = yield 12
+... print d
+... print 'end...'
+...
+>> > m = fun() // 函数未调用，而是创建一个生成器对象
+>> > next(m) // 调用next()执行函数，执行到下一个yield前，返回yield后面的值, 并且保留当前区域所有变量状态a = 1, b = 1
+start...
+5
+>> > m.send('message') // send(value)与next类似, 唤醒到上一次生成器暂停的位置执行，并把value值传给yield表达式, 即yield 5表达式的值是message
+message // send()传递进来的
+middle...
+12
+>> > next(m)
+None // next()相当于send(None), 传递给yield表达式的值是None，所以d的值是None
+end...
+Traceback(most recent call last):
+    File "<stdin>", line 1, in < module >
+StopIterationf
 
 }
 
@@ -6243,3 +6681,61 @@ user配置package control配置{
 	"remove_orphaned": false
 }
 }
+
+代理中有特殊字符{
+git config http.proxy http://username:password@127.0.0.1:8088，就会存在2个@，密码例如aa@bb
+git config http.proxy http://username:aa%40bb@proxy.huawei.com:8080
+通常的编码方法：
+1）按照某个编码集（例如utf-8，GB2312等）转化为16进制；
+2）在每个16进制的字节前，加上一个%；
+例子：汉字“节”的GB2312编码是“BD DA”，转成URL编码为“%BD%DA”
+}
+
+Sublime Text 3 配置Java开发{
+http://www.cnblogs.com/final/p/5348350.html
+
+内嵌模式
+在Sublime内部输出面板显示执行过程
+
+配置JavaC - INSET.sublime-build
+
+打开Sublime的包目录（选择菜单：Perferences > Browse Packages），进入User文件夹，
+新建文件JavaC - INSET.sublime-build：
+
+{
+    "cmd": ["C:/Users/AA/AppData/Roaming/Sublime Text 3/Packages/User/JavaC - INSET.cmd", "$file"],
+    "file_regex": "^(...*?):([0-9]*):?([0-9]*)",
+    "selector": "source.java",
+    "shell": true,
+    // Windows 中文版支持的编码格式是GBK，这条配置是通知Sublime Text 2以系统环境的编码格式输出，如果不加这一条配置，在编译运行时就会提示Decode error - output not utf-8错误
+    "encoding":"GBK"
+}
+配置JavaC - INSET.cmd
+
+在User文件夹（C:/Users/final/AppData/Roaming/Sublime Text 3/Packages/User/）
+新建JavaC - INSET.cmd：
+
+@ECHO OFF
+cd %~dp1
+ECHO Compiling %~nx1...
+IF EXIST %~n1.class (
+    DEL %~n1.class
+)
+
+rem javac %~nx1
+rem javac -encoding GBK %~nx1
+rem javac -encoding UTF-8 -d . %~nx1
+javac -encoding GBK -d . %~nx1
+IF EXIST %~n1.class (
+    ECHO ^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>
+    rem ECHO.
+    java %~n1
+    rem ECHO.
+    ECHO ^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>
+)
+
+}
+
+
+
+
