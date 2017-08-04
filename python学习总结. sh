@@ -27,12 +27,14 @@ http://www.cnblogs.com/skydesign/archive/2011/09/02/2163592.html
 一个有趣的python排序模块：bisect 插入一个数，再排序
 
 pygame学习资源{
-#比较不错的系列教材
-#http://www.cnblogs.com/msxh/category/751578.html
-#http://www.cnblogs.com/A-FM/p/6823288.html
-#http://www.cnblogs.com/xiaowuyi/category/426566.html
+比较不错的系列教材
+http://www.cnblogs.com/msxh/category/751578.html
+http://www.cnblogs.com/A-FM/p/6823288.html
+http://www.cnblogs.com/xiaowuyi/category/426566.html
 }
 pdir 是很不错的代替内置dir的库
+
+获取帮助的几个方法:help()\查看API文档\dir()
 
 }
 小知识点{
@@ -1687,7 +1689,64 @@ exec(open('test2.py').read())
      del d['key'] 
       value = d.pop('key') #删除并返回值 
      d.clear() #清空
-}  	 
+} 
+ 	 
+迭代器与生成器{
+# http://www.cnblogs.com/liluning/p/7274862.html
+
+
+def func():
+    # for i in 'AB':
+    #     yield i
+    yield from 'AB'  # 等同于上面两行
+    yield from [1, 2, 3]
+g = func()
+print(next(g))
+print(next(g))
+print(next(g))
+print(next(g))
+print(next(g))
+# print(next(g))
+#
+import timeit
+# 列表解析
+print(sum([i for i in range(100000)]))  # 内存占用大,机器容易卡死
+
+# 生成器表达式
+print(sum(i for i in range(100000)))  # 几乎不占内存
+
+print(timeit.timeit(stmt="sum([i for i in range(100000)])", number=1000))
+print(timeit.timeit(stmt="sum(i for i in range(100000))", number=1000))
+
+"""
+迭代器大部分都是在python的内部去使用的，我们直接拿来用就行了
+我们自己写的能实现迭代器功能的东西就叫生成器。
+
+迭代器协议：必须拥有__iter__方法和__next__方法
+
+把列表解析的[]换成()得到的就是生成器表达式
+列表解析与生成器表达式都是一种便利的编程方式，只不过生成器表达式更节省内存
+生成器表达式 具有延迟计算，一次返回一个结果。也就是说，它不会一次生成所有的结果，这对于大数据量处理，将会非常有用。
+"""
+# 判断是否可迭代和迭代器的简洁方法：iterator：迭代器；迭代程序...iterable：可迭代的；迭代的；
+from collections import Iterable
+from collections import Iterator
+s = 'abc'
+print(isinstance(s, Iterable))
+print(isinstance(s, Iterator))
+print(isinstance(iter(s), Iterator))
+
+
+a = [i for i in range(10)]  # 列表解析
+print("列表解析:", a)
+b = (i for i in range(10))  # 生成器表达式
+print("生成器表达式:", b)
+print(next(b))
+print(next(b))
+print(next(b))
+print(next(b))
+
+}
 
 python 学习手册摘要{
 
@@ -3103,7 +3162,56 @@ while True:
 }
 
 例子6{
+#读写分离
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+import socket
+import select
+import queue
+ip_port = ('127.0.0.1',9999)
 
+sk = socket.socket(socket.AF_INET,socket.SOCK_STREAM) #创建socket对象
+sk.bind(ip_port)    #绑定ip、端口
+sk.listen(5)    #监听
+sk.setblocking(False)   #不阻塞
+
+inputs = [sk,]
+outputs = []
+message={}
+while True:
+    rlist,wlist,eList = select.select(inputs,outputs,inputs,0.5)
+    #print("inputs:",inputs) #查看inputs列表变化
+    #print("rlist:",rlist) #查看rlist列表变化
+    #print(message)
+    for r in rlist:
+        if r == sk: #如果r是服务端
+            conn,address = r.accept()#
+            inputs.append(conn) #把连接的句柄加入inputs列表监听
+            message[conn] = queue.Queue()   #每个新的句柄对应一个队列
+            print (address)
+        else:
+            client_data = r.recv(1024)
+            if client_data: #如果有数据，返回数据
+                outputs.append(r)
+                message[r].put(client_data)    #在指定队列中插入数据
+            else:
+                inputs.remove(r)    #否则移除
+                del message[r]  #删除队列
+
+    for w in wlist: #如果wlist列表有值
+        try:
+            data =message[w].get_nowait()#去指定队列取数据
+            w.sendall(data)
+        except queue.Empty:
+            pass
+        outputs.remove(w)#因为output列表只要有数据每次都会加入wlist列表，所以发送完数据都要移除
+
+    for e in eList:
+        inputs.remove(e)#删除inputs监听的错误句柄
+        if e in outputs:#如果outputs里有也删除
+            outputs.remove(e)
+        e.close()
+        del message[e]  #删除队列
 }
 
 }
@@ -4888,7 +4996,7 @@ b'c3Vic2NyaWJlcjpTc01pbmkxQA==\n'
 asyncio{
 #http://www.cnblogs.com/styier/p/6415850.html  例子
 
-#程序总共等待10s
+#程序总共等待10.7s
 import asyncio
 async def print5s():
        print("开始运行！")
@@ -4902,9 +5010,30 @@ async def print10s():
 
 loop = asyncio.get_event_loop()
 
-loop.create_task(print5s())
-loop.create_task(print10s())
-loop.run_forever()
+a=loop.create_task(print5s())
+b=loop.create_task(print10s())
+tasks=[a,b]
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()
+#或者这样写
+import asyncio
+
+async def print5s():
+    print("开始运行！")
+    await asyncio.sleep(5.0)  # 挂起后台运行
+    print("结束运行！")
+
+
+async def print10s():
+    print("开始运行！")
+    await asyncio.sleep(10.0)  # 挂起后台运行
+    print("结束运行！")
+
+loop = asyncio.get_event_loop()
+tasks = [print5s(), print10s()]
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()
+
 
 #程序总共等待5s
 import asyncio
@@ -4992,6 +5121,18 @@ date = loop.run_until_complete(get_date())
 print("Current date: %s" % date)
 loop.close()
 
+#async和await是Python 3.5中新添加的关键词，用来定义一个原生的协程，以便于和基于协程的生成器相区别。
+在Python 3.4中，你可以按照如下方式创建一个协程，
+import asyncio
+@asyncio.coroutine
+def my_foo():
+    yield from func()
+这个装饰器在Python 3.5中依然有效，但是模块的类型有所更新，协程函数可以告诉你正在交互的是不是一个原生的协程。从Python 3.5开始，
+你可以使用async def这种语法来定义一个协程函数，所以上述函数可以按照如下方式定义，
+
+import asyncio
+async def my_coro():
+    await func()
 
 }
 
@@ -6383,6 +6524,26 @@ h = hmac.new('python'.encode('utf-8'))
 h.update('helloworld'.encode('utf-8'))
 print(h.hexdigest())
 
+
+}
+
+python之偏函数{
+#http://www.cnblogs.com/lucasxu1991/p/6850968.html
+#http://www.cnblogs.com/skiler/articles/6978162.html
+通过设定参数的默认值，可以降低函数调用的难度。而偏函数也可以做到这一点。举例,为方便转换int为二进制bytes,将base默认为2
+def int2(x, base=2):
+    return int(x, base)
+functools.partial就是帮助我们创建一个偏函数的，不需要我们自己定义int2()，可以直接使用下面的代码创建一个新的函数int2：
+>>> import functools
+>>> int2 = functools.partial(int, base=2)
+>>> int2('1000000')
+64
+>>> int2('1010101')
+85
+所以，简单总结functools.partial的作用就是，把一个函数的某些参数给固定住（也就是设置默认值），返回一个新的函数，调用这个新函数会更简单。
+注意到上面的新的int2函数，仅仅是把base参数重新设定默认值为2，但也可以在函数调用时传入其他值：
+>>> int2('1000000', base=10)
+1000000
 
 }
 
