@@ -3162,63 +3162,65 @@ while True:
 }
 
 例子6{
-#读写分离
+#读写分离,是例子5的较完整版
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import socket
 import select
 import queue
-ip_port = ('127.0.0.1',9999)
+ip_port = ('127.0.0.1', 8001)
 
-sk = socket.socket(socket.AF_INET,socket.SOCK_STREAM) #创建socket对象
-sk.bind(ip_port)    #绑定ip、端口
-sk.listen(5)    #监听
-sk.setblocking(False)   #不阻塞
+sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # 创建socket对象
+sk.bind(ip_port)  # 绑定ip、端口
+sk.listen(5)  # 监听
+sk.setblocking(False)  # 不阻塞
 
-inputs = [sk,]
+inputs = [sk, ]
 outputs = []
-message={}
+message = {}
 while True:
-    rlist,wlist,eList = select.select(inputs,outputs,inputs,0.5)
-    #print("inputs:",inputs) #查看inputs列表变化
-    #print("rlist:",rlist) #查看rlist列表变化
-    #print(message)
+    rlist, wlist, eList = select.select(inputs, outputs, inputs, 0.5)
+    print("inputs:", inputs)  # 查看inputs列表变化
+    print("rlist:", rlist)  # 查看rlist列表变化
+    print("message:",message)
     for r in rlist:
-        if r == sk: #如果r是服务端
-            conn,address = r.accept()#
-            inputs.append(conn) #把连接的句柄加入inputs列表监听
-            message[conn] = queue.Queue()   #每个新的句柄对应一个队列
-            print (address)
+        if r == sk:  # 服务端的文件描述符有变化,则表示服务端接受到了新客户端的请求,并加入inputs列表
+            conn, address = r.accept()
+            inputs.append(conn)  # 把连接的句柄加入inputs列表监听
+            message[conn] = queue.Queue()  # 每个新的句柄对应一个队列
+            print("address:",address)
         else:
             client_data = r.recv(1024)
-            if client_data: #如果有数据，返回数据
+            print("read_data:", client_data)
+            if client_data:  # 如果有数据，返回数据
                 outputs.append(r)
-                message[r].put(client_data)    #在指定队列中插入数据
+                message[r].put(client_data)  # 在指定队列中插入数据
             else:
-                inputs.remove(r)    #否则移除
-                del message[r]  #删除队列
+                inputs.remove(r)  # 否则移除
+                del message[r]  # 删除队列
 
-    for w in wlist: #如果wlist列表有值
+    for w in wlist:  # 如果wlist列表有值
         try:
-            data =message[w].get_nowait()#去指定队列取数据
-            w.sendall(data)
+            data = message[w].get_nowait()  # 去指定队列取数据
+            print("write_data:", date)
+            w.sendall(b"server get your message " + data)
         except queue.Empty:
             pass
-        outputs.remove(w)#因为output列表只要有数据每次都会加入wlist列表，所以发送完数据都要移除
+        outputs.remove(w)  # 因为output列表只要有数据每次都会加入wlist列表，所以发送完数据都要移除
 
     for e in eList:
-        inputs.remove(e)#删除inputs监听的错误句柄
-        if e in outputs:#如果outputs里有也删除
+        inputs.remove(e)  # 删除inputs监听的错误句柄
+        if e in outputs:  # 如果outputs里有也删除
             outputs.remove(e)
         e.close()
-        del message[e]  #删除队列
+        del message[e]  # 删除队列
 }
 
 }
 
 多线程 threading{
 
-方法1: 核心是继承threading.Thread类,通过修改Thread类的run()方法来定义线程所要执行的命令,并调用start()方法来运行线程, join让主线程等待每个线程返回，
+核心是继承threading.Thread类,通过修改Thread类的run()方法来定义线程所要执行的命令,并调用start()方法来运行线程, join让主线程等待每个线程返回，
 
 threading.Thread 类是主要的线程类，可以创建进程实例。该类提供的函数包括：
 getName(self) 返回线程的名字
