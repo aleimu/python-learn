@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block body %}
+  <ul class=entries>
+  {% for entry in entries %}
+    {% if session['username'] %}
+    <li>{{ entry.title }}
+    <li>{{ entry.text }}</li>
+    <form action="{{ url_for('upweb',id=entry.id) }}" method=POST class=add-entry>
+      <dl>
+        <dt>Title:
+        <dd><input type=text size=50 name=title>
+        <dt>Text:
+        <dd><textarea name=text rows=10 cols=50 wrap=soft></textarea>
+        <dd><input type=submit value='更新博客'>
+      </dl>
+    </form>
+    <form action="{{ url_for('delweb',id=entry.id) }}" method=POST class=add-entry>
+        <input type=submit value='删除博客'>
+    </form>
+    <input name=submit onclick="{{ url_for('delweb',id=entry.id) }}" method=POST class=add-entry type=button value=删除博客2>
+    <button type="button" class="close" data-dismiss="alert">button</button>
+  {% else %}
+    <li>请登录后查看！
+  {% endif %}
+  {% endfor %}
+  </ul>
+
+
+  <div>
+  <p style="color:red">两种加载图片的方式</p>
+  <img src='/static/1.png'/>
+  <img src='{{ img }}'/>
+  你好？
+  <a href="/" style="color:red"> 返回首页 </a>
+  </div>
+  <a href="/regist" style="color:red"> 点这里跳入注册页面 </a>
+  <div>
+  <a href="/logout" style="color:red"> 点这里跳入注销页面 </a>
+  </div>
+{% endblock %}
