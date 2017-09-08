@@ -67,6 +67,12 @@ def item(url_path):
 如果返回的是一个元组，元祖中的数据类型是(response,status,headers)，只能包含一个元素。status值会覆盖默认的200状态码，headers可以是一个列表或者字典，作为额外的消息头。
 如果以上条件都不满足，Flask会假设返回值是一个合法的WSGIt应用程序，并通过Response.force_type(rv,request.environ)转换为一个请求对象。
 
+0.最常用的render_template，也可以自定义返回码
+from flask import Flask,render_template
+@app.route('/about/')
+def about():
+    return render_template('about.html'), 205
+
 1.直接使用Response创建：
 from werkzeug.wrappers import Response
 @app.route('/about/')
@@ -816,7 +822,7 @@ def image():
     username = request.cookies.get('username')
     if username != None:
         return render_template('test.html', img=img, nav=nav_list, name=username)
-    return render_template('test.html', img=img, nav=nav_list)	
+    return render_template('test.html', img=img, nav=nav_list), 205 #也可以自定义返回码，默认为200
 
 6.返回json数据
 @app.route("/api/v1.0/test/simple", methods=('POST','GET'))
