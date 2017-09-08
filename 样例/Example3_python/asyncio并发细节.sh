@@ -1,7 +1,7 @@
 http://www.cnblogs.com/mypath/articles/7395850.html
 #摘自
 http://www.cnblogs.com/vincenshen/articles/7250315.html
-
+http://www.cnblogs.com/vincenshen/category/1031978.html 中后几章说的不错，可以参考
 #使用asyncio处理并发
 1、asyncio是一个异步IO非阻塞框架
 2、async/await是Python提供的异步编程API，而asyncio只是一个利用 async/await API进行异步编程的框架
