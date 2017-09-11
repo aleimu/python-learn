@@ -6915,6 +6915,42 @@ loop = asyncio.get_event_loop()
 loop.run_until_complete(init(loop))
 loop.run_forever()
  }
+ 
+ lambda{
+# 将变量本地保存到lambdas中，以使它们不依赖于全局的值
+
+def multipliers():
+    return [lambda x: i * x for i in range(4)]
+
+print(multipliers())
+print(multipliers()[0](1))
+print(multipliers()[1](1))
+print(multipliers()[2](1))
+print(multipliers()[3](1))
+
+print([m(2) for m in multipliers()])
+
+"""
+Python闭包的延迟绑定。这意味着内部函数被调用时，参数的值在闭包内进行查找。
+因此，当任何由multipliers()返回的函数被调用时，i的值将在附近的范围进行查找。
+那时，不管返回的函数是否被调用，for循环已经完成，i被赋予了最终的值3。
+因此，每次返回的函数乘以传递过来的值3，因为上段代码传过来的值是2，它们最终返回的都是6。(3*2)
+"""
+
+# 用Python生成器
+def multipliers1():
+    for i in range(4):
+        yield lambda x: i * x
+print([m(2) for m in multipliers1()])
+
+# 利用默认函数立即绑定
+def multipliers2():
+    return [lambda x, i=i: i * x for i in range(4)]
+print([m(2) for m in multipliers2()])
+
+print([(lambda n: i + n) for i in range(10)][3](4))
+print([(lambda n, i=i: i + n) for i in range(10)][3](4))
+} 
 
 }
 
