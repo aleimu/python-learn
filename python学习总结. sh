@@ -421,17 +421,99 @@ except EOFError:
 }
 作用域-LEGB {
 ##LEGB 法则，具体如下：
-包含局部命名的使用域在最里面，首先被搜索；其次搜索的是中层的作用域，这里包含了同级的函数；最后搜索最外面的作用域，它包含内置命名。
-global 语句用以指明某个特定的变量为全局作用域，并重新绑定它。 nonlocal 语句用以指明某个特定的变量为封闭作用域，并重新绑定它。
-global s 指定当前作用域里面的s是全局的，不影响其他的作用域在函数中定义和修改全局变量，需要使用global关键字。
-但访问全局变量(不修改它的值)，可以省略global关键字。当在函数中使用未确定的变量名时，Python 搜索 4 个作用域：
-本地作用域(L)
-之后是上一层嵌套结构中 def 或 lambda 的本地作用域(E)
-之后是全局作用域(G)
-最后是内置作用域(B)
+python引用变量的顺序： 当前作用域局部变量->外层作用域变量->当前模块中的全局变量->python内置变量
+#Python会按LEGB的顺序来搜索变量：
+要说明的是，这里的访问规则只对普通变量有效， 对象属性的规则与这无关（简单地说，访问一个对象的属性与此无关）。
+L. Local. 局部作用域，即函数中定义的变量（没有用global声明）
+E. Enclosing. 嵌套的父级函数的局部作用域，即包含此函数的上级函数的局部作用域，比如上面的示例中的labmda所访问的x就在其父级函数test的局部作用域里。通常也叫non-local作用域。
+G. Global(module). 在模块级别定义的全局变量（如果需要在函数内修改它，需要用global声明）
+B. Built - in. built - in模块里面的变量，比如int, Exception等等
 按这个查找原则，在第一处找到的地方停止。如果没有找到，Python 会报错的。
-
+但此规则有一个重要的限制：
+一个不在局部作用域里的变量默认是只读的，如果试图为其绑定一个新的值， Python认为是在当前的局部作用域里创建一个新的变量
 #如果在函数内部对该变量进行了赋值操作，无论是在引用该变量之前还是在引用该变量之后，那么对于该函数来说，此变量是一个局部变量。>>>>>>>>>>局部变量!>>>>>>>>>>>>局部变量!>>>>>>>>>>局部变量!
+
+global 关键字用来在函数或其他局部作用域中使用全局变量。但是如果不修改全局变量也可以不使用global关键字。不影响其他的作用域在函数中定义和修改全局变量，需要使用global关键字。
+nonlocal 关键字用来在函数或其他作用域中使用外层(非全局)变量。
+
+#这个需要好好理解一下啊！
+# local 赋值语句是无法改变 scope_test 的 spam 绑定。
+# nonlocal 赋值语句改变了scope_test 的spam绑定
+# global 赋值语句从 块级改变了spam绑定
+def scope_test():
+    spam = "test spam"
+    def do_local():
+        spam = "local spam"
+
+    def do_nonlocal():
+        nonlocal spam
+        spam = "nonlocal spam"
+
+    def do_global():
+        global spam
+        spam = "global spam"
+
+    do_local()
+    print("After local assignment:", spam)
+    do_nonlocal()
+    print("After nonlocal assignment:", spam)
+    do_global()
+    print("After global assignment:", spam)
+
+scope_test()
+print("In global scope:", spam)
+
+"""
+After local assignment: test spam
+After nonlocal assignment: nonlocal spam
+After global assignment: nonlocal spam
+In global scope: global spam
+
+"""
+#对于int和str类型的变量，改变值就是改变了地址，id(a)可以看出变化
+def mydome():
+    a = 1
+    print("id0:", id(a), "a:", a)
+    def do1():
+        a = 2
+        print("id1:", id(a), "a:", a)
+    def do2():
+        print("id2:", id(a), "a:", a)
+    def do3():
+        print("id3:", id(a), "a:", a)
+    def do4():
+        nonlocal a  # 在函数内部改变mydome中a的绑定
+        print("id4:", id(a), "a:", a)
+        a = "nonlocal a"
+        #a = 3
+        print("id5:", id(a), "a:", a)
+    def do5():
+        global a  # 定义了全局变量a，和mydome中的a互不影响
+        a = "global a"
+        print("id6:", id(a), "a:", a)
+
+    do1()
+    do2()
+    do3()
+    do4()
+    do5()
+    print("id7:", id(a), "a:", a)
+
+print("-------------------")
+mydome()
+print("id8:", id(a), "a:", a)
+
+"""
+id0: 1644324992 a: 1
+id1: 1644325008 a: 2
+id2: 1644324992 a: 1
+id3: 1644324992 a: 1
+id4: 1644324992 a: 1
+id5: 32305864 a: nonlocal a
+id6: 32305904 a: global a
+id7: 32305864 a: nonlocal a
+id8: 32305904 a: global a
+"""
 
 a=1
 print(a)
@@ -6833,7 +6915,7 @@ async def print_page(url):
 loop = asyncio.get_event_loop()
 loop.run_until_complete(print_page("http://www.baidu.com"))
 
- 
+
 示例2：使用session获取数据，类似requests库的API接口
 这里要引入一个类，aiohttp.ClientSession. 首先要建立一个session对象，然后用该session对象去打开网页。session可以进行多项操作，比如post, get, put, head等等，如下面所示:
 import asyncio
@@ -6848,7 +6930,7 @@ async def print_page(url):
 loop = asyncio.get_event_loop()
 loop.run_until_complete(print_page("http://www.baidu.com"))
 
- 
+
 
 示例3： aiohttp配置超时时间
 需要加一个with aiohttp.Timeout(x)
@@ -6865,14 +6947,14 @@ async def print_page(url):
 url = 'https://api.github.com/some/endpoint'
 headers = {'content-type': 'application/json'}
 await session.get(url, headers=headers)
- 
+
 示例5：使用代理
 要实现这个功能，需要在生产session对象的过程中做一些修改
 conn = aiohttp.ProxyConnector(proxy="http://some.proxy.com")
 session = aiohttp.ClientSession(connector=conn)
 async with session.get('http://python.org') as resp:
     print(resp.status)
-这边没有写成with….. as….形式，但是原理是一样的，也可以很容易的改写成之前的格式 
+这边没有写成with….. as….形式，但是原理是一样的，也可以很容易的改写成之前的格式
 如果代理需要认证，则需要再加一个proxy_auth选项。
 conn = aiohttp.ProxyConnector(
     proxy="http://some.proxy.com",
@@ -6915,8 +6997,8 @@ loop = asyncio.get_event_loop()
 loop.run_until_complete(init(loop))
 loop.run_forever()
  }
- 
- lambda{
+
+lambda{
 # 将变量本地保存到lambdas中，以使它们不依赖于全局的值
 
 def multipliers():
@@ -6950,8 +7032,7 @@ print([m(2) for m in multipliers2()])
 
 print([(lambda n: i + n) for i in range(10)][3](4))
 print([(lambda n, i=i: i + n) for i in range(10)][3](4))
-} 
-
+}
 }
 
 一些环境配置方法记录{
