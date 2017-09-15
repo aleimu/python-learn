@@ -3,14 +3,10 @@
 ###############################################################################
 #                    代码注释说明
 #
-# Annotated_Author: hhstore
-# Email: selfrebuild@gmail.com
-# Date: 2015-08
+# Annotated_Author: lgj
+# Date: 2017-9-
 #
 ###############################################################################
-
-
-
 """
 Bottle is a fast and simple mirco-framework for small web-applications. It
 offers request dispatching (Routes) with url parameter support, Templates,
@@ -23,37 +19,72 @@ Homepage and documentation: http://wiki.github.com/defnull/bottle
 Special thanks to Stefan Matthias Aust [http://github.com/sma]
   for his contribution to SimpelTemplate
 
-
 Example
 -------
+from bottle import route, run, request, response, send_file, abort,template
 
-    from bottle import route, run, request, response, send_file, abort
+@route('/')
+def hello_world():
+    return 'Hello World!'
 
-    @route('/')
-    def hello_world():
-        return 'Hello World!'
 
-    @route('/hello/:name')
-    def hello_name(name):
+@route('/index.html')
+def index():
+    return '<a href="/hello/lgj">to_lgj</a>'
+
+
+@route('/hello/:name')
+def hello_name(name):
+    return 'Hello %s!' % name
+
+@route('/hello')
+def hello_name2():
+    send_file(filename='index.html', root='./')
+
+#@route("/login", method='PUT')
+#def login_submit():
+#    return template("login.html")  #template can not is file
+
+
+@route("/login", method='PUT')
+def login_submit():
+    name = request.POST['name']
+    pwd = request.POST['pwd']
+    if name and pwd:
+        return template('<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">' + \
+                       '<html><head><title>HELLO {{name}}: {{pwd}}</title>' + \
+                       '</head><body><h1>HELLO {{name}}: {{pwd}}</h1>' + \
+                       '<p>Sorry, the requested URL {{pwd}} caused an pwd.</p>',
+                       name=name,
+                       pwd=pwd
+                       )
+@route('/login1', method='POST')
+def login_submit1():
+    name = request.POST['name']
+    if name :
         return 'Hello %s!' % name
 
-    @route('/hello', method='POST')
-    def hello_post():
-        name = request.POST['name']
-        return 'Hello %s!' % name
+@route('/login2', method='POST')
+def login_submit2():
+    name = request.POST['name']
+    pwd = request.POST['pwd']
+    if name and pwd:
+        return 'Hello %s!,your passwd %s' % (name,pwd)
 
-    @route('/static/:filename#.*#')
-    def static_file(filename):
-        send_file(filename, root='/path/to/static/files/')
+@route('/static/:filename#.*#')
+def static_file(filename):
+    send_file(filename, root='/path/to/static/files/')
 
-    run(host='localhost', port=8080)
+
+run(host='localhost', port=8080)
+
+#test by httpie in cmd
+#http GET http://127.0.0.1:8080/
+#http -f POST http://127.0.0.1:8080/login2 name=dwadada pwd=dwadad
+#http -f PUT http://127.0.0.1:8080/login name="dwadada", pwd="dwadad"
+
 
 """
-
-
-
-
-
 __author__ = 'Marcel Hellkamp'
 __version__ = '0.4.10'
 __license__ = 'MIT'
@@ -86,9 +117,11 @@ try:
 except ImportError:
     import dbm
 
-
-
-
+###################################打印出来更清晰的了解过程############################################
+tag=True
+def myprint(*args):
+    if tag:
+        print(args)
 
 
 ###############################################################################
@@ -126,33 +159,33 @@ class BreakTheBottle(BottleException):  # 中断 bottle 服务
 class TemplateError(BottleException):  # 模板错误
     """ Thrown by template engines during compilation of templates """
     pass
-
-
-
-
 ###############################################################################
 ###############################################################################
 ###############################################################################
-
-
-
-
 # WSGI abstraction: Request and response management
 # 请求request 和响应 response 管理.
 def WSGIHandler(environ, start_response):
     """The bottle WSGI-handler."""
     global request     # 引用全局变量
     global response
-
+    myprint("tag 7")
+    myprint("request:",request)
+    myprint("response:",response)
+    #myprint("environ:",environ)  #这里的environ 就是环境变量，可是从哪里来的呢？---->wsgiref 中的 simple_server.py->from wsgiref.handlers import SimpleHandler->BaseHandler->os_environ = dict(os.environ.items())
     request.bind(environ)
     response.bind()
     ###############################################################################
 
     try:
+        myprint("tag 8 request.path, request.method:",request.path, request.method)
         handler, args = match_url(request.path, request.method)  # 调用,下面定义.
+        myprint("tag 8.1 handler, args",handler, args)
+        #('tag 8.1 handler, args', <function hello_name at 0x025326B0>, {'name': 'lgj'})
         if not handler:
             raise HTTPError(404, "Not found")
         output = handler(**args)
+        myprint("tag 8.2 output",output)
+        #('tag 8.2 output', 'Hello lgj!')
     except BreakTheBottle, shard:
         output = shard.output
     except Exception, exception:
@@ -170,12 +203,16 @@ def WSGIHandler(environ, start_response):
 
     ###############################################################################
 
-    if hasattr(output, 'read'):
+    if hasattr(output, 'read'):#渲染的是文件还是字符串
         fileoutput = output
+        myprint("tag 8.3 fileoutput",fileoutput)
         if 'wsgi.file_wrapper' in environ:
+            #'wsgi.file_wrapper': <class wsgiref.util.FileWrapper at 0x025922D0>---->在wsgiref的util.py中定义，将文件包装成8192大小的iter可迭代(实现了next方法)
             output = environ['wsgi.file_wrapper'](fileoutput)
+            myprint("tag 8.4 output",output)
         else:
             output = iter(lambda: fileoutput.read(8192), '')
+            myprint("tag 8.5 output",output)
     elif isinstance(output, str):
         output = [output]
 
@@ -203,7 +240,7 @@ def WSGIHandler(environ, start_response):
 # 请求-管理类.
 class Request(threading.local):
     """ Represents a single request using thread-local namespace. """
-
+    myprint("tag 0.1 class Request initialization")
     def bind(self, environ):  # 请求,绑定
         """ Binds the enviroment of the current request to this request handler """
         self._environ = environ
@@ -211,7 +248,7 @@ class Request(threading.local):
         self._POST = None
         self._GETPOST = None
         self._COOKIES = None
-        self.path = self._environ.get('PATH_INFO', '/').strip()
+        self.path = self._environ.get('PATH_INFO', '/').strip() #获取请求的path :'/hello/lgj'
         if not self.path.startswith('/'):
             self.path = '/' + self.path
 
@@ -283,11 +320,10 @@ class Request(threading.local):
         return self._COOKIES
 
 
-
 # 响应-管理类
 class Response(threading.local):
     """ Represents a single response using thread-local namespace. """
-
+    myprint("tag 0.1 class Response initialization")
     def bind(self):
         """ Clears old data and creates a brand new Response object """
         self._COOKIES = None
@@ -363,10 +399,6 @@ class HeaderDict(dict):
             self[key] = [value]
 
 
-
-
-
-
 ###############################################################################
 #                             异常处理部分
 ###############################################################################
@@ -428,8 +460,6 @@ def send_file(filename, root, guessmime=True, mimetype='text/plain'):
 ###############################################################################
 ###############################################################################
 ###############################################################################
-
-
 # Routing   路由处理部分-定义
 
 def compile_route(route):  # 编译路由串
@@ -447,7 +477,6 @@ def compile_route(route):  # 编译路由串
     route = re.sub(r':([a-zA-Z_]+)', r'(?P<\1>[^/]+)', route)
 
     return re.compile('^/%s$' % route)  # 路由需要正则表达式处理.
-
 
 ###############################################################################
 # 功能: URL 匹配
@@ -467,16 +496,19 @@ def match_url(url, method='GET'):  # 匹配 URL 地址 --- 在 WSGIHandler() 函
     # 先从全局的静态路由表里查找,是否已经存在.
     #
     # Search for static routes first
-    route = ROUTES_SIMPLE.get(method, {}).get(url, None)  # 第一次搜索静态路由.
-
+    myprint("tag 9 ROUTES_SIMPLE:",ROUTES_SIMPLE)
+    #('tag 9 ROUTES_SIMPLE:', {'POST': {'/hello': <function hello_post at 0x025046F0>}, 'GET': {'/': <function hello_world at 0x0236A370>}})
+    route = ROUTES_SIMPLE.get(method, {}).get(url, None)  # 第一次搜索静态路由.  #ROUTES_SIMPLE是全局变量字典,而且是嵌套两层的字典，找不到就返回None避免报错
+    myprint("tag 9.1 route:",route)
     if route:
         return (route, {})       # 找到静态路由,直接返回.
 
     # 如果未找到,搜索匹配
-    #
     # Now search regexp routes
+    myprint("tag 9.1.1 ROUTES_REGEXP:",ROUTES_REGEXP) #第一层是字典 method，第二层是列表：[route,handler]
     routes = ROUTES_REGEXP.get(method, [])  # 没找到,搜索 路由的正则表达式串.
-
+    myprint("tag 9.2 routes:",routes)
+    #('tag 9.2 routes:', [[<_sre.SRE_Pattern object at 0x01D7CA30>, <function index at 0x023F8130>], [<_sre.SRE_Pattern object at 0x023C2110>, <function hello_name at 0x0258E670>], [<_sre.SRE_Pattern object at 0x023C2278>, <function static_file at 0x0258E6F0>]])
     for i in xrange(len(routes)):
         match = routes[i][0].match(url)
         if match:
@@ -486,7 +518,8 @@ def match_url(url, method='GET'):  # 匹配 URL 地址 --- 在 WSGIHandler() 函
                 # Every 1000 requests, we swap the matching route with its predecessor.
                 # Frequently used routes will slowly wander up the list.
                 routes[i - 1], routes[i] = routes[i], routes[i - 1]  # 交换
-
+            myprint("tag 9.3 handler, match.groupdict():",handler, match.groupdict())
+            #('tag 9.3 handler, match.groupdict():', <function hello_name at 0x025C86B0>, {'name': 'lgj'})
             return (handler, match.groupdict())  # 返回处理结果.
     return (None, None)     # 处理失败,返回 None
 
@@ -540,7 +573,7 @@ def route(url, **kargs):
 
 ###############################################################################
 
-def validate(**vkargs):  # 数据安全校验函数.---- 写成多层装饰器,技巧代码
+def validate(**vkargs):  # 数据安全校验函数.---- 写成多层装饰器,技巧代码----->三个return---->包装了函数和入参
     ''' Validates and manipulates keyword arguments by user defined callables
     and handles ValueError and missing arguments by raising HTTPError(400) '''
 
@@ -589,7 +622,7 @@ def error(code=500):  # 出错处理 -- 写成装饰器函数.
 # 3. 这里有 内嵌函数定义的应用,注意一下.
 ###############################################################################
 
-# Server adapter   服务适配器部分-定义
+# Server adapter(适配器)   服务适配器部分-定义
 # 由全局的run()函数, 定位到此处.
 class ServerAdapter(object):
     def __init__(self, host='127.0.0.1', port=8080, **kargs):
@@ -601,19 +634,32 @@ class ServerAdapter(object):
         return "%s (%s:%d)" % (self.__class__.__name__, self.host, self.port)
 
     def run(self, handler):
-        pass
+        myprint("tag 4.1")
+        pass    #由继承者实现，如下：
 
 
-###############################################################################
+#####################################适配多种网络协议##########################################
 # 接口定义.调用.
-# mark
+# 都继承全局ServerAdapter适配器
 class WSGIRefServer(ServerAdapter):  # 不同的 web 服务器,导入不同的包处理.并重写run()函数.
+    myprint("tag 3")
     def run(self, handler):  # 重写 run() 函数.
-        from wsgiref.simple_server import make_server
-
+        from wsgiref.simple_server import make_server   #wsgiref是python自带的实现wsgi规范的简单wsgi server，这样就不算引用非标准库O(∩_∩)O哈！
+        myprint("tag 4")
         srv = make_server(self.host, self.port, handler)  # 调用其他人写的库,所以这个代码,自己处理的内容很少.
         srv.serve_forever()  # 开启服务.
 
+"""
+wsgiref是按照wsgi规范实现的一个简单wsgi server。它的代码也不复杂。
+1.服务器创建socket，监听端口，等待客户端连接。
+2.当有请求来时，服务器解析客户端信息放到环境变量environ中，并调用绑定的handler来处理请求。
+3.handler解析这个http请求，将请求信息例如method，path等放到environ中。
+4.wsgi handler再将一些服务器端信息也放到environ中，最后服务器信息，客户端信息，本次请求信息全部都保存到了环境变量environ中。
+5.wsgi handler 调用注册的wsgi app，并将environ和回调函数传给wsgi app
+6.wsgi app 将reponse header/status/body 回传给wsgi handler
+7.最终handler还是通过socket将response信息塞回给客户端。
+"""
+#handler 在bottle中就是 WSGIHandler
 
 class CherryPyServer(ServerAdapter):
     def run(self, handler):
@@ -683,8 +729,8 @@ class FapwsServer(ServerAdapter):
 #     2. server.run() 根据不同的 web Server ,进行选择.
 #     3. 理解 bottle 库源码的组织结构.
 #
-###############################################################################
 
+#这里虽然是入口，但初始化工作比这里要先执行，import 导入时执行了初始化，可以由 tag 先后看出
 def run(server=WSGIRefServer, host='127.0.0.1', port=8080, optinmize=False, **kargs):
     """ Runs bottle as a web server, using Python's built-in wsgiref implementation by default.
 
@@ -694,12 +740,12 @@ def run(server=WSGIRefServer, host='127.0.0.1', port=8080, optinmize=False, **ka
     global OPTIMIZER
 
     OPTIMIZER = bool(optinmize)
-    quiet = bool('quiet' in kargs and kargs['quiet'])    # 传入该参数,运行后,不输出提示log信息
-
+    quiet = bool('quiet' in kargs and kargs['quiet'])    # 传入该参数,运行后,不输出提示log信息-----> *args是列表，**kargs是字典方式
     # 对 server 参数作检查: 若 server 参数是类名, 进行一次 实例化 操作.
     # Instanciate server, if it is a class instead of an instance
     if isinstance(server, type) and issubclass(server, ServerAdapter):
         server = server(host=host, port=port, **kargs)  # 初始化服务参数.
+        myprint("tag 1")
 
     # 再次检查 server 参数
     if not isinstance(server, ServerAdapter):   # 若处理后的 server, 并非 ServerAdapter 的 实例,报错
@@ -710,18 +756,17 @@ def run(server=WSGIRefServer, host='127.0.0.1', port=8080, optinmize=False, **ka
         print 'Listening on http://%s:%d/' % (server.host, server.port)
         print 'Use Ctrl-C to quit.'
         print
-
     try:
-        server.run(WSGIHandler)  # 启动web服务. 关键参数是 server 参数. 是 ServerAdapter() 类的实例.
+        myprint("tag 2")
+        server.run(WSGIHandler)  # 启动web服务. 关键参数是 server 参数. 是 ServerAdapter() 类的实例.------->启动流程已了解，开始追WSGIHandler参数获取过程
+        myprint("tag 5")
     except KeyboardInterrupt:
+        myprint("tag 6")
         print "Shuting down..."
 
-
-
-
-
-
-
+###############################################################################
+#                        框架全局入口
+###############################################################################
 
 ###############################################################################
 #                        异常处理
@@ -732,7 +777,6 @@ class TemplateError(BottleException): pass
 
 
 class TemplateNotFoundError(BottleException): pass
-
 
 ###############################################################################
 
@@ -832,9 +876,6 @@ class SimpleTemplate(BaseTemplate):  # 简单的模板类定义
         eval(self.co, args, globals())
         return ''.join(args['stdout'])
 
-
-
-
 ###############################################################################
 # 功能: 模板定义.
 #
@@ -865,10 +906,6 @@ def template(template, template_adapter=SimpleTemplate, **args):
 
 def mako_template(template_name, **args):
     return template(template_name, template_adapter=MakoTemplate, **args)
-
-
-
-
 
 ###############################################################################
 #                           数据库处理部分
@@ -954,11 +991,6 @@ class BottleBucket(object):
                 return default
             raise
 
-
-
-
-
-
 ###############################################################################
 
 
@@ -1015,16 +1047,10 @@ class BottleDB(threading.local):  # 数据库的管理类定义, 注意继承的
             db.close()
         self.open.clear()
 
-
-
-
-
-
-
 ###############################################################################
 #                       全局变量定义 - 配置参数
 ###############################################################################
-
+myprint("tag 0 Modul initialization start")
 # Modul initialization    模块的初始化参数.
 
 DB_PATH = './'                                     # 默认数据库路径
@@ -1098,18 +1124,15 @@ HTTP_CODES = {  # HTTP-状态码
 #      - http://python.usyiyi.cn/python_278/library/threading.html
 #      - https://docs.python.org/2/library/threading.html
 ###############################################################################
-
 request = Request()  # 请求
 response = Response()  # 响应
 db = BottleDB()  # 数据库
 local = threading.local()  # 本地线程
 
 ###############################################################################
-
-
-
-
-
+myprint("request:",request)
+myprint("response:",response)
+myprint("tag 0 Modul initialization end")
 
 ###############################################################################
 # 功能: 500错误 - 服务器内部错误
