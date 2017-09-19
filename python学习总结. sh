@@ -7078,6 +7078,35 @@ http --auth-type=digest -a username:password http://127.0.0.1:8080/login
 http --proxy=http:http://192.168.1.100:8060 http://127.0.0.1:8080/login
 http --proxy=http:http://user:pass@192.168.1.100:8060 http://127.0.0.1:8080/login
 }
+
+线程的私有命名空间local{
+
+    import threading
+    # 线程的私有命名空间
+    local = threading.local()
+    local.tname = "main"
+    print(type(local))
+
+
+    def func(info):
+        print('Has tname in new thread: %s' % hasattr(local, 'tname'))
+        local.tname = info
+        print('Has tname in new thread: %s' % hasattr(local, 'tname'))
+        print(local.tname)
+
+    t1 = threading.Thread(target=func, args=['funcA'])
+    t2 = threading.Thread(target=func, args=['funcB'])
+
+    t1.start()
+    t1.join()
+
+    t2.start()
+    t2.join()
+
+    print(local.tname)
+
+}
+
 }
 
 一些环境配置方法记录{
