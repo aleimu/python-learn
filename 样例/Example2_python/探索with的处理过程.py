@@ -2,6 +2,8 @@
 # http://www.cnblogs.com/chenny7/p/4213447.html
 # http://www.cnblogs.com/xu-rui/p/6477271.html
 
+# 例1
+
 
 class Context:
     def __init__(self, name):
@@ -44,6 +46,7 @@ with Context("xurui"):
 
 
 # 进阶
+# 例2
 print("python库中还有一个模块contextlib，使你不用构造含有__enter__, __exit__的类就可以使用with")
 from contextlib import contextmanager
 
@@ -64,6 +67,8 @@ with context():
 
 
 print("python库中还有一个模块contextlib，使你不用构造含有__enter__, __exit__的类就可以使用with")
+
+# 例3
 import queue
 import contextlib
 
@@ -89,6 +94,8 @@ print("after", li)
 
 
 print("python库中还有一个模块contextlib，使你不用构造含有__enter__, __exit__的类就可以使用with")
+
+# 例4
 import contextlib
 
 
@@ -113,3 +120,23 @@ def MyOpen(filename, mode):
 with MyOpen("1.py", 'w+') as f:
     ret = f.readlines()
     print("这里会在finally前执行,主要是yield的原因:", ret)
+
+###例5
+# 执行with后面的函数时,先进入函数中执行,遇到yield时,跳出,执行下面的,最后执行函数中的finally，此种用法也可用来自动关闭socket
+
+import contextlib
+import socket
+
+
+@contextlib.contextmanager
+def context_socket(host, port):
+    sk = socket.socket()
+    sk.bind((host, port))
+    sk.listen(5)
+    try:
+        yield sk  # 将sk返回,赋值给sock
+    finally:
+        sk.close()
+
+with context_socket('127.0.0.1', 8888) as sock:
+    print(sock)
