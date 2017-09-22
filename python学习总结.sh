@@ -197,6 +197,45 @@ sorted([1,5,3]) # 返回正序的序列，也就是[1,3,5]
 reversed([1,5,3]) # 返回反序的序列，也就是[3,5,1]
 }
 类，对象，属性{
+
+class BlackMedium:
+    def __init__(self, name, addr):
+        self.name = name
+        self.addr = addr
+
+    def sell_house(self):
+        print('%s 黑中介卖房子啦,傻逼才买呢,但是谁能证明自己不傻逼' % self.name)
+
+    def rent_house(self):
+        print('%s 黑中介租房子啦,傻逼才租呢' % self.name)
+
+b1 = BlackMedium('万成置地', '回龙观天露园')
+
+# 检测是否含有某属性
+print(hasattr(b1, 'name'))
+print(hasattr(b1, 'sell_house'))
+
+# 获取属性
+n = getattr(b1, 'name')
+print(n)
+func = getattr(b1, 'rent_house')
+func()
+
+# getattr(b1,'aaaaaaaa') #报错
+print(getattr(b1, 'aaaaaaaa', '不存在啊'))
+
+# 设置属性
+setattr(b1, 'sb', True)
+setattr(b1, 'show_name', lambda self: self.name + 'sb')
+print(b1.__dict__)
+print(b1.show_name(b1))
+
+# 删除属性
+delattr(b1, 'addr')
+delattr(b1, 'show_name')
+delattr(b1, 'show_name111')  # 不存在,则报错
+print(b1.__dict__)
+
 # define class
 class Me(object):
 	def test(self):
@@ -350,7 +389,7 @@ os.path.exists(path)            # 如果path存在，返回True；如果path不�
 os.path.isabs(path)             # 如果path是绝对路径，返回True
 os.path.isfile(path)            # 如果path是一个存在的文件，返回True。否则返回False
 os.path.isdir(path)             # 如果path是一个存在的目录，则返回True。否则返回False
-os.path.join(path1[, path2[, ...]])  # 将多个路径组合后返回，第一个绝对路径之前的参数将被忽略
+os.path.join(path1[, path2[,    ]])  # 将多个路径组合后返回，第一个绝对路径之前的参数将被忽略
 os.path.getatime(path)          # 返回path所指向的文件或者目录的最后存取时间
 os.path.getmtime(path)          # 返回path所指向的文件或者目录的最后修改时间
 os.name                         # 字符串指示当前使用平台。win->'nt'; Linux->'posix'
@@ -379,10 +418,10 @@ os.walk(top[, topdown=True[, onerror=None[, followlinks=False]]])  # 输出在�
 os.write(fd, str)               # 写入字符串到文件描述符 fd中. 返回实际写入的字符串长度
 }
 os.exec区别{
-os.execl(path, arg0, arg1, ...)
-os.execle(path, arg0, arg1, ..., env)
-os.execlp(file, arg0, arg1, ...)
-os.execlpe(file, arg0, arg1, ..., env)
+os.execl(path, arg0, arg1,    )
+os.execle(path, arg0, arg1,    , env)
+os.execlp(file, arg0, arg1,    )
+os.execlpe(file, arg0, arg1,    , env)
 os.execv(path, args)
 os.execve(path, args, env)
 os.execvp(file, args)
@@ -660,8 +699,8 @@ print(a)
 #可选参数默认值的设置在Python中只会被执行一次，也就是定义该函数的时候。
 #错误地  将表达式/可变类型当默认值时
 >>> def foo(bar=[]):        # bar是可选参数，如果没有提供bar的值，则默认为[]，
-....    bar.append("baz")    # 但是稍后我们会看到这行代码会出现问题。
-....    return bar
+   .    bar.append("baz")    # 但是稍后我们会看到这行代码会出现问题。
+   .    return bar
 
 1.>>> foo()
 2.["baz"]
@@ -672,11 +711,11 @@ print(a)
 
 解决方法：
 >>> def foo(bar=None):
-2....    if bar is None:    # or if not bar:
-3....        bar = []
-4....    bar.append("baz")
-5....    return bar
-6....
+2   .    if bar is None:    # or if not bar:
+3   .        bar = []
+4   .    bar.append("baz")
+5   .    return bar
+6   .
 7.>>> foo()
 8.["baz"]
 9.>>> foo()
@@ -1282,7 +1321,7 @@ cmp和key一般使用lambda
 >>> a = 'server=mpilgrim;uid=sa;database=master;pwd=secret'
 >>> aa = {}
 >>> for i in a.split(';'):aa[i.split('=',1)[0]] = i.split('=',1)[1]
-...
+   
 >>> aa
 {'pwd': 'secret', 'database': 'master', 'uid': 'sa', 'server': 'mpilgrim'}
 }
@@ -1587,11 +1626,11 @@ exec(open('test2.py').read())
      >>> print r"123\\\121\3".replace("\\\\","\\")
       123\\121\3                                    # print 就会显示最终的效果
      >>>
-40.python 行列倒序输出：类似 ...|rev|tac
+40.python 行列倒序输出：类似    |rev|tac
       >>> print '''1 2
-      ... 3 4
-      ... 5 6
-      ... 7 8'''[::-1]
+          3 4
+          5 6
+          7 8'''[::-1]
       8 7
       6 5
       4 3
@@ -1651,8 +1690,8 @@ exec(open('test2.py').read())
       ['Words', 'words, words.']
       >>> re.split('[a-f]+', '0a3B9', flags=re.IGNORECASE)
       ['0', '3', '9']
-      >>> re.split('(\W+)', '...words, words...')
-      ['', '...', 'words', ', ', 'words', '...', '']
+      >>> re.split('(\W+)', '   words, words   ')
+      ['', '   ', 'words', ', ', 'words', '   ', '']
 54.python标准输出无缓存：
      export PYTHONUNBUFFERED=1     # python -u cmd
 55.如何在循环中获取下标
@@ -1895,13 +1934,13 @@ exec(open('test2.py').read())
 94.如何获取安装的python模块列表
      >>> help('modules')
 95.什么是迭代？
-     任何你可用 "for... in..." 处理的都是可迭代对象：列表，字符串，文件.... 这些迭代对象非常便捷，因为你可以尽可能多地获取你想要的东西
+     任何你可用 "for    in   " 处理的都是可迭代对象：列表，字符串，文件   . 这些迭代对象非常便捷，因为你可以尽可能多地获取你想要的东西
      但当你有大量数据并把所有值放到内存时，这种处理方式可能不总是你想要的
 96.什么是生成器？
      生成器是迭代器，但你只能遍历它一次(iterate over them once) 因为生成器并没有将所有值放入内存中，而是实时地生成这些值
      >>> mygenerator = (x*x for x in range(3))
       >>> for i in mygenerator:
-      ...    print(i)
+             print(i)
       0
       1
       4
@@ -1910,15 +1949,15 @@ exec(open('test2.py').read())
 97.yield 的意义与作用？
      yield是一个关键词，类似return, 不同之处在于，yield返回的是一个生成器
      >>> def createGenerator():
-      ...    mylist = range(3)
-      ...    for i in mylist:
-      ...        yield i*i
-      ...
+             mylist = range(3)
+             for i in mylist:
+                 yield i*i
+         
       >>> mygenerator = createGenerator() # create a generator
       >>> print(mygenerator) # mygenerator is an object!
       <generator object createGenerator at 0xb7555c34>
       >>> for i in mygenerator:
-      ...     print(i)
+              print(i)
       0
       1
       4
@@ -1981,7 +2020,7 @@ print(timeit.timeit(stmt="sum(i for i in range(100000))", number=1000))
 列表解析与生成器表达式都是一种便利的编程方式，只不过生成器表达式更节省内存
 生成器表达式 具有延迟计算，一次返回一个结果。也就是说，它不会一次生成所有的结果，这对于大数据量处理，将会非常有用。
 """
-# 判断是否可迭代和迭代器的简洁方法：iterator：迭代器；迭代程序...iterable：可迭代的；迭代的；
+# 判断是否可迭代和迭代器的简洁方法：iterator：迭代器；迭代程序   iterable：可迭代的；迭代的；
 from collections import Iterable
 from collections import Iterator
 s = 'abc'
@@ -2090,8 +2129,8 @@ enumerate(x) #x为列表或者元组，对于每次迭代，返回 index， valu
 for (index, value) in enumerate(x):
 　　print index, value
 
-zip(x1, x2...)
-如果有多个列表x1,x2.... 每个序列的元素个数相同，可以通过zip来迭代取出所有序列的相同位置的元素。
+zip(x1, x2   )
+如果有多个列表x1,x2   . 每个序列的元素个数相同，可以通过zip来迭代取出所有序列的相同位置的元素。
 ta = [1,2,3]
 tb = [9,8,7]
 tc = ['a','b','c']
@@ -2175,9 +2214,9 @@ print filter(func, [10, 56, 101, 100])
 Python内置函数里，exec 关键字执行多行代码片段，eval() 函数通常用来执行一条包含返回值的表达式
 exec
 >>> code = """
-... def test():
-...     print "this is a test by abeen"
-... """
+    def test():
+        print "this is a test by abeen"
+    """
 >>> test() #NameError: name 'test' is not defined
 >>> exec code
 >>> test() # test()成功执行
@@ -2216,7 +2255,7 @@ dawdsfg
 这样也行
 
 
-print(value, ..., sep=' ', end='\n', file=sys.stdout, flush=False)
+print(value,    , sep=' ', end='\n', file=sys.stdout, flush=False)
 python print格式化输出{
 
 1. 打印字符串
@@ -2666,7 +2705,7 @@ def shoe_time(f):
     return inner
 
 def foo():
-    print("foo......")
+    print("foo      ")
     time.sleep(1)
 
 #嵌套函数
@@ -2701,7 +2740,7 @@ foo()
 print("===========装饰1")
 #@shoe_time  等同于bar = shoe_time(bar)
 def bar():
-    print("bar......")
+    print("bar      ")
     time.sleep(2)
 
 bar=shoe_time(bar)
@@ -2868,7 +2907,7 @@ def log(text):
                 start = time.clock()
                 print ('这是带参数的装饰器,开始执行,参数为：'+text)
                 print ('这里我们尝试修改一下被装饰函数的参数值')
-                print(type(args)) # tuple不可修改.........,所以我们直接赋值
+                print(type(args)) # tuple不可修改         ,所以我们直接赋值
                 args=(5,5)
                 f = func(*args, **kwargs)
                 end=time.clock()
@@ -2905,7 +2944,7 @@ help(add2)
 def debug(func):
     def wrapper(*args, **kwargs):  # 指定宇宙无敌参数
         print ("[DEBUG]: enter {}()".format(func.__name__))
-        print ('Prepare and say...')
+        print ('Prepare and say   ')
         return func(*args, **kwargs)
     return wrapper  # 返回
 
@@ -2934,7 +2973,7 @@ def say(something):
 #@logging(level='DEBUG')，它其实是一个函数，会马上被执行，它返回的结果是一个装饰器，再去装饰do()
 @logging(level='DEBUG')
 def do(something):
-    print ("do {}...".format(something))
+    print ("do {}   ".format(something))
 
 print("2层装饰器")
 say('hello')
@@ -3083,7 +3122,7 @@ sk.settimeout(50.0)
 print(sk.getsockname())	#返回套接字自己的地址。通常是一个元组(ipaddr,port)
 print("===================")
 while True:
-    print('server waiting...')
+    print('server waiting   ')
     conn, addr = sk.accept()
     client_data = conn.recv(1024)
     print(conn,addr)
@@ -3099,7 +3138,7 @@ while True:
 root@api:/home/lgj/python/socket# python3.4 s1.py
 ('127.0.0.1', 8082)
 ===================
-server waiting...
+server waiting   
 <socket.socket fd=4, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8082), raddr=('127.0.0.1', 39695)> ('127.0.0.1', 39695)
 <class 'bytes'>
 bbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -3518,7 +3557,7 @@ import asyncio
 import time
 # python socket 实现http请求,asyncio.open_connection包装了socket
 async def wget(host):
-    #print("wget %s..." % host)
+    #print("wget %s   " % host)
     connect = asyncio.open_connection(host, 8091)
     reader, writer = await connect
     header = 'GET /sessions HTTP/1.1\r\nHost: 10.175.102.22:8091\r\nConnection: close\r\n\r\n'
@@ -3550,7 +3589,7 @@ print(t2 - t1)
 
 root@api:~# curl -k -v -X GET http://10.175.102.22:8091/sessions
 * Hostname was NOT found in DNS cache
-*   Trying 10.175.102.22...
+*   Trying 10.175.102.22   
 * Connected to 10.175.102.22 (10.175.102.22) port 8091 (#0)
 > GET /sessions HTTP/1.1
 > User-Agent: curl/7.35.0
@@ -3654,7 +3693,7 @@ def matter1(music):
         print("第" + str(i + 1) + "首歌是：" + str(music[i]))
         # 假设每一首歌曲的时间是2秒
         time.sleep(6)
-        print("切换下一首歌...")
+        print("切换下一首歌   ")
 
 def matter2(number):
     lock.acquire()		#加锁，锁住相应的资源
@@ -3743,7 +3782,7 @@ def matter1(music):
         print("第" + str(i + 1) + "首歌是：" + str(music[i]))
         # 假设每一首歌曲的时间是2秒
         time.sleep(6)
-        print("切换下一首歌...")
+        print("切换下一首歌   ")
 
 
 def matter2(number):
@@ -3862,7 +3901,7 @@ class MyThread(threading.Thread):
 
     def run(self):
         wait_time=random.randrange(1,10)
-        print ("%s will wait %d seconds...." % (self.name, wait_time))
+        print ("%s will wait %d seconds   ." % (self.name, wait_time))
         time.sleep(wait_time)
         print ("%s finished!" % self.name)
 
@@ -3872,7 +3911,7 @@ if __name__=="__main__":
         t = MyThread()
         t.start()
         threads.append(t)
-    print ('main thread is waitting for exit...'  )
+    print ('main thread is waitting for exit   '  )
     for t in threads:
         t.join()
         print("等待")
@@ -3883,7 +3922,7 @@ if __name__=="__main__":
 # 加上join 运行结果   print ('main thread finished!')等待5个子进程结束
 {
 >>>
-Thread-1 will wait 9 secondsThread-2 will wait 1 secondsmain thread is waitting for exit...Thread-3 will wait 9 secondsThread-4 will wait 3 seconds
+Thread-1 will wait 9 secondsThread-2 will wait 1 secondsmain thread is waitting for exit   Thread-3 will wait 9 secondsThread-4 will wait 3 seconds
 Thread-5 will wait 2 seconds
 
 
@@ -3916,7 +3955,7 @@ if __name__=="__main__":
         t = MyThread()
         t.start()
         threads.append(t)
-    print ('main thread is waitting for exit...'  )
+    print ('main thread is waitting for exit   '  )
     #for t in threads:
         #t.join()
 
@@ -3924,7 +3963,7 @@ if __name__=="__main__":
 # 去掉join 运行结果		print ('main thread finished!')先结束,5个子进程后结束
 {
 >>>
-Thread-1 will wait 8 secondsmain thread is waitting for exit...Thread-2 will wait 8 secondsThread-3 will wait 8 secondsThread-4 will wait 3 secondsThread-5 will wait 9 seconds
+Thread-1 will wait 8 secondsmain thread is waitting for exit   Thread-2 will wait 8 secondsThread-3 will wait 8 secondsThread-4 will wait 3 secondsThread-5 will wait 9 seconds
 
 
 
@@ -3964,7 +4003,7 @@ import time
 
 def run_proc(name):
     time.sleep(20)
-    print('Run child process %s (%s)...' % (name, os.getpid()))
+    print('Run child process %s (%s)   ' % (name, os.getpid()))
 
 if __name__=='__main__':
     print('Parent process %s.' % os.getpid())
@@ -3979,7 +4018,7 @@ if __name__=='__main__':
 结果{
 Parent process 201779.
 Child process will start.
-Run child process test (201830)...
+Run child process test (201830)   
 Child process end.
 
 root@api:~# ps -ef|grep python
@@ -3995,7 +4034,7 @@ import os
 
 # 子进程要执行的代码
 def run_proc(name):
-    print('Run child process %s (%s)...' % (name, os.getpid()))
+    print('Run child process %s (%s)   ' % (name, os.getpid()))
     open('c:\\xxxx.log','w')
 
 if __name__=='__main__':
@@ -4033,7 +4072,7 @@ def write(q, lock, name):
     # 加锁
     lock.acquire()
     for value in ['A', 'B', 'C']:
-        print('Put %s to queue...' % value)
+        print('Put %s to queue   ' % value)
         q.put(value)
         time.sleep(random.random())
     # 释放锁
@@ -4071,12 +4110,12 @@ if __name__ == "__main__":
 
 root@api:/home/lgj/testfile# python3 pppp.py
 Child Process WRITE starts
-Put A to queue...
+Put A to queue   
 Child Process READ starts
 Get A from queue.
-Put B to queue...
+Put B to queue   
 Get B from queue.
-Put C to queue...
+Put C to queue   
 Get C from queue.
 Child Process WRITE ends
 Test finish.
@@ -4466,9 +4505,9 @@ width, height:按钮的尺寸。如果按钮显示文本，尺寸使用文本的
 　　创建:lb = ListBox(根对象, [属性列表])
 　　绑定变量 var=StringVar()    lb=ListBox(根对象, listvariable = var)
 　　得到列表中的所有值   var.get()
-　　设置列表中的所有值   var.set((item1, item2, .....))
+　　设置列表中的所有值   var.set((item1, item2,    ..))
 　　添加:lb.insert(item)
-　　删除:lb.delete(item,...)
+　　删除:lb.delete(item,   )
 　　绑定事件 lb.bind('<ButtonRelease-1>', 函数)
 　　获得所选中的选项 lbl.get(lb.curselection())
 属性
@@ -4659,7 +4698,7 @@ Collecting olefile (from Pillow)
   Downloading olefile-0.44.zip (74kB)
     100% |████████████████████████████████| 81kB 9.4MB/s
 Installing collected packages: olefile, Pillow
-  Running setup.py install for olefile ... done
+  Running setup.py install for olefile     done
 Successfully installed Pillow-4.0.0 olefile-0.44
 root@api:/home/lgj/python/pip-9.0.1#
 root@api:/home/lgj/python/pip-9.0.1# python3
@@ -5076,7 +5115,7 @@ t.repeat()
 [0.05562128719998327, 0.046032358580077926, 0.044957160393096274]
 
 #命令行调用
-python -m timeit [-n N] [-r N] [-s S] [-t] [-c] [-h] [statement...]
+python -m timeit [-n N] [-r N] [-s S] [-t] [-c] [-h] [statement   ]
 
 -n N 执行指定语句的次数
 -r N 重复测量的次数(默认3次)
@@ -5177,7 +5216,7 @@ loop.close()
 import asyncio
 
 async def compute(x, y):
-    print("Compute %s + %s ..." % (x, y))
+    print("Compute %s + %s    " % (x, y))
     await asyncio.sleep(5.0)
     return x + y
 
@@ -5325,7 +5364,7 @@ def producter(n):
         q.put(count)
         count += 1
         q.join()  #消息阻塞 队列为空重新触发
-        print("all task has been cosumed by consumers ...")
+        print("all task has been cosumed by consumers    ")
 
 q = queue.Queue()
 c1 = threading.Thread(target=consumer, args=[1, ])
@@ -5972,7 +6011,7 @@ parent()
 }
 ####################################################################################################
 
-try ... except {
+try     except {
 
 #http://www.cnblogs.com/ybwang/p/4738621.html 执行顺序
 #http://www.cnblogs.com/xu-rui/p/6477271.html with的内部实现
@@ -6001,7 +6040,7 @@ except EOFError:
     print ("User Press Ctrl+D,Exit")
 #捕获用户输入异常
 
-try ... except 语句可以带有一个 else子句 ，该子句只能出现在 有 except 子句之后。try语句没有出现异常时，还想要行执行一些代码，可以使这个子句。例 :
+try     except 语句可以带有一个 else子句 ，该子句只能出现在 有 except 子句之后。try语句没有出现异常时，还想要行执行一些代码，可以使这个子句。例 :
 for arg in sys.argv[1:]:
 	try:
 		f = open(arg, 'r')
@@ -6071,17 +6110,17 @@ class Context:
         print("End.__exit__")
 
     def context(self):
-        print("This is context ...{}".format(self.name))
+        print("This is context    {}".format(self.name))
 
 # 如果带上 as 变量,那么__enter__()方法必须得返回一个东西,要不然会报错..
 with Context("xurui") as context:
-    print("1...........")
+    print("1         ..")
     context.context()
-    print("2...........")
+    print("2         ..")
 with Context("xurui"):
-    print("3...........")
+    print("3         ..")
     Context("xurui").context()
-    print("4...........")
+    print("4         ..")
 
 
 # 不能对Python的任意符号使用with语句，它仅能工作于支持上下文管理协议(context management protocol)的对象
@@ -6175,25 +6214,13 @@ with MyOpen("1.py", 'w+') as f:
 
 python yield用法总结
 {
-def fab(max):
-    n, a, b = 0, 0, 1
-    while n < max:
-        yield b
-        # print b
-        a, b = b, a + b
-        n = n + 1
-
-for n in fab(5):
-    print(n)
-
-
+#python yield用法总结
+#http://www.cnblogs.com/python-life/articles/4549996.html
+#http://www.cnblogs.com/my_life/articles/5036842.html
 # 简单地讲，yield 的作用就是把一个函数变成一个 generator，带有 yield 的函数不再是一个普通函数，
 # Python 解释器会将其视为一个 generator，调用 fab(5) 不会执行 fab 函数，而是返回一个 iterable 对象！在 for 循环执行时，
 # 每次循环都会执行 fab 函数内部的代码，执行到 yield b 时，fab 函数就返回一个迭代值，下次迭代时，代码从 yield b 的下一条语句继续执行，
 # 而函数的本地变量看起来和上次中断执行前是完全一样的，于是函数继续执行，直到再次遇到 yield。
-
-# python yield用法总结
-# http://www.cnblogs.com/python-life/articles/4549996.html
 
 def read_file(fpath):
     BLOCK_SIZE = 5
@@ -6207,34 +6234,120 @@ def read_file(fpath):
 
 for x in read_file("./1.py"):
     print(x)
-
 # 当一个函数中含有yield时, 它不再是一个普通的函数, 而是一个生成器.当该函数被调用时不会自动执行, 而是暂停,
 # 调用函数.next()才会被执行,如一个函数中出现多个yield则next()会停止在下一个yield前
 
->> > def fun():
-... print 'start...'
-...  a, b = 1, 1
-...  m = yield 5
-... print m
-... print 'middle...'
-...  d = yield 12
-... print d
-... print 'end...'
-...
->> > m = fun() // 函数未调用，而是创建一个生成器对象
->> > next(m) // 调用next()执行函数，执行到下一个yield前，返回yield后面的值, 并且保留当前区域所有变量状态a = 1, b = 1
-start...
-5
->> > m.send('message') // send(value)与next类似, 唤醒到上一次生成器暂停的位置执行，并把value值传给yield表达式, 即yield 5表达式的值是message
-message // send()传递进来的
-middle...
-12
->> > next(m)
-None // next()相当于send(None), 传递给yield表达式的值是None，所以d的值是None
-end...
-Traceback(most recent call last):
+例子1{
+def fun():
+    print('start   ')
+    a, b = 1, 1
+    m = yield 5
+    print("m:", m)
+    print('middle   ')
+    d = yield 12
+    print("d:", d)
+    print('end   ')
+
+m = fun()	#函数未调用，而是创建一个生成器对象
+print("next:", next(m))	#调用next()执行函数，执行到下一个yield前，返回yield后面的值, 并且保留当前区域所有变量状态a = 1, b = 1
+print("send:", m.send('message'))	#send(value)与next类似, 唤醒到上一次生成器暂停的位置执行，并把value值传给yield表达式, 即yield 5表达式的值是'message'
+print("next:", next(m))	#next()相当于send(None), 传递给yield表达式的值是None，所以d的值是None
+"""
+start
+next: 5
+m: message
+middle
+send: 12
+d: None
+end
+Traceback(most recent call last):---------->两个yield只可以迭代两次，next一次，send一次，第三次的next就出错了
     File "<stdin>", line 1, in < module >
 StopIterationf
+"""
+}
+例子2{
+#生成器的扩展send
+>>> def gen():                                                
+        for i in range(10):                                   
+            x=yield i                                         
+            print(x)                                          
+            if x==20:                                         
+                print("aaaaaaaa")                             
+                                                              
+>>>                                                           
+>>> g=gen()                                                   
+>>> type(g)                                                   
+<class 'generator'>  
+>>> next(g)                                                   
+0      #yield i                                                       
+>>> next(g)                                                   
+None   #print(x)                                                        
+1      #yield i                                                        
+>>> next(g)                                                   
+None                                                          
+2                                                             
+>>> g.__next__                                                
+<method-wrapper '__next__' of generator object at 0x01E13EA0> 
+>>> g.__next__()                                              
+None                                                          
+3                                                             
+>>> g.send(21)                                                
+21      #print(x)                                                       
+4       #yield i                                                      
+>>> g.send(20)                                                
+20      #print(x)                                                       
+aaaaaaaa#print("aaaaaaaa")                                                      
+5		#yield i 
+}
+例子3{
+#很好的例子，需要仔细分析啊
+def gen():
+    for x in range(5):
+        print("x3:", x)
+        y = yield x
+        print("x,y:", x, y)
+        print("---------")
+
+a = gen()
+for x in a:
+    print("x1:", x)
+    if x == 2:
+        print("x=2:", x)
+        print("get next:", a.send("lgj"))  # 获取了下一个yield表达式的参数，也就是3-->导致a的迭代直接少了x=3的片段-->跳过了print("x1:", x)--->也就是说send包含了next的迭代功能同时也有传送值给y的功能
+    print("x2:", x)
+
+"""
+x3: 0
+x1: 0
+x2: 0
+x,y: 0 None
+---------
+x3: 1
+x1: 1
+x2: 1
+x,y: 1 None
+---------
+x3: 2
+x1: 2
+x=2: 2
+x,y: 2 lgj
+--------->问题：为什么for x in a 中x=3 的情况没有执行？-->分析见上面send的描述
+x3: 3
+get next: 3
+x2: 2
+x,y: 3 None
+---------
+x3: 4
+x1: 4
+x2: 4
+x,y: 4 None
+---------
+#结论
+1. next()和send()在一定意义上作用是相似的，区别是send()可以传递值给yield表达式，而next()不能传递特定的值，只能传递None进去。因此，我们可以看做c.next() 和 c.send(None) 作用是一样的。
+2. send(msg) 和 next()是有返回值的，它们的返回值很特殊，返回的是下一个yield表达式的参数。
+3. send包含了next的迭代功能同时也有传送值给y(y = yield x)的功能
+"""
+}
 
 }
 
@@ -6729,12 +6842,12 @@ http://www.cnblogs.com/vincenshen/articles/7250315.html
 12、yield from两点陈述：
 　　（1）使用yield from链接的多个协程最终必须由不是协程的调用方驱动，调用方显示或隐式（例for循环中）在最外委派生成器上调用next()函数或send()方法。
 　　（2）链条中最内层的子生成器必须是简单的生成器（只使用yield）或可迭代的对象。
-　　（3）我们编写的协程链条始终通过把最外层委派生成器传给asyncio包API中的某个函数（如：loop.run_until_complete(...)）驱动
+　　（3）我们编写的协程链条始终通过把最外层委派生成器传给asyncio包API中的某个函数（如：loop.run_until_complete(   )）驱动
 　　（4）使用asyncio包时，我们编写的代码不通过调用next()函数或者.send()方法驱动协程 ——这一点由asyncio包实现的事件循环（loop）去做。
 　　（5）最内层的子生成器是库中真正执行IO操作的函数，而不是我们自己编写的函数。
 13、asyncio.ensure_future(coroutine) 和 loop.create_task(coroutine)都可以创建一个task.
 14、run_until_complete的参数是一个futrue对象。当传入一个协程，其内部会自动封装成task，task是Future的子类。
-15、asyncio.wait(...) 通过它可以获取一个协同程序的列表，同时返回一个将它们全包括在内的单独的协同程序，并交给loop_run_until_complete处理。
+15、asyncio.wait(   ) 通过它可以获取一个协同程序的列表，同时返回一个将它们全包括在内的单独的协同程序，并交给loop_run_until_complete处理。
 
 
 例子1、访问模拟端1000次
@@ -6827,7 +6940,7 @@ import asyncio
 import time
 # python socket 实现http请求,asyncio.open_connection包装了socket
 async def wget(host):
-    #print("wget %s..." % host)
+    #print("wget %s   " % host)
     connect = asyncio.open_connection(host, 8091)
     reader, writer = await connect
     header = 'GET /sessions HTTP/1.1\r\nHost: 10.175.102.22:8091\r\nConnection: close\r\n\r\n'
@@ -6943,7 +7056,7 @@ async def init(loop):
     app.router.add_route('GET', '/', index)
     app.router.add_route('GET', '/hello/{name}', hello)
     srv = await loop.create_server(app.make_handler(), '127.0.0.1', 8000)
-    print('Server started at http://127.0.0.1:8000...')
+    print('Server started at http://127.0.0.1:8000   ')
     return srv
 
 loop = asyncio.get_event_loop()
@@ -7060,6 +7173,50 @@ http --proxy=http:http://user:pass@192.168.1.100:8060 http://127.0.0.1:8080/logi
 
 }
 
+python类常用的内置方法{
+#更好的总结在下面的链接中:)
+https://github.com/lgjabc/python_learn/blob/master/%E6%A0%B7%E4%BE%8B/Example3_python/%E7%B1%BB%E7%9A%84%E5%86%85%E7%BD%AE%E6%96%B9%E6%B3%95%E8%BF%9B%E9%98%B6.sh
+
+#内置方法	 说明
+__init__(self,   )	 初始化对象，在创建新对象时调用
+__del__(self)	 释放对象，在对象被删除之前调用
+__new__(cls,*args,**kwd)	 实例的生成操作
+__str__(self)	 在使用print语句时被调用
+__getitem__(self,key)	 获取序列的索引key对应的值，等价于seq[key]
+__len__(self)	 在调用内联函数len()时被调用
+__cmp__(stc,dst)	 比较两个对象src和dst
+__getattr__(s,name)	 获取属性的值
+__setattr__(s,name,value)	 设置属性的值
+__delattr__(s,name)	 删除name属性
+__getattribute__()	 __getattribute__()功能与__getattr__()类似
+__gt__(self,other)	 判断self对象是否大于other对象
+__lt__(self,other)	 判断self对象是否小于other对象
+__ge__(self,other)	 判断self对象是否大于或者等于other对象
+__le__(self,other)	 判断self对象是否小于或者等于other对象
+__eq__(self,other)	 判断self对象是否等于other对象
+__call__(self,*args)	 把实例对象作为函数调用
+}
+
+python 反射/自省 inspect{
+#http://www.cnblogs.com/huxi/archive/2011/01/02/1924317.html
+#http://www.cnblogs.com/xiami303/archive/2012/05/31/2528799.html
+使用import inspect 查看python 类的参数和模块、函数代码
+查看全部代码 inspect.getsource(模块.函数）或者（模块.类.函数）
+查看函数参数 inspect.getargspec(   )   查看类的参数，则括号里为（模块.类.__init__）
+查看函数的位置 inspect.getabsfile(   ) 
+getargvalues(frame): 仅用于栈帧，获取栈帧中保存的该次函数调用的参数值，返回元组，分别是(普通参数名的列表, *参数名, **参数名, 帧的locals())。
+getcallargs(func[, *args][, **kwds]): 返回使用args和kwds调用该方法时各参数对应的值的字典。
+}
+
+python3函数注解{
+>>> def func(a:"sp",b:(1,20),c:float)-> int:
+		return a+b+c
+
+>>> func.__annotations__
+{'a': 'sp', 'b': (1, 20), 'c': <class 'float'>, 'return': <class 'int'>}
+>>> func.__annotations__.get('a')
+'sp'
+}
 }
 
 一些环境配置方法记录{
@@ -7106,7 +7263,7 @@ http://www.cnblogs.com/final/p/5348350.html
 
 {
     "cmd": ["C:/Users/AA/AppData/Roaming/Sublime Text 3/Packages/User/JavaC - INSET.cmd", "$file"],
-    "file_regex": "^(...*?):([0-9]*):?([0-9]*)",
+    "file_regex": "^(   *?):([0-9]*):?([0-9]*)",
     "selector": "source.java",
     "shell": true,
     // Windows 中文版支持的编码格式是GBK，这条配置是通知Sublime Text 2以系统环境的编码格式输出，如果不加这一条配置，在编译运行时就会提示Decode error - output not utf-8错误
@@ -7119,7 +7276,7 @@ http://www.cnblogs.com/final/p/5348350.html
 
 @ECHO OFF
 cd %~dp1
-ECHO Compiling %~nx1...
+ECHO Compiling %~nx1   
 IF EXIST %~n1.class (
     DEL %~n1.class
 )
