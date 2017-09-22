@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 # http://www.cnblogs.com/linhaifeng/articles/6204014.html#_label7
+#建议使用notepad++ sh折叠查看
 __str__,__repr__,__format__{
 #例子1
 class Fruit:
