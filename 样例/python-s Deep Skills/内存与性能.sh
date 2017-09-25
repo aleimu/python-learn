@@ -31,16 +31,13 @@ http://www.cnblogs.com/qytang/p/5580912.html
 import objgraph
 import sys
 
-
 class OBJ(object):
     pass
-
 
 def show_direct_cycle_reference():
     a = OBJ()
     a.attr = a
     objgraph.show_backrefs(a, max_depth=5, filename="direct.dot")
-
 
 def show_indirect_cycle_reference():
     a, b = OBJ(), OBJ()
@@ -56,30 +53,24 @@ if __name__ == '__main__':
     objgraph.show_most_common_types(25) #返回Python gc管理的所有对象中，数目前N多的对象
     
     
-    
 #例子2
 import tracemalloc
 
 NUM_OF_ATTR = 10
 NUM_OF_INSTANCE = 100
 
-
 class Slots(object):
     __slots__ = ['attr%s' % i for i in range(NUM_OF_ATTR)]
-
     def __init__(self):
         value_lst = (1.0, True, [], {}, ())
         for i in range(NUM_OF_ATTR):
             setattr(self, 'attr%s' % i, value_lst[i % len(value_lst)])
-
 
 class NoSlots(object):
     def __init__(self):
         value_lst = (1.0, True, [], {}, ())
         for i in range(NUM_OF_ATTR):
             setattr(self, 'attr%s' % i, value_lst[i % len(value_lst)])
-
-
 def generate_some_objs():
     lst = []
     for i in range(NUM_OF_INSTANCE):
@@ -87,15 +78,12 @@ def generate_some_objs():
         lst.append(o)
     return lst
 
-
 if __name__ == '__main__':
     tracemalloc.start(3)
-
     t = generate_some_objs()
     # print(t)
     snapshot = tracemalloc.take_snapshot()
     top_stats = snapshot.statistics('lineno')  # lineno filename traceback
-
     print(tracemalloc.get_traced_memory())
     for stat in top_stats[:10]:
         print(stat)
