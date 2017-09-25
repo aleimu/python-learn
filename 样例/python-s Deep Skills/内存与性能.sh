@@ -1,3 +1,9 @@
+#分析一个程序的性能，总结下来就是要回答4个问题：
+1.它运行的有多块？
+2.它的瓶颈在哪？
+3.它占用了多少内存？
+4.哪里有内存泄漏？
+
 #基础知识
 　　（1）python使用引用计数和垃圾回收来释放（free）Python对象
 　　（2）引用计数的优点是原理简单、将消耗均摊到运行时；缺点是无法处理循环引用
@@ -103,3 +109,96 @@ pytracemalloc hook住了python申请和释放内存的接口，从而能够追�
 对内存分配的统计数据可以精确到每个文件、每一行代码，也可以按照调用栈做聚合分析。而且还支持快照（snapshot）功能，
 比较两个快照之间的差异可以发现潜在的内存泄露。
 """
+###############分析运行时间################
+1.用上下文管理器来细粒度的测量时间
+
+import time
+ 
+class Timer(object):
+    def __init__(self, verbose=False):
+        self.verbose = verbose
+ 
+    def __enter__(self):
+        self.start = time.time()
+        return self
+ 
+    def __exit__(self, *args):
+        self.end = time.time()
+        self.secs = self.end - self.start
+        self.msecs = self.secs * 1000  # millisecs
+        if self.verbose:
+            print 'elapsed time: %f ms' % self.msecs
+为了使用它，将你想要测量时间的代码用Python关键字with和Timer上下文管理器包起来。它会在你的代码运行的时候开始计时，并且在执行结束的完成计时。
+
+下面是一个使用它的代码片段：
+from timer import Timer
+from redis import Redis
+rdb = Redis()
+ 
+with Timer() as t:
+    rdb.lpush("foo", "bar")
+print "=> elasped lpush: %s s" % t.secs
+ 
+with Timer as t:
+    rdb.lpop("foo")
+print "=> elasped lpop: %s s" % t.secs
+我会经常把这些计时器的输入记录进一个日志文件来让我知道程序的性能情况。
+
+
+
+2.用分析器一行一行地计时和记录执行频率
+Robert Kern有一个很棒的项目名叫 line_profiler。我经常会用它来测量我的脚本里每一行代码运行的有多快和运行频率。
+为了用它，你需要通过pip来安装这个Python包：
+$ pip install line_profiler
+在你安装好这个模块之后，你就可以使用line_profiler模块和一个可执行脚本kernprof.py。
+为了用这个工具，首先需要修改你的代码，在你想测量的函数上使用@profiler装饰器。不要担心，为了用这个装饰器你不需要导入任何其他的东西。Kernprof.py这个脚本可以在你的脚本运行的时候注入它的运行时。
+#Primes.py
+
+@profile
+def primes(n): 
+    if n==2:
+        return [2]
+    elif n<2:
+        return []
+    s=range(3,n+1,2)
+    mroot = n ** 0.5
+    half=(n+1)/2-1
+    i=0
+    m=3
+    while m <= mroot:
+        if s[i]:
+            j=(m*m-3)/2
+            s[j]=0
+            while j<half:
+                s[j]=0
+                j+=m
+        i=i+1
+        m=2*i+3
+    return [2]+[x for x in s if x]
+primes(100)
+ 
+
+一旦你在你的代码里使用了@profile装饰器，你就要用kernprof.py来运行你的脚本：
+$ kernprof.py -l -v fib.py
+-l这个选项是告诉kernprof将@profile装饰器注入到你的脚本的内建里，-v是告诉kernprof在脚本执行完之后立马显示计时信息。
+
+
+3.分析代码用了多少内存
+幸运的是，Fabian Pedregosa已经完成了一个很好的memory_profiler，它模仿了Robert Kern的line_profile。
+
+首先，用pip来安装它：
+$ pip install -U memory_profiler
+$ pip install psutil
+（推荐安装psutils包，这是因为这能大大提升memory_profiler的性能）
+
+跟line_profiler类似，memory_profiler需要用@profiler装饰器来装饰你感兴趣的函数，就像这样：
+@profile
+def primes(n): 
+    ...
+    ...
+用一下的命令来查看你的函数在运行时耗费的内存：
+$ python -m memory_profiler primes.py
+
+
+
+
