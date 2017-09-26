@@ -40,7 +40,11 @@ pdir 是很不错的代替内置dir的库
 小知识点{
 c:\python33添加到你的PATH 环境变量中，你可以在DOS 窗口中
 输入以下命令:set path=%path%;C:\python33
+
+functools itertools 很厉害的内置库
+
 id() 方法的返回值就是对象的内存地址。
+
 在#! 行(首行)后插入至少一行特殊的注释行来定义源文件的编码。
 # -*- coding: encoding -*-
 #!/usr/bin/env python3
@@ -52,6 +56,24 @@ python -m SimpleHTTPServer
 #通过webshell反弹shell回来之后获取真正的ttyshell,后面还有关于反弹shell的样例
 python -c 'import pty; pty.spawn("/bin/sh")'
 python3.4 -c 'import pty; pty.spawn("/bin/bash")'
+
+cProfile {
+python -m cProfile dome1.py	#统计dome1.py中个函数的执行时间
+python -m cProfile -o dome1.out dome1.py	#结果写入到dome1.out中
+}
+
+python中最出名的性能分析库：cProfile、line_profiler
+
+语句执行跟踪{
+有时更好的办法是看执行了哪些语句。你可以使用一些IDE的调试器的单步执行，但你需要明确知道你在找那些语句，否则整个过程会进行地非常缓慢。
+标准库里面的trace模块，可以打印运行时包含在其中的模块里所有执行到的语句。(就像制作一份项目报告)
+python -mtrace --trace pytest.py
+这会产生大量输出（执行到的每一行都会被打印出来，你可能想要用grep（windows下用findstr）过滤那些你感兴趣的模块）。
+Linux：
+python -mtrace –trace pytest.py | egrep '^(mod1.py|mod2.py)'
+Windows：
+python -mtrace --trace pytest.py | findstr pytest.py
+}
 }
 
 如何查看关键字{
@@ -289,6 +311,8 @@ def cur_file_dir():
 print (cur_file_dir())
 
 }
+#os 模块负责程序与操作系统的交互，提供了访问操作系统底层的接口
+#sys 模块负责程序与python解释器的交互，提供了一系列的函数和变量，用于操控python的运行时环境
 os.path{
 得到当前工作目录，即当前Python脚本工作的目录路径: os.getcwd()
 返回指定目录下的所有文件和目录名:os.listdir()
@@ -456,26 +480,28 @@ root     221890 221527  0 20:33 pts/10   00:00:00 grep --color=auto 221441
 }
 sys方法合集{
 #sys模块用于提供对python解释器的相关操作。
-
-sys.argv   命令行参数List，第一个元素是程序本身路径
-sys.modules 返回系统导入的模块字段，key是模块名，value是模块
+sys.argv   			命令行参数List，第一个元素是程序本身路径
+sys.modules			返回系统导入的模块字段，key是模块名，value是模块
 sys.exit(n)        退出程序，正常退出时exit(0)
 sys.version        获取Python解释程序的版本信息
-sys.maxint         最大的Int值
+sys.maxsize        最大的Int值
+sys.maxunicode     最大的Unicode值
 sys.path           返回模块的搜索路径，初始化时使用PYTHONPATH环境变量的值
 sys.platform       返回操作系统平台名称
+sys.stderr         错误输出
+sys.stdin          标准输入
+sys.stdout         标准输出
 sys.stdout.write('please:')
 val = sys.stdin.readline()[:-1]
 sys.modules.keys() 返回所有已经导入的模块名
 sys.modules.values() 返回所有已经导入的模块
 sys.exc_info()     获取当前正在处理的异常类,exc_type、exc_value、exc_traceback当前处理的异常详细信息
 sys.exit(n)        退出程序，正常退出时exit(0)
-sys.hexversion     获取Python解释程序的版本值，16进制格式如：0x020403F0
+sys.hexversion     获取Python解释程序的版本值，16进制格式如：0x020403F0  >>> sys.hexversion >>>50594800
 sys.version        获取Python解释程序的
 sys.api_version    解释器的C的API版本
-sys.version_info
-'final'表示最终,也有'candidate'表示候选，serial表示版本级别，是否有后继的发行
-sys.displayhook(value)      如果value非空，这个函数会把他输出到sys.stdout，并且将他保存进__builtin__._.指在python的交互式解释器里，'_' 代表上次你输入得到的结果，hook是钩子的意思，将上次的结果钩过来
+sys.version_info	‘final’表示最终,也有’candidate’表示候选，serial表示版本级别，是否有后继的发行
+sys.displayhook(value)      如果value非空，这个函数会把他输出到sys.stdout，并且将他保存进__builtin__._.指在python的交互式解释器里，’_’ 代表上次你输入得到的结果，hook是钩子的意思，将上次的结果钩过来
 sys.getdefaultencoding()    返回当前你所用的默认的字符编码格式
 sys.getfilesystemencoding() 返回将Unicode文件名转换成系统文件名的编码的名字
 sys.setdefaultencoding(name)用来设置当前默认的字符编码，如果name和任何一个可用的编码都不匹配，抛出 LookupError，这个函数只会被site模块的sitecustomize使用，一旦别site模块使用了，他会从sys模块移除
@@ -483,18 +509,39 @@ sys.builtin_module_names    Python解释器导入的模块列表
 sys.executable              Python解释程序路径
 sys.getwindowsversion()     获取Windows的版本
 sys.copyright      记录python版权相关的东西
-sys.byteorder      本地字节规则的指示器，big-endian平台的值是'big',little-endian平台的值是'little'
+sys.byteorder      本地字节规则的指示器，big-endian平台的值是’big’,little-endian平台的值是’little’
 sys.exc_clear()    用来清除当前线程所出现的当前的或最近的错误信息
 sys.exec_prefix    返回平台独立的python文件安装的位置
-sys.stderr         错误输出
-sys.stdin          标准输入
-sys.stdout         标准输出
-sys.platform       返回操作系统平台名称
-sys.path           返回模块的搜索路径，初始化时使用PYTHONPATH环境变量的值
-sys.maxunicode     最大的Unicode值
-sys.maxint         最大的Int值
-sys.version        获取Python解释程序的版本信息
-sys.hexversion     获取Python解释程序的版本值，16进制格式如：0x020403F0
+
+#比较小众或新增的函数,一般get都有对应的set方法
+sys.settrace(tracer)  # settrace(function) 设置全局调试跟踪功能。 每一个都会被呼叫函数调用。
+sys.ps1和sys.ps2	定义了两个提示符字符串
+sys.dont_write_bytecode  如果这是真的，Python将不会尝试在导入源模块时写入.pyc文件。此值最初设置为True或False，但您可以自行设置它来控制字节码文件生成。
+sys.executable		返回执行文件的绝对路径 '/usr/bin/python3.4'
+sys.getallocatedblocks() 	返回解释器当前分配的内存块数，此功能主要用于跟踪和调试内存泄漏。 
+sys.getrefcount(object) 	返回对象的引用计数。 返回的计数通常比您预期的高一个，因为它包含（临时）引用作为getrefcount（）的参数。
+sys.setrecursionlimit(limit)|sys.getrecursionlimit()	 	将Python解释器堆栈的最大深度设置为int值limit。 这个限制可以防止无限次递归导致C堆栈溢出和崩溃的Python。递归深度的新限制太低，则会引发RecursionError异常。
+sys.getsizeof(object[, default]) 	以字节返回对象的大小。 该对象可以是任何类型的对象。
+sys.getswitchinterval() 		返回解释器的“线程切换间隔” 一般为0.005
+sys.setswitchinterval(间隔)		设置解释器的线程切换间隔（以秒为单位）。 这个浮点值决定了分配给并行运行Python线程的“timeslices”的理想持续时间。
+sys.setprofile(profilefunc)|sys.getprofile()  	设置系统的配置文件功能，可以在Python中实现Python源代码分析器。不适用于存在多个线程的情况。 多线程情况下使用threading.setprofile(func) 
+sys.settrace(tracefunc)|sys.gettrace()			设置系统的跟踪功能，允许您在Python中实现Python源代码调试器。 该功能是线程特定的; 对于调试器来支持多个线程，必须使用settrace（）为被调试的每个线程注册。threading.settrace(func) 
+sys.set_coroutine_wrapper()|sys.get_coroutine_wrapper()		允许拦截创建协同程序对象（只有由异步def函数创建的对象）;不会拦截用types.coroutine（）或asyncio.coroutine（）装饰的生成器）。
+sys.hash_info		一个提供数字哈希实现参数的结构序列。
+sys.implementation 	包含有关当前正在运行的Python解释器的实现的信息的对象:name,version,hexversion,cache_tag
+sys.intern(str)		函数作用在一个字符串上来限定intern以达到性能优化，可用于加快字典查找。
+sys.is_finalizing()	如果Python解释器正在关闭，则返回True，否则返回False。
+sys.last_type 
+sys.last_value 
+sys.last_traceback 
+#这三个变量并不总是定义的; 当未处理异常时，它们被设置，并且解释器打印出错误消息和堆栈追溯。 它们的目的用途是允许交互式用户导入调试器模块并进行验尸调试，而无需重新执行导致错误的命令。
+sys.tracebacklimit	当此变量设置为整数值时，它确定发生未处理异常时打印的追溯信息的最大级别数。 默认值为1000.当设置为0或更小时，所有回溯信息都将被抑制，并且仅打印异常类型和值。
+sys.winver 		用于在Windows平台上形成注册表项的版本号
+sys._xoptions 	通过-X命令行选项传递的各种实现特定标志的字典。 选项名称映射到它们的值，如果明确给出，或者为True。
+python -Xa=b -Xc
+>>> import sys
+>>> sys._xoptions
+{'a': 'b', 'c': True}
 }
 重定向{
 import sys
