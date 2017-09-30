@@ -1,8 +1,12 @@
 # 将py2转成py3 的自带库 2to3.py
 #http://www.cnblogs.com/Blaxon/articles/4483023.html  ---->py2与py3的语法不同点
 #http://www.cnblogs.com/todayisafineday/p/5656429.html -----> 2to3 库的使用方法 基本如下:
+#http://www.cnblogs.com/hdulzt/articles/7181466.html
+
+python .\2to3.py -w  E:\下载9月\python_learn-master\css\list.py
+
 windows系统下的使用方法：
-　　（1）将python安装包下的Tools / Scripts下面的2to3.py拷贝到需要转换文件目录中。
+　　（1）将python安装包下的Tools/Scripts下面的2to3.py拷贝到需要转换文件目录中（这一步存疑，有时候还是指定这个目录比较好如上：）
 　　（2）dos切换到需要转换的文件目录下，运行命令2to3.py test.py
 　　　　可打印test.py，在python2与python3的差异。
 　　（3）dos切换到需要转换的文件目录下，运行命令2to3.py - w test.py
