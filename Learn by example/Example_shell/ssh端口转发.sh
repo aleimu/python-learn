@@ -119,3 +119,8 @@ iptables -t nat -A PREROUTING -i eth2 -p tcp --dport 8000 -j REDIRECT --to-port 
 上述命令会将所有到达 eth2 网卡 25 端口的流量重定向转发到 2525 端口
 #保存配置，也能用于查看一些看不到的配置
 iptables-save > hehe
+iptables -X #清除用户设定
+iptables -F #清除所有规则
+iptables -L #查看设定
+
+#windows上常用pop.exe来实现端口映射，很好用
