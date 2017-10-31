@@ -123,4 +123,4 @@ iptables -X #清除用户设定
 iptables -F #清除所有规则
 iptables -L #查看设定
 
-#windows上常用pop.exe来实现端口映射，很好用
+#windows上常用ipop.exe来实现端口映射，很好用
