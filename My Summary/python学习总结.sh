@@ -11,34 +11,6 @@ http://www.cnblogs.com/huyuedong/p/5882510.html  很不错的博客
 对于操作系统来说,一个应用就是一个进程。比如打开一个浏览器,它是一个进程；打开一个记事本,它是一个进程。每个进程有它特定的进程号。他们共享系统的内存资源。进程是操作系统分配资源的最小单位。
 而对于每一个进程而言,比如一个视频播放器,它必须同时播放视频和音频,就至少需要同时运行两个"子任务",进程内的这些子任务就是通过线程来完成。线程是最小的执行单元。一个进程它可以包含多个线程,这些线程相互独立,同时又共享进程所拥有的资源。
 }
-
-{
-Python 算术操作符 + - * /(除法完整除数) //(除法取整数) **(幂运算) %(取余数)
-
-运算符	名称	说明	例子
-+	加	两个对象相加	3 + 5得到8。'a' + 'b'得到'ab'。
--	减	得到负数或是一个数减去另一个数	-5.2得到一个负数。50 - 24得到26。
-*	乘	两个数相乘或是返回一个被重复若干次的字符串	2 * 3得到6。'la' * 3得到'lalala'。
-**	幂	返回x的y次幂3 ** 4得到81（即3 * 3 * 3 * 3）
-/	除	x除以y	4/3得到1（整数的除法得到整数结果）。4.0/3或4/3.0得到1.3333333333333333
-//	取整除	返回商的整数部分	4 // 3.0得到1.0
-%	取模	返回除法的余数	8%3得到2。-25.5%2.25得到1.5
-<<	左移	把一个数的比特向左移一定数目（每个数在内存中都表示为比特或二进制数字，即0和1）	2 << 2得到8。——2按比特表示为10
->>	右移	把一个数的比特向右移一定数目	11 >> 1得到5。——11按比特表示为1011，向右移动1比特后得到101，即十进制的5。
-&	按位与	数的按位与	5 & 3得到1。
-|	按位或	数的按位或	5 | 3得到7。
-^	按位异或	数的按位异或	5 ^ 3得到6
-~	按位翻转	x的按位翻转是-(x+1)	~5得到6。
-<	小于	返回x是否小于y。所有比较运算符返回1表示真，返回0表示假。这分别与特殊的变量True和False等价。注意，这些变量名的大写。	5 < 3返回0（即False）而3 < 5返回1（即True）。比较可以被任意连接：3 < 5 < 7返回True。
->	大于	返回x是否大于y	5 > 3返回True。如果两个操作数都是数字，它们首先被转换为一个共同的类型。否则，它总是返回False。
-<=	小于等于	返回x是否小于等于y	x = 3; y = 6; x <= y返回True。
->=	大于等于	返回x是否大于等于y	x = 4; y = 3; x >= y返回True。
-==	等于	比较对象是否相等	x = 2; y = 2; x == y返回True。x = 'str'; y = 'stR'; x == y返回False。x = 'str'; y = 'str'; x == y返回True。
-!=	不等于	比较两个对象是否不相等	x = 2; y = 3; x != y返回True。
-not	布尔“非”	如果x为True，返回False。如果x为False，它返回True。	x = True; not y返回False。
-and	布尔“与”	如果x为False，x and y返回False，否则它返回y的计算值。	x = False; y = True; x and y，由于x是False，返回False。在这里，Python不会计算y，因为它知道这个表达式的值肯定是False（因为x是False）。这个现象称为短路计算。
-or	布尔“或”	如果x是True，它返回True，否则它返回y的计算值。	x = True; y = False; x or y返回True。短路计算在这里也适用。
-}
 一些资源和github库{
 #很6的博客
 http://www.cnblogs.com/hongten/tag/python/default.html?page=2
@@ -104,6 +76,103 @@ python -mtrace --trace pytest.py | findstr pytest.py
 }
 }
 
+运算符{
+Python 算术操作符 + - * /(除法完整除数) //(除法取整数) **(幂运算) %(取余数)
+
+运算符	名称	说明	例子
++	加	两个对象相加	3 + 5得到8。'a' + 'b'得到'ab'。
+-	减	得到负数或是一个数减去另一个数	-5.2得到一个负数。50 - 24得到26。
+*	乘	两个数相乘或是返回一个被重复若干次的字符串	2 * 3得到6。'la' * 3得到'lalala'。
+**	幂	返回x的y次幂3 ** 4得到81（即3 * 3 * 3 * 3）
+/	除	x除以y	4/3得到1（整数的除法得到整数结果）。4.0/3或4/3.0得到1.3333333333333333
+//	取整除	返回商的整数部分	4 // 3.0得到1.0
+%	取模	返回除法的余数	8%3得到2。-25.5%2.25得到1.5
+'<<'	左移	把一个数的比特向左移一定数目（每个数在内存中都表示为比特或二进制数字，即0和1）	2 << 2得到8。——2按比特表示为10
+>>	右移	把一个数的比特向右移一定数目	11 >> 1得到5。——11按比特表示为1011，向右移动1比特后得到101，即十进制的5。
+&	按位与	数的按位与	5 & 3得到1。
+|	按位或	数的按位或	5 | 3得到7。
+^	按位异或	数的按位异或	5 ^ 3得到6
+~	按位翻转	x的按位翻转是-(x+1)	~5得到6。
+<	小于	返回x是否小于y。所有比较运算符返回1表示真，返回0表示假。这分别与特殊的变量True和False等价。注意，这些变量名的大写。	5 < 3返回0（即False）而3 < 5返回1（即True）。比较可以被任意连接：3 < 5 < 7返回True。
+>	大于	返回x是否大于y	5 > 3返回True。如果两个操作数都是数字，它们首先被转换为一个共同的类型。否则，它总是返回False。
+<=	小于等于	返回x是否小于等于y	x = 3; y = 6; x <= y返回True。
+>=	大于等于	返回x是否大于等于y	x = 4; y = 3; x >= y返回True。
+==	等于	比较对象是否相等	x = 2; y = 2; x == y返回True。x = 'str'; y = 'stR'; x == y返回False。x = 'str'; y = 'str'; x == y返回True。
+!=	不等于	比较两个对象是否不相等	x = 2; y = 3; x != y返回True。
+not	布尔“非”	如果x为True，返回False。如果x为False，它返回True。	x = True; not y返回False。
+and	布尔“与”	如果x为False，x and y返回False，否则它返回y的计算值。	x = False; y = True; x and y，由于x是False，返回False。在这里，Python不会计算y，因为它知道这个表达式的值肯定是False（因为x是False）。这个现象称为短路计算。
+or	布尔“或”	如果x是True，它返回True，否则它返回y的计算值。	x = True; y = False; x or y返回True。短路计算在这里也适用。
+}
+set集合{
+>>> x = set("jihite")
+>>> y = set(['d', 'i', 'm', 'i', 't', 'e'])
+>>> x       #把字符串转化为set，去重了
+set(['i', 'h', 'j', 'e', 't'])
+>>> y
+set(['i', 'e', 'm', 'd', 't'])
+>>> x & y   #交
+set(['i', 'e', 't'])
+>>> x | y   #并
+set(['e', 'd', 'i', 'h', 'j', 'm', 't'])
+>>> x - y   #差
+set(['h', 'j'])
+>>> y - x
+set(['m', 'd'])
+>>> x ^ y   #对称差：x和y的交集减去并集
+set(['d', 'h', 'j', 'm'])
+
+>>> x
+set(['i', 'h', 'j', 'e', 't'])
+>>> s = set("hi")
+>>> s
+set(['i', 'h'])
+>>> len(x)                    #长度
+>>> 'i' in x
+True
+>>> s.issubset(x)             #s是否为x的子集
+True
+>>> y
+set(['i', 'e', 'm', 'd', 't'])
+>>> x.union(y)                #交
+set(['e', 'd', 'i', 'h', 'j', 'm', 't'])
+>>> x.intersection(y)         #并
+set(['i', 'e', 't'])
+>>> x.difference(y)           #差
+set(['h', 'j'])
+>>> x.symmetric_difference(y) #对称差
+set(['d', 'h', 'j', 'm'])
+>>> s.update(x)               #更新s，加上x中的元素
+>>> s
+set(['e', 't', 'i', 'h', 'j'])
+>>> s.add(1)                  #增加元素
+>>> s
+set([1, 'e', 't', 'i', 'h', 'j'])
+>>> s.remove(1)               #删除已有元素，如果没有会返回异常
+>>> s
+set(['e', 't', 'i', 'h', 'j'])
+>>> s.remove(2)
+
+Traceback (most recent call last):
+  File "<pyshell#29>", line 1, in <module>
+    s.remove(2)
+KeyError: 2
+>>> s.discard(2)               #如果存在元素，就删除；没有不报异常
+>>> s
+set(['e', 't', 'i', 'h', 'j'])
+>>> s.clear()                  #清除set
+>>> s
+set([])
+>>> x
+set(['i', 'h', 'j', 'e', 't'])
+>>> x.pop()                    #随机删除一元素
+'i'
+>>> x
+set(['h', 'j', 'e', 't'])
+>>> x.pop()
+'h'
+
+}
+
 如何查看关键字{
 #http://www.cnblogs.com/zhuzhu2016/p/6170150.html 参考此博客
 >>> import keyword
@@ -114,7 +183,7 @@ python -mtrace --trace pytest.py | findstr pytest.py
 help(sequence) #sequence在python不是一种特定的类型,而是泛指一系列的类型。
 >>> import builtins
 >>> dir (builtins)
-['ArithmeticError', 'AssertionError', 'AttributeError', 'BaseException', 'BlockingIOError', 'BrokenPipeError', 'BufferError', 'BytesWarning', 'ChildProcessError', 'ConnectionAbortedError', 'ConnectionError', 'ConnectionRefusedError', 'ConnectionResetError', 'DeprecationWarning', 'EOFError', 'Ellipsis', 'EnvironmentError', 'Exception', 'False', 'FileExistsError', 'FileNotFoundError', 'FloatingPointError', 'FutureWarning', 'GeneratorExit', 'IOError', 'ImportError', 'ImportWarning', 'IndentationError', 'IndexError', 'InterruptedError', 'IsADirectoryError', 'KeyError', 'KeyboardInterrupt', 'LookupError', 'MemoryError', 'ModuleNotFoundError', 'NameError', 'None', 'NotADirectoryError', 'NotImplemented', 'NotImplementedError', 'OSError', 'OverflowError', 'PendingDeprecationWarning', 'PermissionError', 'ProcessLookupError', 'RecursionError', 'ReferenceError', 'ResourceWarning', 'RuntimeError', 'RuntimeWarning', 'StopAsyncIteration', 'StopIteration', 'SyntaxError', 'SyntaxWarning', 'SystemError', 'SystemExit', 'TabError', 'TimeoutError', 'True', 'TypeError', 'UnboundLocalError', 'UnicodeDecodeError', 'UnicodeEncodeError', 'UnicodeError', 'UnicodeTranslateError', 'UnicodeWarning', 'UserWarning', 'ValueError', 'Warning', 'WindowsError', 'ZeroDivisionError', '_', '__build_class__', '__debug__', '__doc__', '__import__', '__loader__', '__name__', '__package__', '__spec__', 'abs', 'all', 'any', 'ascii', 'bin', 'bool', 'bytearray', 'bytes', 'callable', 'chr', 'classmethod', 'compile', 'complex', 'copyright', 'credits', 'delattr', 'dict', 'dir', 'divmod', 'enumerate', 'eval', 'exec', 'exit', 'filter', 'float', 'format', 'frozenset', 'getattr', 'globals', 'hasattr', 'hash', 'help', 'hex', 'id', 'input', 'int', 'isinstance', 'issubclass', 'iter', 'len', 'license', 'list', 'locals', 'map', 'max', 'memoryview', 'min', 'next', 'object', 'oct', 'open', 'ord', 'pow', 'print', 'property', 'quit', 'range', 'repr', 'reversed', 'round', 'set', 'setattr', 'slice', 'sorted', 'staticmethod', 'str', 'sum', 'super', 'tuple', 'type', 'vars', 'zip']
+['ArithmeticError', 'AssertionError', 'AttributeError', 'BaseException', 'BlockingIOError', 'BrokenPipeError', 'BufferError', 'BytesWarning', 'ChildProcessError', 'ConnectionAbortedError', 'ConnectionError', 'ConnectionRefusedError', 'ConnectionResetError', 'DeprecationWarning', 'EOFError', 'Ellipsis', 'EnvironmentError', 'Exception', 'False', 'FileExistsError', 'FileNotFoundError', 'FloatingPointError', 'FutureWarning', 'GeneratorExit', 'IOError', 'ImportError', 'ImportWarning', 'IndentationError', 'IndexError', 'InterruptedError', 'IsADirectoryError', 'KeyError', 'KeyboardInterrupt', 'LookupError', 'MemoryError', 'ModuleNotFoundError', 'Error', 'None', 'NotADirectoryError', 'NotImplemented', 'NotImplementedError', 'OSError', 'OverflowError', 'PendingDeprecationWarning', 'PermissionError', 'ProcessLookupError', 'RecursionError', 'ReferenceError', 'ResourceWarning', 'RuntimeError', 'RuntimeWarning', 'StopAsyncIteration', 'StopIteration', 'SyntaxError', 'SyntaxWarning', 'SystemError', 'SystemExit', 'TabError', 'TimeoutError', 'True', 'TypeError', 'UnboundLocalError', 'UnicodeDecodeError', 'UnicodeEncodeError', 'UnicodeError', 'UnicodeTranslateError', 'UnicodeWarning', 'UserWarning', 'ValueError', 'Warning', 'WindowsError', 'ZeroDivisionError', '_', '__build_class__', '__debug__', '__doc__', '__import__', '__loader__', '____', '__package__', '__spec__', 'abs', 'all', 'any', 'ascii', 'bin', 'bool', 'bytearray', 'bytes', 'callable', 'chr', 'classmethod', 'compile', 'complex', 'copyright', 'credits', 'delattr', 'dict', 'dir', 'divmod', 'enumerate', 'eval', 'exec', 'exit', 'filter', 'float', 'format', 'frozenset', 'getattr', 'globals', 'hasattr', 'hash', 'help', 'hex', 'id', 'input', 'int', 'isinstance', 'issubclass', 'iter', 'len', 'license', 'list', 'locals', 'map', 'max', 'memoryview', 'min', 'next', 'object', 'oct', 'open', 'ord', 'pow', 'print', 'property', 'quit', 'range', 'repr', 'reversed', 'round', 'set', 'setattr', 'slice', 'sorted', 'staticmethod', 'str', 'sum', 'super', 'tuple', 'type', 'vars', 'zip']
 
 工厂函数{
 #工厂函数就是指这些内建函数都是类对象,当你调用它们时,实际上是创建了一个类实例。
@@ -225,12 +294,17 @@ seek()的三种模式：
 （2）f.seek(p,1)  移动到相对于当前位置之后的p个字节
 （3）f.seek(p,2)  移动到相对文章尾之后的p个字节
 #妙用---快速创建大文件
-    bigFile= open(_filename_, 'w')#必须用'w'
-    bigFile.seek(1024*1024*1024* fileSize-1) #大小自己定,需要几个G, fileSize就是几,速度绝对快
+    bigFile= open('./bigfile.txt', 'w')#必须用'w'
+    bigFile.seek(1024*1024*1024* fileSize) #大小自己定,需要几个G, fileSize就是几,速度绝对快
     bigFile.write('\x00') #必须写入一次数据
     bigFile.close()
+#扩展一下！
+#创建一个100M的空文件
+dd if=/dev/zero of=hello.txt bs=100M count=1
+/dev/null，外号叫无底洞，你可以向它输出任何数据，它通吃，并且不会撑着！
+/dev/zero,是一个输入设备，你可你用它来初始化文件。
 
-
+du -h bigfile.txt #显示异常,并不会真的显示G,使用dd创建hello.txt是能正确显示的 ----不知道为什么
 }
 
 相关操作{
@@ -259,24 +333,24 @@ reversed([1,5,3]) # 返回反序的序列,也就是[3,5,1]
 类,对象,属性{
 
 class BlackMedium:
-    def __init__(self, name, addr):
-        self.name = name
+    def __init__(self, , addr):
+        self. = 
         self.addr = addr
 
     def sell_house(self):
-        print('%s 黑中介卖房子啦,傻逼才买呢,但是谁能证明自己不傻逼' % self.name)
+        print('%s 黑中介卖房子啦,傻逼才买呢,但是谁能证明自己不傻逼' % self.)
 
     def rent_house(self):
-        print('%s 黑中介租房子啦,傻逼才租呢' % self.name)
+        print('%s 黑中介租房子啦,傻逼才租呢' % self.)
 
 b1 = BlackMedium('万成置地', '回龙观天露园')
 
 # 检测是否含有某属性
-print(hasattr(b1, 'name'))
+print(hasattr(b1, ''))
 print(hasattr(b1, 'sell_house'))
 
 # 获取属性
-n = getattr(b1, 'name')
+n = getattr(b1, '')
 print(n)
 func = getattr(b1, 'rent_house')
 func()
@@ -286,14 +360,14 @@ print(getattr(b1, 'aaaaaaaa', '不存在啊'))
 
 # 设置属性
 setattr(b1, 'sb', True)
-setattr(b1, 'show_name', lambda self: self.name + 'sb')
+setattr(b1, 'show_', lambda self: self. + 'sb')
 print(b1.__dict__)
-print(b1.show_name(b1))
+print(b1.show_(b1))
 
 # 删除属性
 delattr(b1, 'addr')
-delattr(b1, 'show_name')
-delattr(b1, 'show_name111')  # 不存在,则报错
+delattr(b1, 'show_')
+delattr(b1, 'show_111')  # 不存在,则报错
 print(b1.__dict__)
 
 # define class
@@ -318,6 +392,10 @@ compile("print('Hello')",'test.py','exec') # 编译字符串成为code对象
 eval("1 + 1") # 解释字符串表达式。参数也可以是compile()返回的code对象
 exec("print('Hello')") # 解释并执行字符串,print('Hello')。参数也可以是compile()返回的code对象
 }
+
+reduce(...)
+    reduce(function, sequence[, initial]) -> value
+For example, reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates((((1+2)+3)+4)+5). 
 }
 }
 获取当前脚本路径{
@@ -326,13 +404,13 @@ sys.modules['模块名'] #查看模块的文件位置
 sys.prefix 	#查看python的安装位置
 
 sys.path 会返回python脚本的  当前路径  和加载的库文件路径
-['C:\\Users\\name\\Desktop\\10月金秋', 'C:\\Python34\\Lib\\idlelib', 'C:\\Python34\\lib\\site-packages\\pip-8.1.2-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\xlwt-1.1.2-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\xlutils-2.0.0-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\pymysql-0.7.6-py3.4.egg', 'C:\\Windows\\system32\\python34.zip', 'C:\\Python34\\DLLs', 'C:\\Python34\\lib', 'C:\\Python34', 'C:\\Python34\\lib\\site-packages']
+['C:\\Users\\\\Desktop\\10月金秋', 'C:\\Python34\\Lib\\idlelib', 'C:\\Python34\\lib\\site-packages\\pip-8.1.2-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\xlwt-1.1.2-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\xlutils-2.0.0-py3.4.egg', 'C:\\Python34\\lib\\site-packages\\pymysql-0.7.6-py3.4.egg', 'C:\\Windows\\system32\\python34.zip', 'C:\\Python34\\DLLs', 'C:\\Python34\\lib', 'C:\\Python34', 'C:\\Python34\\lib\\site-packages']
 >>> sys.argv[0] #返回当前脚本的路径+名字
-'C:\\Users\\name\\Desktop\\10月金秋\\Get_casename.py'
+'C:\\Users\\\\Desktop\\10月金秋\\Get_case.py'
 >>> sys.argv #返回当前脚本的路径+名字
-['C:\\Users\\name\\Desktop\\10月金秋\\Get_casename.py']
+['C:\\Users\\\\Desktop\\10月金秋\\Get_case.py']
 #打包exe的脚本中有需要获取当前路径的情况下:
-path=os.path.dirname(sys.executable) #在打包成exe后正常使用
+path=os.path.dir(sys.executable) #在打包成exe后正常使用
 path=sys.path[0] #这样的方式会导致执行路径有问题
 
 #当然也可以写脚本判断文件类型
@@ -344,7 +422,7 @@ def cur_file_dir():
      if os.path.isdir(path):
          return path
      elif os.path.isfile(path):
-         return os.path.dirname(path)
+         return os.path.dir(path)
 #打印结果
 print (cur_file_dir())
 
@@ -362,19 +440,19 @@ os.path{
 检验给出的路径是否真地存:os.path.exists()
 返回一个路径的目录名和文件名:os.path.split()     eg os.path.split('/home/swaroop/byte/code/poem.txt') 结果：('/home/swaroop/byte/code', 'poem.txt')
 分离扩展名：os.path.splitext()
-获取路径名：os.path.dirname()
-获取文件名：os.path.basename()
+获取路径名：os.path.dir()
+获取文件名：os.path.base()
 运行shell命令: os.system()
 读取和设置环境变量:os.getenv() 与os.putenv()
 给出当前平台使用的行终止符:os.linesep    Windows使用'\r\n',Linux使用'\n'而Mac使用'\r'
-指示你正在使用的平台：os.name       对于Windows,它是'nt',而对于Linux/Unix用户,它是'posix'
-重命名：os.rename(old, new)
+指示你正在使用的平台：os.       对于Windows,它是'nt',而对于Linux/Unix用户,它是'posix'
+重命名：os.re(old, new)
 创建多级目录：os.makedirs(r"c：\python\test")
 创建单个目录：os.mkdir("test")
 获取文件属性：os.stat(file)
 修改文件权限与时间戳：os.chmod(file)
 终止当前进程：os.exit()
-获取文件大小：os.path.getsize(filename)
+获取文件大小：os.path.getsize(file)
 
 目录操作：
 os.mkdir("file")                   创建目录
@@ -384,7 +462,7 @@ shutil.copy("oldfile","newfile")            oldfile只能是文件夹,newfile可
 复制文件夹：
 shutil.copytree("olddir","newdir")        olddir和newdir都只能是目录,且newdir必须不存在
 重命名文件(目录)
-os.rename("oldname","newname")       文件或目录都是使用这条命令
+os.re("old","new")       文件或目录都是使用这条命令
 移动文件(目录)
 shutil.move("oldpos","newpos")
 删除文件
@@ -413,7 +491,7 @@ os.fchmod(fd, mode)             # 改变一个文件的访问权限,该文件由
 os.fchown(fd, uid, gid)         # 修改一个文件的所有权,这个函数修改一个文件的用户ID和用户组ID,该文件由文件描述符fd指定。
 os.fdatasync(fd)                # 强制将文件写入磁盘,该文件由文件描述符fd指定,但是不强制更新文件的状态信息。
 os.fdopen(fd[, mode[, bufsize]])  # 通过文件描述符 fd 创建一个文件对象,并返回这个文件对象
-os.fpathconf(fd, name)          # 返回一个打开的文件的系统配置信息。name为检索的系统配置的值,它也许是一个定义系统值的字符串,这些名字在很多标准中指定(POSIX.1, Unix 95, Unix 98, 和其它)。
+os.fpathconf(fd, )          # 返回一个打开的文件的系统配置信息。为检索的系统配置的值,它也许是一个定义系统值的字符串,这些名字在很多标准中指定(POSIX.1, Unix 95, Unix 98, 和其它)。
 os.fstat(fd)                    # 返回文件描述符fd的状态,像stat()。
 os.fstatvfs(fd)                 # 返回包含文件描述符fd的文件的文件系统的信息,像 statvfs()
 os.fsync(fd)                    # 强制将文件描述符为fd的文件写入硬盘。
@@ -435,18 +513,18 @@ os.makedirs(path[, mode])       # 递归文件夹创建函数。像mkdir(), 但�
 os.minor(device)                # 从原始的设备号中提取设备minor号码 (使用stat中的st_dev或者st_rdev field )。
 os.mkdir(path[, mode])          # 以数字mode的mode创建一个名为path的文件夹.默认的 mode 是 0777 (八进制)。
 os.mkfifo(path[, mode])         # 创建命名管道,mode 为数字,默认为 0666 (八进制)
-os.mknod(filename[, mode=0600, device])  # 创建一个名为filename文件系统节点(文件,设备特别文件或者命名pipe)。
+os.mknod(file[, mode=0600, device])  # 创建一个名为file文件系统节点(文件,设备特别文件或者命名pipe)。
 os.open(file, flags[, mode])    # 打开一个文件,并且设置需要的打开选项,mode参数是可选的
 os.openpty()                    # 打开一个新的伪终端对。返回 pty 和 tty 的文件描述符。
-os.pathconf(path, name)         # 返回相关文件的系统配置信息。
+os.pathconf(path, )         # 返回相关文件的系统配置信息。
 os.pathsep                      # 用于分割文件路径的字符串
 os.pardir                       # 获取当前目录的父目录字符串名：('..')
 os.pipe()                       # 创建一个管道. 返回一对文件描述符(r, w) 分别为读和写
 os.popen(command[, mode[, bufsize]])  # 从一个 command 打开一个管道
 os.path.abspath(path)           # 返回path规范化的绝对路径
 os.path.split(path)             # 将path分割成目录和文件名二元组返回
-os.path.dirname(path)           # 返回path的目录。其实就是os.path.split(path)的第一个元素
-os.path.basename(path)          # 返回path最后的文件名。如何path以／或\结尾,那么就会返回空值。即os.path.split(path)的第二个元素
+os.path.dir(path)           # 返回path的目录。其实就是os.path.split(path)的第一个元素
+os.path.base(path)          # 返回path最后的文件名。如何path以／或\结尾,那么就会返回空值。即os.path.split(path)的第二个元素
 os.path.exists(path)            # 如果path存在,返回True；如果path不存在,返回False
 os.path.isabs(path)             # 如果path是绝对路径,返回True
 os.path.isfile(path)            # 如果path是一个存在的文件,返回True。否则返回False
@@ -454,13 +532,13 @@ os.path.isdir(path)             # 如果path是一个存在的目录,则返回Tr
 os.path.join(path1[, path2[,    ]])  # 将多个路径组合后返回,第一个绝对路径之前的参数将被忽略
 os.path.getatime(path)          # 返回path所指向的文件或者目录的最后存取时间
 os.path.getmtime(path)          # 返回path所指向的文件或者目录的最后修改时间
-os.name                         # 字符串指示当前使用平台。win->'nt'; Linux->'posix'
+os.                         # 字符串指示当前使用平台。win->'nt'; Linux->'posix'
 os.read(fd, n)                  # 从文件描述符 fd 中读取最多 n 个字节,返回包含读取字节的字符串,文件描述符 fd对应文件已达到结尾, 返回一个空字符串。
 os.readlink(path)               # 返回软链接所指向的文件
 os.remove(path)                 # 删除路径为path的文件。如果path 是一个文件夹,将抛出OSError; 查看下面的rmdir()删除一个 directory。
 os.removedirs(path)             # 递归删除目录。若目录为空,则删除,并递归到上一级目录,如若也为空,则删除,依此类推
-os.rename(src, dst)             # 重命名文件或目录,从 src 到 dst
-os.renames(old, new)            # 递归地对目录进行更名,也可以对文件进行更名。
+os.re(src, dst)             # 重命名文件或目录,从 src 到 dst
+os.res(old, new)            # 递归地对目录进行更名,也可以对文件进行更名。
 os.rmdir(path)                  # 删除path指定的空目录,如果目录非空,则抛出一个OSError异常。
 os.sep                          # 操作系统特定的路径分隔符,win下为"\\",Linux下为"/"
 os.stat(path)                   # 获取path指定的路径的信息,功能等同于C API中的stat()系统调用。
@@ -473,7 +551,7 @@ os.tcsetpgrp(fd, pg)            # 设置与终端fd(一个由os.open()返回的�
 os.tempnam([dir[, prefix]])     # 返回唯一的路径名用于创建临时文件。
 os.tmpfile()                    # 返回一个打开的模式为(w+b)的文件对象 .这文件对象没有文件夹入口,没有文件描述符,将会自动删除。
 os.tmpnam()                     # 为创建一个临时文件返回一个唯一的路径
-os.ttyname(fd)                  # 返回一个字符串,它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联,则引发一个异常。
+os.tty(fd)                  # 返回一个字符串,它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联,则引发一个异常。
 os.unlink(path)                 # 删除文件路径
 os.utime(path, times)           # 返回指定的path文件的访问和修改的时间。
 os.walk(top[, topdown=True[, onerror=None[, followlinks=False]]])  # 输出在文件夹中的文件名通过在树中游走,向上或者向下。
@@ -542,8 +620,8 @@ sys.version_info	‘final’表示最终,也有’candidate’表示候选,seria
 sys.displayhook(value)      如果value非空,这个函数会把他输出到sys.stdout,并且将他保存进__builtin__._.指在python的交互式解释器里,’_’ 代表上次你输入得到的结果,hook是钩子的意思,将上次的结果钩过来
 sys.getdefaultencoding()    返回当前你所用的默认的字符编码格式
 sys.getfilesystemencoding() 返回将Unicode文件名转换成系统文件名的编码的名字
-sys.setdefaultencoding(name)用来设置当前默认的字符编码,如果name和任何一个可用的编码都不匹配,抛出 LookupError,这个函数只会被site模块的sitecustomize使用,一旦别site模块使用了,他会从sys模块移除
-sys.builtin_module_names    Python解释器导入的模块列表
+sys.setdefaultencoding()用来设置当前默认的字符编码,如果和任何一个可用的编码都不匹配,抛出 LookupError,这个函数只会被site模块的sitecustomize使用,一旦别site模块使用了,他会从sys模块移除
+sys.builtin_module_s    Python解释器导入的模块列表
 sys.executable              Python解释程序路径
 sys.getwindowsversion()     获取Windows的版本
 sys.copyright      记录python版权相关的东西
@@ -566,7 +644,7 @@ sys.setprofile(profilefunc)|sys.getprofile()  	设置系统的配置文件功能
 sys.settrace(tracefunc)|sys.gettrace()			设置系统的跟踪功能,允许您在Python中实现Python源代码调试器。 该功能是线程特定的; 对于调试器来支持多个线程,必须使用settrace（）为被调试的每个线程注册。threading.settrace(func) 
 sys.set_coroutine_wrapper()|sys.get_coroutine_wrapper()		允许拦截创建协同程序对象（只有由异步def函数创建的对象）;不会拦截用types.coroutine（）或asyncio.coroutine（）装饰的生成器）。
 sys.hash_info		一个提供数字哈希实现参数的结构序列。
-sys.implementation 	包含有关当前正在运行的Python解释器的实现的信息的对象:name,version,hexversion,cache_tag
+sys.implementation 	包含有关当前正在运行的Python解释器的实现的信息的对象:,version,hexversion,cache_tag
 sys.intern(str)		函数作用在一个字符串上来限定intern以达到性能优化,可用于加快字典查找。
 sys.is_finalizing()	如果Python解释器正在关闭,则返回True,否则返回False。
 sys.last_type 
@@ -815,7 +893,7 @@ python中函数的实参传递规则{
 2.没有缺省的实参情况下就会依次传递,如果不够的话,后面的会自动去取自己的缺省值。
 3.如果实参的数量比形参要多的话,就要用到带*号的参数名了。需要注意的是默认参数在形式参数表中的位置,即默认参数必须在所有标准参数之后定义.
 4.默认参数一定要用不可变对象,如果是可变对象,运行会有逻辑错误！
-5.要注意定义可变参数和关键字参数的语法：*args是可变参数,args接收的是一个tuple；**kw是关键字参数,kw接收的是一个dict,*name 必须在**name 之前出现。
+5.要注意定义可变参数和关键字参数的语法：*args是可变参数,args接收的是一个tuple；**kw是关键字参数,kw接收的是一个dict,* 必须在** 之前出现。
 调用函数时如何传入可变参数和关键字参数的语法：
 可变参数既可以直接传入：func(1,2,3),又可以先组装list或tuple,再通过*args传入：func(*(1,2,3))；
 关键字参数既可以直接传入：func(a=1,b=2),又可以先组装dict,再通过**kw传入：func(**{'a':1,'b':2})。
@@ -866,16 +944,16 @@ b'root     136687 139361  0 14:09 pts/41   00:00:00 /bin/sh -c ps -ef|grep pytho
 
 
 4、使用模块 commands  #2.7版本
->>> import commands>>> dir(commands)['__all__', '__builtins__', '__doc__', '__file__', '__name__', 'getoutput', 'getstatus','getstatusoutput', 'mk2arg', 'mkarg']>>> commands.getoutput("date")'Wed Jun 10 19:39:57 CST 2009'>>>>>> commands.getstatusoutput("date")(0, 'Wed Jun 10 19:40:41 CST 2009')
-a="curl  -v -X POST -H "Authorization:Basic c3Vic2NyaWJlcjpTc01pbmkxQA==" 'http://188.105.109.200:9763/appmgt/api/v1/?name=IOTAppTestq&quota_prod=0-0&quota_sand=0-0&redirect_url=http://www.baidu.com'"
+>>> import commands>>> dir(commands)['__all__', '__builtins__', '__doc__', '__file__', '____', 'getoutput', 'getstatus','getstatusoutput', 'mk2arg', 'mkarg']>>> commands.getoutput("date")'Wed Jun 10 19:39:57 CST 2009'>>>>>> commands.getstatusoutput("date")(0, 'Wed Jun 10 19:40:41 CST 2009')
+a="curl  -v -X POST -H "Authorization:Basic c3Vic2NyaWJlcjpTc01pbmkxQA==" 'http://188.105.109.200:9763/appmgt/api/v1/?=IOTAppTestq&quota_prod=0-0&quota_sand=0-0&redirect_url=http://www.baidu.com'"
 }
 python模块的导入 {
-1、导入模块名用 import module_name; 导入模块中的子项目用 from module_name import xxx
+1、导入模块名用 import module_; 导入模块中的子项目用 from module_ import xxx
 2、访问模块内部的函数,类以及各种属性
 3、要导入的模块应该被放置和调用它的程序相同的目录中,或者在sys.path 变量所列目录之一
 4、当你要导入一个模块时,python会依次在这些目录里寻找与你要导入的模块名称一致的py文件
 5、并不是所有的模块都是以py文件存在的,比如内置模块,它们的py源代码并不可见,因为它们不适用python写成的
-6、每个模块都有__name__属性,当模块被导入使用时,它的值为模块名；而当模块是被直接运行时,它便是__main__
+6、每个模块都有____属性,当模块被导入使用时,它的值为模块名；而当模块是被直接运行时,它便是__main__
 
 http://www.cnblogs.com/duex/p/6703009.html  导入自定义模块的三种方式
 1. py执行文件和模块同属于同个目录(父级目录)直接import
@@ -1123,25 +1201,25 @@ f_150(69)#failed
 多态{
 
 class Person(object):
-    def __init__(self, name, gender):
-        self.name = name
+    def __init__(self, , gender):
+        self. = 
         self.gender = gender
     def whoAmI(self):
-        return 'I am a Person, my name is %s' % self.name
+        return 'I am a Person, my  is %s' % self.
 
 class Student(Person):
-    def __init__(self, name, gender, score):
-        super(Student, self).__init__(name, gender)
+    def __init__(self, , gender, score):
+        super(Student, self).__init__(, gender)
         self.score = score
     def whoAmI(self):
-        return 'I am a Student, my name is %s' % self.name
+        return 'I am a Student, my  is %s' % self.
 
 class Teacher(Person):
-    def __init__(self, name, gender, course):
-        super(Teacher, self).__init__(name, gender)
+    def __init__(self, , gender, course):
+        super(Teacher, self).__init__(, gender)
         self.course = course
     def whoAmI(self):
-        return 'I am a Teacher, my name is %s' % self.name
+        return 'I am a Teacher, my  is %s' % self.
 #在一个函数中,如果我们接收一个变量 x,则无论该 x 是 Person、Student还是 Teacher,都可以正确打印出结果：
 
 def who_am_i(x):
@@ -1283,24 +1361,24 @@ for x,y,z in file:
 			#print("遍历得到的execl路径名:",file_dir_path)
 			fileList.append(file_dir_path)
 
-writenamefile=open(path+"\\本目录下测试用例case名字汇总.txt",'w')
+writefile=open(path+"\\本目录下测试用例case名字汇总.txt",'w')
 print("############开始处理每个文件中的sheet###########")
 for x in fileList:
 	file1=xlrd.open_workbook(x)
 	print("开始获取用例名:",x)
-	writenamefile.write('以下用例位于:' + x + '\n')
+	writefile.write('以下用例位于:' + x + '\n')
 	for n in file1.sheets():
 		#print(n.col_values(4))
 		try:
 			index=n.row_values(0).index('Testcase_Number')
 			for y in n.col_values(index):
 				if y != "" and y !="Testcase_Number":
-					writenamefile.write(y.rstrip()+'\n')
+					writefile.write(y.rstrip()+'\n')
 		except ValueError:
-			print(x,n.name,"中有错误的格式,跳过处理本页!")
+			print(x,n.,"中有错误的格式,跳过处理本页!")
 		except IndexError:
-			print(x,n.name,"中有空白页,跳过处理本页!")
-writenamefile.close()
+			print(x,n.,"中有空白页,跳过处理本页!")
+writefile.close()
 }
 3、列表按列排序(list sort){
 #sort()：只能对list进行排序；在原list上进行排序。
@@ -1731,9 +1809,9 @@ exec(open('test2.py').read())
       echo 'a\\\b'|python -c 'import sys;a=sys.stdin.readlines();print a[0].replace("\\\\","-")'
       a-\b
 43.遍历当前文件夹获取顶级文件夹：
-     [ os.path.join(os.getcwd(), name) for name in os.listdir(os.getcwd()) if os.path.isdir(name)]
+     [ os.path.join(os.getcwd(), ) for  in os.listdir(os.getcwd()) if os.path.isdir()]
 44.python产生空洞文件：
-    bigFile= open(_filename_, 'w')
+    bigFile= open(_file_, 'w')
     bigFile.seek(1024*1024*1024* fileSize-1) #大小自己定,需要几个G, fileSize就是几,速度绝对快
     bigFile.write('\x00')
     bigFile.close()
@@ -1753,7 +1831,7 @@ exec(open('test2.py').read())
 47.lamada的妙用：将下划线的字符串处理为Camel的表示形式：
      re.sub('^\w|_\w', lambda x:x.group()[-1].upper(), 'blog_view') 输出 'BlogView'。
 48.getattr利用变量构造引用类属性：
-     property in ['name','age','sex']:
+     property in ['','age','sex']:
       print getattr(user,property)
 49.标准的JSON是使用双引号的,javascript支持使用单引号格式的json文本,而python的json库只支持双引号,
      如果有单引号的,需要 replace("'",'"') 全部替换成双引号,否则会报错
@@ -1860,11 +1938,11 @@ exec(open('test2.py').read())
               if files.endswith(".txt"):
                   print os.path.join(r,files)
 72.读文件到列表中
-      f = open('filename')
+      f = open('file')
       lines = f.readlines()
       f.close()
       等价
-     with open(fname) as f:
+     with open(f) as f:
           content = f.readlines()
       往文件中追加文本
      with open("test.txt", "a") as myfile:
@@ -1872,8 +1950,8 @@ exec(open('test2.py').read())
 73.如何列出一个目录的所有文件
      onlyfiles = [ f for f in listdir(mypath) if isfile(join(mypath,f)) ]
       f = []
-      for (dirpath, dirnames, filenames) in walk(mypath):
-          f.extend(filenames)
+      for (dirpath, dirs, files) in walk(mypath):
+          f.extend(files)
           break
       print glob.glob("/home/adam/*.txt")
 74.如何从标准输入读取内容stdin
@@ -1971,17 +2049,17 @@ exec(open('test2.py').read())
       >>> z
       {'a': 1, 'c': 11, 'b': 10}
 86.排序一个列表中的所有dict,根据dict内值
-     如何排序如下列表,根据name或age
-      [{'name':'Homer', 'age':39}, {'name':'Bart', 'age':10}]
+     如何排序如下列表,根据或age
+      [{'':'Homer', 'age':39}, {'':'Bart', 'age':10}]
       简单的做法
-     newlist = sorted(list_to_be_sorted, key=lambda k: k['name'])
+     newlist = sorted(list_to_be_sorted, key=lambda k: k[''])
       高效的做法
      from operator import itemgetter
-      newlist = sorted(list_to_be_sorted, key=itemgetter('name'))
+      newlist = sorted(list_to_be_sorted, key=itemgetter(''))
 87.如何获取一个函数的函数名字符串
-     my_function.__name__
+     my_function.____
       >>> import time
-      >>> time.time.__name__
+      >>> time.time.____
       'time'
 88.用函数名字符串调用一个函数
      假设模块foo有函数bar:
@@ -2007,7 +2085,7 @@ exec(open('test2.py').read())
       except ImportError:
           import json
 91.有什么方法可以获取系统当前用户名么?
-      os.getusername()、os.getuid()、getpass.getuser()
+      os.getuser()、os.getuid()、getpass.getuser()
 92.Python中有没有简单优雅的方式定义单例类
      我不认为有必要,一个拥有函数的模块(不是类)可以作为很好的单例使用,它的所有变量被绑定到这个模块,无论如何都不能被重复实例化
      如果你确实想用一个类来实现,在python中不能创建私有类或私有构造函数,所以你不能隔离多个实例而仅仅通过自己的API来访问属性
@@ -2061,7 +2139,7 @@ exec(open('test2.py').read())
      d.update( [ ('a',1), ('b',2) ] ) #每个元组两个元素,(key,value)
       #**key
       d.update(c=3, e=4)
-      d.setdefault('name', 'ken') #若原来没有,设置,否则原值不变
+      d.setdefault('', 'ken') #若原来没有,设置,否则原值不变
 100.字典删除
      del d['key']
       value = d.pop('key') #删除并返回值
@@ -2302,20 +2380,20 @@ exec
     def test():
         print "this is a test by abeen"
     """
->>> test() #NameError: name 'test' is not defined
+>>> test() #Error:  'test' is not defined
 >>> exec code
 >>> test() # test()成功执行
 this is a test by abeen
 >>> exec('print("aaa")')
 aaa
->>>exec(open(filename).read())
+>>>exec(open(file).read())
 
 eval
 eval() 和 execfile() 都有 "globals, locals" 参数,用于传递环境变量,默认或显式设置为 None 时都直接使用 globals() 和 locals() 获取当前作用域的数据。
 >>> a =10
 >>> eval("a+3") #默认传递环境变量
 13
->>> evla("a+3")#NameError: name 'evla' is not defined
+>>> evla("a+3")#Error:  'evla' is not defined
 >>> eval("a+3")
 3
 >>> eval("a+3",{},{"a":100}) #显示传递环境变量
@@ -2323,8 +2401,8 @@ eval() 和 execfile() 都有 "globals, locals" 参数,用于传递环境变量,�
 
 #将代码编译成字节码
 内置函数 compile() 将一段源代码编译成 codeobject,然后可以提交给 exec 执行
-compile(source, filename, mode[, flags[, dont_inherit]])
-参数 filename 只是用来在编译错误时显式一个标记,无关输出和存储什么事。mode 可以是 "exec"(多行代码组成的代码块)、"eval"(有返回值的单行表达式)、"single"(单行表达式)。
+compile(source, file, mode[, flags[, dont_inherit]])
+参数 file 只是用来在编译错误时显式一个标记,无关输出和存储什么事。mode 可以是 "exec"(多行代码组成的代码块)、"eval"(有返回值的单行表达式)、"single"(单行表达式)。
 
 >>> source = """
 def test():
@@ -2344,7 +2422,7 @@ print(value,    , sep=' ', end='\n', file=sys.stdout, flush=False)
 python print格式化输出{
 
 1. 打印字符串
-print ("His name is %s"%("Aviad"))
+print ("His  is %s"%("Aviad"))
 
 2.打印整数
 print ("He is %d years old"%(25))
@@ -2356,13 +2434,13 @@ print ("His height is %f m"%(1.83))
 print ("His height is %.2f m"%(1.83))
 
 5.指定占位符宽度
-print ("Name:%10s Age:%8d Height:%8.2f"%("Aviad",25,1.83))
+print (":%10s Age:%8d Height:%8.2f"%("Aviad",25,1.83))
 
 6.指定占位符宽度(左对齐)
-print ("Name:%-10s Age:%-8d Height:%-8.2f"%("Aviad",25,1.83))
+print (":%-10s Age:%-8d Height:%-8.2f"%("Aviad",25,1.83))
 
 7.指定占位符(只能用0当占位符？)
-print ("Name:%-10s Age:%08d Height:%08.2f"%("Aviad",25,1.83))
+print (":%-10s Age:%08d Height:%08.2f"%("Aviad",25,1.83))
 
 8.科学计数法
 format(0.0015,'.2e')
@@ -2403,7 +2481,7 @@ https://pypi.python.org/pypi  #库下载网址
 3、获取一个工作表
 1  table = data.sheets()[0]          #通过索引顺序获取
 2  table = data.sheet_by_index(0) #通过索引顺序获取
-3  table = data.sheet_by_name(u'Sheet1')#通过名称获取
+3  table = data.sheet_by_(u'Sheet1')#通过名称获取
 4、获取整行和整列的值(返回数组)
          table.row_values(i)
          table.col_values(i)
@@ -2438,9 +2516,9 @@ path2="E:\\安全测试\\2222.xlsx"
 workbook1 = xlrd.open_workbook(path1)
 workbook2 = xlrd.open_workbook(path2)
 
-print(workbook1.sheet_names())
-sheet1 = workbook1.sheet_by_name('应用层安全') # 根据sheet索引或者名称获取sheet内容
-print (sheet1.name,sheet1.nrows,sheet1.ncols) # sheet的名称,行数,列数
+print(workbook1.sheet_s())
+sheet1 = workbook1.sheet_by_('应用层安全') # 根据sheet索引或者名称获取sheet内容
+print (sheet1.,sheet1.nrows,sheet1.ncols) # sheet的名称,行数,列数
 cols0 = sheet1.col_values(0) # 获取第1列内容,用例编号
 cols9 = sheet1.col_values(9) # 获取第9列内容,产品状态
 cols10 = sheet1.col_values(10) # 获取第10列内容,举证说明 记得需要打开所有隐藏才能正确看到
@@ -2450,7 +2528,7 @@ for x,y,z in zip(cols0,cols9,cols10):
 	a.append([x,y,z])
 
 workbook2 = xlrd.open_workbook(path2)
-sheet2 = workbook2.sheet_by_name('Sheet1')
+sheet2 = workbook2.sheet_by_('Sheet1')
 cols02 = sheet2.col_values(0) # 获取第1列内容,用例编号
 cols92 = sheet2.col_values(14) # 获取第9列内容,产品状态
 cols102 = sheet2.col_values(15) # 获取第10列内容,举证说明 记得需要打开所有隐藏才能正确看到
@@ -2512,7 +2590,7 @@ conn.close();
 #具体情况看博客园
 conn = pymysql.connect(host='10.175.102.222', port=15432, user='root', passwd='root')
 cur.execute('delete from user where id=20')                  # 删除一条记录
-cur.execute("update user set name='a' where id=20")          # 更细数据
+cur.execute("update user set ='a' where id=20")          # 更细数据
 sqlresult = cur.fetchall()                                   # 接收全部返回结果
 conn.commit()                                                # 提交
 cur=conn.cursor()                                            # 定义游标
@@ -2747,9 +2825,9 @@ print(myfunc(3, 4))
 
 def deco(func):
     def _deco(*args, **kwargs):
-        print("before %s called." % func.__name__)
+        print("before %s called." % func.____)
         ret = func(*args, **kwargs)
-        print("  after %s called. result: %s" % (func.__name__, ret))
+        print("  after %s called. result: %s" % (func.____, ret))
         return ret
     return _deco
 
@@ -2901,22 +2979,22 @@ from functools import wraps的用处{
 
 from functools import wraps
 
-def html_tags(tag_name):
+def html_tags(tag_):
     print ('begin 1')
     def wrapper_(func):
         print ('begin 2')
         #@wraps(func)   不使用functools.wraps(装饰包装器的装饰器)
         def wrapperssss(*args, **kwargs):
             content = func(*args, **kwargs)
-            print ("<{tag}>{content}</{tag}>".format(tag=tag_name, content=content))
+            print ("<{tag}>{content}</{tag}>".format(tag=tag_, content=content))
         print ('end 2')
         return wrapperssss
     print ('end 1')
     return wrapper_
 
 @html_tags('b')
-def hello(name='Toby'):
-    print( 'Hello {}!'.format(name))
+def hello(='Toby'):
+    print( 'Hello {}!'.format())
 
 print("------------")
 hello()
@@ -2935,22 +3013,22 @@ wrapperssss(*args, **kwargs)
 
 from functools import wraps
 
-def html_tags(tag_name):
+def html_tags(tag_):
     print ('begin 1')
     def wrapper_(func):
         print ('begin 2')
         @wraps(func) #使用装饰器的装饰
         def wrapperssss(*args, **kwargs):
             content = func(*args, **kwargs)
-            print ("<{tag}>{content}</{tag}>".format(tag=tag_name, content=content))
+            print ("<{tag}>{content}</{tag}>".format(tag=tag_, content=content))
         print ('end 2')
         return wrapperssss
     print ('end 1')
     return wrapper_
 
 @html_tags('b')
-def hello(name='Toby'):
-    print( 'Hello {}!'.format(name))
+def hello(='Toby'):
+    print( 'Hello {}!'.format())
 
 print("------------")
 hello()
@@ -2962,7 +3040,7 @@ help(hello)
 help(hello)的返回:
 Help on function hello in module __main__:
 
-hello(name='Toby')
+hello(='Toby')
 
 #另一个例子
 
@@ -3028,7 +3106,7 @@ help(add2)
 # 1. 普通装饰器,单功能附加,任意参数,需要2个return
 def debug(func):
     def wrapper(*args, **kwargs):  # 指定宇宙无敌参数
-        print ("[DEBUG]: enter {}()".format(func.__name__))
+        print ("[DEBUG]: enter {}()".format(func.____))
         print ('Prepare and say   ')
         return func(*args, **kwargs)
     return wrapper  # 返回
@@ -3044,7 +3122,7 @@ say('hello,1层装饰器')
 def logging(level):
     def wrapper(func):
         def inner_wrapper(*args, **kwargs):
-            print ("[{level}]: enter function {func}()".format( level=level, func=func.__name__))
+            print ("[{level}]: enter function {func}()".format( level=level, func=func.____))
             return func(*args, **kwargs)
         return inner_wrapper
     return wrapper
@@ -3072,7 +3150,7 @@ class logging(object):
 
     def __call__(self, func): # 接受函数
         def wrapper(*args, **kwargs):
-            print( "[{level}]: enter function {func}()".format( level=self.level, func=func.__name__))
+            print( "[{level}]: enter function {func}()".format( level=self.level, func=func.____))
             func(*args, **kwargs)
         return wrapper  #返回函数
 
@@ -3083,35 +3161,35 @@ def say(something):
 say('hello,类装饰器！')
 
 # 4. 包装时需要几个return ,以及包装函数中,各层次的运行顺序  举例如下：
-def html_tags(tag_name):
+def html_tags(tag_):
     print ('begin 1')
     def wrapper_(func):
         print ('begin 2')
         def wrapper(*args, **kwargs):
             content = func(*args, **kwargs)
-            print ("<{tag}>{content}</{tag}>".format(tag=tag_name, content=content))
+            print ("<{tag}>{content}</{tag}>".format(tag=tag_, content=content))
         print ('end 2')
         return wrapper
     print ('end 1')
     return wrapper_
 
 @html_tags('b')
-def hello(name='Toby'):
-    return 'Hello {}!'.format(name)
+def hello(='Toby'):
+    return 'Hello {}!'.format()
 
 #print(hello())
 #print(hello())
 
 #不包装
-def hello(name='Toby'):
-    return 'Hello {}!'.format(name)
+def hello(='Toby'):
+    return 'Hello {}!'.format()
 
 #print(hello())
 
 #上面的包装方式,少了一个return,包装时代参数后被包装的函数有返回值时被包装后会被改变成无返回值的函数,原函数就有一个return
 #两层包装
 
-def a_b(tag_name):
+def a_b(tag_):
     print ('begin 1')
     def ab(func):
         print ('begin 2')
@@ -3163,7 +3241,7 @@ sk.accept()
 　　接受连接并返回(conn,address),其中conn是新的套接字对象,可以用来接收和发送数据。address是连接客户端的地址。
 　　接收TCP 客户的连接(阻塞式)等待连接的到来
 sk.connect(address)
-　　连接到address处的套接字。一般,address的格式为元组(hostname,port),如果连接出错,返回socket.error错误。
+　　连接到address处的套接字。一般,address的格式为元组(host,port),如果连接出错,返回socket.error错误。
 sk.connect_ex(address)
 　　同上,只不过会有返回值,连接成功时返回 0 ,连接失败时候返回编码,例如：10061
 sk.close()
@@ -3183,9 +3261,9 @@ sk.sendto(bytes[,flag],address)
 sk.settimeout(timeout)
 　　设置套接字操作的超时期,timeout是一个浮点数,单位是秒。值为None表示没有超时期。一般,超时期应该在刚创建套接字时设置,因为它们可能用于连接的操作(如 client 连接最多等待5s )
 
-sk.getpeername()
+sk.getpeer()
 　　返回连接套接字的远程地址。返回值通常是元组(ipaddr,port)。
-sk.getsockname()
+sk.getsock()
 　　返回套接字自己的地址。通常是一个元组(ipaddr,port)
 sk.fileno()
 　　套接字的文件描述符
@@ -3204,7 +3282,7 @@ sk = socket.socket()
 sk.bind(ip_port)
 sk.listen(5)
 sk.settimeout(50.0)
-print(sk.getsockname())	#返回套接字自己的地址。通常是一个元组(ipaddr,port)
+print(sk.getsock())	#返回套接字自己的地址。通常是一个元组(ipaddr,port)
 print("===================")
 while True:
     print('server waiting   ')
@@ -3243,7 +3321,7 @@ server_reply = sk.recv(10)
 print(str(server_reply,encoding='utf8')) #接收不完,还可以接收
 server_reply = sk.recv(100)
 print(str(server_reply,encoding='utf8'))
-print(sk.getpeername()) #返回连接套接字的远程地址
+print(sk.getpeer()) #返回连接套接字的远程地址
 print(sk.fileno())
 print("000000000000000000000000000")
 sk.sendto(b'hello world!',('127.0.0.1',9999))
@@ -3673,7 +3751,7 @@ print(t2 - t1)
 # curl -k -v -X GET http://10.175.102.22:8091/sessions
 
 root@api:~# curl -k -v -X GET http://10.175.102.22:8091/sessions
-* Hostname was NOT found in DNS cache
+* Host was NOT found in DNS cache
 *   Trying 10.175.102.22   
 * Connected to 10.175.102.22 (10.175.102.22) port 8091 (#0)
 > GET /sessions HTTP/1.1
@@ -3725,13 +3803,13 @@ Connection:Keep-Alive
 核心是继承threading.Thread类,通过修改Thread类的run()方法来定义线程所要执行的命令,并调用start()方法来运行线程, join让主线程等待每个线程返回,
 
 threading.Thread 类是主要的线程类,可以创建进程实例。该类提供的函数包括：
-getName(self) 返回线程的名字
+get(self) 返回线程的名字
 isAlive(self) 布尔标志,表示这个线程是否还在运行中
 isDaemon(self) 返回线程的daemon标志
 join(self, timeout=None) 程序挂起,直到线程结束,如果给出timeout,则最多阻塞timeout秒
 run(self) 定义线程的功能函数
-setDaemon(self, daemonic)  把线程的daemon标志设为daemonic 主线程不等待子线程,而是在退出时自动结束所有的子线程,设置子线程为后台线程(daemon)
-setName(self, name) 设置线程的名字
+setDaemon(self, True)  把线程的daemon标志设为 True 主线程不等待子线程,而是在退出时自动结束所有的子线程,设置子线程为后台线程(daemon)
+set(self, ) 设置线程的名字
 start(self) 开始线程执行
 
 #创建锁
@@ -3754,24 +3832,24 @@ import threading
 lock = threading.Lock()
 
 class MyThread(threading.Thread):
-    def __init__(self, func, args, name=''):
+    def __init__(self, func, args, =''):
         threading.Thread.__init__(self)
-        self.name = name
+        self. = 
         self.func = func
         self.args = args
         #self.counter = counter
 
     def run(self):
         # 某某线程要开始了
-        print(self.name + "开始了##################")
+        print(self. + "开始了##################")
 
-        if self.name == "听歌线程":
+        if self. == "听歌线程":
             matter1(music)
-        elif self.name == "打码线程":
+        elif self. == "打码线程":
             matter2(number)
-        elif self.name == "零食线程":
+        elif self. == "零食线程":
             matter3(snacks)
-        print(self.name + "结束了##################")
+        print(self. + "结束了##################")
 
 def matter1(music):
     for i in range(0,len(music)):
@@ -3800,7 +3878,7 @@ def matter3(snacks):
         print("吃完了一包零食")
     lock.release()		#解锁,离开该资源
 
-if __name__ == '__main__':
+if ____ == '__main__':
     # 设定我要听的歌为
     music = ["music1","music2","music3"]
 
@@ -3842,24 +3920,24 @@ lock = threading.Lock()
 
 
 class MyThread(threading.Thread):
-    def __init__(self, func, args, name=''):
+    def __init__(self, func, args, =''):
         threading.Thread.__init__(self)
-        self.name = name
+        self. = 
         self.func = func
         self.args = args
         #self.counter = counter
 
     def run(self):
         # 某某线程要开始了
-        print(self.name + "开始了##################")
+        print(self. + "开始了##################")
 
-        if self.name == "听歌线程":
+        if self. == "听歌线程":
             matter1(music)
-        elif self.name == "打码线程":
+        elif self. == "打码线程":
             matter2(number)
-        elif self.name == "零食线程":
+        elif self. == "零食线程":
             matter3(snacks)
-        print(self.name + "结束了##################")
+        print(self. + "结束了##################")
 
 
 def matter1(music):
@@ -3893,7 +3971,7 @@ def matter3(snacks):
         print("吃完了一包零食")
 
 
-if __name__ == '__main__':
+if ____ == '__main__':
     # 设定我要听的歌为
     music = ["music1", "music2", "music3", "music4"]
 
@@ -3936,14 +4014,14 @@ class MyThread(threading.Thread):
         global num
         time.sleep(1)
         num = num+1
-        msg = self.name+' set num to '+str(num)
+        msg = self.+' set num to '+str(num)
         print(msg)
 num = 0
 def test():
     for i in range(5):
         t = MyThread()
         t.start()
-if __name__ == '__main__':
+if ____ == '__main__':
     test()
     print('print都在一行里了,是代表是同时执行的,这个print是单独执行的,会有换行')
 }
@@ -3960,7 +4038,7 @@ class MyThread(threading.Thread):
         lock.acquire()
         time.sleep(1)
         num = num+1
-        msg = self.name+' set num to '+str(num)
+        msg = self.+' set num to '+str(num)
         print(msg)
         lock.release()
 num = 0
@@ -3969,13 +4047,14 @@ def test():
     for i in range(5):
         t = MyThread()
         t.start()
-        t.join()
-if __name__ == '__main__':
+    t.join()
+if ____ == '__main__':
     test()
     print('print都在一行里了,是代表是同时执行的,这个print是单独执行的,会有换行')
 }
 #join()方法使得线程可以等待另一个线程的运行,而 setDaemon() 方法使得线程在结束时不等待子线程。join和setDaemon都可以改变线程之间的运行顺序。
 #join()方法,调用该方法的线程将等待直到该Thread对象完成,再恢复运行
+#注意:  join()方法的位置是在for循环外的，也就是说必须等待for循环里的两个进程都结束后，才去执行主进程。
 #线程等待
 {
 import threading
@@ -3986,11 +4065,11 @@ class MyThread(threading.Thread):
 
     def run(self):
         wait_time=random.randrange(1,10)
-        print ("%s will wait %d seconds   ." % (self.name, wait_time))
+        print ("%s will wait %d seconds   ." % (self., wait_time))
         time.sleep(wait_time)
-        print ("%s finished!" % self.name)
+        print ("%s finished!" % self.)
 
-if __name__=="__main__":
+if ____=="__main__":
     threads = []
     for i in range(5):
         t = MyThread()
@@ -4030,11 +4109,11 @@ class MyThread(threading.Thread):
 
     def run(self):
         wait_time=random.randrange(1,10)
-        print ("%s will wait %d seconds" % (self.name, wait_time))
+        print ("%s will wait %d seconds" % (self., wait_time))
         time.sleep(wait_time)
-        print ("%s finished!" % self.name)
+        print ("%s finished!" % self.)
 
-if __name__=="__main__":
+if ____=="__main__":
     threads = []
     for i in range(5):
         t = MyThread()
@@ -4086,11 +4165,11 @@ import os
 import time
 # 子进程要执行的代码
 
-def run_proc(name):
+def run_proc():
     time.sleep(20)
-    print('Run child process %s (%s)   ' % (name, os.getpid()))
+    print('Run child process %s (%s)   ' % (, os.getpid()))
 
-if __name__=='__main__':
+if ____=='__main__':
     print('Parent process %s.' % os.getpid())
     time.sleep(20)
     p = Process(target=run_proc, args=('test',))
@@ -4118,11 +4197,11 @@ from multiprocessing import Process
 import os
 
 # 子进程要执行的代码
-def run_proc(name):
-    print('Run child process %s (%s)   ' % (name, os.getpid()))
+def run_proc():
+    print('Run child process %s (%s)   ' % (, os.getpid()))
     open('c:\\xxxx.log','w')
 
-if __name__=='__main__':
+if ____=='__main__':
     print('Parent process %s.' % os.getpid())
     p = Process(target=run_proc, args=('test',))
     print('Child process will start.')
@@ -4152,8 +4231,8 @@ import random
 # 写数据进程
 
 
-def write(q, lock, name):
-    print('Child Process %s starts' % name)
+def write(q, lock, ):
+    print('Child Process %s starts' % )
     # 加锁
     lock.acquire()
     for value in ['A', 'B', 'C']:
@@ -4162,19 +4241,19 @@ def write(q, lock, name):
         time.sleep(random.random())
     # 释放锁
     lock.release()
-    print('Child Process %s ends' % name)
+    print('Child Process %s ends' % )
 
 # 读数据进程
 
 
-def read(q, lock, name):
-    print('Child Process %s starts' % name)
+def read(q, lock, ):
+    print('Child Process %s starts' % )
     while True:  # 持续地读取q中的数据
         value = q.get()
         print('Get %s from queue.' % value)
-    print('Child Process %s ends' % name)
+    print('Child Process %s ends' % )
 
-if __name__ == "__main__":
+if ____ == "__main__":
     # 父进程创建queue,并共享给各个子进程
     q = Queue()
     # 创建锁
@@ -4223,40 +4302,40 @@ ms3_url='https://login.huawei.com/login/?redirect=http%3A%2F%2Fw3.huawei.com%2Fn
 dts_url='http://w3.huawei.com/next/indexa.html?locale=zh#path=home'
 
 #登陆3ms
-r =requests.get('https://login.huawei.com/login/', auth=('name', 'passwd'))
+r =requests.get('https://login.huawei.com/login/', auth=('', 'passwd'))
 print(r.status_code)
 #使用HTTPBasicAuth 登陆3ms
-r1 =requests.get(ms3_url, auth=HTTPBasicAuth('name', 'passwd'))
+r1 =requests.get(ms3_url, auth=HTTPBasicAuth('', 'passwd'))
 print(r1.status_code)
 
 #登陆dts >>好像不行,需要很多东西
-dts_url2='http://dts.huawei.com/net/dts/sys/Global/personalinfodetail.aspx?UserName=liuguojin%20WX307086'
+dts_url2='http://dts.huawei.com/net/dts/sys/Global/personalinfodetail.aspx?User=liuguojin%20WX307086'
 dts_url3='http://dts.huawei.com/net/dts/commonpage/logout.aspx'
-r2 =requests.get(dts_url3, auth=('name', 'passwd'))
+r2 =requests.get(dts_url3, auth=('', 'passwd'))
 print(r2.status_code)
 
 #在179上可以访问成功百度文库
 baiduwenku='http://wenku.baidu.com/?fr=swsy'
-proxies = {"http": "http://name:passwd@ip:8080","https": "https://name:passwd@ip:8080"}
+proxies = {"http": "http://:passwd@ip:8080","https": "https://:passwd@ip:8080"}
 r5=requests.get(baiduwenku,proxies=proxies)
 print(r5.status_code)
 
 """
 proxies = {
-  "http": "http://name:passwd@openproxy.huawei.com:8080",
-  "https": "https://name:passwd@openproxy.huawei.com:8080",
+  "http": "http://:passwd@openproxy.huawei.com:8080",
+  "https": "https://:passwd@openproxy.huawei.com:8080",
 }
 
 #使用公司代理登陆博客园  window上也是可以的
 import requests
 proxies = {
-    "http": "http://china\\lwx307086:lgj%401234@openproxy.huawei.com:8080/",
-    "https": "https://china\\lwx307086:lgj%401234@openproxy.huawei.com:8080/",
+    "http": "http://china\\name:lgj%401234@openproxy.huawei.com:8080/",
+    "https": "https://china\\name:lgj%401234@openproxy.huawei.com:8080/",
 }
 # 上下两种都可以
 # proxies ={
-# "http" : r"http://lwx307086:lgj@1234@openproxy.huawei.com:8080",
-# "https" : r"https://lwx307086:lgj@1234@openproxy.huawei.com:8080",
+# "http" : r"http://name:lgj@1234@openproxy.huawei.com:8080",
+# "https" : r"https://name:lgj@1234@openproxy.huawei.com:8080",
 # }
 r = requests.get("https://www.cnblogs.com/",
                  proxies=proxies, verify=False,)
@@ -4270,7 +4349,7 @@ cookies={"SERVERID":'9ffd301069c1081a14d128e0c97deda8|1476261710|1476261492',
 '__utmz':'226521935.1474888410.1.1.utmccn=(referral)|utmcsr=zzk.cnblogs.com|utmcct=/s|utmcmd=referral',
 '__utma':'226521935.1300967635.1474888410.1474888410.1474888410.1'}
 
-r4=requests.get(bky_url2,proxies=proxies,auth=('name', 'passwd'), verify=False,cookies=cookies)
+r4=requests.get(bky_url2,proxies=proxies,auth=('', 'passwd'), verify=False,cookies=cookies)
 print(r4.status_code)
 
 }
@@ -4663,7 +4742,7 @@ filetype = [('Python Files', '*.py *.pyw'),
 
 def saveFileDialog():
     "保存对话框"
-    filename = asksaveasfilename(
+    file = asksaveasfile(
                                 #默认扩展名,.号可带可不带
                                 defaultextension = '.py',
                                 #文件类型选项
@@ -4676,12 +4755,12 @@ def saveFileDialog():
                                 parent = root,
                                 #窗口标题
                                 title = "另存为")
-    print(filename)
+    print(file)
 
 def openFileDialog():
     "打开对话框,参数与保存对话框相同.略"
-    filename = askopenfilename(filetypes = filetype)
-    print(filename)
+    file = askopenfile(filetypes = filetype)
+    print(file)
 
 root = Tk()
 menubar = Menu(root)
@@ -4725,7 +4804,7 @@ easy_install,pip和一个egg什么什么的,都是python官方的第三方模块
 #现在python官方推荐的工具就是pip
 
 #在cmd中输入"pip list"可一次查看所有安装的python库
-C:\Users\name>pip list
+C:\Users\>pip list
 Pillow (4.0.0)
 pip (8.1.2)
 pymysql (0.7.6)
@@ -4743,18 +4822,18 @@ export set https_proxy=<user>:<password>@<proxy_ip_address>:<port>
 # Windows
 c:\> set http_proxy=<user>:<password>@<proxy_ip_address>:<port>
 c:\> set https_proxy=<user>:<password>@<proxy_ip_address>:<port>
-上面需要注意的是windows域账户需要使用类似set https_proxy=<hostname>\\<user>:<password>@<proxy_ip_address>:<port>,hostname为域名
+上面需要注意的是windows域账户需要使用类似set https_proxy=<host>\\<user>:<password>@<proxy_ip_address>:<port>,host为域名
 
 ip 就是  openproxy.huawei.com  8080
 
-set http_proxy=CHINA\name:passwd@openproxy.huawei.com:8080
-set https_proxy=CHINA\namename:passwd@openproxy.huawei.com:8080
+set http_proxy=CHINA\:passwd@openproxy.huawei.com:8080
+set https_proxy=CHINA\:passwd@openproxy.huawei.com:8080
 
-set http_proxy=CHINA\name:passwd@ip:8080
-set https_proxy=CHINA\namename:passwd@ip:8080
+set http_proxy=CHINA\:passwd@ip:8080
+set https_proxy=CHINA\:passwd@ip:8080
 
-export http_proxy=CHINA\name:passwd@ip:8080
-export https_proxy=CHINA\namename:passwd@ip:8080
+export http_proxy=CHINA\:passwd@ip:8080
+export https_proxy=CHINA\:passwd@ip:8080
 
 公司所在网络需要使用代理服务器进行安装,命令如下：
 python -m pip --proxy "http://user:password@proxyaddress:proxyPort" install -U pip
@@ -4770,8 +4849,8 @@ netstat -aon|findstr "8080"
 tar xf pip-9.0.1.tar.gz
 python3 setup.py install
 
-export http_proxy='CHINA\name:passwd'@ip:8080
-export https_proxy='CHINA\name:passwd'@ip:8080
+export http_proxy='CHINA\:passwd'@ip:8080
+export https_proxy='CHINA\:passwd'@ip:8080
 
 root@api:/home/lgj/python/pip-9.0.1# pip install requests
 Requirement already satisfied: requests in /usr/local/lib/python3.4/dist-packages/requests-2.10.0-py3.4.egg
@@ -4810,7 +4889,7 @@ Successfully installed xlutils-2.0.0 xlwt-1.2.0
 root@api:/home/lgj/python/pip-9.0.1#
 
 #进阶版
-root@api:/home/lgj/python/pip-9.0.1# pip install xlrd --proxy CHINA\\name:'passwd'@ip:8080
+root@api:/home/lgj/python/pip-9.0.1# pip install xlrd --proxy CHINA\\:'passwd'@ip:8080
 Collecting xlrd
   Using cached xlrd-1.0.0-py3-none-any.whl
 Installing collected packages: xlrd
@@ -4830,10 +4909,10 @@ unset http_proxy https_proxy
 install
 download
 uninstall
-pip install xlrd --proxy CHINA\\name:'passwd'@ip:8080  #使用代理
+pip install xlrd --proxy CHINA\\:'passwd'@ip:8080  #使用代理
 
 下载{
-root@api:/home/lgj/python# pip download xlrd --proxy CHINA\\name:'passwd'@ip:8080
+root@api:/home/lgj/python# pip download xlrd --proxy CHINA\\:'passwd'@ip:8080
 Collecting xlrd
   Using cached xlrd-1.0.0-py3-none-any.whl
   Saved ./xlrd-1.0.0-py3-none-any.whl
@@ -4860,7 +4939,7 @@ py2exe打包exe{
 #https://pypi.python.org/pypi/py2exe/0.9.2.2#downloads  这个版本支持python3.4
 
 提到了获取exe路径的办法,我们只需要在第一行代码执行前,cd到exe所在目录,就能保证相对路径没有问题了：
-path=os.path.dirname(sys.executable) #在打包成exe后正常使用
+path=os.path.dir(sys.executable) #在打包成exe后正常使用
 path=sys.path[0] #这样的方式会导致执行路径有问题
 
 setup.py
@@ -4878,9 +4957,9 @@ py2exe_options = {
         }
 
 setup(
-      name = 'getname',
+       = 'get',
       version = '1.0',
-      windows = ['getname.py',],   # 括号中更改为你要打包的代码文件名
+      windows = ['get.py',],   # 括号中更改为你要打包的代码文件名
       zipfile = None,
       options = {'py2exe': py2exe_options}
       )
@@ -4983,7 +5062,7 @@ def hideInfoInImage(im, info):
 
 
 # 测试之
-if __name__ == "__main__":
+if ____ == "__main__":
     img = Image.open("green.png")
     band = Image.open("antelope_inhalf.jpg")
 
@@ -5007,13 +5086,13 @@ import select
 def mkpty():
     # 打开伪终端
     master1, slave = pty.openpty()
-    slaveName1 = os.ttyname(slave)
+    slave1 = os.tty(slave)
     master2, slave = pty.openpty()
-    slaveName2 = os.ttyname(slave)
-    print ('\nslave device names: ', slaveName1, slaveName2)
+    slave2 = os.tty(slave)
+    print ('\nslave device s: ', slave1, slave2)
     return master1, master2
 
-if __name__ == "__main__":
+if ____ == "__main__":
 
     master1, master2 = mkpty()
     while True:
@@ -5029,7 +5108,7 @@ if __name__ == "__main__":
 #os.openpty()                    # 打开一个新的伪终端对。返回 pty 和 tty的文件描述符。
 #os.write(fd, str)               # 写入字符串到文件描述符 fd中. 返回实际写入的字符串长度
 #os.read(fd, n)                  # 从文件描述符 fd 中读取最多 n 个字节,返回包含读取字节的字符串,文件描述符 fd对应文件已达到结尾, 返回一个空字符串。
-#os.ttyname(fd)                  # 返回一个字符串,它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联,则引发一个异常。
+#os.tty(fd)                  # 返回一个字符串,它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联,则引发一个异常。
 #os.dup(fd)                      # 复制文件描述符 fd
 #os.dup2(fd, fd2)                # 将一个文件描述符 fd 复制到另一个 fd2
 
@@ -5044,9 +5123,9 @@ if __name__ == "__main__":
 19
 >>> os.read(a,5)
 b'this '
->>> os.ttyname(a)
+>>> os.tty(a)
 '/dev/ptmx'
->>> os.ttyname(b)
+>>> os.tty(b)
 '/dev/pts/2'
 >>> os.dup(a)
 6
@@ -5103,16 +5182,16 @@ dis模块主要是用来分析字节码的一个内置模块,经常会用到的�
 dis 也可以作为模块使用.  可以解析模块,类,方法,函数,生成器,代码对象,源代码字符串或原始字节码的字节序列。
 #查看PYTHON的指令码
 import opcode
-for op in range(len(opcode.opname)):
-    print('0x%.2X(%.3d): %s' % (op, op, opcode.opname[op]))
+for op in range(len(opcode.op)):
+    print('0x%.2X(%.3d): %s' % (op, op, opcode.op[op]))
 #http://www.cnblogs.com/fortwo/archive/2013/05/13/3076780.html  #api文档中也有,方便查看！
 python3的指令集和说明 ------牛的一逼
 dis模块获得了两个新的函数来检查代码,code_info()和show_code()。 两者都提供了提供的功能,方法,源代码字符串或代码对象的详细代码对象信息。 前者返回一个字符串,后者打印出来：
 打印所提供函数,方法,源代码字符串或代码对象到文件的详细代码对象信息(如果未指定文件,则打印sys.stdout)
 >>> import dis, random
 >>> dis.show_code(random.choice)
-Name:              choice
-Filename:          /Library/Frameworks/Python.framework/Versions/3.2/lib/python3.2/random.py
+:              choice
+File:          /Library/Frameworks/Python.framework/Versions/3.2/lib/python3.2/random.py
 Argument count:    2
 Kw-only arguments: 0
 Number of locals:  3
@@ -5121,31 +5200,31 @@ Flags:             OPTIMIZED, NEWLOCALS, NOFREE
 Constants:
    0: 'Choose a random element from a non-empty sequence.'
    1: 'Cannot choose from an empty sequence'
-Names:
+s:
    0: _randbelow
    1: len
    2: ValueError
    3: IndexError
-Variable names:
+Variable s:
    0: self
    1: seq
    2: i
 
 
 >>> dis.dis('3*x+1 if x%2==1 else x//2')
-  1           0 LOAD_NAME                0 (x)
+  1           0 LOAD_                0 (x)
               2 LOAD_CONST               0 (2)
               4 BINARY_MODULO
               6 LOAD_CONST               1 (1)
               8 COMPARE_OP               2 (==)
              10 POP_JUMP_IF_FALSE       24
              12 LOAD_CONST               2 (3)
-             14 LOAD_NAME                0 (x)
+             14 LOAD_                0 (x)
              16 BINARY_MULTIPLY
              18 LOAD_CONST               1 (1)
              20 BINARY_ADD
              22 RETURN_VALUE
-        >>   24 LOAD_NAME                0 (x)
+        >>   24 LOAD_                0 (x)
              26 LOAD_CONST               0 (2)
              28 BINARY_FLOOR_DIVIDE
              30 RETURN_VALUE
@@ -5185,7 +5264,7 @@ print timeit.timeit("sum(x)","x=(i for i in range(100))")
 def test():
     L = [i for i in range(100)]
 #在setup中导入自定义函数
-if __name__ == '__main__':
+if ____ == '__main__':
     import timeit
     print(timeit.timeit("test()", setup="from __main__ import test",number=10000))
 
@@ -5223,13 +5302,13 @@ $ python -m timeit '"-".join(map(str, range(100)))'
 python36学习记录{
 
 支持类型提示 typing{
-def greeting(name: str) -> str:
-	return 'Hello ' + name
+def greeting(: str) -> str:
+	return 'Hello ' + 
 
 #在函数greeting中,参数名称的类型为str,返回类型为str。 接受子类型作为参数。
 #例子
->>> def gg(name:str)->str:
-	return 'hello'+name
+>>> def gg(:str)->str:
+	return 'hello'+
 
 >>> gg('a')
 'helloa'
@@ -5240,7 +5319,7 @@ Traceback (most recent call last):
   File "<pyshell#19>", line 1, in <module>
 	gg(1)
   File "<pyshell#16>", line 2, in gg
-	return 'hello'+name
+	return 'hello'+
 TypeError: must be str, not int
 >>>
 
@@ -5322,7 +5401,7 @@ async def my_task(seconds):
     await asyncio.sleep(seconds)
     return "task finished"
 
-if __name__ == "__main__":
+if ____ == "__main__":
     my_event_loop = asyncio.get_event_loop()
     tasks = []
     try:
@@ -5486,7 +5565,7 @@ os.pipe()                       # 创建一个管道. 返回一对文件描述�
 os.popen(command[, mode[, bufsize]])  # 从一个 command 打开一个管道
 os.read(fd, n)                  # 从文件描述符 fd 中读取最多 n 个字节,返回包含读取字节的字符串,文件描述符 fd对应文件已达到结尾, 返回一个空字符串。
 os.write(fd, str)               # 写入字符串到文件描述符 fd中. 返回实际写入的字符串长度
-os.ttyname(fd)                  # 返回一个字符串,它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联,则引发一个异常。
+os.tty(fd)                  # 返回一个字符串,它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联,则引发一个异常。
 
 '''
 os.dup2(fd,fd2,inheritable = True)
@@ -5503,9 +5582,9 @@ b'1122'
 
 >>> os.openpty()
 (11, 12)
->>> os.ttyname(11)
+>>> os.tty(11)
 '/dev/ptmx'
->>> os.ttyname(12) #并没有在linux上真实产生一个/dev/pts/9
+>>> os.tty(12) #并没有在linux上真实产生一个/dev/pts/9
 '/dev/pts/9'
 
 11是主,12是从
@@ -5522,13 +5601,13 @@ import select
 def mkpty():
     # 打开伪终端
     master1, slave = pty.openpty()
-    slaveName1 = os.ttyname(slave)
+    slave1 = os.tty(slave)
     master2, slave = pty.openpty()
-    slaveName2 = os.ttyname(slave)
-    print ('\nslave device names: ', slaveName1, slaveName2)
+    slave2 = os.tty(slave)
+    print ('\nslave device s: ', slave1, slave2)
     return master1, master2
 
-if __name__ == "__main__":
+if ____ == "__main__":
 
     master1, master2 = mkpty()
     while True:
@@ -5556,9 +5635,9 @@ the data: b'11\r\n'
 #主从伪终端
 >>> os.openpty()
 (4, 5)
->>> os.ttyname(4)
+>>> os.tty(4)
 '/dev/ptmx'
->>> os.ttyname(5)
+>>> os.tty(5)
 '/dev/pts/9'
 >>> os.write(4,b'ls\r\n')
 4
@@ -5622,22 +5701,22 @@ sys.stdin.fileno()
 >>> import sys
 >>> sys.stdin.fileno()
 0
->>> os.ttyname(0)
+>>> os.tty(0)
 '/dev/pts/2'
->>> os.ttyname(1)
+>>> os.tty(1)
 '/dev/pts/2'
->>> os.ttyname(2)
+>>> os.tty(2)
 '/dev/pts/2'
->>> os.ttyname(3)
+>>> os.tty(3)
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 OSError: [Errno 9] Bad file descriptor
 >>>
 >>> os.openpty()
 (4, 5)
->>> os.ttyname(4)
+>>> os.tty(4)
 '/dev/ptmx'
->>> os.ttyname(5)
+>>> os.tty(5)
 '/dev/pts/10'
 
 fd_r_list, fd_w_list, fd_e_list = select.select(rlist, wlist, xlist, [timeout])
@@ -5686,21 +5765,21 @@ except OSError:
     sys.exit("Unable to create new process.")
 # Am I parent process?
 if forkPid != 0:
-    processName = "父进程"
-    print ("Parent executingn"+"tpid:%d,forkPid:%d,processNmae:%s"%(os.getpid(), forkPid,processName))
+    process = "父进程"
+    print ("Parent executingn"+"tpid:%d,forkPid:%d,processNmae:%s"%(os.getpid(), forkPid,process))
 # Am I child process?
 elif forkPid == 0:
-        processName = "子进程"
-        print ("Child executingn" + "tpid: %d, forkPid: %d, processName: %s" % (os.getpid(), forkPid,processName))
-        print ("Process finishingntpid: %d, processName: %s" % (os.getpid(), processName))
+        process = "子进程"
+        print ("Child executingn" + "tpid: %d, forkPid: %d, process: %s" % (os.getpid(), forkPid,process))
+        print ("Process finishingntpid: %d, process: %s" % (os.getpid(), process))
 
 
 ''' 都能打印在一起,应该是子进程继承了父进程的输入输出端
 root@api:/home/lgj/pty# python3.4 cmd_pty2.py
 Program executing ntpid:121728,processNmae:父进程
 Parent executingntpid:121728,forkPid:121729,processNmae:父进程
-Child executingntpid: 121729, forkPid: 0, processName: 子进程
-Process finishingntpid: 121729, processName: 子进程
+Child executingntpid: 121729, forkPid: 0, process: 子进程
+Process finishingntpid: 121729, process: 子进程
 
 #########################下面这段话很重要##############################
 程序每次执行时,操作系统就会创建一个新的进程来运行程序指令。进程还可以调用os.fork,要求操作系统新建一个进程。"父进程"是调用os.fork的进程。父进程所创建的任何进程都是子进程。每个进程都有一个不重复的"进程ID号",或称"pid",它对进程进程进行标识。进程调用fork函数时,操作系统会新建一个子进程,它本质上与父进程完全相同。子进程从父进程继承了多个值的拷贝,比如全局变量和环境变量。两个进程唯一的区别就是fork的返回值。
@@ -5712,7 +5791,7 @@ pid, fd =os.forkpty()
 分叉子进程,使用新的伪终端作为子进程的控制终端。 返回一对(pid,fd),其中pid在新子进程中为0,在父进程中为新子进程在父进程中的id,fd是伪终端的主端的文件描述符。 对于更便携的方法,使用pty模块。 如果出现错误,则引发OSError。
 >>> os.forkpty()
 (123573, 4)
->>> os.ttyname(4)
+>>> os.tty(4)
 '/dev/ptmx'
 '''
 
@@ -5907,7 +5986,7 @@ def spawn(prog, *args):
         os.execvp(prog, args)
         assert False, 'execvp failed!'
 
-if __name__ == '__main__':
+if ____ == '__main__':
     mypid = os.getpid()
     spawn('python', 'pipetest.py', 'spam')
 
@@ -6104,7 +6183,7 @@ try     except {
 try:
 	print(1)
 	raise Exception('hehe')
-except NameError:
+except Error:
 	print(2)
 except IndexError:
 	print(3)
@@ -6184,8 +6263,8 @@ finally: #不管是否有异常都会执行
 
 
 class Context:
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, ):
+        self. = 
 
     def __enter__(self):
         print("Begin.__enter__")
@@ -6195,7 +6274,7 @@ class Context:
         print("End.__exit__")
 
     def context(self):
-        print("This is context    {}".format(self.name))
+        print("This is context    {}".format(self.))
 
 # 如果带上 as 变量,那么__enter__()方法必须得返回一个东西,要不然会报错..
 with Context("xurui") as context:
@@ -6273,11 +6352,11 @@ import contextlib
 
 
 @contextlib.contextmanager
-def MyOpen(filename, mode):
+def MyOpen(file, mode):
     try:
         print("create file begin")
-        # 如果open filename失败就会立即执行Exception不会执行 print("create file end")
-        f = open(filename, mode, encoding='utf')
+        # 如果open file失败就会立即执行Exception不会执行 print("create file end")
+        f = open(file, mode, encoding='utf')
         print("create file end")
     except Exception as e:
         print("open异常就会立即执行这句话 create file filed:", e)
@@ -6533,7 +6612,7 @@ pip3.4 install pexpect -i http://10.93.135.120/pypi/simple --trusted-host 10.93.
 (2)通过配置文件来解决
 
 配置公司的镜像源方法如下：
-在C:\Users\域账号\pip(如果没有自己创建)创建pip.ini(C:\Users\lWX307086\pip\pip.ini),然后再在pip.ini中写入公司的镜像源如下：
+在C:\Users\域账号\pip(如果没有自己创建)创建pip.ini(C:\Users\name\pip\pip.ini),然后再在pip.ini中写入公司的镜像源如下：
 [global]
 trusted-host=rnd-mirrors.huawei.com
 index-url=http://rnd-mirrors.huawei.com/pypi/simple
@@ -6577,13 +6656,13 @@ def connScan(tgtHost, tgtPort):
 
 def portScan(tgtHost, tgtPorts):
     try:
-        tgtIP = socket.gethostbyname(tgtHost)
+        tgtIP = socket.gethostby(tgtHost)
     except:
         print("[-] Cannot resolve '%s': Unknown host" % tgtHost)
         return
     try:
-        tgtName = socket.gethostbyaddr(tgtIP)
-        print('\n[+] Scan Results for: ' + tgtName[0])
+        tgt = socket.gethostbyaddr(tgtIP)
+        print('\n[+] Scan Results for: ' + tgt[0])
     except:
         print('\n[+] Scan Results for: ' + tgtIP)
     socket.setdefaulttimeout(1)
@@ -6605,8 +6684,8 @@ def extractFile(zFile, password):
 	except:
 		pass
 def main():
-	zFile = zipfile.ZipFile(r'C:\Users\lWX307086\Desktop\五月花\python-work\unzip.zip')
-	passFile = open(r'C:\Users\lWX307086\Desktop\五月花\python-work\dictionary.txt')
+	zFile = zipfile.ZipFile(r'C:\Users\name\Desktop\五月花\python-work\unzip.zip')
+	passFile = open(r'C:\Users\name\Desktop\五月花\python-work\dictionary.txt')
 	for line in passFile.readlines():
 		password = line.strip('\n')
 		print(password)
@@ -6618,7 +6697,7 @@ def main():
 			print('Password = ', password)
 		else:
 			print("can't find password")
-if __name__ == '__main__':
+if ____ == '__main__':
 	main()
 
 }
@@ -6664,7 +6743,7 @@ def ssh_command (user, host, password, command):
 
 def main ():
 	# 获得用户指定 ssh 主机域名.
-	host = input('Hostname: ')
+	host = input('Host: ')
 	# 获得用户指定 ssh 主机用户名.
 	user = input('User: ')
 	# 获得用户指定 ssh 主机密码.
@@ -6679,7 +6758,7 @@ def main ():
 		print(x)
 	#print ( child.before)
 
-if __name__ == '__main__':
+if ____ == '__main__':
 	main()
 
 
@@ -6734,9 +6813,9 @@ code by google security team
 """
 import sys,os,socket,pty
 shell = "/bin/sh"
-def usage(name):
+def usage():
     print 'python reverse connector'
-    print 'usage: %s <ip_addr> <port>' % name
+    print 'usage: %s <ip_addr> <port>' % 
 
 def main():
     if len(sys.argv) !=3:
@@ -6767,7 +6846,7 @@ def main():
     pty.spawn(shell)
     s.close()
 
-if __name__ == '__main__':
+if ____ == '__main__':
     main()
 }
 }
@@ -6863,8 +6942,8 @@ print(config.has_option('section1',''))
 #添加一个标题
 config.add_section('egon')
 
-#在标题egon下添加name=egon,age=18的配置
-config.set('egon','name','egon')
+#在标题egon下添加=egon,age=18的配置
+config.set('egon','','egon')
 config.set('egon','age',18) #报错,必须是字符串
 
 
@@ -7162,13 +7241,13 @@ async def index(request):
 
 async def hello(request):
     await asyncio.sleep(0.5)
-    text = '<h1>hello, %s!</h1>' % request.match_info['name']
+    text = '<h1>hello, %s!</h1>' % request.match_info['']
     return web.Response(body=text.encode('utf-8'))
 
 async def init(loop):
     app = web.Application(loop=loop)
     app.router.add_route('GET', '/', index)
-    app.router.add_route('GET', '/hello/{name}', hello)
+    app.router.add_route('GET', '/hello/{}', hello)
     srv = await loop.create_server(app.make_handler(), '127.0.0.1', 8000)
     print('Server started at http://127.0.0.1:8000   ')
     return srv
@@ -7220,7 +7299,7 @@ httpie的使用{
 pip install httpie
 
 1.模拟提交表单
-http -f POST http://127.0.0.1:8080/login username=nate
+http -f POST http://127.0.0.1:8080/login user=nate
 
 2.显示详细的请求
 http -v http://127.0.0.1:8080/login
@@ -7238,21 +7317,21 @@ http -d http://127.0.0.1:8080/login
 http DELETE http://127.0.0.1:8080/login
 
 7.传递JSON数据请求(默认就是JSON数据请求)
-http PUT http://127.0.0.1:8080/login name=nate password=nate_password
+http PUT http://127.0.0.1:8080/login =nate password=nate_password
 如果JSON数据存在不是字符串则用:=分隔,例如
-http PUT http://127.0.0.1:8080/login name=nate password=nate_password age:=28 a:=true streets:='["a", "b"]'
+http PUT http://127.0.0.1:8080/login =nate password=nate_password age:=28 a:=true streets:='["a", "b"]'
 
 8.模拟Form的Post请求, Content-Type: application/x-www-form-urlencoded; charset=utf-8
-http --form POST http://127.0.0.1:8080/login name='nate'
+http --form POST http://127.0.0.1:8080/login ='nate'
 模拟Form的上传, Content-Type: multipart/form-data
-http -f POST example.com/jobs name='John Smith' file@~/test.pdf
+http -f POST example.com/jobs ='John Smith' file@~/test.pdf
 
 9.修改请求头, 使用:分隔
 http http://127.0.0.1:8080/login User-Agent:Yhz/1.0 'Cookie:a=b;b=c' Referer:http://http://127.0.0.1:8080/login/
 
 10.认证
-http -a username:password http://127.0.0.1:8080/login
-http --auth-type=digest -a username:password http://127.0.0.1:8080/login
+http -a user:password http://127.0.0.1:8080/login
+http --auth-type=digest -a user:password http://127.0.0.1:8080/login
 
 11.使用http代理
 http --proxy=http:http://192.168.1.100:8060 http://127.0.0.1:8080/login
@@ -7264,15 +7343,15 @@ http --proxy=http:http://user:pass@192.168.1.100:8060 http://127.0.0.1:8080/logi
     import threading
     # 线程的私有命名空间
     local = threading.local()
-    local.tname = "main"
+    local.t = "main"
     print(type(local))
 
 
     def func(info):
-        print('Has tname in new thread: %s' % hasattr(local, 'tname'))
-        local.tname = info
-        print('Has tname in new thread: %s' % hasattr(local, 'tname'))
-        print(local.tname)
+        print('Has t in new thread: %s' % hasattr(local, 't'))
+        local.t = info
+        print('Has t in new thread: %s' % hasattr(local, 't'))
+        print(local.t)
 
     t1 = threading.Thread(target=func, args=['funcA'])
     t2 = threading.Thread(target=func, args=['funcB'])
@@ -7283,7 +7362,7 @@ http --proxy=http:http://user:pass@192.168.1.100:8060 http://127.0.0.1:8080/logi
     t2.start()
     t2.join()
 
-    print(local.tname)
+    print(local.t)
 
 }
 
@@ -7299,9 +7378,9 @@ __str__(self)	 在使用print语句时被调用
 __getitem__(self,key)	 获取序列的索引key对应的值,等价于seq[key]
 __len__(self)	 在调用内联函数len()时被调用
 __cmp__(stc,dst)	 比较两个对象src和dst
-__getattr__(s,name)	 获取属性的值
-__setattr__(s,name,value)	 设置属性的值
-__delattr__(s,name)	 删除name属性
+__getattr__(s,)	 获取属性的值
+__setattr__(s,,value)	 设置属性的值
+__delattr__(s,)	 删除属性
 __getattribute__()	 __getattribute__()功能与__getattr__()类似
 __gt__(self,other)	 判断self对象是否大于other对象
 __lt__(self,other)	 判断self对象是否小于other对象
@@ -7356,8 +7435,8 @@ sublime user配置package control配置{
 }
 
 代理中有特殊字符{
-git config http.proxy http://username:password@127.0.0.1:8088,就会存在2个@,密码例如aa@bb
-git config http.proxy http://username:aa%40bb@proxy.huawei.com:8080
+git config http.proxy http://user:password@127.0.0.1:8088,就会存在2个@,密码例如aa@bb
+git config http.proxy http://user:aa%40bb@proxy.huawei.com:8080
 通常的编码方法：
 1)按照某个编码集(例如utf-8,GB2312等)转化为16进制；
 2)在每个16进制的字节前,加上一个%；
