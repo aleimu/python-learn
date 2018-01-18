@@ -100,8 +100,23 @@ Python 算术操作符 + - * /(除法完整除数) //(除法取整数) **(幂运
 ==	等于	比较对象是否相等	x = 2; y = 2; x == y返回True。x = 'str'; y = 'stR'; x == y返回False。x = 'str'; y = 'str'; x == y返回True。
 !=	不等于	比较两个对象是否不相等	x = 2; y = 3; x != y返回True。
 not	布尔“非”	如果x为True，返回False。如果x为False，它返回True。	x = True; not y返回False。
-and	布尔“与”	如果x为False，x and y返回False，否则它返回y的计算值。	x = False; y = True; x and y，由于x是False，返回False。在这里，Python不会计算y，因为它知道这个表达式的值肯定是False（因为x是False）。这个现象称为短路计算。
-or	布尔“或”	如果x是True，它返回True，否则它返回y的计算值。	x = True; y = False; x or y返回True。短路计算在这里也适用。
+# 短路计算
+and	布尔“与”	如果x为False，x and y返回False，否则它返回y的计算值。
+x = False; y = True; x and y，由于x是False，返回False。在这里，Python不会计算y，因为它知道这个表达式的值肯定是False（因为x是False）。这个现象称为短路计算。
+or	布尔“或”	如果x是True，它返回True，否则它返回y的计算值。
+x = True; y = False; x or y返回True。短路计算在这里也适用
+>>> x=1
+>>> y=2
+>>> print(x and y)
+2
+>>> print(x or y)
+1
+x=[]
+>>> print(x and y)
+[]
+>>> print(x or y) 
+2
+
 }
 set集合{
 >>> x = set("jihite")
