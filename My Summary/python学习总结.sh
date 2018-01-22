@@ -117,6 +117,7 @@ x=[]
 >>> print(x or y) 
 2
 
+
 }
 set集合{
 >>> x = set("jihite")
@@ -1632,6 +1633,56 @@ Fd.writelines(content) : 把content的内容全部写到文件中,原样写入,�
 执行python代码：
 exec(open('test2.py').read())
 }
+13、python字符串/元组/列表/字典互转{
+#-*-coding:utf-8-*- 
+
+#1、字典
+dict = {'name': 'Zara', 'age': 7, 'class': 'First'}
+
+#字典转为字符串，返回：<type 'str'> {'age': 7, 'name': 'Zara', 'class': 'First'}
+print type(str(dict)), str(dict)
+
+#字典可以转为元组，返回：('age', 'name', 'class')
+print tuple(dict)
+#字典可以转为元组，返回：(7, 'Zara', 'First')
+print tuple(dict.values())
+
+#字典转为列表，返回：['age', 'name', 'class']
+print list(dict)
+#字典转为列表
+print dict.values
+
+#2、元组
+tup=(1, 2, 3, 4, 5)
+
+#元组转为字符串，返回：(1, 2, 3, 4, 5)
+print tup.__str__()
+
+#元组转为列表，返回：[1, 2, 3, 4, 5]
+print list(tup)
+
+#元组不可以转为字典
+
+#3、列表
+nums=[1, 3, 5, 7, 8, 13, 20];
+
+#列表转为字符串，返回：[1, 3, 5, 7, 8, 13, 20]
+print str(nums)
+
+#列表转为元组，返回：(1, 3, 5, 7, 8, 13, 20)
+print tuple(nums)
+
+#列表不可以转为字典
+
+#4、字符串
+
+#字符串转为元组，返回：(1, 2, 3)
+print tuple(eval("(1,2,3)"))
+#字符串转为列表，返回：[1, 2, 3]
+print list(eval("(1,2,3)"))
+#字符串转为字典，返回：<type 'dict'>
+print type(eval("{'name':'ljq', 'age':24}"))
+}
 }
 
 #python常见问题,这部分很杂乱涉及到了python2
@@ -2960,7 +3011,6 @@ def ab1(y):
 test1=ab1('1111') # >>返回是的已传入11111111111的ab2函数 >>return ab2
 print(type(test1))
 print("===========0")
-
 def hello(a,b):
        return ("a+b=",a+b)
 
@@ -4313,19 +4363,19 @@ requests库的使用{
 import requests
 from requests.auth import HTTPBasicAuth
 """
-ms3_url='https://login.huawei.com/login/?redirect=http%3A%2F%2Fw3.huawei.com%2Fnext%2Findexa.html%3Flocale%3Dzh%23path%3Dhome'
-dts_url='http://w3.huawei.com/next/indexa.html?locale=zh#path=home'
+ms3_url='https://login.qq.com/login/?redirect=http%3A%2F%2Fw3.qq.com%2Fnext%2Findexa.html%3Flocale%3Dzh%23path%3Dhome'
+dts_url='http://w3.qq.com/next/indexa.html?locale=zh#path=home'
 
 #登陆3ms
-r =requests.get('https://login.huawei.com/login/', auth=('', 'passwd'))
+r =requests.get('https://login.qq.com/login/', auth=('', 'passwd'))
 print(r.status_code)
 #使用HTTPBasicAuth 登陆3ms
 r1 =requests.get(ms3_url, auth=HTTPBasicAuth('', 'passwd'))
 print(r1.status_code)
 
 #登陆dts >>好像不行,需要很多东西
-dts_url2='http://dts.huawei.com/net/dts/sys/Global/personalinfodetail.aspx?User=liuguojin%20WX307086'
-dts_url3='http://dts.huawei.com/net/dts/commonpage/logout.aspx'
+dts_url2='http://dts.qq.com/net/dts/sys/Global/personalinfodetail.aspx?User=liuguojin%20WX307086'
+dts_url3='http://dts.qq.com/net/dts/commonpage/logout.aspx'
 r2 =requests.get(dts_url3, auth=('', 'passwd'))
 print(r2.status_code)
 
@@ -4337,20 +4387,20 @@ print(r5.status_code)
 
 """
 proxies = {
-  "http": "http://:passwd@openproxy.huawei.com:8080",
-  "https": "https://:passwd@openproxy.huawei.com:8080",
+  "http": "http://:passwd@openproxy.qq.com:8080",
+  "https": "https://:passwd@openproxy.qq.com:8080",
 }
 
 #使用公司代理登陆博客园  window上也是可以的
 import requests
 proxies = {
-    "http": "http://china\\name:lgj%401234@openproxy.huawei.com:8080/",
-    "https": "https://china\\name:lgj%401234@openproxy.huawei.com:8080/",
+    "http": "http://china\\name:lgj%401234@openproxy.qq.com:8080/",
+    "https": "https://china\\name:lgj%401234@openproxy.qq.com:8080/",
 }
 # 上下两种都可以
 # proxies ={
-# "http" : r"http://name:lgj@1234@openproxy.huawei.com:8080",
-# "https" : r"https://name:lgj@1234@openproxy.huawei.com:8080",
+# "http" : r"http://name:lgj@1234@openproxy.qq.com:8080",
+# "https" : r"https://name:lgj@1234@openproxy.qq.com:8080",
 # }
 r = requests.get("https://www.cnblogs.com/",
                  proxies=proxies, verify=False,)
@@ -4839,10 +4889,10 @@ c:\> set http_proxy=<user>:<password>@<proxy_ip_address>:<port>
 c:\> set https_proxy=<user>:<password>@<proxy_ip_address>:<port>
 上面需要注意的是windows域账户需要使用类似set https_proxy=<host>\\<user>:<password>@<proxy_ip_address>:<port>,host为域名
 
-ip 就是  openproxy.huawei.com  8080
+ip 就是  openproxy.qq.com  8080
 
-set http_proxy=CHINA\:passwd@openproxy.huawei.com:8080
-set https_proxy=CHINA\:passwd@openproxy.huawei.com:8080
+set http_proxy=CHINA\:passwd@openproxy.qq.com:8080
+set https_proxy=CHINA\:passwd@openproxy.qq.com:8080
 
 set http_proxy=CHINA\:passwd@ip:8080
 set https_proxy=CHINA\:passwd@ip:8080
@@ -6619,18 +6669,18 @@ pip install matplotlib
 从国内获取默认源可能存在问题,需要添加配置文件,获取国内源。
 有两种方法解决这个问题：
 (1)通过-i参数来指定
-pip install python-nmap -i http://rnd-mirrors.huawei.com/pypi/simple
+pip install python-nmap -i http://rnd-mirrors.qq.com/pypi/simple
 #亲测可用
-pip3.4 install python-nmap -i http://rnd-mirrors.huawei.com/pypi/simple --trusted-host rnd-mirrors.huawei.com
-pip install --index-url http://rnd-mirrors.huawei.com/pypi/simple --trusted-host rnd-mirrors.huawei.com pymysql
+pip3.4 install python-nmap -i http://rnd-mirrors.qq.com/pypi/simple --trusted-host rnd-mirrors.qq.com
+pip install --index-url http://rnd-mirrors.qq.com/pypi/simple --trusted-host rnd-mirrors.qq.com pymysql
 pip3.4 install pexpect -i http://10.93.135.120/pypi/simple --trusted-host 10.93.135.120
 (2)通过配置文件来解决
 
 配置公司的镜像源方法如下：
 在C:\Users\域账号\pip(如果没有自己创建)创建pip.ini(C:\Users\name\pip\pip.ini),然后再在pip.ini中写入公司的镜像源如下：
 [global]
-trusted-host=rnd-mirrors.huawei.com
-index-url=http://rnd-mirrors.huawei.com/pypi/simple
+trusted-host=rnd-mirrors.qq.com
+index-url=http://rnd-mirrors.qq.com/pypi/simple
 
 配置成功后使用 pip install XXXX 即可方便的安装Python第三方包。
 注意,要使用pip,需进入Scripts这个目录(亲测好像不用)
@@ -6684,7 +6734,7 @@ def portScan(tgtHost, tgtPorts):
     for tgtPort in tgtPorts:
         print('Scanning port ' + str(tgtPort))
         connScan(tgtHost, int(tgtPort))#测试是否有效
-portScan('www.huawei.com', [80,443,3389,1433,23,445])
+portScan('www.qq.com', [80,443,3389,1433,23,445])
 
 
 
@@ -6783,7 +6833,7 @@ if ____ == '__main__':
 }
 
 反弹shell{
-#http://3ms.huawei.com/hi/blog/978951_2336681.html
+#http://3ms.qq.com/hi/blog/978951_2336681.html
 反弹shell,或者叫反向shell,是指"被攻击端"主动连接"攻击端",然后攻击端可通过这个连接完成shell命令操作。
 编写反弹shell的后门程序运行于slave主机上,在另一台attack主机上向slave主机发送触发消息,并接收反弹回来的shell。过程如下：
 
@@ -6885,7 +6935,8 @@ print(item)
 random.choices([1,2,3],[1,1,10])
 
 
-#configparser用于配置文件解析,可以解析特定格式的配置文件,多数此类配置文件名格式为XXX.ini,例如mysql的配置文件。
+# configparser 用于配置文件解析,可以解析特定格式的配置文件,多数此类配置文件名格式为XXX.ini,例如mysql的配置文件。
+ConfigParser模块提供了三个类来解析配置文件：RawConfigParser、ConfigParser、SafeConfigParser。 其中RawConfigParser是基类，且为ConfigParser的父类，ConfigParser是SafeConfigParser的父类。RawConfigParser不支持插值法。
 {
 配置文件如下：
 [section1]
@@ -6899,8 +6950,8 @@ salary=31
 [section2]
 k1 = v1
 
-
-import configparser
+import ConfigParser #py2
+import configparser #py3
 
 config=configparser.ConfigParser()
 config.read('a.cfg')
@@ -7451,7 +7502,7 @@ sublime user配置package control配置{
 
 代理中有特殊字符{
 git config http.proxy http://user:password@127.0.0.1:8088,就会存在2个@,密码例如aa@bb
-git config http.proxy http://user:aa%40bb@proxy.huawei.com:8080
+git config http.proxy http://user:aa%40bb@proxy.qq.com:8080
 通常的编码方法：
 1)按照某个编码集(例如utf-8,GB2312等)转化为16进制；
 2)在每个16进制的字节前,加上一个%；
@@ -7501,6 +7552,48 @@ IF EXIST %~n1.class (
     ECHO ^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>^>
 )
 
+}
+
+通用技能{
+
+#http://www.cnblogs.com/tianyajuanke/archive/2012/04/25/2470002.html
+vi ~/.bashrc
+alias vi='vim'
+
+#显示行号的配置
+vim ~/.vimrc
+syntax on
+set nu!
+
+echo -e 'syntax on\nset nu!' >> ~/.vimrc
+
+
+vim ~/.vimrc #进入配置文件
+
+如果不知道vimrc文件在哪，可使用 :scriptnames 来查看
+set nu　　　　　　#行号
+set tabstop=4　　#一个tab为4个空格长度
+set ai  #设置自动缩进
+syntax on   #高亮
+
+#查看和切换分支
+git branch --all
+git checkout hw/mitaka
+
+autopep8
+C:\Python36-32\Scripts\autopep8.exe
+-i $FilePath$
+$ProjectFileDir$
+
+flake8
+C:\Python36-32\Scripts\flake8.exe
+$FilePath$
+$ProjectFileDir$
+
+}
+
+引号和单引号的转义{
+curl = u'curl -i -k -X POST https://cps.localdomain.com:8008/cps/v1/ha_swap_switch -H "Content-Type:application/json" -H "X-Auth-User:cps_admin" -H "X-Auth-Password:FusionSphere123" -d "{\\"data\\": [{\\"service\\": \\"gaussdb\\", \\"template\\": \\"gaussdb\\", \\"switch\\": \\"disabled\\"}]}"'
 }
 
 }
