@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!--引入Moment依赖库-->
+    {{moment.include_jquery()}}
+    {{moment.include_moment()}}
+    <!--使用中文-->
+    {{moment.lang('zh-CN')}}
+    <title>Moment Test</title>
+</head>
+<body>
+<div>
+    <p>当前时间：{{moment(current_time).format('YYYY年M月D日, h:mm:ss a')}}</p>
+    <p>初始化访问时间:{{moment(current_time).fromNow(refresh=True)}}</p>
+</div>
+</body>
+</html>
