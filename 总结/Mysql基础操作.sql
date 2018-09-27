@@ -1,4 +1,5 @@
 Mysql基础操作
+
 1、数据库操作
 　　进入命令行：mysql -uroot -p123456
 　　查看数据库：show databases;
@@ -10,6 +11,7 @@ Mysql基础操作
 　　备份所有数据库：mysqldump -uroot -p  -A >test.sql 
 　　恢复指定数据库：mysql -uroot -p test<test.sql
 　　恢复所有数据库：mysql -uroot -p  -A <test.sql
+
 2、表操作：
 　　表约束：
 　　　　自增：aotu_increment
@@ -23,23 +25,23 @@ Mysql基础操作
 　　　　查看创建表语句：show create table user;
 　　　　查看表结构：desc user;
 　　创建表：
-复制代码
-create table user(
-    id int auto_increment primary key,  #ID自增并设置为主键
-    name varchar(10) not null,          #姓名不允许为空
-    sex varchar(5) default 1,           #性别默认1
-    phone bigint not null unique,       #电话不允许为空并且唯一
-    create_time datetime default now(), #创建时间默认当前时间
-    addr varchar(50)
-);
-复制代码
+        create table user(
+            id int auto_increment primary key,  #ID自增并设置为主键
+            name varchar(10) not null,          #姓名不允许为空
+            sex varchar(5) default 1,           #性别默认1
+            phone bigint not null unique,       #电话不允许为空并且唯一
+            create_time datetime default now(), #创建时间默认当前时间
+            addr varchar(50)
+        )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 　　删除表：
 　　　　删除表：drop table user;
 　　修改表：
 　　　　修改表名称：alter table user rename user1;
-　　　　修改字段类型并重命名：alter table user change  name names varchar(15);
-　　　　修改字段类型：alter table user modify name varchar(15);
-　　　　在指定位置新增字段：alter table user add password varchar(20) not null after name;
+　　　　修改字段类型并重命名：alter table user change name names varchar(15);
+　　　　修改字段类型：alter table user modify names varchar(15);
+　　　　在指定位置新增字段：alter table user add password varchar(20) not null after names;
+
 3、数据操作
 　　增加数据：
 　　　　表中新增数据：insert into user values('','张三','男','1234567890',NOW(),'北京市海淀区');
@@ -80,6 +82,7 @@ create table user(
 　　　　　　　　select * from user u right join user_group g on u.id=g.id;　　#左边和右边匹配的数据全部查出来并去重(union all不会去重)，相当于oracle的全连接
 　　　　　　　　select * from (select id,name,sex from user where sex='女') user;　　#把查询结果作为一张表查询
 　　　　　　　　select * from user where id in(select id from user_group where g_name='计算机');　　#子查询，查询学计算机的用户信息
+
 4、用户管理
 　　添加用户：
 　　　　insert into user (user,host,password) values('xiaoxitest','%',PASSWORD('123456')); #添加xiaoxitest用户并允许远程计算机登录，密码为：123456
@@ -88,6 +91,7 @@ create table user(
 　　　　update user set user='xiaoxi' where user='xiaoxitest';　　#更改用户名xiaoxitest为xiaoxi
 　　删除用户：
 　　　　delete from user where user='xiaoxi';　　#删除xiaoxi用户
+
 5、权限管理
 　　用户授权：
 　　授权格式：grant 权限 on 数据库.* to 用户名@登录主机 identified by "密码" with grant option;
@@ -101,8 +105,8 @@ create table user(
 　　　　flush privileges;
 
 
-#mysql--增删改查
-{
+#mysql --增删改查
+
 
 #修改表名
 
@@ -191,13 +195,13 @@ ADD test6 SET('A','B','C');
  ALTER TABLE 表名 DROP PRIMARY KEY
  
 CREATE TABLE test12(
-id INT
+    id INT
  );
 ALTER TABLE test12 ADD PRIMARY KEY (id);
 
 CREATE TABLE test13(
-id INT,
-card VARCHAR(50) NOT NULL
+    id INT,
+    card VARCHAR(50) NOT NULL
 );
 ALTER TABLE test13 ADD PRIMARY KEY (id,card);
 
@@ -247,4 +251,4 @@ UPDATE cms_user SET age=age+10 ORDER BY id DESC LIMIT 3;
 
 #删除用户性别为男的用户，按照年龄降序排序，删除前一条记录
 DELETE  FROM cms_user WHERE sex='男' ORDER BY age DESC LIMIT 1; 
-}
+
