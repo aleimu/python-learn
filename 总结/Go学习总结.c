@@ -1,6 +1,7 @@
 //Go学习总结--2017/3/20	
 //https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md
 //https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/preface.md
+//https://segmentfault.com/a/1190000013739000#articleHeader43  # Golang 新手可能会踩的 50 个坑
 
 //基础语法
 1.变量的定义{
@@ -19,16 +20,19 @@ var v7 map[string]int  // map，key为string类型，value为int类型
 var v8 func(a int) int 
 
 }
+
 2.变量的初始化{
 var v1 int = 10 // 正确的使用方式1  
 var v2 = 10 // 正确的使用方式2，编译器可以自动推导出v2的类型 
 v3 := 10 // 正确的使用方式3，编译器可以自动推导出v3的类型 
 #三种方式完全一样
 }
+
 3.支持交换{
 交换i和j变量的语句： 
 i, j = j, i
 }
+
 4.常量{
 const Pi float64 = 3.14159265358979323846  
 const zero = 0.0             // 无类型浮点常量 
@@ -41,6 +45,7 @@ const a, b, c = 3, 4, "foo"
 // a = 3, b = 4, c = "foo", 无类型整型和字符串常量 
 
 }
+
 5.预定义常量{
 Go语言预定义了这些常量：true、false和iota。 
 iota比较特殊，可以被认为是一个可被编译器修改的常量，在每一个const关键字出现时被
@@ -53,6 +58,7 @@ const (            // iota被重设为0
 )   
 #这里写的并不完全，如果用到更深的操作，可以查看文档
 }
+
 6.类型 {
 
 Go语言内置以下这些基础类型：  
@@ -72,14 +78,16 @@ Go语言内置以下这些基础类型：
  结构体（struct） 
  接口（interface） 
 }
+
 7.位运算{
 x << y  左移  124 << 2    // 结果为496 
 x >> y  右移  124 >> 2    // 结果为31 
 x ^ y  异或  124 ^ 2     // 结果为126 
 x & y  与  124 & 2     // 结果为0 
 x | y  或  124 | 2     // 结果为126 
-^x  取反  ^2          // 结果为3
+^x  取反  ^2          // 结果为3
 }
+
 8.字符串{
 var str string   // 声明一个字符串变量 
 str = "Hello world" // 字符串赋值 
@@ -107,10 +115,12 @@ s[i]  取字符  "Hello" [1]       // 结果为'e'
 	} 
 	#每个中文字符在UTF-8中占3个字节，而不是1个字节。
 }
+
 9.字符类型{
 在Go语言中支持两个字符类型，一个是byte（实际上是uint8的别名），代表UTF-8字符串的单个字节的值；另一个是rune，代表单个Unicode字符。 
 Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间的转换。 
 }
+
 10.数组{
 10.1.数组就是指一系列同一类型数据的集合，数组长度在定义后就不可更改
 	#以下为一些常规的数组声明方法： 
@@ -137,6 +147,7 @@ Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间
 参数将发生数据复制。因此，在函数体中无法修改传入的数组的内容，因为函数内操作的只是所传入数组的一个副本。
 	
 }
+
 11.数组切片{
 11.1.数组切片的数据结构可以抽象为以下3个变量： 
 	// ()转换 
@@ -191,7 +202,7 @@ Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间
 }
 12.函数参数传值、闭包传引用{
 	
-什么叫传引用?
+// 什么叫传引用?
 比如有以下代码:
 var a Object
 doSomething(a) // 修改a的值
@@ -210,15 +221,16 @@ slice 是结构体和指针的混合体
 引用类型和传引用是两个概念
 
 //但是因为slice和map/chan底层结构的差异, 又导致了它们传值的影响并不完全等同.-->ps:我的理解-->复制传入函数的那一份中指针部分和原版是相同的，当随后函数中修改的部分是指针部分时就会影响原来的值，所以, 引用类型一般都是底层指针实现, 只是在上层加上的语法糖而已
+
 重点归纳如下:
-GoSpec: the parameters of the call are passed by value!
-map/slice/chan 都是传值, 不是传引用
-map/chan 对应指针, 和引用类似
-slice 是结构体和指针的混合体
-slice 含 values/count/capacity 等信息, 是按值传递
-slice 中的 values 是指针, 按值传递
-按值传递的 slice 只能修改values指向的数据, 其他都不能修改
-以指针或结构体的角度看, 都是值传递!
+    GoSpec: the parameters of the call are passed by value!
+    map/slice/chan 都是传值, 不是传引用
+    map/chan 对应指针, 和引用类似
+    slice 是结构体和指针的混合体
+    slice 含 values/count/capacity 等信息, 是按值传递
+    slice 中的 values 是指针, 按值传递
+    按值传递的 slice 只能修改values指向的数据, 其他都不能修改
+    以指针或结构体的角度看, 都是值传递!
 
 12.1例子1{
 	package main
