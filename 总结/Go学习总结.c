@@ -20,19 +20,16 @@ var v7 map[string]int  // map，key为string类型，value为int类型
 var v8 func(a int) int 
 
 }
-
 2.变量的初始化{
 var v1 int = 10 // 正确的使用方式1  
 var v2 = 10 // 正确的使用方式2，编译器可以自动推导出v2的类型 
 v3 := 10 // 正确的使用方式3，编译器可以自动推导出v3的类型 
 #三种方式完全一样
 }
-
 3.支持交换{
 交换i和j变量的语句： 
 i, j = j, i
 }
-
 4.常量{
 const Pi float64 = 3.14159265358979323846  
 const zero = 0.0             // 无类型浮点常量 
@@ -45,7 +42,6 @@ const a, b, c = 3, 4, "foo"
 // a = 3, b = 4, c = "foo", 无类型整型和字符串常量 
 
 }
-
 5.预定义常量{
 Go语言预定义了这些常量：true、false和iota。 
 iota比较特殊，可以被认为是一个可被编译器修改的常量，在每一个const关键字出现时被
@@ -58,7 +54,6 @@ const (            // iota被重设为0
 )   
 #这里写的并不完全，如果用到更深的操作，可以查看文档
 }
-
 6.类型 {
 
 Go语言内置以下这些基础类型：  
@@ -70,15 +65,14 @@ Go语言内置以下这些基础类型：
  字符类型：rune。 
  错误类型：error。 
 此外，Go语言也支持以下这些复合类型： 
- 指针（pointer） 
- 数组（array） 
- 切片（slice） 
- 字典（map） 
- 通道（chan） 
- 结构体（struct） 
- 接口（interface） 
+ 指针(pointer) 
+ 数组(array) 
+ 切片(slice) 
+ 字典(map) 
+ 通道(chan) 
+ 结构体(struct) 
+ 接口(interface) 
 }
-
 7.位运算{
 x << y  左移  124 << 2    // 结果为496 
 x >> y  右移  124 >> 2    // 结果为31 
@@ -87,7 +81,6 @@ x & y  与  124 & 2     // 结果为0
 x | y  或  124 | 2     // 结果为126 
 ^x  取反  ^2          // 结果为3
 }
-
 8.字符串{
 var str string   // 声明一个字符串变量 
 str = "Hello world" // 字符串赋值 
@@ -115,12 +108,10 @@ s[i]  取字符  "Hello" [1]       // 结果为'e'
 	} 
 	#每个中文字符在UTF-8中占3个字节，而不是1个字节。
 }
-
 9.字符类型{
-在Go语言中支持两个字符类型，一个是byte（实际上是uint8的别名），代表UTF-8字符串的单个字节的值；另一个是rune，代表单个Unicode字符。 
+在Go语言中支持两个字符类型，一个是byte(实际上是uint8的别名)，代表UTF-8字符串的单个字节的值；另一个是rune，代表单个Unicode字符。 
 Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间的转换。 
 }
-
 10.数组{
 10.1.数组就是指一系列同一类型数据的集合，数组长度在定义后就不可更改
 	#以下为一些常规的数组声明方法： 
@@ -143,11 +134,10 @@ Go标准库的unicode包。另外unicode/utf8包也提供了UTF8和Unicode之间
 	}  
 
 10.3.值类型
-在Go语言中数组是一个值类型（value type）。所有的值类型变量在赋值和作为参数传递时都将产生一次复制动作。如果将数组作为函数的参数类型，则在函数调用时该
+在Go语言中数组是一个值类型(value type)。所有的值类型变量在赋值和作为参数传递时都将产生一次复制动作。如果将数组作为函数的参数类型，则在函数调用时该
 参数将发生数据复制。因此，在函数体中无法修改传入的数组的内容，因为函数内操作的只是所传入数组的一个副本。
 	
 }
-
 11.数组切片{
 11.1.数组切片的数据结构可以抽象为以下3个变量： 
 	// ()转换 
@@ -450,7 +440,7 @@ if ok { // 找到了
 15.流程控制{
 //Go语言支持如下的几种流程控制语句： 
  条件语句，对应的关键字为if、else和else if； 
- 选择语句，对应的关键字为switch、case和select（将在介绍channel的时候细说）；
+ 选择语句，对应的关键字为switch、case和select(将在介绍channel的时候细说)；
  循环语句，对应的关键字为for和range； range迭代器操作，返回 (索引, 值) 或 (键, 值)。
  跳转语句，对应的关键字为goto。 
 Go语言还添加了如下关键字：break、continue和fallthrough。
@@ -672,7 +662,7 @@ func (p mytype) funcname(q int) (r,s int) { //函数的结构
 	for i := 0; i < 5; i++ {
 		defer fmt.Printf("%d ", i)
 	}
-	//延迟的函数是按照后进先出（LIFO）的顺序执行，所以上面的代码打印：4 3 2 1 0
+	//延迟的函数是按照后进先出(LIFO)的顺序执行，所以上面的代码打印：4 3 2 1 0
 
 	//利用defer甚至可以修改返回值，假设正在使用命名结果参数和闭包函数
 	defer func() {//匿名函数的定义方式
@@ -714,23 +704,23 @@ b.Modify()
  
 //Go语言中的大多数类型都基于值语义，包括： 
  基本类型，如byte、int、bool、float32、float64和string等； 
- 复合类型，如数组（array）、结构体（struct）和指针（pointer）等。
+ 复合类型，如数组(array)、结构体(struct)和指针(pointer)等。
 
 //Go语言中有4个类型比较特别，看起来像引用类型，如下所示。 
  数组切片：数组切片内部是指向数组的指针，所以可以改变所指向的数组元素并不奇怪。数组切片类型本身的赋值仍然是值语义。
  map：map本质上是一个字典指针
- channel：执行体（goroutine）间的通信设施。 
- 接口（interface）：对一组满足某个契约的类型的抽象。 
+ channel：执行体(goroutine)间的通信设施。 
+ 接口(interface)：对一组满足某个契约的类型的抽象。 
 
-//按值传递（call by value） 按引用传递（call by reference）
+//按值传递(call by value) 按引用传递(call by reference)
 
 Go 默认使用按值传递来传递参数，也就是传递参数的副本。函数接收参数副本之后，在使用变量的过程中可能对副本的值进行更改，但不会影响到原来的变量，比如 Function(arg1)。
 
-如果你希望函数可以直接修改参数的值，而不是对参数的副本进行操作，你需要将参数的地址（变量名前面添加&符号，比如 &variable）传递给函数，这就是按引用传递，比如 Function(&arg1)，此时传递给函数的是一个指针。如果传递给函数的是一个指针，指针的值（一个地址）会被复制，但指针的值所指向的地址上的值不会被复制；我们可以通过这个指针的值来修改这个值所指向的地址上的值。（译者注：指针也是变量类型，有自己的地址和值，通常指针的值指向一个变量的地址。所以，按引用传递也是按值传递。）
+如果你希望函数可以直接修改参数的值，而不是对参数的副本进行操作，你需要将参数的地址(变量名前面添加&符号，比如 &variable)传递给函数，这就是按引用传递，比如 Function(&arg1)，此时传递给函数的是一个指针。如果传递给函数的是一个指针，指针的值(一个地址)会被复制，但指针的值所指向的地址上的值不会被复制；我们可以通过这个指针的值来修改这个值所指向的地址上的值。(译者注：指针也是变量类型，有自己的地址和值，通常指针的值指向一个变量的地址。所以，按引用传递也是按值传递。)
 
-几乎在任何情况下，传递指针（一个32位或者64位的值）的消耗都比传递副本来得少。
+几乎在任何情况下，传递指针(一个32位或者64位的值)的消耗都比传递副本来得少。
 
-在函数调用时，像切片（slice）、字典（map）、接口（interface）、通道（channel）这样的引用类型都是默认使用引用传递（即使没有显式的指出指针）。
+在函数调用时，像切片(slice)、字典(map)、接口(interface)、通道(channel)这样的引用类型都是默认使用引用传递(即使没有显式的指出指针)。
 }
 23.结构体与方法{	
 	//定义一个矩形类型：
@@ -864,7 +854,7 @@ p := &bytes.Buffer{}
 p := new(bytes.Buffer)
 
 }	
-内建函数make(T, args)与new(T)的使用目的不同。它仅用于初始化slices、maps、channels，并返回一个初始化（非零）的T类型（不是T）值。
+内建函数make(T, args)与new(T)的使用目的不同。它仅用于初始化slices、maps、channels，并返回一个初始化(非零)的T类型(不是T)值。
 造成这种差异的原因是，这三种类型，表层下面，代表的是对数据结构的引用，以至于使用前必须初始化。
 	date2 := make([]byte, 11)
 	date2 := []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} //等效于make
@@ -994,7 +984,7 @@ go {
 }
 
 
-通过channel传递的元素类型、容器（或缓冲区）和传递的方向由“<-”操作符指定。
+通过channel传递的元素类型、容器(或缓冲区)和传递的方向由“<-”操作符指定。
 可以使用内置函数 make分配一个channel:
 	i := make(chan int)       // by default the capacity is 0
 	s := make(chan string, 3) // non-zero capacity
@@ -1018,7 +1008,7 @@ go {
 并发：一个时间段内有很多的线程或进程在执行，但何时间点上都只有一个在执行，多个线程或进程争抢时间片轮流执行
 并行：一个时间段和时间点上都有多个线程或进程在执行
 
-goroutine机制实现了 M : N的线程模型，goroutine机制是协程（coroutine）的一种实现，golang内置的调度器，可以让多核CPU中每个CPU执行一个协程。
+goroutine机制实现了 M : N的线程模型，goroutine机制是协程(coroutine)的一种实现，golang内置的调度器，可以让多核CPU中每个CPU执行一个协程。
 ///虽然goroutine是并发执行的，但是它们并不是并行运行的。如果不告诉Go额外的东西，同一时刻只会有一个goroutine执行。利用runtime.GOMAXPROCS(n)可以设置goroutine并行执行的数量。	
 
 ci := make(chan int)
@@ -1043,7 +1033,7 @@ d2 <- 1
 fmt.Println(len(d1), cap(d1))    // 0  0
 fmt.Println(len(d2), cap(d2))    // 1  3
 
-///通过select（和其他东西）可以监听channel上输入的数据。
+///通过select(和其他东西)可以监听channel上输入的数据。
 //有多少 发送就应该有多少 接收
 	var c chan int
 	func ready(w string, sec int) {
@@ -1297,17 +1287,17 @@ null值会转换为nil。
 
 //扩展知识
 docker的常用命令{
-（1）docker  attach    
+(1)docker  attach    
 Attach to a running container：进入一个正在运行的容器
-（2）docker  start
+(2)docker  start
  Start a stopped container：启动一个停止的容器，让它的状态变为running
-（3）docker  stop
+(3)docker  stop
      Stop a running container：停止一个正在运行的容器
-（4）docker  rm
- Remove one or more containers：删除一个停止的容器（如果说这个容器是running状态时，先要执行docker stop命令，再执行docker rm命令，才能删除容器）
-（5）docker  kill
+(4)docker  rm
+ Remove one or more containers：删除一个停止的容器(如果说这个容器是running状态时，先要执行docker stop命令，再执行docker rm命令，才能删除容器)
+(5)docker  kill
   Kill a running container：删除一个正在运行的容器
-（6）其他docker命令  
+(6)其他docker命令  
     build     Build an image from a Dockerfile
     commit    Create a new image from a container's changes
     cp        Copy files/folders from a container's filesystem to the host path
@@ -1365,10 +1355,10 @@ func main() {
 
 // ParseInt 将字符串转换为 int 类型
 // s：要转换的字符串
-// base：进位制（2 进制到 36 进制）
-// bitSize：指定整数类型（0:int、8:int8、16:int16、32:int32、64:int64）
+// base：进位制(2 进制到 36 进制)
+// bitSize：指定整数类型(0:int、8:int8、16:int16、32:int32、64:int64)
 // 返回转换后的结果和转换时遇到的错误
-// 如果 base 为 0，则根据字符串的前缀判断进位制（0x:16，0:8，其它:10）
+// 如果 base 为 0，则根据字符串的前缀判断进位制(0x:16，0:8，其它:10)
 	
 }
 
@@ -1874,8 +1864,8 @@ golang小知识点记录{
 1.获取url中的参数及输出到页面的几种方式
 func SayHello(w http.ResponseWriter, req *http.Request) {
     req.Method                              //获取url的方法 GET or POST
-    request := req.URL.Query()              //获取url中的所有参数（get或post）
-    io.WriteString(w, req.FormValue("id"))  //获取url的id参数（常用）
+    request := req.URL.Query()              //获取url中的所有参数(get或post)
+    io.WriteString(w, req.FormValue("id"))  //获取url的id参数(常用)
     w.Write([]byte(request["wang"][0]))     //发送到HTTP客户端
     io.WriteString(w, "hello, world!\n")    //发送到HTTP客户端
     fmt.Fprintf(w, "%s", "hello, world!\n") //发送到HTTP客户端
@@ -2023,7 +2013,7 @@ import "os/exec"
                 }
                 fmt.Println (string (out))
             }
-            或者（正规一点）
+            或者(正规一点)
             func main () {
                 cmd := exec.Command ("tr", "a-z", "A-Z")
                 cmd.Stdin = strings.NewReader ("some input")
@@ -2038,7 +2028,7 @@ import "os/exec"
             
             输出:in all caps: "SOME INPUT"
 
-//命令行参数 （可用flag包）
+//命令行参数 (可用flag包)
 func main () {
             args := os.Args
             fmt.Println (args) //带执行文件的
@@ -2857,7 +2847,7 @@ http://www.cnblogs.com/marc01in/p/4775440.html
 
 //摘要:
 通常，事件 A 在事件 B 发生的条件下的概率，与事件 B 在事件 A 发生的条件下的概率是不一样的；然而，这两者是有确定关系的，贝叶斯定理就是这种关系的陈述。
-贝叶斯公式的用途在于通过己知三个概率来推测第四个概率。它的内容是：在 B 出现的前提下，A 出现的概率等于 A 出现的前提下 B 出现的概率乘以 A 出现的概率再除以 B 出现的概率。通过联系 A 与 B，计算从一个事件发生的情况下另一事件发生的概率，即从结果上溯到源头（也即逆向概率）。
+贝叶斯公式的用途在于通过己知三个概率来推测第四个概率。它的内容是：在 B 出现的前提下，A 出现的概率等于 A 出现的前提下 B 出现的概率乘以 A 出现的概率再除以 B 出现的概率。通过联系 A 与 B，计算从一个事件发生的情况下另一事件发生的概率，即从结果上溯到源头(也即逆向概率)。
 
 通俗地讲就是当你不能确定某一个事件发生的概率时，你可以依靠与该事件本质属性相关的事件发生的概率去推测该事件发生的概率。用数学语言表达就是：支持某项属性的事件发生得愈多，则该事件发生的的可能性就愈大。这个推理过程有时候也叫贝叶斯推理。
 
@@ -2904,7 +2894,7 @@ func init() {
 	// 注册驱动
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	// 注册默认数据库
-	// 备注：此处第一个参数必须设置为“default”（因为我现在只有一个数据库），否则编译报错说：必须有一个注册DB的别名为 default
+	// 备注：此处第一个参数必须设置为“default”(因为我现在只有一个数据库)，否则编译报错说：必须有一个注册DB的别名为 default
 	orm.RegisterDataBase("default", DRIVER_NAME, DATA_SOURCE, MAX_IDLE_CONN, MAX_OPEN_CONN)
 }
 
@@ -2935,7 +2925,7 @@ type User struct {
 type Profile struct {
 	Id   int
 	Age  int16
-	User *User `orm:"reverse(one)"` // 设置反向关系（可选）
+	User *User `orm:"reverse(one)"` // 设置反向关系(可选)
 }
 */
 //数据库中自动建立 user 表和其中的键
@@ -3440,8 +3430,8 @@ func main() {
 }	
 /*
 type WaitGroup          //相当于一个箱子，将main goroutine 保护到里面
-func (*WaitGroup) Add   //调用一次为箱子加一把锁（当然，你愿意也可以多把）
-func (*WaitGroup) Done  // 调用一次开一把锁（only one！） 
+func (*WaitGroup) Add   //调用一次为箱子加一把锁(当然，你愿意也可以多把)
+func (*WaitGroup) Done  // 调用一次开一把锁(only one！) 
 func (*WaitGroup) Wait  //箱子的盖子，没锁了自动打开
 */
 
@@ -4271,16 +4261,16 @@ HTTPS双向认证{
 127.0.0.1       client
 2、生成证书和key文件
 文件存放目录：./src/key，另外需要安装openssl。
-（1）生成CA的key和证书文件
+(1)生成CA的key和证书文件
 openssl genrsa -out ca.key 2048
 #这里可以使用 -subj 不用进行交互 当然还可以添加更多的信息
 openssl req -x509 -new -nodes -key ca.key -subj "/CN= server" -days 5000 -out ca.crt
-（2）生成服务端的key和证书文件
+(2)生成服务端的key和证书文件
 openssl genrsa -out server.key 2048
 #这里的/cn可以是必须添加的 是服务端的域名 或者是etc/hosts中的ip别名
 openssl req -new -key server.key -subj "/CN=server" -out server.csr
 openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 5000
-（3）生成客户端的key和证书文件
+(3)生成客户端的key和证书文件
 openssl genrsa -out client.key 2048
 openssl req -new -key client.key -subj "/CN=client" -out client.csr
 echo extendedKeyUsage=clientAuth > extfile.cnf
@@ -4393,10 +4383,10 @@ func main() {
 
 
 5、注意事项
-（1）https的TLS协议刚开始通信要先握手（handshake），双方互相发送自己的证书（crt文件），本地需要有证书机构的根证书（ca.crt），用于验证对方发来的证书的合法性。
-（2）每一次对话（session），客户端和服务器端都生成一个“对话密钥”（session key），用它来加密信息。由于“对话密钥"是对称加密，所以运算速度非常快，而服务器公钥只用于加密“对话密钥”本身，这样就减少了加密运算的消耗时间。请参考：http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html
-（3）生成证书需要有CA的key和证书，生成key不需要。
-（4）go语言是区分服务端和客户端的，代码不同，客户端生成crt也不同，需要增加单独的文件告知。
+(1)https的TLS协议刚开始通信要先握手(handshake)，双方互相发送自己的证书(crt文件)，本地需要有证书机构的根证书(ca.crt)，用于验证对方发来的证书的合法性。
+(2)每一次对话(session)，客户端和服务器端都生成一个“对话密钥”(session key)，用它来加密信息。由于“对话密钥"是对称加密，所以运算速度非常快，而服务器公钥只用于加密“对话密钥”本身，这样就减少了加密运算的消耗时间。请参考：http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html
+(3)生成证书需要有CA的key和证书，生成key不需要。
+(4)go语言是区分服务端和客户端的，代码不同，客户端生成crt也不同，需要增加单独的文件告知。
 }
 
 几种HTTPS认证{
@@ -4790,12 +4780,63 @@ i=0
 //参考 上面基础部分的闭包传引用说明	
 }
 
+Go语言标准库常用的包及功能{
+Go语言标准库包名	功  能
+bufio	带缓冲的 I/O 操作
+bytes	实现字节操作
+container	封装堆、列表和环形列表等容器
+crypto	加密算法
+database	数据库驱动和接口
+debug	各种调试文件格式访问及调试功能
+encoding	常见算法如 JSON、XML、Base64 等
+flag	命令行解析
+fmt	格式化操作
+go	Go 语言的词法、语法树、类型等。可通过这个包进行代码信息提取和修改
+html	HTML 转义及模板系统
+image	常见图形格式的访问及生成
+io	实现 I/O 原始访问接口及访问封装
+math	数学库
+net	网络库，支持 Socket、HTTP、邮件、RPC、SMTP 等
+os	操作系统平台不依赖平台操作封装
+path	兼容各操作系统的路径操作实用函数
+plugin	Go 1.7 加入的插件系统。支持将代码编译为插件，按需加载
+reflect	语言反射支持。可以动态获得代码中的类型信息，获取和修改变量的值
+regexp	正则表达式封装
+runtime	运行时接口
+sort	排序接口
+strings	字符串转换、解析及实用函数
+time	时间接口
+text	文本模板及 Token 词法器
+
+}
 
 
+回调函数{
+回调函数就是一个通过函数指针调用的函数。如果你把函数的指针（地址）作为参数传递给另一个函数，当这个指针被用来调用其所指向的函数时，我们就说这是回调函数。
+回调函数不是由该函数的实现方直接调用，而是在特定的事件或条件发生时由另外的一方调用的，用于对该事件或条件进行响应。
 
+package main
 
+import "fmt"
 
+type Callback func(x, y int) int
 
+// 提供一个接口，让外部去实现
+func test(x, y int, callback Callback) int {
+	return callback(x, y)
+}
+
+// 回调函数的具体实现
+func add(x, y int) int {
+	return x + y
+}
+
+func main() {
+	x, y := 1, 2
+	fmt.Println(test(x, y, add))
+}
+
+}
 
 
 

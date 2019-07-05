@@ -93,6 +93,7 @@ Mysql基础操作
 　　　　delete from user where user='xiaoxi';　　#删除xiaoxi用户
 
 5、权限管理
+	查看用户权限: show grants for 'username'@'localhost';
 　　用户授权: 
 　　授权格式: grant 权限 on 数据库.* to 用户名@登录主机 identified by "密码" with grant option;
 　　　　grant all on  *.* to 'xiaoxi'@'%' IDENTIFIED BY '123456' with grant option;  #表示为xiaoxi用户添加所有数据库所有权限，并可以给其他人授权。
@@ -224,6 +225,10 @@ ALTER TABLE 表名 ADD  CONSTRAINT symbol UNIQUE  aa(card，username);#复合索
 #删除索引唯一
 ALTER TABLE 表名 DROP {INDEX|KEY} 唯一名称;
 
+# 删除外键
+alter table project_line drop foreign key project_line_ibfk_1;
+
+
 #修改表的引擎
 ALTER TABLE 表名 ENGINE=MyISAM;
 
@@ -302,7 +307,7 @@ mysqldump -h localhost -uroot -p123456  -d database table > dump.sql
 
 mysqldump -h localhost -uroot -proot  camel conformation > conformation.sql
 
-mysqldump -h localhost -uroot -proot  camel < conformation.sql
+mysql -h localhost -uroot -proot  camel < conformation.sql
 
 
 ALTER TABLE 表名 ADD 索引类型 (index,unique,primary key,fulltext)[索引名]（字段名）
@@ -479,6 +484,8 @@ mysql> SELECT CURDATE();
 | 2019-01-10 |
 +------------+
 -- 明天
+SELECT DATE_ADD('2017-12-31 00:00:01',INTERVAL 1 DAY) result;
+
 mysql> SELECT CURDATE() + interval 1 day tomorrow;
 +------------+
 | tomorrow   |
@@ -515,6 +522,14 @@ mysql> SELECT CONCAT_WS('aaaa','Max','Su');
 +------------------------------+
 | MaxaaaaSu                    |
 +------------------------------+
+-- 返回具有指定长度的字符串的左边部分
+SELECT LEFT('MySQL LEFT', 5);
 
-
-
+-- 字符串替换
+UPDATE tbl_name 
+SET 
+    field_name = REPLACE(field_name,
+        string_to_find,
+        string_to_replace)
+WHERE
+    conditions;
