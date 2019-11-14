@@ -533,3 +533,53 @@ SET
         string_to_replace)
 WHERE
     conditions;
+
+
+
+SELECT
+    [ALL | DISTINCT | DISTINCTROW ]
+      [HIGH_PRIORITY]
+      [STRAIGHT_JOIN]
+      [SQL_SMALL_RESULT] [SQL_BIG_RESULT] [SQL_BUFFER_RESULT]
+      [SQL_CACHE | SQL_NO_CACHE] [SQL_CALC_FOUND_ROWS]
+    select_expr [, select_expr ...]
+    [FROM table_references
+      [PARTITION partition_list]
+    [WHERE where_condition]
+    [GROUP BY {col_name | expr | position}
+      [ASC | DESC], ... [WITH ROLLUP]]
+    [HAVING where_condition]
+    [ORDER BY {col_name | expr | position}
+      [ASC | DESC], ...]
+    [LIMIT {[offset,] row_count | row_count OFFSET offset}]
+    [PROCEDURE procedure_name(argument_list)]
+    [INTO OUTFILE 'file_name'
+        [CHARACTER SET charset_name]
+        export_options
+      | INTO DUMPFILE 'file_name'
+      | INTO var_name [, var_name]]
+    [FOR UPDATE | LOCK IN SHARE MODE]]
+
+
+
+修改数据库字符集为 utf8
+alter database `awesome_app` default character set utf8
+修改表字符集为 utf8
+alter table `users` convert to character set utf8
+修改表字段字符集为 utf8
+alter table `users` modify `name` char(10) character set utf8
+修改字段类型
+alter table `users` modify `regtime` datetime not null
+修改字段注释
+alter table `users` modify `id` int not null auto_increment comment '用户ID';
+alter table `users` modify `name` char(10) comment '用户名';
+alter table `users` modify `avatar` varchar(300) comment '用户头像';
+alter table `users` modify `regtime` datetime not null default current_timestamp comment '注册时间';
+删除表
+drop table if exists `users`
+清空表中所有数据
+这个操作相当于先 drop table 再 create table ，因此需要有 drop 权限。
+truncate table `users`;
+
+
+    
