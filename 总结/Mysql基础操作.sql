@@ -14,7 +14,7 @@ Mysql基础操作
 
 2、表操作: 
 　　表约束: 
-　　　　自增: aotu_increment
+　　　　自增: auto_increment
 　　　　主键: primary key
 　　　　非空: not null
 　　　　默认值: default 'xx'
